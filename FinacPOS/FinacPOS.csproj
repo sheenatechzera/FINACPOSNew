@@ -1,0 +1,574 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4E0A7E9D-C30A-40E3-8997-869C95D775F6}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FinacPOS</RootNamespace>
+    <AssemblyName>FinacPOS</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>FinacPOSIcon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Charts.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.CodeParser.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Data.Desktop.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Data.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.DataAccess.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.DataAccess.v20.2.UI, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Diagram.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Images.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Office.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Pdf.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Pdf.v20.2.Drawing, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.PivotGrid.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Printing.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v20.2.Export, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Sparkline.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v20.2.UI, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Xpo.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraBars.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraCharts.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraCharts.v20.2.Extensions, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraCharts.v20.2.Wizard, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraDiagram.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraGauges.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraGrid.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraLayout.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraNavBar.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraPdfViewer.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraPivotGrid.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraPrinting.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v20.2.CodeCompletion, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v20.2.Extensions, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraRichEdit.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraTreeList.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraVerticalGrid.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="onbarcode.barcode.winforms">
+      <HintPath>..\..\Sheena\onbarcode.barcode.winforms.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="ZatcaEaseOnboard">
+      <HintPath>..\..\..\ZatcaEinvoicing\ZatcaEinvoicing\bin\Debug\ZatcaEaseOnboard.dll</HintPath>
+    </Reference>
+    <Reference Include="ZatcaEinvoicing, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\ZatcaEinvoicing\ZatcaEinvoicing\bin\Debug\ZatcaEinvoicing.dll</HintPath>
+    </Reference>
+    <Reference Include="Zen.Barcode.Core">
+      <HintPath>..\..\FinacAcount\FinacAcount\bin\Debug\Zen.Barcode.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\General\BarcodeGenerate.cs" />
+    <Compile Include="Classes\General\clsGeneral.cs" />
+    <Compile Include="Classes\General\ComboValidation.cs" />
+    <Compile Include="Classes\General\CurrencyToAmount.cs" />
+    <Compile Include="Classes\General\DBClass.cs" />
+    <Compile Include="Classes\General\DBConnection.cs" />
+    <Compile Include="Classes\General\DBConnectionForPDB.cs" />
+    <Compile Include="Classes\General\DevPrint.cs" />
+    <Compile Include="Classes\General\EinvoiceGenerator.cs" />
+    <Compile Include="Classes\General\PublicVariables.cs" />
+    <Compile Include="Classes\General\ToWord.cs" />
+    <Compile Include="Classes\Info\AccountLedgerInfo.cs" />
+    <Compile Include="Classes\Info\BranchInfo.cs" />
+    <Compile Include="Classes\Info\CompanyPathInfo.cs" />
+    <Compile Include="Classes\Info\CurrencyArabicInfo.cs" />
+    <Compile Include="Classes\Info\CurrencyConversionInfo.cs" />
+    <Compile Include="Classes\Info\CurrencyInfo.cs" />
+    <Compile Include="Classes\Info\FinanceSettingsInfo.cs" />
+    <Compile Include="Classes\Info\LanguageEntryInfo.cs" />
+    <Compile Include="Classes\Info\LanguageEntryWordInfo.cs" />
+    <Compile Include="Classes\Info\LedgerPostingInfo.cs" />
+    <Compile Include="Classes\Info\PartyBalanceInfo.cs" />
+    <Compile Include="Classes\Info\POSCounterInfo.cs" />
+    <Compile Include="Classes\Info\POSPaymentDetailsInfo.cs" />
+    <Compile Include="Classes\Info\POSPaymentMasterInfo.cs" />
+    <Compile Include="Classes\Info\POSReceiptDetailsInfo.cs" />
+    <Compile Include="Classes\Info\POSReceiptMasterInfo.cs" />
+    <Compile Include="Classes\Info\POSSalesDetails1Info.cs" />
+    <Compile Include="Classes\Info\POSSalesMasterInfo.cs" />
+    <Compile Include="Classes\Info\POSSalesReturnDetails1Info.cs" />
+    <Compile Include="Classes\Info\POSSalesReturnMasterInfo.cs" />
+    <Compile Include="Classes\Info\POSSettingsInfo.cs" />
+    <Compile Include="Classes\Info\POSTableInfo.cs" />
+    <Compile Include="Classes\Info\POSUserInfo.cs" />
+    <Compile Include="Classes\Info\POSUserSettingsInfo.cs" />
+    <Compile Include="Classes\Info\SessionManagementInfo.cs" />
+    <Compile Include="Classes\Info\SettingsInfo.cs" />
+    <Compile Include="Classes\Info\StockPostingInfo.cs" />
+    <Compile Include="Classes\Sp\AccountLedgerSP.cs" />
+    <Compile Include="Classes\Sp\BranchSP.cs" />
+    <Compile Include="Classes\Sp\CurrencyConversionSP.cs" />
+    <Compile Include="Classes\Sp\CurrencySP.cs" />
+    <Compile Include="Classes\Sp\FinancialYearSp.cs" />
+    <Compile Include="Classes\Sp\GeneralSP.cs" />
+    <Compile Include="Classes\Sp\InventorySettingsSP.cs" />
+    <Compile Include="Classes\Sp\LanguageEntrySP.cs" />
+    <Compile Include="Classes\Sp\LedgerPostingSP.cs" />
+    <Compile Include="Classes\Sp\PartyBalanceSP.cs" />
+    <Compile Include="Classes\Sp\POSCounterSP.cs" />
+    <Compile Include="Classes\Sp\POSPaymentDetailsSP.cs" />
+    <Compile Include="Classes\Sp\POSPaymentMasterSP.cs" />
+    <Compile Include="Classes\Sp\POSReceiptDetailsSP.cs" />
+    <Compile Include="Classes\Sp\POSReceiptMasterSP.cs" />
+    <Compile Include="Classes\Sp\POSSalesDetails1SP.cs" />
+    <Compile Include="Classes\Sp\POSSalesMasterSP.cs" />
+    <Compile Include="Classes\Sp\POSSalesReturnDetails1SP.cs" />
+    <Compile Include="Classes\Sp\POSSalesReturnMasterSP.cs" />
+    <Compile Include="Classes\Sp\POSSettingsSP.cs" />
+    <Compile Include="Classes\Sp\POSTableSp.cs" />
+    <Compile Include="Classes\Sp\POSUserSettingsSP.cs" />
+    <Compile Include="Classes\Sp\POSUserSP.cs" />
+    <Compile Include="Classes\Sp\PrimaryDBSP.cs" />
+    <Compile Include="Classes\Sp\ProductSP.cs" />
+    <Compile Include="Classes\Sp\SessionControlSp.cs" />
+    <Compile Include="Classes\Sp\SessionManagementSP.cs" />
+    <Compile Include="Classes\Sp\SettingsSP.cs" />
+    <Compile Include="Classes\Sp\StockPostingSP.cs" />
+    <Compile Include="Classes\Sp\TaxMasterSP.cs" />
+    <Compile Include="Dev DataSet\DSSalesPOSDetail.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSSalesPOSDetail.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Masters\frmCountersReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Masters\frmCountersReport.Designer.cs">
+      <DependentUpon>frmCountersReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Masters\frmPOSCounter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Masters\frmPOSCounter.Designer.cs">
+      <DependentUpon>frmPOSCounter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Masters\FrmPOSTable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Masters\FrmPOSTable.Designer.cs">
+      <DependentUpon>FrmPOSTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Masters\frmPOSUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Masters\frmPOSUser.Designer.cs">
+      <DependentUpon>frmPOSUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Masters\frmSessionClosing.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Masters\frmSessionClosing.Designer.cs">
+      <DependentUpon>frmSessionClosing.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Masters\frmSessionControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Masters\frmSessionControl.Designer.cs">
+      <DependentUpon>frmSessionControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Masters\frmSessionManagement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Masters\frmSessionManagement.Designer.cs">
+      <DependentUpon>frmSessionManagement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Masters\frmUserLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Masters\frmUserLogin.designer.cs">
+      <DependentUpon>frmUserLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Masters\frmUsersReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Masters\frmUsersReport.Designer.cs">
+      <DependentUpon>frmUsersReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MDIFinacPOS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MDIFinacPOS.Designer.cs">
+      <DependentUpon>MDIFinacPOS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Others\frmBillPrint.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Others\frmBillPrint.designer.cs">
+      <DependentUpon>frmBillPrint.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Others\FrmeasyAccess.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Others\FrmeasyAccess.designer.cs">
+      <DependentUpon>FrmeasyAccess.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Others\frmLookup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Others\frmLookup.designer.cs">
+      <DependentUpon>frmLookup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Others\frmPriceCheck.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Others\frmPriceCheck.designer.cs">
+      <DependentUpon>frmPriceCheck.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Others\frmProductImageListing.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Others\frmProductImageListing.Designer.cs">
+      <DependentUpon>frmProductImageListing.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Others\frmProductPopUpGrid.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Others\frmProductPopUpGrid.designer.cs">
+      <DependentUpon>frmProductPopUpGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Others\frmUserAuthentication.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Others\frmUserAuthentication.designer.cs">
+      <DependentUpon>frmUserAuthentication.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\frmPOSControlSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings\frmPOSControlSettings.Designer.cs">
+      <DependentUpon>frmPOSControlSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\frmPOSSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings\frmPOSSettings.designer.cs">
+      <DependentUpon>frmPOSSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\frmPOSUserSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings\frmPOSUserSettings.designer.cs">
+      <DependentUpon>frmPOSUserSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\frmPrintDesigner.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings\frmPrintDesigner.designer.cs">
+      <DependentUpon>frmPrintDesigner.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmPOSPayment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\frmPOSPayment.Designer.cs">
+      <DependentUpon>frmPOSPayment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmPOSPaymentVoucher.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\frmPOSPaymentVoucher.designer.cs">
+      <DependentUpon>frmPOSPaymentVoucher.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmPOSReceiptVoucher.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\frmPOSReceiptVoucher.designer.cs">
+      <DependentUpon>frmPOSReceiptVoucher.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmPOSSales.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\frmPOSSales.Designer.cs">
+      <DependentUpon>frmPOSSales.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmPOSSales2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\frmPOSSales2.designer.cs">
+      <DependentUpon>frmPOSSales2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmPOSSalesReturn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\frmPOSSalesReturn.Designer.cs">
+      <DependentUpon>frmPOSSalesReturn.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Masters\frmCountersReport.resx">
+      <DependentUpon>frmCountersReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Masters\frmPOSCounter.resx">
+      <DependentUpon>frmPOSCounter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Masters\FrmPOSTable.resx">
+      <DependentUpon>FrmPOSTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Masters\frmPOSUser.resx">
+      <DependentUpon>frmPOSUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Masters\frmSessionClosing.resx">
+      <DependentUpon>frmSessionClosing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Masters\frmSessionControl.resx">
+      <DependentUpon>frmSessionControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Masters\frmSessionManagement.resx">
+      <DependentUpon>frmSessionManagement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Masters\frmUserLogin.resx">
+      <DependentUpon>frmUserLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Masters\frmUsersReport.resx">
+      <DependentUpon>frmUsersReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MDIFinacPOS.resx">
+      <DependentUpon>MDIFinacPOS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Others\frmBillPrint.resx">
+      <DependentUpon>frmBillPrint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Others\FrmeasyAccess.resx">
+      <DependentUpon>FrmeasyAccess.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Others\frmLookup.resx">
+      <DependentUpon>frmLookup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Others\frmPriceCheck.resx">
+      <DependentUpon>frmPriceCheck.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Others\frmProductImageListing.resx">
+      <DependentUpon>frmProductImageListing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Others\frmProductPopUpGrid.resx">
+      <DependentUpon>frmProductPopUpGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Others\frmUserAuthentication.resx">
+      <DependentUpon>frmUserAuthentication.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="Settings\frmPOSControlSettings.resx">
+      <DependentUpon>frmPOSControlSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\frmPOSSettings.resx">
+      <DependentUpon>frmPOSSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\frmPOSUserSettings.resx">
+      <DependentUpon>frmPOSUserSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\frmPrintDesigner.resx">
+      <DependentUpon>frmPrintDesigner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmPOSPayment.resx">
+      <DependentUpon>frmPOSPayment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmPOSPaymentVoucher.resx">
+      <DependentUpon>frmPOSPaymentVoucher.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmPOSReceiptVoucher.resx">
+      <DependentUpon>frmPOSReceiptVoucher.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmPOSSales.resx">
+      <DependentUpon>frmPOSSales.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmPOSSales2.resx">
+      <DependentUpon>frmPOSSales2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmPOSSalesReturn.resx">
+      <DependentUpon>frmPOSSalesReturn.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="Dev DataSet\DSSalesPOSDetail.xsc">
+      <DependentUpon>DSSalesPOSDetail.xsd</DependentUpon>
+    </None>
+    <None Include="Dev DataSet\DSSalesPOSDetail.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSSalesPOSDetail.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Dev DataSet\DSSalesPOSDetail.xss">
+      <DependentUpon>DSSalesPOSDetail.xsd</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\searchicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\salesInvoice.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\salesReturn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\counterMaster.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sessionClose.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\posClose.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FinacPOSIcon.ico" />
+    <Content Include="POSIcon.ico" />
+    <None Include="Resources\MDIFinacPOS1.jpg" />
+    <None Include="Resources\MDIFinacPOS.jpg" />
+    <None Include="Resources\POS PAYMENT.png" />
+    <None Include="Resources\POS RECIEPT.png" />
+    <None Include="Resources\NEMAPOS.jpg" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
