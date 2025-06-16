@@ -90,7 +90,8 @@ namespace FinacPOS
                 sprmparam.Value = counterinfo.ActiveTableManage;
                 sprmparam = sccmd.Parameters.Add("@StockView", SqlDbType.Bit);
                 sprmparam.Value = counterinfo.StockView;
-
+                sprmparam = sccmd.Parameters.Add("@SessionAdminControl", SqlDbType.Bit);
+                sprmparam.Value = counterinfo.SessionManagmentByAdmin;
                 id = sccmd.ExecuteScalar().ToString();
 
             }
@@ -151,6 +152,7 @@ namespace FinacPOS
                 settingsinfo.AddQtyInSameBarcodeToGrid = bool.Parse(sdrreader["AddQtyInSameBarcodeToGrid"].ToString());
                 settingsinfo.ActiveTableManage = bool.Parse(sdrreader["ActiveTableManage"].ToString());
                 settingsinfo.StockView = bool.Parse(sdrreader["StockView"].ToString());
+                settingsinfo.SessionManagmentByAdmin = bool.Parse(sdrreader["SessionAdminControl"].ToString());
             }
             sdrreader.Close();
 
