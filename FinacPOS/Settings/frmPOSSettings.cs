@@ -302,7 +302,7 @@ namespace FinacPOS
             }
             else
             {
-                MessageBox.Show("Session is Already Closed!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("You have no permission to close the session", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
             }
 

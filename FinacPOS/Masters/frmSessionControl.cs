@@ -54,6 +54,7 @@ namespace FinacPOS.Masters
 
    
             txtOpenBal.Text = "0.00";
+            rbSessionOpening.Checked = true;
             //txtOpenBal.ReadOnly = true;  
 
 
@@ -61,6 +62,7 @@ namespace FinacPOS.Masters
             //dtpSessionDate.Enabled = false; 
             LoadCounter();
             LoadSessionNo();
+
         }
 
         private void dtpSessionDate_Leave(object sender, EventArgs e)
@@ -135,10 +137,30 @@ namespace FinacPOS.Masters
                 MessageBox.Show("PC31:" + ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
+        string userid = "";
         public void LoadSessionNo()
         {
-            sessionNo = sessionSp.SessionManagementGetMaxByDateandCounterId(dtpSessionDate.Value);
-
+            string counterid="";
+            if (cmbUser.SelectedValue == null || string.IsNullOrEmpty(cmbUser.SelectedValue.ToString()))
+            {
+                userid = ""; // or set to default like "0"
+            }
+            else
+            {
+                userid = cmbUser.SelectedValue.ToString();
+            }
+            if (cmbCounter.SelectedValue == null || string.IsNullOrEmpty(cmbCounter.SelectedValue.ToString()))
+            {
+                counterid = ""; // or set to default like "0"
+            }
+            else
+            {
+                counterid = cmbCounter.SelectedValue.ToString();
+            }
+            if (rbSessionOpening.Checked)
+                sessionNo = sessionSp.SessionManagementGetMaxByDateandCounterId(dtpSessionDate.Value, counterid, userid, false);
+            else if(rbSessionClose.Checked)
+                sessionNo = sessionSp.SessionManagementGetMaxByDateandCounterId(dtpSessionDate.Value, counterid, userid, true);
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -148,16 +170,25 @@ namespace FinacPOS.Masters
         public void Save()
         {
             bool isSave = true;
-
-            if (rbSessionOpening.Checked)
+            if (dtpSessionDate.Text == "")
+            {
+                MessageBox.Show("Select Session date", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                dtpSessionDate.Focus();
+            }
+            else if (cmbCounter.SelectedValue == null || string.IsNullOrEmpty(cmbCounter.SelectedValue.ToString()))
+            {
+                MessageBox.Show("Select Counter", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cmbCounter.Focus();
+            }
+            else if (cmbUser.SelectedValue == null || string.IsNullOrEmpty(cmbUser.SelectedValue.ToString()))
+            {
+                MessageBox.Show("Select User", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cmbUser.Focus();
+            }
+            else if (rbSessionOpening.Checked)
             {
 
-                if (dtpSessionDate.Text == "")
-                {
-                    MessageBox.Show("Select Session date", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    dtpSessionDate.Focus();
-                }
-                else if (txtOpenBal.Text == "")
+                if (txtOpenBal.Text == "")
                 {
                     txtOpenBal.Text = "0";
                 }
@@ -169,7 +200,7 @@ namespace FinacPOS.Masters
                 {
                     LoadSessionNo();
 
-                    
+
                     sessionInfo.SessionNo = sessionNo.ToString();
                     sessionInfo.SessionDate = Convert.ToDateTime(dtpSessionDate.Text);
                     // sessionInfo.CounterId = PublicVariables._counterId;
@@ -202,21 +233,18 @@ namespace FinacPOS.Masters
                         objfrmPOSSales.strSessionDate = dtpSessionDate.Text.ToString();
                         objfrmPOSSales.CallFromSessionControl(this);
                     }
-                   
+
 
                 }
-                Clear();
+                //Clear();
             }
-            if (rbSessionClose.Checked)
+            else if (rbSessionClose.Checked)
             {
+                LoadSessionNo();
                 SPSessionManagement.UpdateSessionClose(selectedCounter);
                 MessageBox.Show("Session Closed", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                objsessionClosing.loadSessionClosingData(sessionNo.ToString(), Convert.ToDateTime(dtpSessionDate.Text));
+                objsessionClosing.loadSessionClosingData(sessionNo.ToString(), Convert.ToDateTime(dtpSessionDate.Text), selectedCounter, userid);
                 objsessionClosing.FillDatatatablesforDevPrint();
-               
-
-               
-
             }
             Clear();
         }

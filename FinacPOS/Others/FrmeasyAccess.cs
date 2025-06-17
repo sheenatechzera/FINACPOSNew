@@ -16,6 +16,7 @@ namespace FinacPOS
         {
             InitializeComponent();
         }
+        frmPOSSettings objSettingsForm = new frmPOSSettings();
         private void FrmeasyAccess_Load(object sender, EventArgs e)
         {
             //this.Location = new Point(10, 10);
@@ -29,21 +30,24 @@ namespace FinacPOS
 
                 POSUserSettingsSP spUserSettings = new POSUserSettingsSP();
                 DataTable dtSubMenu = new DataTable();
-                dtSubMenu = spUserSettings.POSUserSettingsGetBysubMenuandUserGroup("Sales Invoice",PublicVariables._userGroup);
+                dtSubMenu = spUserSettings.POSUserSettingsGetBysubMenuandUserGroup("Sales Invoice", PublicVariables._userGroup);
                 if (dtSubMenu.Rows.Count > 0)
                 {
 
                     if (dtSubMenu.Rows[0]["menuStripName"].ToString() == "Sales Invoice")
-                        MDIFinacPOS.MDIObj.openSalesInvoice();                   
+                        MDIFinacPOS.MDIObj.openSalesInvoice();
                 }
                 else
                     MessageBox.Show("You have no permission to access", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             }
             else
-                MDIFinacPOS.MDIObj.openSalesInvoice();    
+                //MDIFinacPOS.MDIObj.openSalesInvoice();
+                objSettingsForm.openSalesInvoice();
 
-           
+
+
+
         }
 
         private void panel2_Click(object sender, EventArgs e)
@@ -141,7 +145,9 @@ namespace FinacPOS
 
         private void panel4_Click(object sender, EventArgs e)
         {
-            MDIFinacPOS.MDIObj.sessionClose();   
+            //
+            //MDIFinacPOS.MDIObj.sessionClose();   
+            objSettingsForm.sessionClose();
         }
 
         private void panel5_Click(object sender, EventArgs e)

@@ -41,13 +41,13 @@ namespace FinacPOS
             lblUser.Text = PublicVariables._EmpName;
             lblCounter.Text = PublicVariables._counterName;
  
-            loadSessionClosingData(strSessionNo, dtSessionDate);
+            loadSessionClosingData(strSessionNo, dtSessionDate, PublicVariables._counterId, PublicVariables._currentUserId);
              base.ShowDialog();
         }
 
-        public void loadSessionClosingData(string strSessionNo, DateTime dtSessionDate)
+        public void loadSessionClosingData(string strSessionNo, DateTime dtSessionDate,string counterid,string userid)
         {
-            List<SessionManagementInfo> sessionInfoList = sessionSp.GetPOSSessionCloseDetails(dtSessionDate, PublicVariables._counterId, PublicVariables._currentUserId, strSessionNo);
+            List<SessionManagementInfo> sessionInfoList = sessionSp.GetPOSSessionCloseDetails(dtSessionDate, counterid, userid, strSessionNo);
 
             foreach (SessionManagementInfo sessionInfo in sessionInfoList)
             {

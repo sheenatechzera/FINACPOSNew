@@ -132,7 +132,7 @@ namespace FinacPOS
 
         public void LoadSessionNo()
         {
-            sessionNo = sessionSp.SessionManagementGetMaxByDateandCounterId(dtpSessionDate.Value);
+            sessionNo = sessionSp.SessionManagementGetMaxByDateandCounterId(dtpSessionDate.Value, PublicVariables._counterId, PublicVariables._currentUserId, false);
           
         }
 

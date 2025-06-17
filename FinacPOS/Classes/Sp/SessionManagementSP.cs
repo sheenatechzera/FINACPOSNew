@@ -182,7 +182,7 @@ namespace FinacPOS
             }
             return sessioninfo;
         }
-        public int SessionManagementGetMaxByDateandCounterId(DateTime sessionDate)
+        public int SessionManagementGetMaxByDateandCounterId(DateTime sessionDate,string counterid, string userId,bool isClose)
         {
             int max = 0;
             try
@@ -197,7 +197,11 @@ namespace FinacPOS
                 sprmparam = sccmd.Parameters.Add("@sessionDate", SqlDbType.DateTime);
                 sprmparam.Value = sessionDate.Date;
                 sprmparam = sccmd.Parameters.Add("@counterId", SqlDbType.VarChar);
-                sprmparam.Value = PublicVariables._counterId;
+                sprmparam.Value = counterid;
+                sprmparam = sccmd.Parameters.Add("@IsClose", SqlDbType.Bit);
+                sprmparam.Value = isClose;
+                sprmparam = sccmd.Parameters.Add("@userId", SqlDbType.VarChar);
+                sprmparam.Value = userId;
                 max = int.Parse(sccmd.ExecuteScalar().ToString());
             }
             catch (Exception ex)

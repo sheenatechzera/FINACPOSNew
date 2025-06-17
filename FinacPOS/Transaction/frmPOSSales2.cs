@@ -1760,7 +1760,7 @@ namespace FinacPOS
                     PoleDisplay("CashCollect");
                 }
 
-                string strMasterId = SaveFunction(strCreditCardNo, decCreditCardAmt, decUPIAmt, decCreditAmt, decCashAmt, strCreditNoteNo, decCreditNoteAmt, decTotalTenderAmt, decBalanceAmt).ToString();
+                string strMasterId = SaveFunction(strCreditCardNo, decCreditCardAmt, decUPIAmt, decCreditAmt, decCashAmt, strCreditNoteNo, decCreditNoteAmt, decTotalTenderAmt, decBalanceAmt, strTenderType).ToString();
 
                 if (strMasterId != "")
                 {
@@ -2019,7 +2019,7 @@ namespace FinacPOS
                 MessageBox.Show("POS34:" + ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-        public string SaveFunction(string strCreditCardNo, decimal decCreditCardAmt, decimal decUPIAmt, decimal decCreditAmt, decimal decCashAmt, string strCreditNoteNo, decimal decCreditNoteAmt, decimal decTotalTenderAmt, decimal decBalanceAmt)
+        public string SaveFunction(string strCreditCardNo, decimal decCreditCardAmt, decimal decUPIAmt, decimal decCreditAmt, decimal decCashAmt, string strCreditNoteNo, decimal decCreditNoteAmt, decimal decTotalTenderAmt, decimal decBalanceAmt,string strTenderType)
         {
             string strMasterId = "";
 
@@ -2047,7 +2047,12 @@ namespace FinacPOS
             InfoPOSSalesMaster.CreditCardAmount = decCreditCardAmt;
             InfoPOSSalesMaster.UPIAmount = decUPIAmt;
             InfoPOSSalesMaster.CreditAmount = decCreditAmt;
-            InfoPOSSalesMaster.CashAmount = Convert.ToDecimal(txtTotal.Text) - (decCreditCardAmt + decUPIAmt);
+            if (strTenderType == "Credit Bill")
+            {
+                InfoPOSSalesMaster.CashAmount = 0;
+            }
+            else
+                InfoPOSSalesMaster.CashAmount = Convert.ToDecimal(txtTotal.Text) - (decCreditCardAmt + decUPIAmt);
             InfoPOSSalesMaster.CashPaidAmount = decCashAmt;
             InfoPOSSalesMaster.CreditNoteNo = strCreditNoteNo;
             InfoPOSSalesMaster.CreditNoteAmount = decCreditNoteAmt;
