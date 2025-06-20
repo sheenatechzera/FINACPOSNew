@@ -206,7 +206,7 @@ namespace FinacPOS.Masters
                     // sessionInfo.CounterId = PublicVariables._counterId;
                     // sessionInfo.UserId = PublicVariables._currentUserId;
                     sessionInfo.CounterId = Convert.ToString(cmbCounter.SelectedValue);
-                    sessionInfo.UserId = Convert.ToInt32(cmbUser.SelectedValue).ToString();
+                    sessionInfo.UserId = (cmbUser.SelectedValue).ToString();
                     sessionInfo.OpeningBalance = decimal.Parse(txtOpenBal.Text);
                     sessionInfo.SessionStatus = "O".ToString();
                     sessionInfo.CreatedDate = DateTime.Now;

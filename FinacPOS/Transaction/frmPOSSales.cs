@@ -2135,7 +2135,7 @@ namespace FinacPOS
             }
             return strMasterId;
         }
-        public String SaveGridDeletedItem()
+        public String SaveGridDeletedItem(int rowIndex)
         {
 
             string strPOSSalesDetails1Id = "";
@@ -2152,38 +2152,37 @@ namespace FinacPOS
                 InfoPOSSalesDetails1.SessionNo = lblSessionNO.Text;
                 InfoPOSSalesDetails1.UserId = PublicVariables._currentUserId;
 
-                foreach (DataGridViewRow dgvrowCurChk in dgvProduct.Rows)
-                {
-                    if (!dgvrowCurChk.IsNewRow)
-                    {
-                        InfoPOSSalesDetails1.LineNumber = int.Parse(dgvrowCurChk.Cells["SLNo"].Value.ToString());
-                        InfoPOSSalesDetails1.ProductCode = dgvrowCurChk.Cells["ProductCode"].Value.ToString();
-                        InfoPOSSalesDetails1.Barcode = dgvrowCurChk.Cells["Barcode"].Value.ToString();
-                        InfoPOSSalesDetails1.ProductName = dgvrowCurChk.Cells["ItemName"].Value.ToString();
-                        InfoPOSSalesDetails1.UnitId = dgvrowCurChk.Cells["UnitId"].Value.ToString();
-                        InfoPOSSalesDetails1.Qty = decimal.Parse(dgvrowCurChk.Cells["Qty"].Value.ToString());
-                        InfoPOSSalesDetails1.Rate = decimal.Parse(dgvrowCurChk.Cells["SalesRate"].Value.ToString());
-                        InfoPOSSalesDetails1.ExcludeRate = decimal.Parse(dgvrowCurChk.Cells["ExcludeRate"].Value.ToString());
-                        InfoPOSSalesDetails1.CostPrice = decimal.Parse(dgvrowCurChk.Cells["PurchaseRate"].Value.ToString());
-                        InfoPOSSalesDetails1.GrossValue = decimal.Parse(dgvrowCurChk.Cells["GrossValue"].Value.ToString());
-                        InfoPOSSalesDetails1.DiscPer = decimal.Parse("0".ToString());
-                        InfoPOSSalesDetails1.DiscAmount = decimal.Parse(dgvrowCurChk.Cells["DiscAmt"].Value.ToString());
-                        InfoPOSSalesDetails1.NetAmount = decimal.Parse(dgvrowCurChk.Cells["NetValue"].Value.ToString());
-                        InfoPOSSalesDetails1.TaxId = dgvrowCurChk.Cells["TaxId"].Value.ToString();
-                        InfoPOSSalesDetails1.TaxPer = decimal.Parse(dgvrowCurChk.Cells["TaxPerc"].Value.ToString());
-                        InfoPOSSalesDetails1.TaxAmount = decimal.Parse(dgvrowCurChk.Cells["TaxAmt"].Value.ToString());
-                        InfoPOSSalesDetails1.Amount = decimal.Parse(dgvrowCurChk.Cells["Total"].Value.ToString());
-                        InfoPOSSalesDetails1.BillDiscAmountperItem = dgvrowCurChk.Cells["BillDiscIndProductAmt"].Value == null ? 0 : decimal.Parse(dgvrowCurChk.Cells["BillDiscIndProductAmt"].Value.ToString());
-                        InfoPOSSalesDetails1.ConversionFactor = decimal.Parse(dgvrowCurChk.Cells["UnitConversion"].Value.ToString());
-                        InfoPOSSalesDetails1.AmountBeforeDisc = decimal.Parse(dgvrowCurChk.Cells["amountBeforeDisc"].Value.ToString()) * decimal.Parse(dgvrowCurChk.Cells["Qty"].Value.ToString());
-                        InfoPOSSalesDetails1.RateDiscAmount = decimal.Parse(dgvrowCurChk.Cells["rateDiscAmount"].Value.ToString()) * decimal.Parse(dgvrowCurChk.Cells["Qty"].Value.ToString());
-                        InfoPOSSalesDetails1.OfferId = dgvrowCurChk.Cells["offerId"].Value.ToString();
 
-                  
+          if (rowIndex >= 0 && rowIndex < dgvProduct.Rows.Count && !dgvProduct.Rows[rowIndex].IsNewRow)
+            {
+                DataGridViewRow selectedRow = dgvProduct.Rows[rowIndex];
 
-                        strPOSSalesDetails1Id = POSSalesDetails1SP.POSGridDeletedItemHistoryAdd(InfoPOSSalesDetails1);
-                    }
-                }
+                InfoPOSSalesDetails1.LineNumber = int.Parse(selectedRow.Cells["SLNo"].Value.ToString());
+                InfoPOSSalesDetails1.ProductCode = selectedRow.Cells["ProductCode"].Value.ToString();
+                InfoPOSSalesDetails1.Barcode = selectedRow.Cells["Barcode"].Value.ToString();
+                InfoPOSSalesDetails1.ProductName = selectedRow.Cells["ItemName"].Value.ToString();
+                InfoPOSSalesDetails1.UnitId = selectedRow.Cells["UnitId"].Value.ToString();
+                InfoPOSSalesDetails1.Qty = decimal.Parse(selectedRow.Cells["Qty"].Value.ToString());
+                InfoPOSSalesDetails1.Rate = decimal.Parse(selectedRow.Cells["SalesRate"].Value.ToString());
+                InfoPOSSalesDetails1.ExcludeRate = decimal.Parse(selectedRow.Cells["ExcludeRate"].Value.ToString());
+                InfoPOSSalesDetails1.CostPrice = decimal.Parse(selectedRow.Cells["PurchaseRate"].Value.ToString());
+                InfoPOSSalesDetails1.GrossValue = decimal.Parse(selectedRow.Cells["GrossValue"].Value.ToString());
+                InfoPOSSalesDetails1.DiscPer = 0;
+                InfoPOSSalesDetails1.DiscAmount = decimal.Parse(selectedRow.Cells["DiscAmt"].Value.ToString());
+                InfoPOSSalesDetails1.NetAmount = decimal.Parse(selectedRow.Cells["NetValue"].Value.ToString());
+                InfoPOSSalesDetails1.TaxId = selectedRow.Cells["TaxId"].Value.ToString();
+                InfoPOSSalesDetails1.TaxPer = decimal.Parse(selectedRow.Cells["TaxPerc"].Value.ToString());
+                InfoPOSSalesDetails1.TaxAmount = decimal.Parse(selectedRow.Cells["TaxAmt"].Value.ToString());
+                InfoPOSSalesDetails1.Amount = decimal.Parse(selectedRow.Cells["Total"].Value.ToString());
+                InfoPOSSalesDetails1.BillDiscAmountperItem = selectedRow.Cells["BillDiscIndProductAmt"].Value == null ? 0 : decimal.Parse(selectedRow.Cells["BillDiscIndProductAmt"].Value.ToString());
+                InfoPOSSalesDetails1.ConversionFactor = decimal.Parse(selectedRow.Cells["UnitConversion"].Value.ToString());
+                InfoPOSSalesDetails1.AmountBeforeDisc = decimal.Parse(selectedRow.Cells["amountBeforeDisc"].Value.ToString()) * InfoPOSSalesDetails1.Qty;
+                InfoPOSSalesDetails1.RateDiscAmount = decimal.Parse(selectedRow.Cells["rateDiscAmount"].Value.ToString()) * InfoPOSSalesDetails1.Qty;
+                InfoPOSSalesDetails1.OfferId = selectedRow.Cells["offerId"].Value.ToString();
+            }
+
+                strPOSSalesDetails1Id = POSSalesDetails1SP.POSGridDeletedItemHistoryAdd(InfoPOSSalesDetails1);
+          
             
             return strPOSSalesDetails1Id;
         }
@@ -2664,7 +2663,9 @@ namespace FinacPOS
                 {
                     if (!dgvProduct.Rows[RoWnO].IsNewRow)
                     {
-                        SaveGridDeletedItem();
+                        int selectedRowIndex = dgvProduct.CurrentCell.RowIndex;
+                        SaveGridDeletedItem(selectedRowIndex);
+                   
                         DeleteRow(RoWnO);
 
                         if (dgvProduct.Rows.Count > 1)
@@ -2681,7 +2682,29 @@ namespace FinacPOS
                         CalculateBillTotal();
                     }
                 }
+                //if (dgvProduct.RowCount > 1)
+                //{
+                //    if (!dgvProduct.CurrentRow.IsNewRow)
+                //    {
+                //        int selectedRowIndex = dgvProduct.CurrentCell.RowIndex;
+                //        SaveGridDeletedItem(selectedRowIndex);
+                //        DeleteRow(selectedRowIndex);
 
+                //        if (dgvCurRow > 1)
+                //        {
+                //            dgvCurRow = dgvProduct.Rows.Count - 1;
+                //        }
+                //        else
+                //        {
+                //            dgvCurRow = 0;
+                //            dgvSlno = 1;
+                //        }
+
+                //        CalculateBillDiscforIndivProduct();
+                //        CalculateBillTotal();
+                //    }
+                //    barcodeFocus();
+                //}
                 lblBarcodeScanningType.Text = "";
                 lblBarcodeScanningType.Visible = false;
                 txtBarcode.Text = "";
@@ -4115,8 +4138,8 @@ namespace FinacPOS
                 {
                     if (!dgvProduct.CurrentRow.IsNewRow)
                     {
-                        SaveGridDeletedItem();
-                        int selectedRowIndex = dgvProduct.CurrentCell.RowIndex; 
+                        int selectedRowIndex = dgvProduct.CurrentCell.RowIndex;
+                        SaveGridDeletedItem(selectedRowIndex);
                         DeleteRow(selectedRowIndex);
 
                         if (dgvCurRow > 1)
