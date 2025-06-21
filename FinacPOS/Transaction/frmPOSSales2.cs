@@ -36,7 +36,8 @@ namespace FinacPOS
         string strGroupId = "0";
         DataTable dtblProductFiltered = new DataTable();
         DataTable dtblProductAll = new DataTable();
-       //POSTableInfo tableInfo = new POSTableInfo();
+        ProductSP SPProduct = new ProductSP();
+        //POSTableInfo tableInfo = new POSTableInfo();
 
         #region PUBLICVARIABLES
 
@@ -4869,15 +4870,53 @@ MessageBoxDefaultButton.Button1) == DialogResult.Yes)
         {
             setGridAllFilter(dtblProductWithImage, txtSearch.Text.Trim());
         }
+        private decimal CalculateIncludeRateForgrid(decimal ExcludedRate, decimal taxPerc)
+        {
+            decimal dcTaxIncludedRate = 0;
+            decimal dcVatAmount = 0;
+            if (taxPerc != 0)
+            {
+                dcVatAmount = Math.Round(((ExcludedRate * taxPerc) / (100)), SettingsInfo._roundDecimal);
+            }
+            else
+            {
+                dcVatAmount = 0;
+            }
+            dcTaxIncludedRate = ExcludedRate + dcVatAmount;
+            // lblexcludeRate.Text = Math.Round(decimal.Parse(ExcludedRate.ToString()), SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+            // lblincludeRate.Text = Math.Round(decimal.Parse(dcTaxIncludedRate.ToString()), SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+            return dcTaxIncludedRate;
+        }
 
         private void dgvProduct_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
         {
-           
-           if (e.RowIndex >= 0 && e.ColumnIndex == dgvProduct.Columns["Qty"].Index)
-           {
-               decimal purchaseRate = Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells["PurchaseRate"].Value);
+            string strItemCode = "";
+            decimal taxperc = 0;
+            decimal IncludeRate = 0;
 
-                dgvProduct.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "PR: " + purchaseRate.ToString();
+            if (e.RowIndex >= 0 && e.ColumnIndex == dgvProduct.Columns["Qty"].Index)
+            {
+                try
+                {
+                    strItemCode = dgvProduct.Rows[e.RowIndex].Cells["ProductCode"].Value.ToString();
+                }
+                catch { }
+
+                decimal purchaseRate = Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells["PurchaseRate"].Value);
+                decimal Stock = Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells["Stock"].Value);
+
+
+                DataTable dtbltx = new DataTable();
+                dtbltx = SPProduct.GetProductTaxDetails(strItemCode);
+                if (dtbltx.Rows.Count > 0) //load tax details details by ProductCode
+                {
+                    taxperc = decimal.Parse(dtbltx.Rows[0]["rate"].ToString());
+                }
+                IncludeRate = CalculateIncludeRateForgrid(purchaseRate, taxperc);
+                IncludeRate = Convert.ToDecimal(Math.Round(IncludeRate, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart));
+                //  decimal decInculedTaxPurchaseRate = purchaseRate + IncludeRate;
+                dgvProduct.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "PR: " + purchaseRate.ToString() + " (Excl. Tax), " + IncludeRate.ToString() + " (Incl. Tax), Stock: " + Stock.ToString();
+
 
             }
         }
