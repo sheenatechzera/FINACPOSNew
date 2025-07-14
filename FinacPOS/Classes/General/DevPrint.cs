@@ -1127,7 +1127,7 @@ namespace FinacPOS
             report.Parameters["BillTime"].Value = dtblPaymentVoucherDetails.Rows[0]["BillTime"].ToString();
             report.Parameters["CounterId"].Value = dtblPaymentVoucherDetails.Rows[0]["CounterId"].ToString();
             report.Parameters["User"].Value = dtblPaymentVoucherDetails.Rows[0]["User"].ToString();
-            report.Parameters["PaidAmount"].Value = Convert.ToDecimal(dtblPaymentVoucherDetails.Rows[0]["PaidAmount"]).ToString(SettingsInfo._roundDecimalPart);
+            report.Parameters["PaidAmount"].Value = Convert.ToDecimal(dtblPaymentVoucherDetails.Rows[0]["PaidAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
             report.Parameters["Narration"].Value = dtblPaymentVoucherDetails.Rows[0]["Narration"].ToString();
             report.Parameters["AmountInWords"].Value = dtblPaymentVoucherDetails.Rows[0]["AmountInWords"].ToString();
             report.Parameters["BillName"].Value = dtblPaymentVoucherDetails.Rows[0]["BillName"].ToString();
@@ -1219,7 +1219,7 @@ namespace FinacPOS
             report.Parameters["BillTime"].Value = dtblReceiptVoucherDetails.Rows[0]["BillTime"].ToString();
             report.Parameters["CounterId"].Value = dtblReceiptVoucherDetails.Rows[0]["CounterId"].ToString();
             report.Parameters["User"].Value = dtblReceiptVoucherDetails.Rows[0]["User"].ToString();
-            report.Parameters["PaidAmount"].Value = Convert.ToDecimal(dtblReceiptVoucherDetails.Rows[0]["PaidAmount"]).ToString(SettingsInfo._roundDecimalPart);
+            report.Parameters["PaidAmount"].Value = Convert.ToDecimal(dtblReceiptVoucherDetails.Rows[0]["PaidAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
             report.Parameters["Narration"].Value = dtblReceiptVoucherDetails.Rows[0]["Narration"].ToString();
             report.Parameters["AmountInWords"].Value = dtblReceiptVoucherDetails.Rows[0]["AmountInWords"].ToString();
             report.Parameters["BillName"].Value = dtblReceiptVoucherDetails.Rows[0]["BillName"].ToString();
@@ -1310,7 +1310,7 @@ namespace FinacPOS
             report.Parameters["BillTime"].Value = dtblPaymentVoucherDetails.Rows[0]["BillTime"].ToString();
             report.Parameters["CounterId"].Value = dtblPaymentVoucherDetails.Rows[0]["CounterId"].ToString();
             report.Parameters["User"].Value = dtblPaymentVoucherDetails.Rows[0]["User"].ToString();
-            report.Parameters["PaidAmount"].Value = Convert.ToDecimal(dtblPaymentVoucherDetails.Rows[0]["PaidAmount"]).ToString(SettingsInfo._roundDecimalPart);
+            report.Parameters["PaidAmount"].Value = Convert.ToDecimal(dtblPaymentVoucherDetails.Rows[0]["PaidAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
             report.Parameters["Narration"].Value = dtblPaymentVoucherDetails.Rows[0]["Narration"].ToString();
             report.Parameters["AmountInWords"].Value = dtblPaymentVoucherDetails.Rows[0]["AmountInWords"].ToString();
             report.Parameters["BillName"].Value = dtblPaymentVoucherDetails.Rows[0]["BillName"].ToString();
@@ -1401,7 +1401,7 @@ namespace FinacPOS
             report.Parameters["BillTime"].Value = dtblReceiptVoucherDetails.Rows[0]["BillTime"].ToString();
             report.Parameters["CounterId"].Value = dtblReceiptVoucherDetails.Rows[0]["CounterId"].ToString();
             report.Parameters["User"].Value = dtblReceiptVoucherDetails.Rows[0]["User"].ToString();
-            report.Parameters["PaidAmount"].Value = Convert.ToDecimal(dtblReceiptVoucherDetails.Rows[0]["PaidAmount"]).ToString(SettingsInfo._roundDecimalPart);
+            report.Parameters["PaidAmount"].Value = Convert.ToDecimal(dtblReceiptVoucherDetails.Rows[0]["PaidAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
             report.Parameters["Narration"].Value = dtblReceiptVoucherDetails.Rows[0]["Narration"].ToString();
             report.Parameters["AmountInWords"].Value = dtblReceiptVoucherDetails.Rows[0]["AmountInWords"].ToString();
             report.Parameters["BillName"].Value = dtblReceiptVoucherDetails.Rows[0]["BillName"].ToString();
