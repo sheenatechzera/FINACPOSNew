@@ -1,18 +1,21 @@
-﻿using System;
+﻿using DevExpress.XtraRichEdit.Model;
+using FinacPOS.Masters;
+using Microsoft.VisualBasic;
+using OnBarcode.Barcode.WinForms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using Microsoft.VisualBasic;
+using System.Drawing.Imaging;
 using System.Drawing.Printing;
 using System.IO;
-using OnBarcode.Barcode.WinForms;
 using System.IO.Ports;
-using FinacPOS.Masters;
-using DevExpress.XtraRichEdit.Model;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Windows.Forms;
+using static DevExpress.CodeParser.CodeStyle.Formatting.Rules;
 
 namespace FinacPOS
 {
@@ -210,25 +213,158 @@ namespace FinacPOS
         }
         public void productFill()
         {
+            bool isCloud = false;
+            clsGeneral objGeneral = new clsGeneral();
             ProductSP SpProduct = new ProductSP();
             dtblProductWithImage = SpProduct.POSProductSearchWithImage(PublicVariables._branchId);
             if (dtblProductWithImage.Rows.Count > 0)
             {
-                dtblProductWithImage.Columns.Add("pic", typeof(byte[]));
-                for (int i = 0; i < dtblProductWithImage.Rows.Count; i++)
+                string strServer = ".\\sqlExpress";
+                string strDBName = "DBFINACACCOUNT";
+
+                // Read from sys.txt if available
+                string sysPath = Path.Combine(Application.StartupPath, "sys.txt");
+                if (File.Exists(sysPath))
                 {
-                    dtblProductWithImage.Rows[i]["pic"] = ConvertImageToByteArray(dtblProductWithImage.Rows[i]["productImage"].ToString());
+                    string[] values = File.ReadAllText(sysPath).Split(',');
+                    strServer = values[0].Trim();
+                    strDBName = values[1].Trim();
+                    // Determine cloud/local by checking if the server is an IP address
+                    IPAddress ipAddress;
+                    if (IPAddress.TryParse(strServer, out ipAddress))
+                    {
+                        isCloud = true; // It's a cloud server (IP)
+                    }
                 }
+
+                // Ensure columns exist and are of correct types
+                if (dtblProductWithImage.Columns.Contains("pic"))
+                {
+                    if (dtblProductWithImage.Columns["pic"].DataType != typeof(byte[]))
+                    {
+                        dtblProductWithImage.Columns.Remove("pic");
+                        dtblProductWithImage.Columns.Add("pic", typeof(byte[]));
+                    }
+                }
+                else
+                {
+                    dtblProductWithImage.Columns.Add("pic", typeof(byte[]));
+                }
+
+                if (!dtblProductWithImage.Columns.Contains("picImage"))
+                {
+                    dtblProductWithImage.Columns.Add("picImage", typeof(Image));
+                }
+                if (isCloud)
+                {
+                    using (WebClient client = new WebClient())
+                    {
+                        for (int i = 0; i < dtblProductWithImage.Rows.Count; ++i)
+                        {
+                            Image img = null;
+
+                            try
+                            {
+                                string productCode = dtblProductWithImage.Rows[i]["productCode"].ToString();
+                                string uploadUrl = $"http://{strServer}:666/api/ProductImage/GetProductImage?dbName={strDBName}&productCode={productCode}";
+
+                                byte[] imgBytes = client.DownloadData(uploadUrl);
+
+                                using (MemoryStream ms = new MemoryStream(imgBytes))
+                                {
+                                    img = new Bitmap(ms);
+                                }
+                            }
+                            catch
+                            {
+                                img = Image.FromFile(Path.Combine(Application.StartupPath, "logo.JPG"));
+                            }
+
+                            if (img != null)
+                            {
+                                // Save Image to temp column (for dynamic display)
+                                dtblProductWithImage.Rows[i]["picImage"] = img;
+
+                                // Convert to byte array and save to main 'pic' column
+                                dtblProductWithImage.Rows[i]["pic"] = ConvertImageToByteArray(img);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    Image fallback = Image.FromFile(Path.Combine(Application.StartupPath, "logo.JPG"));
+                    for (int i = 0; i < dtblProductWithImage.Rows.Count; ++i)
+                    {
+                        try
+                        {
+                            byte[] tempLogo;
+                            object imgPathObj = dtblProductWithImage.Rows[i]["productImage"];
+
+                            if (
+                                imgPathObj != DBNull.Value &&
+                                File.Exists(imgPathObj.ToString()))
+                            {
+                                tempLogo = objGeneral.ReadFile(imgPathObj.ToString());
+                            }
+                            else
+                            {
+                                tempLogo = objGeneral.ReadFile(Path.Combine(Application.StartupPath, "logo.JPG"));
+                            }
+
+                            using (MemoryStream ms = new MemoryStream(tempLogo))
+                            {
+                                Image newImage = Image.FromStream(ms);
+                                dtblProductWithImage.Rows[i]["picImage"] = newImage;
+                                dtblProductWithImage.Rows[i]["pic"] = ConvertImageToByteArray(newImage);
+                            }
+                        }
+                        catch
+                        {
+                            dtblProductWithImage.Rows[i]["picImage"] = fallback;
+                            dtblProductWithImage.Rows[i]["pic"] = ConvertImageToByteArray(fallback);
+                        }
+                    }
+                }
+            
+
+                //for (int i = 0; i < dtblProductWithImage.Rows.Count; i++)
+                //{
+                //    dtblProductWithImage.Rows[i]["pic"] = ConvertImageToByteArray(dtblProductWithImage.Rows[i]["pic"].ToString());
+                //}
+
             }
         }
-        private static byte[] ConvertImageToByteArray(string imagePath)
+        
+        public byte[] ConvertImageToByteArray(Image image)
         {
-            if (File.Exists(imagePath))
+            using (MemoryStream ms = new MemoryStream())
             {
-                return File.ReadAllBytes(imagePath);
+                using (Bitmap bmp = new Bitmap(image))
+                {
+                    bmp.Save(ms, ImageFormat.Png);
+                }
+                return ms.ToArray();
             }
-            return null; // Return null if file not found
         }
+
+        // Optional: Convert back to image if needed later
+        public Image ByteArrayToImage1(byte[] byteArray)
+        {
+            using (MemoryStream ms = new MemoryStream(byteArray))
+            {
+                return Image.FromStream(ms);
+            }
+        }
+
+        //private static byte[] ConvertImageToByteArray(string imagePath)
+        //{
+        //    if (File.Exists(imagePath))
+        //    {
+        //        return File.ReadAllBytes(imagePath);
+        //    }
+        //    return null; // Return null if file not found
+        //}
         public void showproductInload()   //added on 17/03/2025 By Nishana
         {
             LoadProductGroup();
@@ -464,32 +600,36 @@ namespace FinacPOS
         private string CreateFilterQry(string strVal, DataTable dt)
         {
             string strqry = "";
-            if (!string.IsNullOrEmpty(strVal))
-            {
-                strVal = strVal.Replace("'", "''"); // Escape single quotes to prevent syntax errors
-            }
+
+            if (string.IsNullOrEmpty(strVal))
+                return strqry;
+
+            strVal = strVal.Replace("'", "''"); // Escape single quotes
+
             for (int i = 0; i < dt.Columns.Count; ++i)
             {
+                var col = dt.Columns[i];
+                string colName = col.ColumnName;
+                Type colType = col.DataType;
 
-                if (dt.Columns[i].ColumnName != "salesPrice" && dt.Columns[i].ColumnName != "productImage" && dt.Columns[i].ColumnName != "pic")
+                // Skip known non-searchable columns and only include string-type
+                if (colType == typeof(string) &&
+                    colName != "salesPrice" &&
+                    colName != "productImage" &&
+                    colName != "pic")
                 {
-                    if (strqry == "")
-                    {
-                        strqry = dt.Columns[i].ColumnName + " LIKE '%" + strVal + "%' ";
-                    }
-                    else
-                    {
-                        strqry = strqry + " OR " + dt.Columns[i].ColumnName + " LIKE '%" + strVal + "%' ";
-                    }
+                    if (!string.IsNullOrEmpty(strqry))
+                        strqry += " OR ";
+
+                    strqry += $"[{colName}] LIKE '%{strVal}%'";
                 }
-
-
             }
-            return strqry;
 
+            return strqry;
         }
 
-       
+
+
         string productCodeToReturn = "";
         string UnitName = "";
         private void SelectProduct(string strBarcode)
