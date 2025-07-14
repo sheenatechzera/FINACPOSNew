@@ -99,7 +99,7 @@ namespace FinacPOS
                     //   strUnitId = dtbl.Rows[0]["unitId"].ToString();
                     lblBaseUnit.Text = strUnitName;
 
-                    lblPurchaseRate.Text = Math.Round(decPurchaseRate, SettingsInfo._roundDecimal).ToString();
+                    lblPurchaseRate.Text = Math.Round(decPurchaseRate, FinanceSettingsInfo._roundDecimal).ToString();
                   // assiging stock to label
                     decimal decStock = salesMasterSP.ProductStockGetCorrespondingtoBatchAndGodown("POS Sales", "", strItemCode, "1", "1", "1");
 
@@ -150,7 +150,7 @@ namespace FinacPOS
                                 decimal dTaxAmt = 0;
                                 dTaxAmt = ((dcRate * dTaxPerc) / (dTaxPerc + 100));
                                 dcTaxExcludedRate = dcRate - dTaxAmt;
-                                dcTaxExcludedRate = Math.Round(dcTaxExcludedRate, SettingsInfo._roundDecimal);
+                                dcTaxExcludedRate = Math.Round(dcTaxExcludedRate, FinanceSettingsInfo._roundDecimal);
                             }
                         }
                     }
@@ -173,15 +173,15 @@ namespace FinacPOS
             decimal dcVatAmount = 0;
             if (taxPerc != 0)
             {
-                dcVatAmount = Math.Round(((ExcludedRate * taxPerc) / (100)), SettingsInfo._roundDecimal);
+                dcVatAmount = Math.Round(((ExcludedRate * taxPerc) / (100)), FinanceSettingsInfo._roundDecimal);
             }
             else
             {
                 dcVatAmount = 0;
             }
             dcTaxIncludedRate = ExcludedRate + dcVatAmount;
-            lblexcludeRate.Text = Math.Round(decimal.Parse(ExcludedRate.ToString()), SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-            lblincludeRate.Text = Math.Round(decimal.Parse(dcTaxIncludedRate.ToString()), SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+            lblexcludeRate.Text = Math.Round(decimal.Parse(ExcludedRate.ToString()), FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+            lblincludeRate.Text = Math.Round(decimal.Parse(dcTaxIncludedRate.ToString()), FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
         }
         private void calculateVatPerc(string ItemCode)
         {
@@ -191,13 +191,13 @@ namespace FinacPOS
                 dtbl = SPProduct.GetProductTaxDetails(ItemCode);
                 if (dtbl.Rows.Count > 0) //load tax details details by ProductCode
                 {
-                    lblVat.Text = Math.Round(decimal.Parse(dtbl.Rows[0]["rate"].ToString()), SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                    lblVat.Text = Math.Round(decimal.Parse(dtbl.Rows[0]["rate"].ToString()), FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
                     //dgvProduct.Rows[dgvCurRow].Cells["TaxId"].Value = dtbl.Rows[0]["taxId"].ToString();
                     //dgvProduct.Rows[dgvCurRow].Cells["TaxPerc"].Value = dtbl.Rows[0]["rate"].ToString();
                 }
                 else
                 {
-                    lblVat.Text = Math.Round(decimal.Parse("0"), SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                    lblVat.Text = Math.Round(decimal.Parse("0"), FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
                     //dgvProduct.Rows[dgvCurRow].Cells["TaxId"].Value = "1";
                     //dgvProduct.Rows[dgvCurRow].Cells["TaxPerc"].Value = 0;
                 }
@@ -234,7 +234,7 @@ namespace FinacPOS
                                 decimal dTaxAmt = 0;
                                 dTaxAmt = ((dcRate * dTaxPerc) / (dTaxPerc + 100));
                                 dcTaxExcludedRate = dcRate - dTaxAmt;
-                                dcTaxExcludedRate = Math.Round(dcTaxExcludedRate, SettingsInfo._roundDecimal);
+                                dcTaxExcludedRate = Math.Round(dcTaxExcludedRate, FinanceSettingsInfo._roundDecimal);
                             }
                         }
                     }
@@ -252,7 +252,7 @@ namespace FinacPOS
             decimal dcVatAmount = 0;
             if (taxPerc != 0)
             {
-                dcVatAmount = Math.Round(((ExcludedRate * taxPerc) / (100)), SettingsInfo._roundDecimal);
+                dcVatAmount = Math.Round(((ExcludedRate * taxPerc) / (100)), FinanceSettingsInfo._roundDecimal);
             }
             else
             {
@@ -271,13 +271,13 @@ namespace FinacPOS
                 dtbl = SPProduct.GetProductTaxDetails(ItemCode);
                 if (dtbl.Rows.Count > 0) //load tax details details by ProductCode
                 {
-                    lblVat.Text = Math.Round(decimal.Parse(dtbl.Rows[0]["rate"].ToString()), SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                    lblVat.Text = Math.Round(decimal.Parse(dtbl.Rows[0]["rate"].ToString()), FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
                     //dgvProduct.Rows[dgvCurRow].Cells["TaxId"].Value = dtbl.Rows[0]["taxId"].ToString();
                     //dgvProduct.Rows[dgvCurRow].Cells["TaxPerc"].Value = dtbl.Rows[0]["rate"].ToString();
                 }
                 else
                 {
-                    lblVat.Text = Math.Round(decimal.Parse("0"), SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                    lblVat.Text = Math.Round(decimal.Parse("0"), FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
                     //dgvProduct.Rows[dgvCurRow].Cells["TaxId"].Value = "1";
                     //dgvProduct.Rows[dgvCurRow].Cells["TaxPerc"].Value = 0;
                 }
@@ -339,10 +339,10 @@ namespace FinacPOS
                         }
                         salesprice = decimal.Parse(dr["SalesRate"].ToString());
                         excludeRate = AssignExludeRateForGrid(salesprice);
-                        dr["Exclude Rate"] = Math.Round(excludeRate, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-                        dr["Vat%"] = Math.Round(taxperc, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                        dr["Exclude Rate"] = Math.Round(excludeRate, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dr["Vat%"] = Math.Round(taxperc, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
                         IncludeRate = CalculateIncludeRateForgrid(excludeRate, taxperc);
-                        dr["Include Rate"] = Math.Round(IncludeRate, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                        dr["Include Rate"] = Math.Round(IncludeRate, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
                     }
 
                 }

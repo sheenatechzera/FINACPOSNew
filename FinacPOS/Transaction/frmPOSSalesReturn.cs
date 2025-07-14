@@ -151,11 +151,11 @@ namespace FinacPOS
             lblBillNo.Text = POSBillNumberMax();
 
             lblTotalQty.Text = "0";
-            txtSubTotal.Text = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+            txtSubTotal.Text = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
             
-            txtTaxable.Text = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-            txtTaxAmt.Text = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-            txtTotal.Text = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+            txtTaxable.Text = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+            txtTaxAmt.Text = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+            txtTotal.Text = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
             txtCustName.Text = "";
             txtCustomerId.Text = "";
@@ -373,7 +373,7 @@ namespace FinacPOS
                 if (dtblRate.Rows.Count > 0)
                 {
                     dRt = Convert.ToDecimal(dtblRate.Rows[0]["rate"]);
-                    dgvProduct.Rows[dgvCurRow].Cells["PurchaseRate"].Value = (dRt * decUnitConversion).ToString(SettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[dgvCurRow].Cells["PurchaseRate"].Value = (dRt * decUnitConversion).ToString(FinanceSettingsInfo._roundDecimalPart);
                 }
                 else
                 {
@@ -381,9 +381,9 @@ namespace FinacPOS
                     dgvProduct.Rows[dgvCurRow].Cells["PurchaseRate"].Value = "0";
                 }
                 //
-                dgvProduct.Rows[dgvCurRow].Cells["SalesRate"].Value = Math.Round(decSalesPrice, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-                dgvProduct.Rows[dgvCurRow].Cells["amountBeforeDisc"].Value = Math.Round(amountBeforeDisc, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-                dgvProduct.Rows[dgvCurRow].Cells["rateDiscAmount"].Value = Math.Round(rateDiscAmount, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                dgvProduct.Rows[dgvCurRow].Cells["SalesRate"].Value = Math.Round(decSalesPrice, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                dgvProduct.Rows[dgvCurRow].Cells["amountBeforeDisc"].Value = Math.Round(amountBeforeDisc, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                dgvProduct.Rows[dgvCurRow].Cells["rateDiscAmount"].Value = Math.Round(rateDiscAmount, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
                 dgvProduct.Rows[dgvCurRow].Cells["offerId"].Value = offerId;
                 if (rateDiscAmount > 0)
                     dgvProduct.Rows[dgvCurRow].DefaultCellStyle.ForeColor = Color.Red;
@@ -414,26 +414,26 @@ namespace FinacPOS
                 catch { }
 
                 dGrossValue = dQty * dRate;
-                dgvProduct.Rows[dgvCurRow].Cells["GrossValue"].Value = Math.Round(dGrossValue, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-                dgvProduct.Rows[dgvCurRow].Cells["DiscAmt"].Value = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                dgvProduct.Rows[dgvCurRow].Cells["GrossValue"].Value = Math.Round(dGrossValue, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                dgvProduct.Rows[dgvCurRow].Cells["DiscAmt"].Value = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
-                dgvProduct.Rows[dgvCurRow].Cells["NetValue"].Value = Math.Round(dGrossValue, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                dgvProduct.Rows[dgvCurRow].Cells["NetValue"].Value = Math.Round(dGrossValue, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
                 try { dTaxPerc = decimal.Parse(dgvProduct.Rows[dgvCurRow].Cells["TaxPerc"].Value.ToString()); }
                 catch { }
 
                 if (dTaxPerc != 0)
                 {
-                    dTaxAmt = Math.Round(((dGrossValue * dTaxPerc) / (100)), SettingsInfo._roundDecimal);
+                    dTaxAmt = Math.Round(((dGrossValue * dTaxPerc) / (100)), FinanceSettingsInfo._roundDecimal);
 
-                    dgvProduct.Rows[dgvCurRow].Cells["TaxAmt"].Value = dTaxAmt.ToString(SettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[dgvCurRow].Cells["TaxAmt"].Value = dTaxAmt.ToString(FinanceSettingsInfo._roundDecimalPart);
                 }
                 else
                 {
                     dgvProduct.Rows[dgvCurRow].Cells["TaxAmt"].Value = "0.00";
                 }
 
-                dgvProduct.Rows[dgvCurRow].Cells["Total"].Value = (dGrossValue + dTaxAmt).ToString(SettingsInfo._roundDecimalPart);
+                dgvProduct.Rows[dgvCurRow].Cells["Total"].Value = (dGrossValue + dTaxAmt).ToString(FinanceSettingsInfo._roundDecimalPart);
 
                 CalculateBillTotal();
 
@@ -483,7 +483,7 @@ namespace FinacPOS
                         decimal.TryParse(dgvProduct.Rows[inIndex].Cells["SalesRate"].Value.ToString(), out dcRate);
                     }
 
-                    dgvProduct.Rows[inIndex].Cells["SalesRate"].Value = Math.Round(dcRate, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[inIndex].Cells["SalesRate"].Value = Math.Round(dcRate, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
 
                     if (SettingsInfo._taxType == "Applicable to product" && dcRate != 0)
@@ -501,7 +501,7 @@ namespace FinacPOS
                                 dTaxAmt = ((dcRate * dTaxPerc) / (dTaxPerc + 100));
 
                                 dcTaxExcludedRate = dcRate - dTaxAmt;
-                                dcTaxExcludedRate = Math.Round(dcTaxExcludedRate, SettingsInfo._roundDecimal);
+                                dcTaxExcludedRate = Math.Round(dcTaxExcludedRate, FinanceSettingsInfo._roundDecimal);
                             }
 
                         }
@@ -536,20 +536,20 @@ namespace FinacPOS
                         dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["Unit"].Value = drowDetails["unitName"].ToString();
                         dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["BaseUnitId"].Value = drowDetails["BaseUnitId"].ToString();
                         dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["UnitConversion"].Value = drowDetails["ConversionFactor"].ToString();
-                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["SalesRate"].Value = Convert.ToDecimal(drowDetails["rate"]).ToString(SettingsInfo._roundDecimalPart);
-                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["ExcludeRate"].Value = Convert.ToDecimal(drowDetails["excludeRate"]).ToString(SettingsInfo._roundDecimalPart);
-                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["PurchaseRate"].Value = Convert.ToDecimal(drowDetails["costPrice"]).ToString(SettingsInfo._roundDecimalPart);
-                        //dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["GrossValue"].Value = Convert.ToDecimal(drowDetails["grossValue"]).ToString(SettingsInfo._roundDecimalPart);
-                        //dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["DiscAmt"].Value = Convert.ToDecimal("0.00").ToString(SettingsInfo._roundDecimalPart);
-                        //dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["NetValue"].Value = Convert.ToDecimal(drowDetails["netAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["TaxId"].Value = drowDetails["taxId"].ToString();
+                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["SalesRate"].Value = Convert.ToDecimal(drowDetails["rate"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["ExcludeRate"].Value = Convert.ToDecimal(drowDetails["excludeRate"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["PurchaseRate"].Value = Convert.ToDecimal(drowDetails["costPrice"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    //dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["GrossValue"].Value = Convert.ToDecimal(drowDetails["grossValue"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    //dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["DiscAmt"].Value = Convert.ToDecimal("0.00").ToString(FinanceSettingsInfo._roundDecimalPart);
+                    //dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["NetValue"].Value = Convert.ToDecimal(drowDetails["netAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["TaxId"].Value = drowDetails["taxId"].ToString();
                         dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["TaxPerc"].Value = drowDetails["taxPer"].ToString();
-                        //dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["TaxAmt"].Value = Convert.ToDecimal(drowDetails["taxAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                        //dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["Total"].Value = Convert.ToDecimal(drowDetails["Amount"]).ToString(SettingsInfo._roundDecimalPart);
-                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["BillDiscIndProductAmt"].Value = "0.00";
+                    //dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["TaxAmt"].Value = Convert.ToDecimal(drowDetails["taxAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    //dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["Total"].Value = Convert.ToDecimal(drowDetails["Amount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["BillDiscIndProductAmt"].Value = "0.00";
                         dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["TaxId"].Value = drowDetails["taxId"].ToString();
-                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["amountBeforeDisc"].Value = Convert.ToDecimal(drowDetails["amountBeforeDisc"]).ToString(SettingsInfo._roundDecimalPart);
-                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["rateDiscAmount"].Value = Convert.ToDecimal(drowDetails["rateDiscAmount"]).ToString(SettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["amountBeforeDisc"].Value = Convert.ToDecimal(drowDetails["amountBeforeDisc"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["rateDiscAmount"].Value = Convert.ToDecimal(drowDetails["rateDiscAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                         dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["offerId"].Value = drowDetails["offerId"].ToString();
 
 
@@ -565,26 +565,26 @@ namespace FinacPOS
                         catch { }
 
                         dGrossValue = dQty * dRate;
-                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["GrossValue"].Value = Math.Round(dGrossValue, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["DiscAmt"].Value = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["GrossValue"].Value = Math.Round(dGrossValue, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["DiscAmt"].Value = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
-                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["NetValue"].Value = Math.Round(dGrossValue, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["NetValue"].Value = Math.Round(dGrossValue, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
                         try { dTaxPerc = decimal.Parse(dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["TaxPerc"].Value.ToString()); }
                         catch { }
 
                         if (dTaxPerc != 0)
                         {
-                            dTaxAmt = Math.Round(((dGrossValue * dTaxPerc) / (100)), SettingsInfo._roundDecimal);
+                            dTaxAmt = Math.Round(((dGrossValue * dTaxPerc) / (100)), FinanceSettingsInfo._roundDecimal);
 
-                            dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["TaxAmt"].Value = dTaxAmt.ToString(SettingsInfo._roundDecimalPart);
+                            dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["TaxAmt"].Value = dTaxAmt.ToString(FinanceSettingsInfo._roundDecimalPart);
                         }
                         else
                         {
                             dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["TaxAmt"].Value = "0.00";
                         }
 
-                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["Total"].Value = (dGrossValue + dTaxAmt).ToString(SettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["Total"].Value = (dGrossValue + dTaxAmt).ToString(FinanceSettingsInfo._roundDecimalPart);
 
                     }
 
@@ -662,11 +662,11 @@ namespace FinacPOS
                     }
                 }
 
-                lblTotalQty.Text = Math.Round(dcQtyTotal, SettingsInfo._roundDecimal).ToString();
-                txtSubTotal.Text = Math.Round(dcSubTotal, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-                txtTaxable.Text = Math.Round(dcTaxable, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-                txtTaxAmt.Text = Math.Round(dcTaxAmt, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-                txtTotal.Text = Math.Round(dcTotal, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                lblTotalQty.Text = Math.Round(dcQtyTotal, FinanceSettingsInfo._roundDecimal).ToString();
+                txtSubTotal.Text = Math.Round(dcSubTotal, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                txtTaxable.Text = Math.Round(dcTaxable, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                txtTaxAmt.Text = Math.Round(dcTaxAmt, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                txtTotal.Text = Math.Round(dcTotal, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
             }
         }
@@ -810,7 +810,7 @@ namespace FinacPOS
                         catch { dSalesRate = 0; }
 
 
-                        dgvProduct.Rows[CurEditRowIndex].Cells[CurColIndex].Value = Math.Round(dSalesRate, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[CurEditRowIndex].Cells[CurColIndex].Value = Math.Round(dSalesRate, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
 
                         DataGridViewCellEventArgs x = new DataGridViewCellEventArgs(CurColIndex, CurEditRowIndex);
@@ -827,7 +827,7 @@ namespace FinacPOS
                         catch { dLineDisc = 0; }
 
 
-                        dgvProduct.Rows[CurEditRowIndex].Cells[CurColIndex].Value = Math.Round(dLineDisc, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[CurEditRowIndex].Cells[CurColIndex].Value = Math.Round(dLineDisc, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
 
                         DataGridViewCellEventArgs x = new DataGridViewCellEventArgs(CurColIndex, CurEditRowIndex);
@@ -933,20 +933,20 @@ namespace FinacPOS
             try { dTaxPerc = decimal.Parse(dgvProduct.Rows[inIndex].Cells["TaxPerc"].Value.ToString()); }
             catch { }
 
-            dgvProduct.Rows[inIndex].Cells["DiscAmt"].Value = Math.Round(dDiscAmt, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+            dgvProduct.Rows[inIndex].Cells["DiscAmt"].Value = Math.Round(dDiscAmt, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
 
             dGrossValue = dQty * dRate;
-            dgvProduct.Rows[inIndex].Cells["GrossValue"].Value = Math.Round(dGrossValue, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+            dgvProduct.Rows[inIndex].Cells["GrossValue"].Value = Math.Round(dGrossValue, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
             dNetValue = dGrossValue - dDiscAmt;
-            dgvProduct.Rows[inIndex].Cells["NetValue"].Value = Math.Round(dNetValue, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+            dgvProduct.Rows[inIndex].Cells["NetValue"].Value = Math.Round(dNetValue, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
             if (dTaxPerc != 0)
             {
-                dTaxAmt = Math.Round((((dNetValue - dBillItemDisc) * dTaxPerc) / (100)), SettingsInfo._roundDecimal);
+                dTaxAmt = Math.Round((((dNetValue - dBillItemDisc) * dTaxPerc) / (100)), FinanceSettingsInfo._roundDecimal);
 
-                dgvProduct.Rows[inIndex].Cells["TaxAmt"].Value = dTaxAmt.ToString(SettingsInfo._roundDecimalPart);
+                dgvProduct.Rows[inIndex].Cells["TaxAmt"].Value = dTaxAmt.ToString(FinanceSettingsInfo._roundDecimalPart);
             }
             else
             {
@@ -954,7 +954,7 @@ namespace FinacPOS
                 dgvProduct.Rows[inIndex].Cells["TaxAmt"].Value = "0.00";
             }
 
-            dgvProduct.Rows[inIndex].Cells["Total"].Value = ((dNetValue - dBillItemDisc) + dTaxAmt).ToString(SettingsInfo._roundDecimalPart);
+            dgvProduct.Rows[inIndex].Cells["Total"].Value = ((dNetValue - dBillItemDisc) + dTaxAmt).ToString(FinanceSettingsInfo._roundDecimalPart);
 
             CalculateBillTotal();
         }
@@ -1104,7 +1104,7 @@ namespace FinacPOS
                         catch { dSalesRate = 0; }
 
 
-                        dgvProduct.Rows[CurEditRowIndex].Cells[CurColIndex].Value = Math.Round(dSalesRate, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[CurEditRowIndex].Cells[CurColIndex].Value = Math.Round(dSalesRate, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
 
                         DataGridViewCellEventArgs x = new DataGridViewCellEventArgs(CurColIndex, CurEditRowIndex);
@@ -1121,7 +1121,7 @@ namespace FinacPOS
                         catch { dLineDisc = 0; }
 
 
-                        dgvProduct.Rows[CurEditRowIndex].Cells[CurColIndex].Value = Math.Round(dLineDisc, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[CurEditRowIndex].Cells[CurColIndex].Value = Math.Round(dLineDisc, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
 
                         DataGridViewCellEventArgs x = new DataGridViewCellEventArgs(CurColIndex, CurEditRowIndex);
@@ -1751,8 +1751,8 @@ namespace FinacPOS
             string invoicedate = DateTime.Parse(lblBillDate.Text.ToString()).ToString("yyyy-MM-dd");
             string invoicetime = DateTime.Now.ToString("HH:mm:ss");
             invoicedate = invoicedate + "T" + invoicetime;
-            string invoicetotal = "-" + Convert.ToDecimal(txtTotal.Text).ToString(SettingsInfo._roundDecimalPart);
-            string invoicevatamount = "-" + Convert.ToDecimal(txtTaxAmt.Text).ToString(SettingsInfo._roundDecimalPart);
+            string invoicetotal = "-" + Convert.ToDecimal(txtTotal.Text).ToString(FinanceSettingsInfo._roundDecimalPart);
+            string invoicevatamount = "-" + Convert.ToDecimal(txtTaxAmt.Text).ToString(FinanceSettingsInfo._roundDecimalPart);
 
             int lencompanyname = companyname.Length;
             int lenvatno = vatno.Length;
@@ -1859,8 +1859,8 @@ namespace FinacPOS
                         }
                     }
                 }
-                dTaxableTotal = Math.Round(dTaxableTotal, SettingsInfo._roundDecimal);
-                dTotal = Math.Round(dTotal, SettingsInfo._roundDecimal);
+                dTaxableTotal = Math.Round(dTaxableTotal, FinanceSettingsInfo._roundDecimal);
+                dTotal = Math.Round(dTotal, FinanceSettingsInfo._roundDecimal);
                 dtbl.Rows[i]["amt"] = dTotal.ToString();
                 dtbl.Rows[i]["taxableAmt"] = dTaxableTotal.ToString();
             }

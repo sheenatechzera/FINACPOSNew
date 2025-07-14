@@ -102,7 +102,7 @@ namespace FinacPOS
             cmbCashOrBank.SelectedIndex = -1;
             lblBillNo.Text = POSBillNumberMax();
             RadioBtnCash.Checked = true;
-            txtTotalAmount.Text = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+            txtTotalAmount.Text = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
             dgvPartyBalance.Rows.Clear();
             txtCustomerId.Focus();
         }
@@ -721,7 +721,7 @@ namespace FinacPOS
                         txtCustomerId.Text = dtbl.Rows[0]["ledgerCode"].ToString();
                         txtCustName.Text = dtbl.Rows[0]["ledgerName"].ToString();
                         dgvPartyBalance.Rows.Clear();
-                        txtTotalAmount.Text = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                        txtTotalAmount.Text = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
                         AccountLedgerSP SpLedger = new AccountLedgerSP();
                         AccountLedgerInfo Info = new AccountLedgerInfo();
@@ -910,7 +910,7 @@ namespace FinacPOS
                         dgvPartyBalance.Rows[dgvPartyBalance.Rows.Count - 2].Cells["voucherNo"].Value = dtblPartyBalance.Rows[i]["VoucherNo"].ToString();
                         dgvPartyBalance.Rows[dgvPartyBalance.Rows.Count - 2].Cells["voucherType"].Value = dtblPartyBalance.Rows[i]["voucherType"].ToString();
                         dgvPartyBalance.Rows[dgvPartyBalance.Rows.Count - 2].Cells["VoucherDate"].Value = dtblPartyBalance.Rows[i]["VoucherDate"].ToString();
-                        dgvPartyBalance.Rows[dgvPartyBalance.Rows.Count - 2].Cells["BillAmount"].Value = Math.Round((decimal.Parse(dtblPartyBalance.Rows[i]["BillAmount"].ToString()) / InfoCurrencyConversion.Rate), SettingsInfo._roundDecimal);
+                        dgvPartyBalance.Rows[dgvPartyBalance.Rows.Count - 2].Cells["BillAmount"].Value = Math.Round((decimal.Parse(dtblPartyBalance.Rows[i]["BillAmount"].ToString()) / InfoCurrencyConversion.Rate), FinanceSettingsInfo._roundDecimal);
                         if (strMasterIdForEdit != "" && !IsFromLoadPEnding)
                         {
                             dtblAgainst = new DataTable();
@@ -926,12 +926,12 @@ namespace FinacPOS
 
                                         dcAmount = decimal.Parse(drArr[0]["amount"].ToString()) + decimal.Parse(dtblPartyBalance.Rows[i]["amountToPay"].ToString());
 
-                                        dgvPartyBalance.Rows[dgvPartyBalance.Rows.Count - 2].Cells["amountToPay"].Value = Math.Round((dcAmount / InfoCurrencyConversion.Rate), SettingsInfo._roundDecimal);
+                                        dgvPartyBalance.Rows[dgvPartyBalance.Rows.Count - 2].Cells["amountToPay"].Value = Math.Round((dcAmount / InfoCurrencyConversion.Rate), FinanceSettingsInfo._roundDecimal);
 
                                     }
                                     else
                                     {
-                                        dgvPartyBalance.Rows[dgvPartyBalance.Rows.Count - 2].Cells["amountToPay"].Value = Math.Round((decimal.Parse(dtblPartyBalance.Rows[i]["amountToPay"].ToString()) / InfoCurrencyConversion.Rate), SettingsInfo._roundDecimal);
+                                        dgvPartyBalance.Rows[dgvPartyBalance.Rows.Count - 2].Cells["amountToPay"].Value = Math.Round((decimal.Parse(dtblPartyBalance.Rows[i]["amountToPay"].ToString()) / InfoCurrencyConversion.Rate), FinanceSettingsInfo._roundDecimal);
                                         //if (bool.Parse(dtblPartyBalance.Rows[i]["IsFromDb"].ToString().ToString()) == false)
                                         //{
                                         //    dgvPartyBalance.Rows[dgvPartyBalance.Rows.Count - 2].Cells["amountToPay"].Value = Math.Round((decimal.Parse(dtblPartyBalance.Rows[i]["amountToPay"].ToString()) / InfoCurrencyConversion.Rate), 2);
@@ -950,14 +950,14 @@ namespace FinacPOS
                             }
                             else
                             {
-                                dgvPartyBalance.Rows[dgvPartyBalance.Rows.Count - 2].Cells["amountToPay"].Value = Math.Round((decimal.Parse(dtblPartyBalance.Rows[i]["amountToPay"].ToString()) / InfoCurrencyConversion.Rate), SettingsInfo._roundDecimal);
+                                dgvPartyBalance.Rows[dgvPartyBalance.Rows.Count - 2].Cells["amountToPay"].Value = Math.Round((decimal.Parse(dtblPartyBalance.Rows[i]["amountToPay"].ToString()) / InfoCurrencyConversion.Rate), FinanceSettingsInfo._roundDecimal);
                             }
                             dgvPartyBalance.Rows[dgvPartyBalance.Rows.Count - 2].Cells["isSelect"].Value = true;
                             dgvPartyBalance.Rows[dgvPartyBalance.Rows.Count - 2].Cells["Select"].Value = "UnSelect";
                         }
                         else
                         {
-                            dgvPartyBalance.Rows[dgvPartyBalance.Rows.Count - 2].Cells["amountToPay"].Value = Math.Round((decimal.Parse(dtblPartyBalance.Rows[i]["amountToPay"].ToString()) / InfoCurrencyConversion.Rate), SettingsInfo._roundDecimal);
+                            dgvPartyBalance.Rows[dgvPartyBalance.Rows.Count - 2].Cells["amountToPay"].Value = Math.Round((decimal.Parse(dtblPartyBalance.Rows[i]["amountToPay"].ToString()) / InfoCurrencyConversion.Rate), FinanceSettingsInfo._roundDecimal);
                             dgvPartyBalance.Rows[dgvPartyBalance.Rows.Count - 2].Cells["Select"].Value = "Select";
                         }
 
@@ -1014,7 +1014,7 @@ namespace FinacPOS
                                     if (isChecked)
                                     {
                                         decimal balance = dgvPartyBalance.Rows[e.RowIndex].Cells["amountToPay"].Value.ToString() == "" ? 0 : decimal.Parse(dgvPartyBalance.Rows[e.RowIndex].Cells["amountToPay"].Value.ToString());
-                                        dgvPartyBalance.Rows[e.RowIndex].Cells["amount"].Value = Math.Round(balance, SettingsInfo._roundDecimal).ToString();
+                                        dgvPartyBalance.Rows[e.RowIndex].Cells["amount"].Value = Math.Round(balance, FinanceSettingsInfo._roundDecimal).ToString();
                                     }
                                     //else
                                     //{
@@ -1031,7 +1031,7 @@ namespace FinacPOS
                             //  string a=dgvPartyBalance.Columns["type"].ToString();
                             string stramount = dgvPartyBalance.Rows[e.RowIndex].Cells["amount"].Value.ToString() == null ? "" : dgvPartyBalance.Rows[e.RowIndex].Cells["amount"].Value.ToString();
                             isWorkValueChanged = false;
-                            dgvPartyBalance.Rows[e.RowIndex].Cells["amount"].Value = stramount == "" ? "0" : Math.Round(decimal.Parse(stramount), SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                            dgvPartyBalance.Rows[e.RowIndex].Cells["amount"].Value = stramount == "" ? "0" : Math.Round(decimal.Parse(stramount), FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
                             isWorkValueChanged = true;
                             if (dgvPartyBalance.Rows[e.RowIndex].Cells["type"].Value.ToString() == "New" || dgvPartyBalance.Rows[e.RowIndex].Cells["type"].Value.ToString() == "OnAccount")
                             {
@@ -1395,7 +1395,7 @@ namespace FinacPOS
                     dRowDetails["User"] = dtbl.Rows[0]["User"].ToString();
 
                     decimal Amount = Convert.ToDecimal(dtbl.Rows[0]["PaidAmount"].ToString());
-                    dRowDetails["PaidAmount"] = Amount.ToString(SettingsInfo._roundDecimalPart);
+                    dRowDetails["PaidAmount"] = Amount.ToString(FinanceSettingsInfo._roundDecimalPart);
                     dRowDetails["Narration"] = dtbl.Rows[0]["Narration"].ToString();
                     dRowDetails["AmountInWords"] = new NumToText().ConvertAmountToWordsForPrint(Amount, "");
                     dRowDetails["BillName"] = "Receipt Voucher";
@@ -1437,7 +1437,7 @@ namespace FinacPOS
                         else if (currentValue == "Select")
                         {
                             decimal balance = dgvPartyBalance.Rows[e.RowIndex].Cells["amountToPay"].Value.ToString() == "" ? 0 : decimal.Parse(dgvPartyBalance.Rows[e.RowIndex].Cells["amountToPay"].Value.ToString());
-                            string roundedBalance = Math.Round(balance, SettingsInfo._roundDecimal).ToString();
+                            string roundedBalance = Math.Round(balance, FinanceSettingsInfo._roundDecimal).ToString();
                             ToggleSelectUnselect(e.RowIndex, "UnSelect", true, roundedBalance);
                         }
                     }
@@ -1512,7 +1512,7 @@ namespace FinacPOS
             //else
             //    strdate = " AND date BETWEEN '" + PublicVariables._fromDate + "' AND '" + PublicVariables._toDate + "'";
             //frmlookup.strSearchTable = " (SELECT CONVERT(INT,R.POSReceiptMasterId) POSReceiptMasterId,R.receiptNo AS 'ReceiptNo',REPLACE(CONVERT(VARCHAR(11), R.billDate, 106), ' ', '-') AS Date,A.ledgerName AS BankCash,R.Narration,CONVERT(DECIMAL(18," + SettingsInfo._roundDecimal + "),R.totalAmount) AS totalAmount FROM dbo.tbl_POSReceiptMaster(NOLOCK) AS R,tbl_AccountLedger(NOLOCK) A WHERE A.CashOrBankledgerId=R.ledgerId  " + strdate + ") AS A ";
-            frmlookup.strSearchTable = " (SELECT CONVERT(INT,R.POSReceiptMasterId) POSReceiptMasterId,R.receiptNo AS 'ReceiptNo',REPLACE(CONVERT(VARCHAR(11), R.billDate, 106), ' ', '-') AS Date,A.ledgerName AS BankCash,R.Narration,CONVERT(DECIMAL(18," + SettingsInfo._roundDecimal + "),R.totalAmount) AS totalAmount FROM dbo.tbl_POSReceiptMaster(NOLOCK) AS R,tbl_AccountLedger(NOLOCK) A WHERE A.ledgerId=R.CashOrBankledgerId  ) AS A ";
+            frmlookup.strSearchTable = " (SELECT CONVERT(INT,R.POSReceiptMasterId) POSReceiptMasterId,R.receiptNo AS 'ReceiptNo',REPLACE(CONVERT(VARCHAR(11), R.billDate, 106), ' ', '-') AS Date,A.ledgerName AS BankCash,R.Narration,CONVERT(DECIMAL(18," + FinanceSettingsInfo._roundDecimal + "),R.totalAmount) AS totalAmount FROM dbo.tbl_POSReceiptMaster(NOLOCK) AS R,tbl_AccountLedger(NOLOCK) A WHERE A.ledgerId=R.CashOrBankledgerId  ) AS A ";
             frmlookup.strSearchCondition = "";
             frmlookup.strMasterIdColumnName = "POSReceiptMasterId";
             frmlookup.IntSearchFiledCount = 5;
@@ -1576,8 +1576,8 @@ namespace FinacPOS
                     cmbCashOrBank.SelectedValue = dtMaster.Rows[0]["CashOrBankledgerId"].ToString();
                     txtNarration.Text = dtMaster.Rows[0]["narration"].ToString();
                     lblUser.Text = dtMaster.Rows[0]["userId"].ToString();
-                    txtTotalAmount.Text = Math.Round((decimal.Parse(dtMaster.Rows[0]["totalAmount"].ToString().ToString())), SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-                    decOldAmount = Math.Round((decimal.Parse(dtMaster.Rows[0]["totalAmount"].ToString().ToString())), SettingsInfo._roundDecimal);
+                    txtTotalAmount.Text = Math.Round((decimal.Parse(dtMaster.Rows[0]["totalAmount"].ToString().ToString())), FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    decOldAmount = Math.Round((decimal.Parse(dtMaster.Rows[0]["totalAmount"].ToString().ToString())), FinanceSettingsInfo._roundDecimal);
 
                     DataTable dtDetails = SpDetails.POSReceiptDetailsViewByMasterId(strMasterIdForEdit);
                     if (dtDetails.Rows.Count > 0)
@@ -1682,7 +1682,7 @@ namespace FinacPOS
                             nrow["voucherNo"] = dtbl.Rows[i]["mastervoucherNo"].ToString();
 
                         }
-                        nrow["amount"] = Math.Round((decimal.Parse(dtbl.Rows[i]["credit"].ToString()) / InfoCurrencyConversion.Rate), SettingsInfo._roundDecimal);
+                        nrow["amount"] = Math.Round((decimal.Parse(dtbl.Rows[i]["credit"].ToString()) / InfoCurrencyConversion.Rate), FinanceSettingsInfo._roundDecimal);
                         nrow["currency"] = dtbl.Rows[i]["currencyId"].ToString();
                         nrow["crOrDr"] = "Cr";
                         nrow["currecyConversionId"] = dtbl.Rows[i]["currecyConversionId"].ToString();
@@ -1690,8 +1690,8 @@ namespace FinacPOS
                         nrow["VoucherDate"] = dtbl.Rows[i]["VoucherDate"].ToString();
                         nrow["MasterId"] = dtbl.Rows[i]["MasterId"].ToString();
                         nrow["ReferanceNo"] = dtbl.Rows[i]["ReferanceNo"].ToString();
-                        nrow["BillAmount"] = Math.Round((decimal.Parse(dtbl.Rows[i]["BillAmount"].ToString()) / InfoCurrencyConversion.Rate), SettingsInfo._roundDecimal);
-                        nrow["amountToPay"] = Math.Round((decimal.Parse(dtbl.Rows[i]["balance"].ToString()) / InfoCurrencyConversion.Rate), SettingsInfo._roundDecimal);
+                        nrow["BillAmount"] = Math.Round((decimal.Parse(dtbl.Rows[i]["BillAmount"].ToString()) / InfoCurrencyConversion.Rate), FinanceSettingsInfo._roundDecimal);
+                        nrow["amountToPay"] = Math.Round((decimal.Parse(dtbl.Rows[i]["balance"].ToString()) / InfoCurrencyConversion.Rate), FinanceSettingsInfo._roundDecimal);
 
                     }
                     FillGrid(false);
@@ -1744,7 +1744,7 @@ namespace FinacPOS
                         dgvPartyBalance.Rows[dgvPartyBalance.Rows.Count - 1].Cells["ReferanceNo"].Value = dtbl.Rows[i]["ReferanceNo"].ToString();
                         dgvPartyBalance.Rows[dgvPartyBalance.Rows.Count - 1].Cells["MasterId"].Value = dtbl.Rows[i]["MasterId"].ToString();
                         dgvPartyBalance.Rows[dgvPartyBalance.Rows.Count - 1].Cells["VoucherDate"].Value = dtbl.Rows[i]["VoucherDate"].ToString();
-                        dgvPartyBalance.Rows[dgvPartyBalance.Rows.Count - 1].Cells["BillAmount"].Value = Math.Round((decimal.Parse(dtbl.Rows[i]["BillAmount"].ToString()) / InfoCurrencyConversion.Rate), SettingsInfo._roundDecimal);
+                        dgvPartyBalance.Rows[dgvPartyBalance.Rows.Count - 1].Cells["BillAmount"].Value = Math.Round((decimal.Parse(dtbl.Rows[i]["BillAmount"].ToString()) / InfoCurrencyConversion.Rate), FinanceSettingsInfo._roundDecimal);
                         dgvPartyBalance.Rows[dgvPartyBalance.Rows.Count - 1].Cells["currencyId"].Value = dtbl.Rows[i]["currencyId"].ToString();
 
                         dgvPartyBalance.Rows[dgvPartyBalance.Rows.Count - 1].Cells["crOrDr"].Value = "Cr";

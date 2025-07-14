@@ -65,8 +65,8 @@ namespace FinacPOS
         public static bool _totalProfit;
         public static bool _productDescription;
         public static bool _roundOff;
-        public static int _roundDecimal;
-        public static string _roundDecimalPart;
+       // public static int _roundDecimal;
+       // public static string _roundDecimalPart;
         public static bool _showCompanyHeader;
         public static bool _showCompanyFooter;
         public static byte[] _companyHeader;
@@ -347,18 +347,18 @@ namespace FinacPOS
         public bool RoundOff
         {
             get { return _roundOff; }
-            set { _roundOff = value; }
-        }
-        public int RoundDecimal
-        {
-            get { return _roundDecimal; }
-            set { _roundDecimal = value; }
-        }
-        public string RoundDecimalPart
-        {
-            get { return _roundDecimalPart; }
-            set { _roundDecimalPart = value; }
-        }
+           set { _roundOff = value; }
+         }
+        //public int RoundDecimal
+        //{
+        //    get { return _roundDecimal; }
+        //    set { _roundDecimal = value; }
+        //}
+        //public string RoundDecimalPart
+        //{
+        //    get { return _roundDecimalPart; }
+        //    set { _roundDecimalPart = value; }
+        //}
         public byte[] CompanyHeader
         {
             get { return _companyHeader; }
@@ -374,10 +374,6 @@ namespace FinacPOS
             get { return _showCompanyHeader; }
             set { _showCompanyHeader = value; }
         }
-        public bool ShowCompanyFooter
-        {
-            get { return _showCompanyFooter; }
-            set { _showCompanyFooter = value; }
-        }
+      
     }
 }

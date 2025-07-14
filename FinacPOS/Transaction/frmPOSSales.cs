@@ -12,6 +12,7 @@ using System.IO;
 using OnBarcode.Barcode.WinForms;
 using System.IO.Ports;
 using FinacPOS.Masters;
+using System.Net;
 
 namespace FinacPOS
 {
@@ -213,6 +214,8 @@ namespace FinacPOS
             }
 
         }
+
+        byte[] imageBytes;
         private void AddProductButton(DataRow row)
         {
             //Button btn = new Button
@@ -251,9 +254,11 @@ namespace FinacPOS
                 Tag = row["barcode"]
 
             };
+           
 
-            // Add Image
-            byte[] imageBytes = row["pic"] != DBNull.Value ? (byte[])row["pic"] : null; // (byte[])row["pic"];
+
+            imageBytes = row["pic"] != DBNull.Value ? (byte[])row["pic"] : null; // (byte[])row["pic"];
+          
 
             PictureBox pictureBox = new PictureBox
             {
@@ -420,11 +425,11 @@ namespace FinacPOS
             btnCreditCard.Enabled = true;
             btnUPI.Enabled = true;
             lblTotalQty.Text = "0";
-            txtSubTotal.Text = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-            txtDiscAmt.Text = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-            txtTaxable.Text = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-            txtTaxAmt.Text = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-            txtTotal.Text = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+            txtSubTotal.Text = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+            txtDiscAmt.Text = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+            txtTaxable.Text = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+            txtTaxAmt.Text = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+            txtTotal.Text = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
             txtDiscPer.Text = Math.Round(0m, 2).ToString("0.00");
             txtCustCode.Text = "";
             txtCustomerName.Text = "";
@@ -661,13 +666,13 @@ namespace FinacPOS
                         dr["Barcode"] = dtbl.Rows[i]["barcode"].ToString();
                         dr["ProductName"] = dtbl.Rows[i]["productName"].ToString();
                         dr["Tax%"] = dtbl.Rows[i]["taxPer"].ToString();
-                        dr["Price"] = Convert.ToDecimal(dtbl.Rows[i]["rate"]).ToString(SettingsInfo._roundDecimalPart);
+                        dr["Price"] = Convert.ToDecimal(dtbl.Rows[i]["rate"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                         dr["Qty"] = dtbl.Rows[i]["qty"].ToString();
-                        dr["Gr.Value"] = Convert.ToDecimal(dtbl.Rows[i]["grossValue"]).ToString(SettingsInfo._roundDecimalPart);
-                        dr["Tax Amt"] = Convert.ToDecimal(dtbl.Rows[i]["taxAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                        dr["Disc Amt"] = Convert.ToDecimal(dtbl.Rows[i]["discAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                        dr["NETVALUE"] = Convert.ToDecimal(dtbl.Rows[i]["netAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                        dr["Total Amt"] = Convert.ToDecimal(dtbl.Rows[i]["Amount"]).ToString(SettingsInfo._roundDecimalPart);
+                        dr["Gr.Value"] = Convert.ToDecimal(dtbl.Rows[i]["grossValue"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dr["Tax Amt"] = Convert.ToDecimal(dtbl.Rows[i]["taxAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dr["Disc Amt"] = Convert.ToDecimal(dtbl.Rows[i]["discAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dr["NETVALUE"] = Convert.ToDecimal(dtbl.Rows[i]["netAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dr["Total Amt"] = Convert.ToDecimal(dtbl.Rows[i]["Amount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                         dr["NameArabic"] = dtbl.Rows[i]["ArabicName"].ToString();
                     }
                 }
@@ -791,19 +796,19 @@ namespace FinacPOS
                     dRowDetails["CounterId"] = dtbl.Rows[0]["counterId"].ToString();
                     dRowDetails["UserName"] = dtbl.Rows[0]["userId"].ToString();
                     dRowDetails["InvoiceNo"] = dtbl.Rows[0]["invoiceNo"].ToString();
-                    dRowDetails["SubTotal"] = Convert.ToDecimal(dtbl.Rows[0]["subTotalAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                    dRowDetails["BillDiscount"] = Convert.ToDecimal(dtbl.Rows[0]["billDiscAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                    dRowDetails["TaxableAmount"] = Convert.ToDecimal(dtbl.Rows[0]["taxableAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                    dRowDetails["TaxAmount"] = Convert.ToDecimal(dtbl.Rows[0]["totalTaxAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                    dRowDetails["GrandTotal"] = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"]).ToString(SettingsInfo._roundDecimalPart);
+                    dRowDetails["SubTotal"] = Convert.ToDecimal(dtbl.Rows[0]["subTotalAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dRowDetails["BillDiscount"] = Convert.ToDecimal(dtbl.Rows[0]["billDiscAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dRowDetails["TaxableAmount"] = Convert.ToDecimal(dtbl.Rows[0]["taxableAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dRowDetails["TaxAmount"] = Convert.ToDecimal(dtbl.Rows[0]["totalTaxAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dRowDetails["GrandTotal"] = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                     dRowDetails["AmountInWords"] = "";
                     dRowDetails["BillName"] = "TAX INVOICE COPY / فاتورة ضريبية";
                     dRowDetails["QtyTotal"] = dtbl.Rows[0]["totalQty"].ToString();
-                    dRowDetails["TenderPaid"] = Convert.ToDecimal(dtbl.Rows[0]["paidAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                    dRowDetails["TenderBalance"] = Convert.ToDecimal(dtbl.Rows[0]["balanceAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                    dRowDetails["TenderCash"] = Convert.ToDecimal(dtbl.Rows[0]["cashAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                    dRowDetails["TenderCC"] = Convert.ToDecimal(dtbl.Rows[0]["creditCardAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                    dRowDetails["TenderUPI"] = Convert.ToDecimal(dtbl.Rows[0]["UPIAmount"]).ToString(SettingsInfo._roundDecimalPart);
+                    dRowDetails["TenderPaid"] = Convert.ToDecimal(dtbl.Rows[0]["paidAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dRowDetails["TenderBalance"] = Convert.ToDecimal(dtbl.Rows[0]["balanceAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dRowDetails["TenderCash"] = Convert.ToDecimal(dtbl.Rows[0]["cashAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dRowDetails["TenderCC"] = Convert.ToDecimal(dtbl.Rows[0]["creditCardAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dRowDetails["TenderUPI"] = Convert.ToDecimal(dtbl.Rows[0]["UPIAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
 
                     //------------------------ QR Code Generation ----------- by Navas --------------------
                     Zen.Barcode.CodeQrBarcodeDraw qrBarcode = Zen.Barcode.BarcodeDrawFactory.CodeQr;
@@ -812,9 +817,9 @@ namespace FinacPOS
                     string invoicedate = Convert.ToDateTime(dtbl.Rows[0]["billDate"]).ToString("yyyy-MM-dd");
                     string invoicetime = DateTime.Now.ToString("HH:mm:ss");
                     invoicedate = invoicedate + "T" + invoicetime;
-                    string invoicetotal = Convert.ToDecimal(dtbl.Rows[0]["taxableAmount"]).ToString(SettingsInfo._roundDecimalPart);
+                    string invoicetotal = Convert.ToDecimal(dtbl.Rows[0]["taxableAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                     //txtTotal.Text.Replace("SR", "");
-                    string invoicevatamount = Convert.ToDecimal(dtbl.Rows[0]["totalTaxAmount"]).ToString(SettingsInfo._roundDecimalPart);
+                    string invoicevatamount = Convert.ToDecimal(dtbl.Rows[0]["totalTaxAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                     //txtTaxAmt.Text.Replace("SR", "");
 
                     int lencompanyname = companyname.Length;
@@ -961,13 +966,13 @@ namespace FinacPOS
                         dr["Barcode"] = dtbl.Rows[i]["barcode"].ToString();
                         dr["ProductName"] = dtbl.Rows[i]["productName"].ToString();
                         dr["Tax%"] = dtbl.Rows[i]["taxPer"].ToString();
-                        dr["Price"] = Convert.ToDecimal(dtbl.Rows[i]["rate"]).ToString(SettingsInfo._roundDecimalPart);
+                        dr["Price"] = Convert.ToDecimal(dtbl.Rows[i]["rate"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                         dr["Qty"] = dtbl.Rows[i]["qty"].ToString();
-                        dr["Gr.Value"] = Convert.ToDecimal(dtbl.Rows[i]["grossValue"]).ToString(SettingsInfo._roundDecimalPart);
-                        dr["Tax Amt"] = Convert.ToDecimal(dtbl.Rows[i]["taxAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                        dr["Disc Amt"] = Convert.ToDecimal(dtbl.Rows[i]["discAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                        dr["NETVALUE"] = Convert.ToDecimal(dtbl.Rows[i]["netAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                        dr["Total Amt"] = Convert.ToDecimal(dtbl.Rows[i]["Amount"]).ToString(SettingsInfo._roundDecimalPart);
+                        dr["Gr.Value"] = Convert.ToDecimal(dtbl.Rows[i]["grossValue"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dr["Tax Amt"] = Convert.ToDecimal(dtbl.Rows[i]["taxAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dr["Disc Amt"] = Convert.ToDecimal(dtbl.Rows[i]["discAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dr["NETVALUE"] = Convert.ToDecimal(dtbl.Rows[i]["netAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dr["Total Amt"] = Convert.ToDecimal(dtbl.Rows[i]["Amount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                         dr["NameArabic"] = dtbl.Rows[i]["ArabicName"].ToString();
                     }
                 }
@@ -1076,8 +1081,8 @@ namespace FinacPOS
                     DataTable dtblBalance = salesmaster.GetCustomerCurrentBalance(lblLedgerId.Text.ToString(), PublicVariables._branchId);
                     if (dtblBalance.Rows.Count > 0)
                     {
-                        dRowDetails["prevBalance"] = Convert.ToDecimal(dtblBalance.Rows[0]["currentBal"]).ToString(SettingsInfo._roundDecimalPart);
-                        dRowDetails["totalBalance"] = Convert.ToDecimal(decimal.Parse(dtblBalance.Rows[0]["currentBal"].ToString()) + decimal.Parse(txtTotal.Text)).ToString(SettingsInfo._roundDecimalPart);
+                        dRowDetails["prevBalance"] = Convert.ToDecimal(dtblBalance.Rows[0]["currentBal"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dRowDetails["totalBalance"] = Convert.ToDecimal(decimal.Parse(dtblBalance.Rows[0]["currentBal"].ToString()) + decimal.Parse(txtTotal.Text)).ToString(FinanceSettingsInfo._roundDecimalPart);
                     }
                     else
                     {
@@ -1181,8 +1186,8 @@ namespace FinacPOS
                 string invoicedate = DateTime.Parse(lblBillDate.Text.ToString()).ToString("yyyy-MM-dd");
                 string invoicetime = DateTime.Now.ToString("HH:mm:ss");
                 invoicedate = invoicedate + "T" + invoicetime;
-                string invoicetotal = Convert.ToDecimal(txtTotal.Text).ToString(SettingsInfo._roundDecimalPart);
-                string invoicevatamount = Convert.ToDecimal(txtTaxAmt.Text).ToString(SettingsInfo._roundDecimalPart);
+                string invoicetotal = Convert.ToDecimal(txtTotal.Text).ToString(FinanceSettingsInfo._roundDecimalPart);
+                string invoicevatamount = Convert.ToDecimal(txtTaxAmt.Text).ToString(FinanceSettingsInfo._roundDecimalPart);
 
                 int lencompanyname = companyname.Length;
                 int lenvatno = vatno.Length;
@@ -1235,16 +1240,16 @@ namespace FinacPOS
                     dRowDetails["CounterId"] = dtbl.Rows[0]["counterId"].ToString();
                     dRowDetails["UserName"] = dtbl.Rows[0]["userId"].ToString();
                     dRowDetails["InvoiceNo"] = dtbl.Rows[0]["invoiceNo"].ToString();
-                    dRowDetails["SubTotal"] = Convert.ToDecimal(dtbl.Rows[0]["subTotalAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                    dRowDetails["BillDiscount"] = Convert.ToDecimal(dtbl.Rows[0]["billDiscAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                    dRowDetails["TaxableAmount"] = Convert.ToDecimal(dtbl.Rows[0]["taxableAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                    dRowDetails["TaxAmount"] = Convert.ToDecimal(dtbl.Rows[0]["totalTaxAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                    dRowDetails["GrandTotal"] = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"]).ToString(SettingsInfo._roundDecimalPart);
+                    dRowDetails["SubTotal"] = Convert.ToDecimal(dtbl.Rows[0]["subTotalAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dRowDetails["BillDiscount"] = Convert.ToDecimal(dtbl.Rows[0]["billDiscAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dRowDetails["TaxableAmount"] = Convert.ToDecimal(dtbl.Rows[0]["taxableAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dRowDetails["TaxAmount"] = Convert.ToDecimal(dtbl.Rows[0]["totalTaxAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dRowDetails["GrandTotal"] = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                     dRowDetails["AmountInWords"] = "";
                    // dRowDetails["BillName"] = "TAX INVOICE COPY / فاتورة ضريبية";
                     dRowDetails["QtyTotal"] = dtbl.Rows[0]["totalQty"].ToString();
-                    dRowDetails["TenderPaid"] = Convert.ToDecimal(dtbl.Rows[0]["paidAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                    dRowDetails["TenderBalance"] = Convert.ToDecimal(dtbl.Rows[0]["balanceAmount"]).ToString(SettingsInfo._roundDecimalPart);
+                    dRowDetails["TenderPaid"] = Convert.ToDecimal(dtbl.Rows[0]["paidAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dRowDetails["TenderBalance"] = Convert.ToDecimal(dtbl.Rows[0]["balanceAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                     if (dtbl.Rows[0]["CustomerVatNo"].ToString() != "")
                     {
                         dRowDetails["BillName"] = "TAX INVOICE COPY / فاتورة ضريبية";
@@ -1254,30 +1259,30 @@ namespace FinacPOS
                         dRowDetails["BillName"] = "SIMPLIFIED TAX INVOICE COPY / فاتورة ضريبية مبسطة";
                     }
 
-                    if (Convert.ToDecimal(dtbl.Rows[0]["cashAmount"]).ToString(SettingsInfo._roundDecimalPart) != "0.00")
+                    if (Convert.ToDecimal(dtbl.Rows[0]["cashAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart) != "0.00")
                     {
                         dRowDetails["TenderCashText"] = "Cash Tendered";
-                        dRowDetails["TenderCash"] = Convert.ToDecimal(dtbl.Rows[0]["cashAmount"]).ToString(SettingsInfo._roundDecimalPart);
+                        dRowDetails["TenderCash"] = Convert.ToDecimal(dtbl.Rows[0]["cashAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                     }
                     else
                     {
                         dRowDetails["TenderCashText"] = "";
                         dRowDetails["TenderCash"] = "";
                     }
-                    if (Convert.ToDecimal(dtbl.Rows[0]["creditCardAmount"]).ToString(SettingsInfo._roundDecimalPart) != "0.00")
+                    if (Convert.ToDecimal(dtbl.Rows[0]["creditCardAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart) != "0.00")
                     {
                         dRowDetails["TenderCCText"] = "CC Tendered";
-                        dRowDetails["TenderCC"] = Convert.ToDecimal(dtbl.Rows[0]["creditCardAmount"]).ToString(SettingsInfo._roundDecimalPart);
+                        dRowDetails["TenderCC"] = Convert.ToDecimal(dtbl.Rows[0]["creditCardAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                     }
                     else
                     {
                         dRowDetails["TenderCCText"] = "";
                         dRowDetails["TenderCC"] = "";
                     }
-                    if (Convert.ToDecimal(dtbl.Rows[0]["UPIAmount"]).ToString(SettingsInfo._roundDecimalPart) != "0.00")
+                    if (Convert.ToDecimal(dtbl.Rows[0]["UPIAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart) != "0.00")
                     {
                         dRowDetails["TenderUPIText"] = "UPI Tendered";
-                        dRowDetails["TenderUPI"] = Convert.ToDecimal(dtbl.Rows[0]["UPIAmount"]).ToString(SettingsInfo._roundDecimalPart);
+                        dRowDetails["TenderUPI"] = Convert.ToDecimal(dtbl.Rows[0]["UPIAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                     }
                     else
                     {
@@ -1308,8 +1313,8 @@ namespace FinacPOS
                     DataTable dtblBalance = salesmaster.GetCustomerCurrentBalance(dtbl.Rows[0]["customerCode"].ToString(), PublicVariables._branchId);
                     if (dtblBalance.Rows.Count > 0)
                     {
-                        dRowDetails["prevBalance"] = Convert.ToDecimal(decimal.Parse(dtblBalance.Rows[0]["currentBal"].ToString()) - Convert.ToDecimal(dtbl.Rows[0]["totalAmount"].ToString())).ToString(SettingsInfo._roundDecimalPart);
-                        dRowDetails["totalBalance"] = decimal.Parse(dtblBalance.Rows[0]["currentBal"].ToString()).ToString(SettingsInfo._roundDecimalPart);
+                        dRowDetails["prevBalance"] = Convert.ToDecimal(decimal.Parse(dtblBalance.Rows[0]["currentBal"].ToString()) - Convert.ToDecimal(dtbl.Rows[0]["totalAmount"].ToString())).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dRowDetails["totalBalance"] = decimal.Parse(dtblBalance.Rows[0]["currentBal"].ToString()).ToString(FinanceSettingsInfo._roundDecimalPart);
                     }
                     else
                     {
@@ -1317,7 +1322,7 @@ namespace FinacPOS
                         dRowDetails["totalBalance"] = 0;
                     }
 
-                    dRowDetails["BillAmount"] = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"]).ToString(SettingsInfo._roundDecimalPart);
+                    dRowDetails["BillAmount"] = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
 
                     //////------------------------ QR Code Generation ----------- by Navas --------------------
                     ////Zen.Barcode.CodeQrBarcodeDraw qrBarcode = Zen.Barcode.BarcodeDrawFactory.CodeQr;
@@ -1362,8 +1367,8 @@ namespace FinacPOS
                     string invoicedate = DateTime.Parse(dtbl.Rows[0]["billDate"].ToString()).ToString("yyyy-MM-dd");
                     string invoicetime = DateTime.Now.ToString("HH:mm:ss");
                     invoicedate = invoicedate + "T" + invoicetime;
-                    string invoicetotal = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                    string invoicevatamount = Convert.ToDecimal(dtbl.Rows[0]["totalTaxAmount"]).ToString(SettingsInfo._roundDecimalPart);
+                    string invoicetotal = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    string invoicevatamount = Convert.ToDecimal(dtbl.Rows[0]["totalTaxAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
 
                     int lencompanyname = companyname.Length;
                     int lenvatno = vatno.Length;
@@ -1669,8 +1674,8 @@ namespace FinacPOS
                 lblTenderBalanceAmount.Visible = true;
                 lblTenderTotal.Visible = true;
                 lblTenderBalance.Visible = true;
-                lblTenderTotalAmount.Text = decTotalTenderAmt.ToString(SettingsInfo._roundDecimalPart);
-                lblTenderBalanceAmount.Text = decBalanceAmt.ToString(SettingsInfo._roundDecimalPart);
+                lblTenderTotalAmount.Text = decTotalTenderAmt.ToString(FinanceSettingsInfo._roundDecimalPart);
+                lblTenderBalanceAmount.Text = decBalanceAmt.ToString(FinanceSettingsInfo._roundDecimalPart);
 
                 if (counterInfo.DisplayStatus == true)
                 {
@@ -1693,7 +1698,7 @@ namespace FinacPOS
 MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                         {
                             //FillDatatatablesforPrint(decTotalTenderAmt.ToString(SettingsInfo._roundDecimalPart), decBalanceAmt.ToString(SettingsInfo._roundDecimalPart), decCashAmt.ToString(SettingsInfo._roundDecimalPart), decCreditCardAmt.ToString(SettingsInfo._roundDecimalPart), decUPIAmt.ToString(SettingsInfo._roundDecimalPart), false, "", "");
-                            FillDatatatablesforDevPrint(decTotalTenderAmt.ToString(SettingsInfo._roundDecimalPart), decBalanceAmt.ToString(SettingsInfo._roundDecimalPart), decCashAmt.ToString(SettingsInfo._roundDecimalPart), decCreditCardAmt.ToString(SettingsInfo._roundDecimalPart), decUPIAmt.ToString(SettingsInfo._roundDecimalPart), false, "", "", strTenderType);
+                            FillDatatatablesforDevPrint(decTotalTenderAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decBalanceAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decCashAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decCreditCardAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decUPIAmt.ToString(FinanceSettingsInfo._roundDecimalPart), false, "", "", strTenderType);
 
                         }
 
@@ -1789,8 +1794,8 @@ MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                         }
                     }
                 }
-                dTaxableTotal = Math.Round(dTaxableTotal, SettingsInfo._roundDecimal);
-                dTotal = Math.Round(dTotal, SettingsInfo._roundDecimal);
+                dTaxableTotal = Math.Round(dTaxableTotal,FinanceSettingsInfo._roundDecimal);
+                dTotal = Math.Round(dTotal,FinanceSettingsInfo._roundDecimal);
                 dtbl.Rows[i]["amt"] = dTotal.ToString();
                 dtbl.Rows[i]["taxableAmt"] = dTaxableTotal.ToString();
             }
@@ -1821,8 +1826,8 @@ MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                         dTaxableTotal = dTaxableTotal + (decimal.Parse(dtblProductDetails.Rows[p]["netAmount"].ToString()) - dcItemBillDisc);
                     }
                 }
-                dTaxableTotal = Math.Round(dTaxableTotal, SettingsInfo._roundDecimal);
-                dTotal = Math.Round(dTotal, SettingsInfo._roundDecimal);
+                dTaxableTotal = Math.Round(dTaxableTotal,FinanceSettingsInfo._roundDecimal);
+                dTotal = Math.Round(dTotal,FinanceSettingsInfo._roundDecimal);
                 dtbl.Rows[i]["amt"] = dTotal.ToString();
                 dtbl.Rows[i]["taxableAmt"] = dTaxableTotal.ToString();
             }
@@ -2412,11 +2417,11 @@ MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                     }
                 }
 
-                lblTotalQty.Text = Math.Round(dcQtyTotal, SettingsInfo._roundDecimal).ToString();
-                txtSubTotal.Text = Math.Round(dcSubTotal, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-                txtTaxable.Text = Math.Round(dcTaxable, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-                txtTaxAmt.Text = Math.Round(dcTaxAmt, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-                txtTotal.Text = Math.Round(dcTotal, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                lblTotalQty.Text = Math.Round(dcQtyTotal,FinanceSettingsInfo._roundDecimal).ToString();
+                txtSubTotal.Text = Math.Round(dcSubTotal,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                txtTaxable.Text = Math.Round(dcTaxable,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                txtTaxAmt.Text = Math.Round(dcTaxAmt,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                txtTotal.Text = Math.Round(dcTotal,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
             }
         }
@@ -2445,7 +2450,7 @@ MessageBoxDefaultButton.Button1) == DialogResult.Yes)
             try { dTaxPerc = decimal.Parse(dgvProduct.Rows[inIndex].Cells["TaxPerc"].Value.ToString()); }
             catch { }
 
-            dgvProduct.Rows[inIndex].Cells["DiscAmt"].Value = Math.Round(dDiscAmt, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+            dgvProduct.Rows[inIndex].Cells["DiscAmt"].Value = Math.Round(dDiscAmt,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
 
             dGrossValue = dQty * dRate;
@@ -2456,9 +2461,9 @@ MessageBoxDefaultButton.Button1) == DialogResult.Yes)
 
             if (dTaxPerc != 0)
             {
-                dTaxAmt = Math.Round((((dNetValue - dBillItemDisc) * dTaxPerc) / (100)), SettingsInfo._roundDecimal);
+                dTaxAmt = Math.Round((((dNetValue - dBillItemDisc) * dTaxPerc) / (100)),FinanceSettingsInfo._roundDecimal);
 
-                dgvProduct.Rows[inIndex].Cells["TaxAmt"].Value = dTaxAmt.ToString(SettingsInfo._roundDecimalPart);
+                dgvProduct.Rows[inIndex].Cells["TaxAmt"].Value = dTaxAmt.ToString(FinanceSettingsInfo._roundDecimalPart);
             }
             else
             {
@@ -2479,10 +2484,10 @@ MessageBoxDefaultButton.Button1) == DialogResult.Yes)
             }
             //
 
-            dgvProduct.Rows[inIndex].Cells["GrossValue"].Value = Math.Round(dGrossValue, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-            dgvProduct.Rows[inIndex].Cells["NetValue"].Value = Math.Round(dNetValue, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+            dgvProduct.Rows[inIndex].Cells["GrossValue"].Value = Math.Round(dGrossValue,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+            dgvProduct.Rows[inIndex].Cells["NetValue"].Value = Math.Round(dNetValue,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
-            dgvProduct.Rows[inIndex].Cells["Total"].Value = ((dNetValue - dBillItemDisc) + dTaxAmt).ToString(SettingsInfo._roundDecimalPart);
+            dgvProduct.Rows[inIndex].Cells["Total"].Value = ((dNetValue - dBillItemDisc) + dTaxAmt).ToString(FinanceSettingsInfo._roundDecimalPart);
 
             CalculateBillTotal();
 
@@ -2508,7 +2513,7 @@ MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                         decimal.TryParse(dgvProduct.Rows[inIndex].Cells["SalesRate"].Value.ToString(), out dcRate);
                     }
 
-                    dgvProduct.Rows[inIndex].Cells["SalesRate"].Value = Math.Round(dcRate, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[inIndex].Cells["SalesRate"].Value = Math.Round(dcRate,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
 
                     if (SettingsInfo._taxType == "Applicable to product" && dcRate != 0)
@@ -2526,7 +2531,7 @@ MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                                 dTaxAmt = ((dcRate * dTaxPerc) / (dTaxPerc + 100));
 
                                 dcTaxExcludedRate = dcRate - dTaxAmt;
-                                dcTaxExcludedRate = Math.Round(dcTaxExcludedRate, SettingsInfo._roundDecimal);
+                                dcTaxExcludedRate = Math.Round(dcTaxExcludedRate,FinanceSettingsInfo._roundDecimal);
                             }
 
                         }
@@ -2567,21 +2572,21 @@ MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                         dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["Unit"].Value = drowDetails["unitName"].ToString();
                         dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["BaseUnitId"].Value = drowDetails["BaseUnitId"].ToString();
                         dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["UnitConversion"].Value = drowDetails["ConversionFactor"].ToString();
-                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["SalesRate"].Value = Convert.ToDecimal(drowDetails["rate"]).ToString(SettingsInfo._roundDecimalPart);
-                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["ExcludeRate"].Value = Convert.ToDecimal(drowDetails["excludeRate"]).ToString(SettingsInfo._roundDecimalPart);
-                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["PurchaseRate"].Value = Convert.ToDecimal(drowDetails["costPrice"]).ToString(SettingsInfo._roundDecimalPart);
-                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["GrossValue"].Value = Convert.ToDecimal(drowDetails["grossValue"]).ToString(SettingsInfo._roundDecimalPart);
-                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["DiscAmt"].Value = Convert.ToDecimal(drowDetails["discAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["NetValue"].Value = Convert.ToDecimal(drowDetails["netAmount"]).ToString(SettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["SalesRate"].Value = Convert.ToDecimal(drowDetails["rate"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["ExcludeRate"].Value = Convert.ToDecimal(drowDetails["excludeRate"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["PurchaseRate"].Value = Convert.ToDecimal(drowDetails["costPrice"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["GrossValue"].Value = Convert.ToDecimal(drowDetails["grossValue"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["DiscAmt"].Value = Convert.ToDecimal(drowDetails["discAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["NetValue"].Value = Convert.ToDecimal(drowDetails["netAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                         dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["TaxId"].Value = drowDetails["taxId"].ToString();
                         dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["ArabicName"].Value = drowDetails["ArabicName"].ToString();
                         dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["TaxPerc"].Value = drowDetails["taxPer"].ToString();
-                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["TaxAmt"].Value = Convert.ToDecimal(drowDetails["taxAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["Total"].Value = Convert.ToDecimal(drowDetails["Amount"]).ToString(SettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["TaxAmt"].Value = Convert.ToDecimal(drowDetails["taxAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["Total"].Value = Convert.ToDecimal(drowDetails["Amount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                         dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["BillDiscIndProductAmt"].Value = drowDetails["billDiscAmountperItem"].ToString();
 
-                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["amountBeforeDisc"].Value = Convert.ToDecimal(drowDetails["amountBeforeDisc"]).ToString(SettingsInfo._roundDecimalPart);
-                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["rateDiscAmount"].Value = Convert.ToDecimal(drowDetails["rateDiscAmount"]).ToString(SettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["amountBeforeDisc"].Value = Convert.ToDecimal(drowDetails["amountBeforeDisc"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["rateDiscAmount"].Value = Convert.ToDecimal(drowDetails["rateDiscAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                         dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["offerId"].Value = drowDetails["offerId"].ToString();
 
 
@@ -2884,9 +2889,9 @@ MessageBoxDefaultButton.Button1) == DialogResult.Yes)
 
                     if (dTaxPerc != 0)
                     {
-                        dTaxAmt = Math.Round(((dGrossValue * dTaxPerc) / (100)), SettingsInfo._roundDecimal);
+                        dTaxAmt = Math.Round(((dGrossValue * dTaxPerc) / (100)),FinanceSettingsInfo._roundDecimal);
 
-                        dgvProduct.Rows[Rownumber].Cells["TaxAmt"].Value = dTaxAmt.ToString(SettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[Rownumber].Cells["TaxAmt"].Value = dTaxAmt.ToString(FinanceSettingsInfo._roundDecimalPart);
                     }
                     else
                     {
@@ -2906,13 +2911,13 @@ MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                     }
                     //
 
-                    dgvProduct.Rows[Rownumber].Cells["GrossValue"].Value = Math.Round(dGrossValue, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-                    dgvProduct.Rows[Rownumber].Cells["DiscAmt"].Value = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[Rownumber].Cells["GrossValue"].Value = Math.Round(dGrossValue,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[Rownumber].Cells["DiscAmt"].Value = Math.Round(0m,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
-                    dgvProduct.Rows[Rownumber].Cells["NetValue"].Value = Math.Round(dGrossValue, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[Rownumber].Cells["NetValue"].Value = Math.Round(dGrossValue,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
 
-                    dgvProduct.Rows[Rownumber].Cells["Total"].Value = (dGrossValue + dTaxAmt).ToString(SettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[Rownumber].Cells["Total"].Value = (dGrossValue + dTaxAmt).ToString(FinanceSettingsInfo._roundDecimalPart);
 
                     CalculateBillTotal();
 
@@ -2981,7 +2986,7 @@ MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                     if (dtblRate.Rows.Count > 0)
                     {
                         dRt = Convert.ToDecimal(dtblRate.Rows[0]["rate"]);
-                        dgvProduct.Rows[dgvCurRow].Cells["PurchaseRate"].Value = (dRt * decUnitConversion).ToString(SettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[dgvCurRow].Cells["PurchaseRate"].Value = (dRt * decUnitConversion).ToString(FinanceSettingsInfo._roundDecimalPart);
                     
                     }
                     else
@@ -2991,9 +2996,9 @@ MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                     }
 
 
-                    dgvProduct.Rows[dgvCurRow].Cells["SalesRate"].Value = Math.Round(decSalesPrice, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-                    dgvProduct.Rows[dgvCurRow].Cells["amountBeforeDisc"].Value = Math.Round(amountBeforeDisc, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-                    dgvProduct.Rows[dgvCurRow].Cells["rateDiscAmount"].Value = Math.Round(rateDiscAmount, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[dgvCurRow].Cells["SalesRate"].Value = Math.Round(decSalesPrice,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[dgvCurRow].Cells["amountBeforeDisc"].Value = Math.Round(amountBeforeDisc,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[dgvCurRow].Cells["rateDiscAmount"].Value = Math.Round(rateDiscAmount,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
                     dgvProduct.Rows[dgvCurRow].Cells["offerId"].Value = offerId;
                     if (rateDiscAmount > 0)
                         dgvProduct.Rows[dgvCurRow].DefaultCellStyle.ForeColor = Color.Red;
@@ -3034,9 +3039,9 @@ MessageBoxDefaultButton.Button1) == DialogResult.Yes)
 
                     if (dTaxPerc != 0)
                     {
-                        dTaxAmt = Math.Round(((dGrossValue * dTaxPerc) / (100)), SettingsInfo._roundDecimal);
+                        dTaxAmt = Math.Round(((dGrossValue * dTaxPerc) / (100)),FinanceSettingsInfo._roundDecimal);
 
-                        dgvProduct.Rows[dgvCurRow].Cells["TaxAmt"].Value = dTaxAmt.ToString(SettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[dgvCurRow].Cells["TaxAmt"].Value = dTaxAmt.ToString(FinanceSettingsInfo._roundDecimalPart);
                     }
                     else
                     {
@@ -3056,13 +3061,13 @@ MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                     }
                     //
 
-                    dgvProduct.Rows[dgvCurRow].Cells["GrossValue"].Value = Math.Round(dGrossValue, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-                    dgvProduct.Rows[dgvCurRow].Cells["DiscAmt"].Value = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[dgvCurRow].Cells["GrossValue"].Value = Math.Round(dGrossValue,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[dgvCurRow].Cells["DiscAmt"].Value = Math.Round(0m,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
-                    dgvProduct.Rows[dgvCurRow].Cells["NetValue"].Value = Math.Round(dGrossValue, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[dgvCurRow].Cells["NetValue"].Value = Math.Round(dGrossValue,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
 
-                    dgvProduct.Rows[dgvCurRow].Cells["Total"].Value = (dGrossValue + dTaxAmt).ToString(SettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[dgvCurRow].Cells["Total"].Value = (dGrossValue + dTaxAmt).ToString(FinanceSettingsInfo._roundDecimalPart);
 
                     CalculateBillTotal();
 
@@ -3207,12 +3212,12 @@ MessageBoxDefaultButton.Button1) == DialogResult.Yes)
 
             if (dcDiscAmt != 0)
             {
-                txtDiscAmt.Text = dcDiscAmt.ToString(SettingsInfo._roundDecimalPart);
+                txtDiscAmt.Text = dcDiscAmt.ToString(FinanceSettingsInfo._roundDecimalPart);
                 if (dcDiscAmt != 0 && Convert.ToDecimal(txtSubTotal.Text.ToString()) != 0)
                 {
                     dcDiscAmt = dcDiscAmt * 100 / Convert.ToDecimal(txtSubTotal.Text.ToString());
                 }
-                dcDiscAmt = Math.Round(dcDiscAmt, SettingsInfo._roundDecimal);
+                dcDiscAmt = Math.Round(dcDiscAmt,FinanceSettingsInfo._roundDecimal);
                 txtDiscPer.Text = dcDiscAmt.ToString("0.00");
 
             }
@@ -3221,7 +3226,7 @@ MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                 if (strFocusedControl != "txtDiscAmt" && strFocusedControl != "txtDiscPer")
                 {
                     txtDiscPer.Text = dcDiscAmt.ToString("0.00");
-                    txtDiscAmt.Text = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                    txtDiscAmt.Text = Math.Round(0m,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
                 }
 
             }
@@ -3243,15 +3248,15 @@ MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                 {
                     dcDiscPer = Convert.ToDecimal(txtSubTotal.Text.ToString()) * dcDiscPer / 100;
                 }
-                dcDiscPer = Math.Round(dcDiscPer, SettingsInfo._roundDecimal);
-                txtDiscAmt.Text = dcDiscPer.ToString(SettingsInfo._roundDecimalPart);
+                dcDiscPer = Math.Round(dcDiscPer,FinanceSettingsInfo._roundDecimal);
+                txtDiscAmt.Text = dcDiscPer.ToString(FinanceSettingsInfo._roundDecimalPart);
             }
             else
             {
                 if (strFocusedControl != "txtDiscAmt" && strFocusedControl != "txtDiscPer")
                 {
                     txtDiscPer.Text = dcDiscPer.ToString("0.00");
-                    txtDiscAmt.Text = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                    txtDiscAmt.Text = Math.Round(0m,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
                 }
 
             }
@@ -3445,7 +3450,7 @@ MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                         catch { dSalesRate = 0; }
 
 
-                        dgvProduct.Rows[CurEditRowIndex].Cells[CurColIndex].Value = Math.Round(dSalesRate, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[CurEditRowIndex].Cells[CurColIndex].Value = Math.Round(dSalesRate,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
 
                         DataGridViewCellEventArgs x = new DataGridViewCellEventArgs(CurColIndex, CurEditRowIndex);
@@ -3462,7 +3467,7 @@ MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                         catch { dLineDisc = 0; }
 
 
-                        dgvProduct.Rows[CurEditRowIndex].Cells[CurColIndex].Value = Math.Round(dLineDisc, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[CurEditRowIndex].Cells[CurColIndex].Value = Math.Round(dLineDisc,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
 
                         DataGridViewCellEventArgs x = new DataGridViewCellEventArgs(CurColIndex, CurEditRowIndex);
@@ -3908,7 +3913,7 @@ MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                         catch { dSalesRate = 0; }
 
 
-                        dgvProduct.Rows[CurEditRowIndex].Cells[CurColIndex].Value = Math.Round(dSalesRate, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[CurEditRowIndex].Cells[CurColIndex].Value = Math.Round(dSalesRate,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
 
                         DataGridViewCellEventArgs x = new DataGridViewCellEventArgs(CurColIndex, CurEditRowIndex);
@@ -3926,7 +3931,7 @@ MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                         catch { dLineDisc = 0; }
 
 
-                        dgvProduct.Rows[CurEditRowIndex].Cells[CurColIndex].Value = Math.Round(dLineDisc, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[CurEditRowIndex].Cells[CurColIndex].Value = Math.Round(dLineDisc,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
 
                         DataGridViewCellEventArgs x = new DataGridViewCellEventArgs(CurColIndex, CurEditRowIndex);
@@ -4829,15 +4834,15 @@ MessageBoxDefaultButton.Button1) == DialogResult.Yes)
             decimal dcVatAmount = 0;
             if (taxPerc != 0)
             {
-                dcVatAmount = Math.Round(((ExcludedRate * taxPerc) / (100)), SettingsInfo._roundDecimal);
+                dcVatAmount = Math.Round(((ExcludedRate * taxPerc) / (100)),FinanceSettingsInfo._roundDecimal);
             }
             else
             {
                 dcVatAmount = 0;
             }
             dcTaxIncludedRate = ExcludedRate + dcVatAmount;
-            // lblexcludeRate.Text = Math.Round(decimal.Parse(ExcludedRate.ToString()), SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-            // lblincludeRate.Text = Math.Round(decimal.Parse(dcTaxIncludedRate.ToString()), SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+            // lblexcludeRate.Text = Math.Round(decimal.Parse(ExcludedRate.ToString()),FinanceSettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+            // lblincludeRate.Text = Math.Round(decimal.Parse(dcTaxIncludedRate.ToString()),FinanceSettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
             return dcTaxIncludedRate;
         }
 
@@ -4866,7 +4871,7 @@ MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                     taxperc = decimal.Parse(dtbltx.Rows[0]["rate"].ToString());
                 }
                 IncludeRate = CalculateIncludeRateForgrid(purchaseRate, taxperc);
-                IncludeRate =Convert.ToDecimal(Math.Round(IncludeRate, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart));
+                IncludeRate =Convert.ToDecimal(Math.Round(IncludeRate,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart));
               //  decimal decInculedTaxPurchaseRate = purchaseRate + IncludeRate;
                 dgvProduct.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText ="PR: " + purchaseRate.ToString() + " (Excl. Tax), " + IncludeRate.ToString() + " (Incl. Tax), Stock: " + Stock.ToString();
 

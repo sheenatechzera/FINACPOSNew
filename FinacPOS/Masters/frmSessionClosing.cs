@@ -54,73 +54,73 @@ namespace FinacPOS
                 switch (sessionInfo.Particular)
                 {
                     case "CASHSALES":
-                        lblCashSales.Text = sessionInfo.AMOUNT.ToString(SettingsInfo._roundDecimalPart);
-                        lblCashSalesSummery.Text = sessionInfo.AMOUNT.ToString(SettingsInfo._roundDecimalPart);
+                        lblCashSales.Text = sessionInfo.AMOUNT.ToString(FinanceSettingsInfo._roundDecimalPart);
+                        lblCashSalesSummery.Text = sessionInfo.AMOUNT.ToString(FinanceSettingsInfo._roundDecimalPart);
                         break;
                     case "CARDSALES":
-                        lblCardSales.Text = sessionInfo.AMOUNT.ToString(SettingsInfo._roundDecimalPart);
+                        lblCardSales.Text = sessionInfo.AMOUNT.ToString(FinanceSettingsInfo._roundDecimalPart);
                         break;
                     case "UPISALES":
-                        lblUPISales.Text = sessionInfo.AMOUNT.ToString(SettingsInfo._roundDecimalPart);
+                        lblUPISales.Text = sessionInfo.AMOUNT.ToString(FinanceSettingsInfo._roundDecimalPart);
                         break;
                     case "CREDITSALES":
-                        lblCreditSales.Text = sessionInfo.AMOUNT.ToString(SettingsInfo._roundDecimalPart);
+                        lblCreditSales.Text = sessionInfo.AMOUNT.ToString(FinanceSettingsInfo._roundDecimalPart);
                         break;
                     case "TOTALSALES":
-                        lblTotalSales.Text = sessionInfo.AMOUNT.ToString(SettingsInfo._roundDecimalPart);
-                        lblTotalSalesSummery.Text = sessionInfo.AMOUNT.ToString(SettingsInfo._roundDecimalPart);
+                        lblTotalSales.Text = sessionInfo.AMOUNT.ToString(FinanceSettingsInfo._roundDecimalPart);
+                        lblTotalSalesSummery.Text = sessionInfo.AMOUNT.ToString(FinanceSettingsInfo._roundDecimalPart);
                         break;
                     case "CASHRETURN":
-                        lblCashRefund.Text = sessionInfo.AMOUNT.ToString(SettingsInfo._roundDecimalPart);
-                        lblCashRefundSummery.Text = sessionInfo.AMOUNT.ToString(SettingsInfo._roundDecimalPart);
+                        lblCashRefund.Text = sessionInfo.AMOUNT.ToString(FinanceSettingsInfo._roundDecimalPart);
+                        lblCashRefundSummery.Text = sessionInfo.AMOUNT.ToString(FinanceSettingsInfo._roundDecimalPart);
                         break;
                     case "CNRETURN":
-                        lblCreditNote.Text = sessionInfo.AMOUNT.ToString(SettingsInfo._roundDecimalPart);
+                        lblCreditNote.Text = sessionInfo.AMOUNT.ToString(FinanceSettingsInfo._roundDecimalPart);
                         break;
                     case "CREDITRETURN":
-                        lblcreditReturn.Text = sessionInfo.AMOUNT.ToString(SettingsInfo._roundDecimalPart);
+                        lblcreditReturn.Text = sessionInfo.AMOUNT.ToString(FinanceSettingsInfo._roundDecimalPart);
                         break;
                     case "TOTALRETURN":
-                        lbltotalReturn.Text = sessionInfo.AMOUNT.ToString(SettingsInfo._roundDecimalPart);
-                        lblTotalReturnSummery.Text = sessionInfo.AMOUNT.ToString(SettingsInfo._roundDecimalPart);
+                        lbltotalReturn.Text = sessionInfo.AMOUNT.ToString(FinanceSettingsInfo._roundDecimalPart);
+                        lblTotalReturnSummery.Text = sessionInfo.AMOUNT.ToString(FinanceSettingsInfo._roundDecimalPart);
                         break;
                     case "CASHRECEIPT":
-                        lblcashreceipt.Text = sessionInfo.AMOUNT.ToString(SettingsInfo._roundDecimalPart);
+                        lblcashreceipt.Text = sessionInfo.AMOUNT.ToString(FinanceSettingsInfo._roundDecimalPart);
                         break;
                     case "UPIRECEIPT":
-                        lblupireceipt.Text = sessionInfo.AMOUNT.ToString(SettingsInfo._roundDecimalPart);
+                        lblupireceipt.Text = sessionInfo.AMOUNT.ToString(FinanceSettingsInfo._roundDecimalPart);
                         break;
                     case "CARDRECEIPT":
-                        lblcardreceipt.Text = sessionInfo.AMOUNT.ToString(SettingsInfo._roundDecimalPart);
+                        lblcardreceipt.Text = sessionInfo.AMOUNT.ToString(FinanceSettingsInfo._roundDecimalPart);
                         break;
                     case "TOTALRECEIPT":
-                        lblTotalReceipt.Text = sessionInfo.AMOUNT.ToString(SettingsInfo._roundDecimalPart);
+                        lblTotalReceipt.Text = sessionInfo.AMOUNT.ToString(FinanceSettingsInfo._roundDecimalPart);
                         break;
                     case "CASHPAYMENT":
-                        lblcashpayment.Text = sessionInfo.AMOUNT.ToString(SettingsInfo._roundDecimalPart);
+                        lblcashpayment.Text = sessionInfo.AMOUNT.ToString(FinanceSettingsInfo._roundDecimalPart);
                         break;
                     case "UPIPAYMENT":
-                        lblupipayment.Text = sessionInfo.AMOUNT.ToString(SettingsInfo._roundDecimalPart);
+                        lblupipayment.Text = sessionInfo.AMOUNT.ToString(FinanceSettingsInfo._roundDecimalPart);
                         break;
                     case "CARDPAYMENT":
-                        lblcardpayment.Text = sessionInfo.AMOUNT.ToString(SettingsInfo._roundDecimalPart);
+                        lblcardpayment.Text = sessionInfo.AMOUNT.ToString(FinanceSettingsInfo._roundDecimalPart);
                         break;
                     case "TOTALPAYMENT":
-                        lblTotalPayment.Text = sessionInfo.AMOUNT.ToString(SettingsInfo._roundDecimalPart);
+                        lblTotalPayment.Text = sessionInfo.AMOUNT.ToString(FinanceSettingsInfo._roundDecimalPart);
                         break;
                     case "OB":
-                        lblOB.Text = sessionInfo.AMOUNT.ToString(SettingsInfo._roundDecimalPart);
+                        lblOB.Text = sessionInfo.AMOUNT.ToString(FinanceSettingsInfo._roundDecimalPart);
                         break;
                 }
                 
             }
-            lblNetSales.Text = (Convert.ToDecimal(lblTotalSales.Text) - Convert.ToDecimal(lbltotalReturn.Text)).ToString(SettingsInfo._roundDecimalPart);
+            lblNetSales.Text = (Convert.ToDecimal(lblTotalSales.Text) - Convert.ToDecimal(lbltotalReturn.Text)).ToString(FinanceSettingsInfo._roundDecimalPart);
 
             lbltotalcashreceipt.Text = lblcashreceipt.Text;
             lbltotalcashpayment.Text = lblcashpayment.Text;
 
             lblCashBalance.Text = ((Convert.ToDecimal(lblOB.Text) + Convert.ToDecimal(lblCashSales.Text) + Convert.ToDecimal(lbltotalcashreceipt.Text)) -
-             (Convert.ToDecimal(lblCashRefund.Text) + Convert.ToDecimal(lbltotalcashpayment.Text))).ToString(SettingsInfo._roundDecimalPart);
+             (Convert.ToDecimal(lblCashRefund.Text) + Convert.ToDecimal(lbltotalcashpayment.Text))).ToString(FinanceSettingsInfo._roundDecimalPart);
             lblSessionDate.Text = dtSessionDate.ToString("dd-MMM-yyyy");
 
 

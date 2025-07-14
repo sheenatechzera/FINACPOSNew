@@ -84,9 +84,9 @@ namespace FinacPOS
                     settingsinfo.TotalProfit = bool.Parse(sdrreader["TotalProfit"].ToString());
                     settingsinfo.ProductDescription = bool.Parse(sdrreader["productDescription"].ToString());
                     settingsinfo.RoundOff = bool.Parse(sdrreader["roundOff"].ToString());
-                    settingsinfo.RoundDecimal = int.Parse(sdrreader["RoundDecimal"].ToString());
+                    //  settingsinfo.roundDecimal = int.Parse(sdrreader["RoundDecimal"].ToString());
                     string dec = "0";
-                    settingsinfo.RoundDecimalPart = "#" + dec + "." + dec.PadLeft(SettingsInfo._roundDecimal, '0');
+                    // settingsinfo.roundDecimalPart = "#" + dec + "." + dec.PadLeft(FinanceSettingsInfo._roundDecimal, '0');
                 }
                 sdrreader.Close();
             }

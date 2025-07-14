@@ -355,17 +355,17 @@ namespace FinacPOS
                 sdaadapter.Fill(dtbl);
                 if (dtbl.Rows.Count > 0)
                 {
-                    strCNAmout = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"]).ToString(SettingsInfo._roundDecimalPart);
+                    strCNAmout = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                 }
                 else
                 {
-                    strCNAmout = Convert.ToDecimal("0").ToString(SettingsInfo._roundDecimalPart);
+                    strCNAmout = Convert.ToDecimal("0").ToString(FinanceSettingsInfo._roundDecimalPart);
                 }
 
             }
             catch (Exception ex)
             {
-                strCNAmout = Convert.ToDecimal("0").ToString(SettingsInfo._roundDecimalPart);
+                strCNAmout = Convert.ToDecimal("0").ToString(FinanceSettingsInfo._roundDecimalPart);
                 MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             finally

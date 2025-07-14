@@ -98,8 +98,8 @@ namespace FinacPOS
                         dTaxableTotal = dTaxableTotal + (decimal.Parse(dtblProductDetails.Rows[p]["netAmount"].ToString()) - dcItemBillDisc);
                     }
                 }
-                dTaxableTotal = Math.Round(dTaxableTotal, SettingsInfo._roundDecimal);
-                dTotal = Math.Round(dTotal, SettingsInfo._roundDecimal);
+                dTaxableTotal = Math.Round(dTaxableTotal, FinanceSettingsInfo._roundDecimal);
+                dTotal = Math.Round(dTotal, FinanceSettingsInfo._roundDecimal);
                 dtbl.Rows[i]["amt"] = dTotal.ToString();
                 dtbl.Rows[i]["taxableAmt"] = dTaxableTotal.ToString();
             }
@@ -219,13 +219,13 @@ namespace FinacPOS
                     dr["Barcode"] = dtbl.Rows[i]["barcode"].ToString();
                     dr["ProductName"] = dtbl.Rows[i]["productName"].ToString();
                     dr["Tax%"] = dtbl.Rows[i]["taxPer"].ToString();
-                    dr["Price"] = Convert.ToDecimal(dtbl.Rows[i]["rate"]).ToString(SettingsInfo._roundDecimalPart);
+                    dr["Price"] = Convert.ToDecimal(dtbl.Rows[i]["rate"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                     dr["Qty"] = Math.Round(Convert.ToDecimal(dtbl.Rows[i]["qty"]), 2);
-                    dr["Gr.Value"] = Convert.ToDecimal(dtbl.Rows[i]["grossValue"]).ToString(SettingsInfo._roundDecimalPart);
-                    dr["Tax Amt"] = Convert.ToDecimal(dtbl.Rows[i]["taxAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                    dr["Disc Amt"] = Convert.ToDecimal(dtbl.Rows[i]["discAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                    dr["NETVALUE"] = Convert.ToDecimal(dtbl.Rows[i]["netAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                    dr["Total Amt"] = Convert.ToDecimal(dtbl.Rows[i]["Amount"]).ToString(SettingsInfo._roundDecimalPart);
+                    dr["Gr.Value"] = Convert.ToDecimal(dtbl.Rows[i]["grossValue"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dr["Tax Amt"] = Convert.ToDecimal(dtbl.Rows[i]["taxAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dr["Disc Amt"] = Convert.ToDecimal(dtbl.Rows[i]["discAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dr["NETVALUE"] = Convert.ToDecimal(dtbl.Rows[i]["netAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dr["Total Amt"] = Convert.ToDecimal(dtbl.Rows[i]["Amount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                     dr["NameArabic"] = dtbl.Rows[i]["ArabicName"].ToString();
                     dr["unitName"] = dtbl.Rows[i]["unitName"].ToString();
                 }
@@ -297,11 +297,11 @@ namespace FinacPOS
                     dRowDetails["CounterId"] = dtbl.Rows[0]["counterId"].ToString();
                     dRowDetails["UserName"] = dtbl.Rows[0]["userId"].ToString();
                     dRowDetails["InvoiceNo"] = dtbl.Rows[0]["invoiceNo"].ToString();
-                    dRowDetails["SubTotal"] = Convert.ToDecimal(dtbl.Rows[0]["subTotalAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                    dRowDetails["BillDiscount"] = Convert.ToDecimal(dtbl.Rows[0]["billDiscAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                    dRowDetails["TaxableAmount"] = Convert.ToDecimal(dtbl.Rows[0]["taxableAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                    dRowDetails["TaxAmount"] = Convert.ToDecimal(dtbl.Rows[0]["totalTaxAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                    dRowDetails["GrandTotal"] = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"]).ToString(SettingsInfo._roundDecimalPart);
+                    dRowDetails["SubTotal"] = Convert.ToDecimal(dtbl.Rows[0]["subTotalAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dRowDetails["BillDiscount"] = Convert.ToDecimal(dtbl.Rows[0]["billDiscAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dRowDetails["TaxableAmount"] = Convert.ToDecimal(dtbl.Rows[0]["taxableAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dRowDetails["TaxAmount"] = Convert.ToDecimal(dtbl.Rows[0]["totalTaxAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dRowDetails["GrandTotal"] = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                     decimal grandTotal = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"].ToString());
                     dRowDetails["AmountInWords"] = new NumToText().ConvertAmountToWordsForPrint(grandTotal, dtbl.Rows[0]["currencyId"].ToString()); //General    
                                                                                                                                                     //---------------------
@@ -313,34 +313,34 @@ namespace FinacPOS
                     //   dRowDetails["AmountInWords"] = "";
                     dRowDetails["BillName"] = "TAX INVOICE COPY / فاتورة ضريبية";
                     dRowDetails["QtyTotal"] = dtbl.Rows[0]["totalQty"].ToString();
-                    dRowDetails["TenderPaid"] = Convert.ToDecimal(dtbl.Rows[0]["paidAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                    dRowDetails["TenderBalance"] = Convert.ToDecimal(dtbl.Rows[0]["balanceAmount"]).ToString(SettingsInfo._roundDecimalPart);
+                    dRowDetails["TenderPaid"] = Convert.ToDecimal(dtbl.Rows[0]["paidAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dRowDetails["TenderBalance"] = Convert.ToDecimal(dtbl.Rows[0]["balanceAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                     dRowDetails["ReportName"] = dtbl.Rows[0]["ReportName"].ToString();
                     dRowDetails["PartyArabic"] = dtbl.Rows[0]["PartyArabic"].ToString();
-                    if (Convert.ToDecimal(dtbl.Rows[0]["cashAmount"]).ToString(SettingsInfo._roundDecimalPart) != "0.00")
+                    if (Convert.ToDecimal(dtbl.Rows[0]["cashAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart) != "0.00")
                     {
                         dRowDetails["TenderCashText"] = "Cash Tendered";
-                        dRowDetails["TenderCash"] = Convert.ToDecimal(dtbl.Rows[0]["cashAmount"]).ToString(SettingsInfo._roundDecimalPart);
+                        dRowDetails["TenderCash"] = Convert.ToDecimal(dtbl.Rows[0]["cashAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                     }
                     else
                     {
                         dRowDetails["TenderCashText"] = "";
                         dRowDetails["TenderCash"] = "";
                     }
-                    if (Convert.ToDecimal(dtbl.Rows[0]["creditCardAmount"]).ToString(SettingsInfo._roundDecimalPart) != "0.00")
+                    if (Convert.ToDecimal(dtbl.Rows[0]["creditCardAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart) != "0.00")
                     {
                         dRowDetails["TenderCCText"] = "CC Tendered";
-                        dRowDetails["TenderCC"] = Convert.ToDecimal(dtbl.Rows[0]["creditCardAmount"]).ToString(SettingsInfo._roundDecimalPart);
+                        dRowDetails["TenderCC"] = Convert.ToDecimal(dtbl.Rows[0]["creditCardAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                     }
                     else
                     {
                         dRowDetails["TenderCCText"] = "";
                         dRowDetails["TenderCC"] = "";
                     }
-                    if (Convert.ToDecimal(dtbl.Rows[0]["UPIAmount"]).ToString(SettingsInfo._roundDecimalPart) != "0.00")
+                    if (Convert.ToDecimal(dtbl.Rows[0]["UPIAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart) != "0.00")
                     {
                         dRowDetails["TenderUPIText"] = "UPI Tendered";
-                        dRowDetails["TenderUPI"] = Convert.ToDecimal(dtbl.Rows[0]["UPIAmount"]).ToString(SettingsInfo._roundDecimalPart);
+                        dRowDetails["TenderUPI"] = Convert.ToDecimal(dtbl.Rows[0]["UPIAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                     }
                     else
                     {
@@ -371,8 +371,8 @@ namespace FinacPOS
                     DataTable dtblBalance = salesmaster.GetCustomerCurrentBalance(dtbl.Rows[0]["customerCode"].ToString(), PublicVariables._branchId);
                     if (dtblBalance.Rows.Count > 0)
                     {
-                        dRowDetails["prevBalance"] = Convert.ToDecimal(decimal.Parse(dtblBalance.Rows[0]["currentBal"].ToString()) - Convert.ToDecimal(dtbl.Rows[0]["totalAmount"].ToString())).ToString(SettingsInfo._roundDecimalPart);
-                        dRowDetails["totalBalance"] = decimal.Parse(dtblBalance.Rows[0]["currentBal"].ToString()).ToString(SettingsInfo._roundDecimalPart);
+                        dRowDetails["prevBalance"] = Convert.ToDecimal(decimal.Parse(dtblBalance.Rows[0]["currentBal"].ToString()) - Convert.ToDecimal(dtbl.Rows[0]["totalAmount"].ToString())).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dRowDetails["totalBalance"] = decimal.Parse(dtblBalance.Rows[0]["currentBal"].ToString()).ToString(FinanceSettingsInfo._roundDecimalPart);
                     }
                     else
                     {
@@ -380,7 +380,7 @@ namespace FinacPOS
                         dRowDetails["totalBalance"] = 0;
                     }
 
-                    dRowDetails["BillAmount"] = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"]).ToString(SettingsInfo._roundDecimalPart);
+                    dRowDetails["BillAmount"] = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
 
                     //////------------------------ QR Code Generation ----------- by Navas --------------------
                     ////Zen.Barcode.CodeQrBarcodeDraw qrBarcode = Zen.Barcode.BarcodeDrawFactory.CodeQr;
@@ -425,8 +425,8 @@ namespace FinacPOS
                     string invoicedate = DateTime.Parse(dtbl.Rows[0]["billDate"].ToString()).ToString("yyyy-MM-dd");
                     string invoicetime = DateTime.Now.ToString("HH:mm:ss");
                     invoicedate = invoicedate + "T" + invoicetime;
-                    string invoicetotal = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                    string invoicevatamount = Convert.ToDecimal(dtbl.Rows[0]["totalTaxAmount"]).ToString(SettingsInfo._roundDecimalPart);
+                    string invoicetotal = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    string invoicevatamount = Convert.ToDecimal(dtbl.Rows[0]["totalTaxAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
 
                     int lencompanyname = companyname.Length;
                     int lenvatno = vatno.Length;
@@ -579,7 +579,7 @@ namespace FinacPOS
                 dRowDetails["User"] = dtbl.Rows[0]["User"].ToString();
 
                 decimal Amount = Convert.ToDecimal(dtbl.Rows[0]["PaidAmount"].ToString());
-                dRowDetails["PaidAmount"] = Amount.ToString(SettingsInfo._roundDecimalPart);
+                dRowDetails["PaidAmount"] = Amount.ToString(FinanceSettingsInfo._roundDecimalPart);
                 dRowDetails["Narration"] = dtbl.Rows[0]["Narration"].ToString();
                 dRowDetails["AmountInWords"] = new NumToText().ConvertAmountToWordsForPrint(Amount, "");
                 dRowDetails["BillName"] = "Payment Voucher";
@@ -671,7 +671,7 @@ namespace FinacPOS
                     dRowDetails["User"] = dtbl.Rows[0]["User"].ToString();
 
                     decimal Amount = Convert.ToDecimal(dtbl.Rows[0]["PaidAmount"].ToString());
-                    dRowDetails["PaidAmount"] = Amount.ToString(SettingsInfo._roundDecimalPart);
+                    dRowDetails["PaidAmount"] = Amount.ToString(FinanceSettingsInfo._roundDecimalPart);
                     dRowDetails["Narration"] = dtbl.Rows[0]["Narration"].ToString();
                     dRowDetails["AmountInWords"] = new NumToText().ConvertAmountToWordsForPrint(Amount, "");
                     dRowDetails["BillName"] = "Receipt Voucher";
@@ -825,7 +825,7 @@ namespace FinacPOS
                 //else
                 //    strdate = " AND date BETWEEN '" + PublicVariables._fromDate + "' AND '" + PublicVariables._toDate + "'";
                 //frmlookup.strSearchTable = " (SELECT CONVERT(INT,R.POSReceiptMasterId) POSReceiptMasterId,R.receiptNo AS 'ReceiptNo',REPLACE(CONVERT(VARCHAR(11), R.billDate, 106), ' ', '-') AS Date,A.ledgerName AS BankCash,R.Narration,CONVERT(DECIMAL(18," + SettingsInfo._roundDecimal + "),R.totalAmount) AS totalAmount FROM dbo.tbl_POSReceiptMaster(NOLOCK) AS R,tbl_AccountLedger(NOLOCK) A WHERE A.CashOrBankledgerId=R.ledgerId  " + strdate + ") AS A ";
-                frmlookup.strSearchTable = " (SELECT CONVERT(INT,R.POSReceiptMasterId) POSReceiptMasterId,R.receiptNo AS 'BillNo',REPLACE(CONVERT(VARCHAR(11), R.billDate, 106), ' ', '-') AS Date,A.ledgerName AS BankCash,R.Narration,CONVERT(DECIMAL(18," + SettingsInfo._roundDecimal + "),R.totalAmount) AS totalAmount FROM dbo.tbl_POSReceiptMaster(NOLOCK) AS R,tbl_AccountLedger(NOLOCK) A WHERE A.ledgerId=R.CashOrBankledgerId  ) AS A ";
+                frmlookup.strSearchTable = " (SELECT CONVERT(INT,R.POSReceiptMasterId) POSReceiptMasterId,R.receiptNo AS 'BillNo',REPLACE(CONVERT(VARCHAR(11), R.billDate, 106), ' ', '-') AS Date,A.ledgerName AS BankCash,R.Narration,CONVERT(DECIMAL(18," + FinanceSettingsInfo._roundDecimal + "),R.totalAmount) AS totalAmount FROM dbo.tbl_POSReceiptMaster(NOLOCK) AS R,tbl_AccountLedger(NOLOCK) A WHERE A.ledgerId=R.CashOrBankledgerId  ) AS A ";
                 frmlookup.strSearchCondition = "";
                 frmlookup.strMasterIdColumnName = "POSReceiptMasterId";
                 frmlookup.IntSearchFiledCount = 5;
@@ -848,7 +848,7 @@ namespace FinacPOS
                 //else
                 //    strdate = " AND date BETWEEN '" + PublicVariables._fromDate + "' AND '" + PublicVariables._toDate + "'";
                 //frmlookup.strSearchTable = " (SELECT CONVERT(INT,R.POSReceiptMasterId) POSReceiptMasterId,R.receiptNo AS 'ReceiptNo',REPLACE(CONVERT(VARCHAR(11), R.billDate, 106), ' ', '-') AS Date,A.ledgerName AS BankCash,R.Narration,CONVERT(DECIMAL(18," + SettingsInfo._roundDecimal + "),R.totalAmount) AS totalAmount FROM dbo.tbl_POSReceiptMaster(NOLOCK) AS R,tbl_AccountLedger(NOLOCK) A WHERE A.CashOrBankledgerId=R.ledgerId  " + strdate + ") AS A ";
-                frmlookup.strSearchTable = " (SELECT CONVERT(INT,R.POSPaymentMasterId) POSPaymentMasterId,R.paymentNo AS 'BillNo',REPLACE(CONVERT(VARCHAR(11), R.billDate, 106), ' ', '-') AS Date,A.ledgerName AS BankCash,R.Narration,CONVERT(DECIMAL(18," + SettingsInfo._roundDecimal + "),R.totalAmount) AS totalAmount FROM dbo.tbl_POSPaymentMaster(NOLOCK) AS R,tbl_AccountLedger(NOLOCK) A WHERE A.ledgerId=R.CashOrBankledgerId  ) AS A ";
+                frmlookup.strSearchTable = " (SELECT CONVERT(INT,R.POSPaymentMasterId) POSPaymentMasterId,R.paymentNo AS 'BillNo',REPLACE(CONVERT(VARCHAR(11), R.billDate, 106), ' ', '-') AS Date,A.ledgerName AS BankCash,R.Narration,CONVERT(DECIMAL(18," + FinanceSettingsInfo._roundDecimal + "),R.totalAmount) AS totalAmount FROM dbo.tbl_POSPaymentMaster(NOLOCK) AS R,tbl_AccountLedger(NOLOCK) A WHERE A.ledgerId=R.CashOrBankledgerId  ) AS A ";
                 frmlookup.strSearchCondition = "";
                 frmlookup.strMasterIdColumnName = "POSPaymentMasterId";
                 frmlookup.IntSearchFiledCount = 5;

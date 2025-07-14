@@ -25,6 +25,9 @@ namespace FinacPOS
         public string _extra1;
         public static  bool _AccountsPosting;
         public static string _ZatcaType;
+        public static int _roundDecimal;
+        public static string _roundDecimalPart;
+        public static bool _EnablePOS;
 
         public int FinanceSettingsId
         {
@@ -110,6 +113,21 @@ namespace FinacPOS
         {
             get { return _ZatcaType; }
             set { _ZatcaType = value; }
+        }
+        public int RoundDecimal
+        {
+            get { return _roundDecimal; }
+            set { _roundDecimal = value; }
+        }
+        public string RoundDecimalPart
+        {
+            get { return _roundDecimalPart; }
+            set { _roundDecimalPart = value; }
+        }
+        public bool EnablePOS
+        {
+            get { return _EnablePOS; }
+            set { _EnablePOS = value; }
         }
     }
 }

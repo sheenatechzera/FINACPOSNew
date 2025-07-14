@@ -38,14 +38,14 @@ namespace FinacPOS
 
             txtTotalAmount.Text = strtotalAmount;
 
-            txtTenderedAmount.Text = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-            txtBalance.Text = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+            txtTenderedAmount.Text = Math.Round(0m,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+            txtBalance.Text = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
-            txtCreditCard.Text = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-            txtUPI.Text = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-            txtCredit.Text = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-            txtCash.Text = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-            txtCreditNoteAmount.Text = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+            txtCreditCard.Text = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+            txtUPI.Text = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+            txtCredit.Text = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+            txtCash.Text = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+            txtCreditNoteAmount.Text = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
             strFromPaymentMethod = strPaymentMethod;
             if (strPaymentMethod == "Cash")
@@ -111,14 +111,14 @@ namespace FinacPOS
 
             txtTotalAmount.Text = strtotalAmount;
 
-            txtTenderedAmount.Text = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-            txtBalance.Text = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+            txtTenderedAmount.Text = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+            txtBalance.Text = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
-            txtCreditCard.Text = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-            txtUPI.Text = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-            txtCredit.Text = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-            txtCash.Text = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
-            txtCreditNoteAmount.Text = Math.Round(0m, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+            txtCreditCard.Text = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+            txtUPI.Text = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+            txtCredit.Text = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+            txtCash.Text = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+            txtCreditNoteAmount.Text = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
             strFromPaymentMethod = strPaymentMethod;
             if (strPaymentMethod == "Cash")
@@ -287,7 +287,7 @@ namespace FinacPOS
 
             dcTotTenderedAmt = (dcCreditCard + dcUPI + dcCredit + dcCash);
 
-            txtTenderedAmount.Text = Math.Round(dcTotTenderedAmt, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+            txtTenderedAmount.Text = Math.Round(dcTotTenderedAmt, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
             dcBalance = (dcTotalAmount - dcTotTenderedAmt);
             if (dcBalance >= 0)
             {
@@ -297,7 +297,7 @@ namespace FinacPOS
             {
                 dcBalance = System.Math.Abs(dcBalance);
             }
-            txtBalance.Text = Math.Round(dcBalance, SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+            txtBalance.Text = Math.Round(dcBalance, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
         }
         private decimal CalculateBalanceTenderedAmt()
@@ -347,7 +347,7 @@ namespace FinacPOS
                 try { dcTotalAmount = decimal.Parse(txtTotalAmount.Text.ToString()); }
                 catch { }
 
-                txtTotalAmount.Text = (dcTotalAmount - dcCreditNote).ToString(SettingsInfo._roundDecimalPart);
+                txtTotalAmount.Text = (dcTotalAmount - dcCreditNote).ToString(FinanceSettingsInfo._roundDecimalPart);
 
                 if (strFromPaymentMethod == "Cash")
                 {
@@ -638,7 +638,7 @@ namespace FinacPOS
                 try { dcTotalAmount = decimal.Parse(txtTotalAmount.Text.ToString()); }
                 catch { }
 
-                txtCreditCard.Text = dcCreditCard.ToString(SettingsInfo._roundDecimalPart);
+                txtCreditCard.Text = dcCreditCard.ToString(FinanceSettingsInfo._roundDecimalPart);
 
                 if (dcCreditCard != 0)
                 {
@@ -654,12 +654,12 @@ namespace FinacPOS
 
                         //txtCreditCard.Clear();
                         txtKeyBoardText.Clear();
-                        txtCash.Text = (0m).ToString(SettingsInfo._roundDecimalPart);
+                        txtCash.Text = (0m).ToString(FinanceSettingsInfo._roundDecimalPart);
 
 
                         return;
                     }
-                    txtCash.Text = (dcTotalAmount - (dcCreditCard + dcUPI)).ToString(SettingsInfo._roundDecimalPart) ;
+                    txtCash.Text = (dcTotalAmount - (dcCreditCard + dcUPI)).ToString(FinanceSettingsInfo._roundDecimalPart) ;
                     CalculatePaidTotal();
                     //btnCash_Click(e, e);
                 }
@@ -680,7 +680,7 @@ namespace FinacPOS
                 try { dcTotalAmount = decimal.Parse(txtTotalAmount.Text.ToString()); }
                 catch { }
 
-                txtUPI.Text = dcUPI.ToString(SettingsInfo._roundDecimalPart);
+                txtUPI.Text = dcUPI.ToString(FinanceSettingsInfo._roundDecimalPart);
 
                 if (dcUPI != 0)
                 {
@@ -695,10 +695,10 @@ namespace FinacPOS
                         txtUPI.SelectAll();
                         //txtUPI.Clear();
                         txtKeyBoardText.Clear();
-                        txtCash.Text = (0m).ToString(SettingsInfo._roundDecimalPart);
+                        txtCash.Text = (0m).ToString(FinanceSettingsInfo._roundDecimalPart);
                         return;
                     }
-                    txtCash.Text = (dcTotalAmount - (dcCreditCard + dcUPI)).ToString(SettingsInfo._roundDecimalPart);
+                    txtCash.Text = (dcTotalAmount - (dcCreditCard + dcUPI)).ToString(FinanceSettingsInfo._roundDecimalPart);
                     CalculatePaidTotal();
                     //btnCash_Click(e, e);
                 }

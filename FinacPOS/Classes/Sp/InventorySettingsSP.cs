@@ -48,6 +48,13 @@ namespace FinacPOS
                     infoFinanceSettings.extra1 = sdrreadera["extra1"].ToString();
                     infoFinanceSettings.AccountsPosting = bool.Parse(sdrreadera["AccountsPosting"].ToString());
                     infoFinanceSettings.ZatcaType =sdrreadera["ZatcaType"].ToString();
+
+                    infoFinanceSettings.RoundDecimal = int.Parse(sdrreadera["RoundDecimal"].ToString());
+                    string dec = "0";
+                    infoFinanceSettings.RoundDecimalPart = "#" + dec + "." + dec.PadLeft(FinanceSettingsInfo._roundDecimal, '0');
+                    infoFinanceSettings.EnablePOS = bool.Parse(sdrreadera["EnablePOS"].ToString());
+
+
                 }
                 sdrreadera.Close();
             }

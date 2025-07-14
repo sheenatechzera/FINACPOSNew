@@ -299,7 +299,7 @@ namespace FinacPOS
                         if (row.Cells["TotalAmount"].Value != null)
                         {
 
-                            row.Cells["TotalAmount"].Value = Math.Round(decimal.Parse(row.Cells["TotalAmount"].Value.ToString()), SettingsInfo._roundDecimal).ToString(SettingsInfo._roundDecimalPart);
+                            row.Cells["TotalAmount"].Value = Math.Round(decimal.Parse(row.Cells["TotalAmount"].Value.ToString()), FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
                         }
                     }
                     dgvProducts.Columns["TotalAmount"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
