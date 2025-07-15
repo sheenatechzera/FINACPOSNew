@@ -387,8 +387,8 @@ namespace FinacPOS
         {
             Button btn = new Button
             {
-                Width = 80,  // Adjust as needed
-                Height = 60, // Adjust as needed
+                Width = 100,  // Adjust as needed
+                Height = 70, // Adjust as needed
                 Text = row["groupName"].ToString(),
                 //TextAlign = ContentAlignment.BottomCenter,
                 TextAlign = ContentAlignment.MiddleCenter,  // Keep text at the bottom
@@ -463,7 +463,7 @@ namespace FinacPOS
             Panel panel = new Panel
             {
                 Width = 120,
-                Height = 100,
+                Height = 106,
                 BackColor = Color.FromArgb(245, 245, 245),
                 Tag = row["barcode"]
             };
@@ -474,11 +474,9 @@ namespace FinacPOS
             PictureBox pictureBox = new PictureBox
             {
                 Width = 120,
-                Height = 50,
+                Height = 53,
                 Image = imageBytes != null ? ByteArrayToImage(imageBytes) : null,  // ByteArrayToImage(imageBytes), 
                 SizeMode = PictureBoxSizeMode.StretchImage,
-                Top = 4,
-                Left = 4,
                 Tag = row["barcode"]
             };
 
@@ -486,22 +484,22 @@ namespace FinacPOS
             string productName = "";
             if (PublicVariables._ModuleLanguage == "ARB")
             {
-                productName = row["productName"].ToString();
+                productName = row["ArabicName"].ToString();
             }
             else
             {
-                productName = row["ArabicName"].ToString();
+                productName = row["productName"].ToString(); 
             }
             Label lbl = new Label
             {
                 
                 Text = productName + Environment.NewLine + row["salesPrice"].ToString(),
-                Width = 70,
-                Height = 60,
+                Width = 120,
+                Height = 53,
                 TextAlign = ContentAlignment.MiddleCenter,
                 ForeColor = Color.Red,
                 Font = new Font("Arial", 8, FontStyle.Bold),
-                Top = 45,
+                Top = 53,
                 Tag = row["barcode"]
             };
 

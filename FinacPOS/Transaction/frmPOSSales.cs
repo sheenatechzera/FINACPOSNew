@@ -395,8 +395,8 @@ namespace FinacPOS
 
             Panel panel = new Panel
             {
-                Width = 130,
-                Height = 130,
+                Width = 140,
+                Height = 140,
                 BackColor = Color.FromArgb(245, 245, 245),
                 Tag = row["barcode"]
 
@@ -409,12 +409,10 @@ namespace FinacPOS
 
             PictureBox pictureBox = new PictureBox
             {
-                Width = 130,
-                Height = 60,
+                Width = 140,
+                Height = 70,
                 Image = imageBytes != null ? ByteArrayToImage(imageBytes) : null,  // ByteArrayToImage(imageBytes), 
                 SizeMode = PictureBoxSizeMode.StretchImage,
-                Top = 5,
-                Left = 5,
                 Tag = row["barcode"]
 
             };
@@ -422,8 +420,8 @@ namespace FinacPOS
             Label lbl = new Label
             {
                 Text = row["productName"].ToString() + Environment.NewLine + row["salesPrice"].ToString() + Environment.NewLine + row["unitName"].ToString(),
-                Width = 120,
-                Height = 60,
+                Width = 140,
+                Height = 70,
                 TextAlign = ContentAlignment.MiddleCenter,
                 ForeColor = Color.Red,
                 Font = new Font("Arial", 8, FontStyle.Bold),
