@@ -32,6 +32,7 @@ namespace FinacPOS
         POSSettingsInfo InfoPosSetting = new POSSettingsInfo();
         POSSalesMasterSP salesMasterSP = new POSSalesMasterSP();
         ProductSP SPProduct = new ProductSP();
+        POSCounterInfo POSCounterInfo = new POSCounterInfo();
 
         #region PUBLICVARIABLES
 
@@ -1869,16 +1870,15 @@ namespace FinacPOS
                     try
                     {
                         dtblTaxDetailsThermal = dtblTaxSummery;
-                        if (MessageBox.Show("Do you want to print?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question,
-
-MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                        if (counterInfo.Directprint == false)
                         {
-                            //FillDatatatablesforPrint(decTotalTenderAmt.ToString(SettingsInfo._roundDecimalPart), decBalanceAmt.ToString(SettingsInfo._roundDecimalPart), decCashAmt.ToString(SettingsInfo._roundDecimalPart), decCreditCardAmt.ToString(SettingsInfo._roundDecimalPart), decUPIAmt.ToString(SettingsInfo._roundDecimalPart), false, "", "");
-                            FillDatatatablesforDevPrint(decTotalTenderAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decBalanceAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decCashAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decCreditCardAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decUPIAmt.ToString(FinanceSettingsInfo._roundDecimalPart), false, "", "", strTenderType);
-
+                            if (MessageBox.Show("Do you want to print?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                            {
+                                //FillDatatatablesforPrint(decTotalTenderAmt.ToString(SettingsInfo._roundDecimalPart), decBalanceAmt.ToString(SettingsInfo._roundDecimalPart), decCashAmt.ToString(SettingsInfo._roundDecimalPart), decCreditCardAmt.ToString(SettingsInfo._roundDecimalPart), decUPIAmt.ToString(SettingsInfo._roundDecimalPart), false, "", "");
+                                FillDatatatablesforDevPrint(decTotalTenderAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decBalanceAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decCashAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decCreditCardAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decUPIAmt.ToString(FinanceSettingsInfo._roundDecimalPart), false, "", "", strTenderType);
+                            }
                         }
-
-
+                        FillDatatatablesforDevPrint(decTotalTenderAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decBalanceAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decCashAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decCreditCardAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decUPIAmt.ToString(FinanceSettingsInfo._roundDecimalPart), false, "", "", strTenderType);
                         isPrintSuccess = true;
                     }
                     catch (Exception ex)
