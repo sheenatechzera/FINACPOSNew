@@ -40,6 +40,7 @@ namespace FinacPOS
         DataTable dtblProductFiltered = new DataTable();
         DataTable dtblProductAll = new DataTable();
         ProductSP SPProduct = new ProductSP();
+        POSSalesMasterSP salesMasterSP = new POSSalesMasterSP();
         //POSTableInfo tableInfo = new POSTableInfo();
 
         #region PUBLICVARIABLES
@@ -3038,272 +3039,542 @@ namespace FinacPOS
                     }
                 }
             }
-              POSSettingsInfo settingsinfo = new POSSettingsInfo();
-              bool IsExist = false;
+            //POSSettingsInfo settingsinfo = new POSSettingsInfo();
+            //bool IsExist = false;
 
-              if (strItemCode != "")
-              {
-                  int Rownumber = 0;
-                  if (settingsinfo.AddQtyInSameBarcodeToGrid == true)
-                  {
-                      string barcode = txtBarcode.Text.Trim();
-                      if (String.IsNullOrEmpty(barcode))
-                      {
-                          MessageBox.Show("Please enter a valid barcode.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                          return;
-                      }
+            //if (strItemCode != "")
+            //{
+            //    int Rownumber = 0;
+            //    if (settingsinfo.AddQtyInSameBarcodeToGrid == true)
+            //    {
+            //        string barcode = txtBarcode.Text.Trim();
+            //        if (String.IsNullOrEmpty(barcode))
+            //        {
+            //            MessageBox.Show("Please enter a valid barcode.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //            return;
+            //        }
 
-                      for (int i = 0; i < dgvProduct.RowCount; i++)
-                      {
+            //        for (int i = 0; i < dgvProduct.RowCount; i++)
+            //        {
 
-                          if (dgvProduct.Rows[i].Cells["Barcode"].Value != null &&
-                              dgvProduct.Rows[i].Cells["Barcode"].Value.ToString() == barcode)
-                          {
-                              IsExist = true;
-                              Rownumber = i;
-                              break;
+            //            if (dgvProduct.Rows[i].Cells["Barcode"].Value != null &&
+            //                dgvProduct.Rows[i].Cells["Barcode"].Value.ToString() == barcode)
+            //            {
+            //                IsExist = true;
+            //                Rownumber = i;
+            //                break;
 
-                          }
-                      }
-                  }
+            //            }
+            //        }
+            //    }
 
-                  if (IsExist)
-                  {
-                      int currentQty = Convert.ToInt32(dgvProduct.Rows[Rownumber].Cells["Qty"].Value);
-                      dgvProduct.Rows[Rownumber].Cells["Qty"].Value = currentQty + 1;
-
-
-                      decimal dQty = 0;
-                      decimal dRate = 0;
-                      decimal dIncludeRate = 0;
-                      decimal dGrossValue = 0;
-                      decimal dTaxPerc = 0;
-                      decimal dTaxAmt = 0;
-                      try { dQty = decimal.Parse(dgvProduct.Rows[Rownumber].Cells["Qty"].Value.ToString()); }
-                      catch { }
-
-                      try { dRate = decimal.Parse(dgvProduct.Rows[Rownumber].Cells["ExcludeRate"].Value.ToString()); }
-                      catch { }
-                      try { dIncludeRate = decimal.Parse(dgvProduct.Rows[Rownumber].Cells["SalesRate"].Value.ToString()); }
-                      catch { }
-
-                      dGrossValue = dQty * dRate;
-
-                      try { dTaxPerc = decimal.Parse(dgvProduct.Rows[Rownumber].Cells["TaxPerc"].Value.ToString()); }
-                      catch { }
-
-                      if (dTaxPerc != 0)
-                      {
-                          dTaxAmt = Math.Round(((dGrossValue * dTaxPerc) / (100)), FinanceSettingsInfo._roundDecimal);
-
-                          dgvProduct.Rows[Rownumber].Cells["TaxAmt"].Value = dTaxAmt.ToString(FinanceSettingsInfo._roundDecimalPart);
-                      }
-                      else
-                      {
-                          dgvProduct.Rows[Rownumber].Cells["TaxAmt"].Value = "0.00";
-                      }
-
-                      //Adjestment
-                      decimal dcNetTot = 0;
-                      decimal dcTot = 0;
-                      dcNetTot = dGrossValue + dTaxAmt;
-                      dcTot = dQty * dIncludeRate;
-
-                      if (dcNetTot != dcTot)
-                      {
-                          decimal dcDiff = dcTot - dcNetTot;
-                          dGrossValue += dcDiff;
-                      }
-                      //
-
-                      dgvProduct.Rows[Rownumber].Cells["GrossValue"].Value = Math.Round(dGrossValue, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
-                      dgvProduct.Rows[Rownumber].Cells["DiscAmt"].Value = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
-
-                      dgvProduct.Rows[Rownumber].Cells["NetValue"].Value = Math.Round(dGrossValue, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+            //    if (IsExist)
+            //    {
+            //        int currentQty = Convert.ToInt32(dgvProduct.Rows[Rownumber].Cells["Qty"].Value);
+            //        dgvProduct.Rows[Rownumber].Cells["Qty"].Value = currentQty + 1;
 
 
-                      dgvProduct.Rows[Rownumber].Cells["Total"].Value = (dGrossValue + dTaxAmt).ToString(FinanceSettingsInfo._roundDecimalPart);
+            //        decimal dQty = 0;
+            //        decimal dRate = 0;
+            //        decimal dIncludeRate = 0;
+            //        decimal dGrossValue = 0;
+            //        decimal dTaxPerc = 0;
+            //        decimal dTaxAmt = 0;
+            //        try { dQty = decimal.Parse(dgvProduct.Rows[Rownumber].Cells["Qty"].Value.ToString()); }
+            //        catch { }
 
-                      CalculateBillTotal();
+            //        try { dRate = decimal.Parse(dgvProduct.Rows[Rownumber].Cells["ExcludeRate"].Value.ToString()); }
+            //        catch { }
+            //        try { dIncludeRate = decimal.Parse(dgvProduct.Rows[Rownumber].Cells["SalesRate"].Value.ToString()); }
+            //        catch { }
 
-                      //dgvSlno = dgvSlno + 1;
-                      //dgvCurRow = dgvCurRow + 1;
+            //        dGrossValue = dQty * dRate;
 
-                      //dgvProduct.CurrentCell = dgvProduct.Rows[dgvCurRow - 1].Cells["Barcode"];
+            //        try { dTaxPerc = decimal.Parse(dgvProduct.Rows[Rownumber].Cells["TaxPerc"].Value.ToString()); }
+            //        catch { }
 
-                      strBarcode = "";
-                      strItemCode = "";
-                      strItemName = "";
-                      strItemNameArabic = "";
-                      strUnitId = "";
-                      strUnitName = "";
-                      decUnitConversion = 0;
-                      decSalesPrice = 0;
-                      strScaleItemType = "";
-                      strScaleQtyPart = "";
+            //        if (dTaxPerc != 0)
+            //        {
+            //            dTaxAmt = Math.Round(((dGrossValue * dTaxPerc) / (100)), FinanceSettingsInfo._roundDecimal);
 
-                      if (lblBarcodeScanningType.Visible == true)
-                      {
-                          lblBarcodeScanningType.Text = "";
-                          lblBarcodeScanningType.Visible = false;
-                      }
-                  }
-                  else
-                  {
-                      dgvProduct.RowCount = dgvCurRow + 2;
-                      dgvProduct.Rows[dgvCurRow].Cells["SLNo"].Value = dgvSlno;
-                      dgvProduct.Rows[dgvCurRow].Cells["ProductCode"].Value = strItemCode;
-                      dgvProduct.Rows[dgvCurRow].Cells["Barcode"].Value = strBarcode;
-                      dgvProduct.Rows[dgvCurRow].Cells["ItemName"].Value = strItemName;
-                      dgvProduct.Rows[dgvCurRow].Cells["ArabicName"].Value = strItemNameArabic;
-                      if (strScaleItemType == "Inventory")
-                      {
-                          dgvProduct.Rows[dgvCurRow].Cells["Qty"].Value = strScaleQtyPart;
-                      }
-                      else
-                      {
-                          if (lblBarcodeScanningType.Visible == true && lblBarcodeScanningType.Text == "Exchange Item")
-                          {
-                              dgvProduct.Rows[dgvCurRow].Cells["Qty"].Value = -1;
-                          }
-                          else
-                          {
-                              dgvProduct.Rows[dgvCurRow].Cells["Qty"].Value = 1;
-                          }
-                      }
+            //            dgvProduct.Rows[Rownumber].Cells["TaxAmt"].Value = dTaxAmt.ToString(FinanceSettingsInfo._roundDecimalPart);
+            //        }
+            //        else
+            //        {
+            //            dgvProduct.Rows[Rownumber].Cells["TaxAmt"].Value = "0.00";
+            //        }
+
+            //        //Adjestment
+            //        decimal dcNetTot = 0;
+            //        decimal dcTot = 0;
+            //        dcNetTot = dGrossValue + dTaxAmt;
+            //        dcTot = dQty * dIncludeRate;
+
+            //        if (dcNetTot != dcTot)
+            //        {
+            //            decimal dcDiff = dcTot - dcNetTot;
+            //            dGrossValue += dcDiff;
+            //        }
+            //        //
+
+            //        dgvProduct.Rows[Rownumber].Cells["GrossValue"].Value = Math.Round(dGrossValue, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+            //        dgvProduct.Rows[Rownumber].Cells["DiscAmt"].Value = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+
+            //        dgvProduct.Rows[Rownumber].Cells["NetValue"].Value = Math.Round(dGrossValue, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
 
-                      dgvProduct.Rows[dgvCurRow].Cells["UnitId"].Value = strUnitId;
-                      dgvProduct.Rows[dgvCurRow].Cells["Unit"].Value = strUnitName;
-                      dgvProduct.Rows[dgvCurRow].Cells["BaseUnitId"].Value = strBaseUnitId;
-                      dgvProduct.Rows[dgvCurRow].Cells["UnitConversion"].Value = decUnitConversion;
+            //        dgvProduct.Rows[Rownumber].Cells["Total"].Value = (dGrossValue + dTaxAmt).ToString(FinanceSettingsInfo._roundDecimalPart);
 
-                                  //PurchaseRate
+            //        CalculateBillTotal();
+
+            //        //dgvSlno = dgvSlno + 1;
+            //        //dgvCurRow = dgvCurRow + 1;
+
+            //        //dgvProduct.CurrentCell = dgvProduct.Rows[dgvCurRow - 1].Cells["Barcode"];
+
+            //        strBarcode = "";
+            //        strItemCode = "";
+            //        strItemName = "";
+            //        strItemNameArabic = "";
+            //        strUnitId = "";
+            //        strUnitName = "";
+            //        decUnitConversion = 0;
+            //        decSalesPrice = 0;
+            //        strScaleItemType = "";
+            //        strScaleQtyPart = "";
+
+            //        if (lblBarcodeScanningType.Visible == true)
+            //        {
+            //            lblBarcodeScanningType.Text = "";
+            //            lblBarcodeScanningType.Visible = false;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        dgvProduct.RowCount = dgvCurRow + 2;
+            //        dgvProduct.Rows[dgvCurRow].Cells["SLNo"].Value = dgvSlno;
+            //        dgvProduct.Rows[dgvCurRow].Cells["ProductCode"].Value = strItemCode;
+            //        dgvProduct.Rows[dgvCurRow].Cells["Barcode"].Value = strBarcode;
+            //        dgvProduct.Rows[dgvCurRow].Cells["ItemName"].Value = strItemName;
+            //        dgvProduct.Rows[dgvCurRow].Cells["ArabicName"].Value = strItemNameArabic;
+            //        if (strScaleItemType == "Inventory")
+            //        {
+            //            dgvProduct.Rows[dgvCurRow].Cells["Qty"].Value = strScaleQtyPart;
+            //        }
+            //        else
+            //        {
+            //            if (lblBarcodeScanningType.Visible == true && lblBarcodeScanningType.Text == "Exchange Item")
+            //            {
+            //                dgvProduct.Rows[dgvCurRow].Cells["Qty"].Value = -1;
+            //            }
+            //            else
+            //            {
+            //                dgvProduct.Rows[dgvCurRow].Cells["Qty"].Value = 1;
+            //            }
+            //        }
+
+
+            //        dgvProduct.Rows[dgvCurRow].Cells["UnitId"].Value = strUnitId;
+            //        dgvProduct.Rows[dgvCurRow].Cells["Unit"].Value = strUnitName;
+            //        dgvProduct.Rows[dgvCurRow].Cells["BaseUnitId"].Value = strBaseUnitId;
+            //        dgvProduct.Rows[dgvCurRow].Cells["UnitConversion"].Value = decUnitConversion;
+
+            //                    //PurchaseRate
+            //      DataTable dtblRate = new DataTable();
+            //        decimal dRt = 0;
+
+            //        dtblRate = SPGeneral.ProductPurchaseRate(dgvProduct.Rows[dgvCurRow].Cells["ProductCode"].Value.ToString());
+
+
+            //        if (dtblRate.Rows.Count > 0)
+            //        {
+            //            dRt = Convert.ToDecimal(dtblRate.Rows[0]["rate"]);
+            //            dgvProduct.Rows[dgvCurRow].Cells["PurchaseRate"].Value = (dRt * decUnitConversion).ToString(FinanceSettingsInfo._roundDecimalPart);
+            //        }
+            //        else
+            //        {
+            //            dRt = 0;
+            //            dgvProduct.Rows[dgvCurRow].Cells["PurchaseRate"].Value = "0";
+            //        }
+
+            //        dgvProduct.Rows[dgvCurRow].Cells["SalesRate"].Value = Math.Round(decSalesPrice, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+            //        dgvProduct.Rows[dgvCurRow].Cells["amountBeforeDisc"].Value = Math.Round(amountBeforeDisc, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+            //        dgvProduct.Rows[dgvCurRow].Cells["rateDiscAmount"].Value = Math.Round(rateDiscAmount, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+            //        dgvProduct.Rows[dgvCurRow].Cells["offerId"].Value = offerId;
+            //        if (rateDiscAmount > 0)
+            //            dgvProduct.Rows[dgvCurRow].DefaultCellStyle.ForeColor = Color.Red;
+
+            //        dtbl = SPGeneral.GetProductTaxDetails(strItemCode);
+            //        if (dtbl.Rows.Count > 0) //load tax details details by ProductCode
+            //        {
+            //            dgvProduct.Rows[dgvCurRow].Cells["TaxId"].Value = dtbl.Rows[0]["taxId"].ToString();
+            //            dgvProduct.Rows[dgvCurRow].Cells["TaxPerc"].Value = float.Parse(dtbl.Rows[0]["rate"].ToString());
+            //        }
+            //        else
+            //        {
+            //            dgvProduct.Rows[dgvCurRow].Cells["TaxId"].Value = "1";
+            //            dgvProduct.Rows[dgvCurRow].Cells["TaxPerc"].Value = 0;
+            //        }
+
+            //        AssignExludeRate(dgvCurRow);
+
+
+            //        decimal dQty = 0;
+            //        decimal dRate = 0;
+            //        decimal dIncludeRate = 0;
+            //        decimal dGrossValue = 0;
+            //        decimal dTaxPerc = 0;
+            //        decimal dTaxAmt = 0;
+            //        try { dQty = decimal.Parse(dgvProduct.Rows[dgvCurRow].Cells["Qty"].Value.ToString()); }
+            //        catch { }
+
+            //        try { dRate = decimal.Parse(dgvProduct.Rows[dgvCurRow].Cells["ExcludeRate"].Value.ToString()); }
+            //        catch { }
+            //        try { dIncludeRate = decimal.Parse(dgvProduct.Rows[dgvCurRow].Cells["SalesRate"].Value.ToString()); }
+            //        catch { }
+
+            //        dGrossValue = dQty * dRate;
+
+            //        try { dTaxPerc = decimal.Parse(dgvProduct.Rows[dgvCurRow].Cells["TaxPerc"].Value.ToString()); }
+            //        catch { }
+
+            //        if (dTaxPerc != 0)
+            //        {
+            //            dTaxAmt = Math.Round(((dGrossValue * dTaxPerc) / (100)), FinanceSettingsInfo._roundDecimal);
+
+            //            dgvProduct.Rows[dgvCurRow].Cells["TaxAmt"].Value = dTaxAmt.ToString(FinanceSettingsInfo._roundDecimalPart);
+            //        }
+            //        else
+            //        {
+            //            dgvProduct.Rows[dgvCurRow].Cells["TaxAmt"].Value = "0.00";
+            //        }
+
+            //        //Adjestment
+            //        decimal dcNetTot = 0;
+            //        decimal dcTot = 0;
+            //        dcNetTot = dGrossValue + dTaxAmt;
+            //        dcTot = dQty * dIncludeRate;
+
+            //        if (dcNetTot != dcTot)
+            //        {
+            //            decimal dcDiff = dcTot - dcNetTot;
+            //            dGrossValue += dcDiff;
+            //        }
+            //        //
+
+            //        dgvProduct.Rows[dgvCurRow].Cells["GrossValue"].Value = Math.Round(dGrossValue, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+            //        dgvProduct.Rows[dgvCurRow].Cells["DiscAmt"].Value = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+
+            //        dgvProduct.Rows[dgvCurRow].Cells["NetValue"].Value = Math.Round(dGrossValue, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+
+
+            //        dgvProduct.Rows[dgvCurRow].Cells["Total"].Value = (dGrossValue + dTaxAmt).ToString(FinanceSettingsInfo._roundDecimalPart);
+
+            //        CalculateBillTotal();
+
+            //        dgvSlno = dgvSlno + 1;
+            //        dgvCurRow = dgvCurRow + 1;
+
+            //        dgvProduct.CurrentCell = dgvProduct.Rows[dgvCurRow - 1].Cells["Barcode"];
+
+            //        strBarcode = "";
+            //        strItemCode = "";
+            //        strItemName = "";
+            //        strItemNameArabic = "";
+            //        strUnitId = "";
+            //        strUnitName = "";
+            //        decUnitConversion = 0;
+            //        decSalesPrice = 0;
+            //        strScaleItemType = "";
+            //        strScaleQtyPart = "";
+
+            //        if (lblBarcodeScanningType.Visible == true)
+            //        {
+            //            lblBarcodeScanningType.Text = "";
+            //            lblBarcodeScanningType.Visible = false;
+            //        }
+
+            //    }
+
+
+            //    if (counterInfo.DisplayStatus == true)
+            //    {
+            //        PoleDisplay("BarcodeScan");
+            //    }
+
+            //    barcodeFocus();
+            //}
+            POSSettingsInfo settingsinfo = new POSSettingsInfo();
+            bool IsExist = false;   //added by Nishana for adding qty  of same barcode to grid
+
+            if (strItemCode != "")
+            {
+                int Rownumber = 0;
+                if (settingsinfo.AddQtyInSameBarcodeToGrid == true)
+                {
+                    string barcode = txtBarcode.Text.Trim();
+                    if (String.IsNullOrEmpty(barcode))
+                    {
+                        MessageBox.Show("Please enter a valid barcode.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    for (int i = 0; i < dgvProduct.RowCount; i++)
+                    {
+
+                        if (dgvProduct.Rows[i].Cells["Barcode"].Value != null &&
+                            dgvProduct.Rows[i].Cells["Barcode"].Value.ToString() == barcode)
+                        {
+                            IsExist = true;
+                            Rownumber = i;
+                            break;
+
+                        }
+                    }
+                }
+
+                if (IsExist)
+                {
+                    int currentQty = Convert.ToInt32(dgvProduct.Rows[Rownumber].Cells["Qty"].Value);
+                    dgvProduct.Rows[Rownumber].Cells["Qty"].Value = currentQty + 1;
+
+
+                    decimal dQty = 0;
+                    decimal dRate = 0;
+                    decimal dIncludeRate = 0;
+                    decimal dGrossValue = 0;
+                    decimal dTaxPerc = 0;
+                    decimal dTaxAmt = 0;
+                    try { dQty = decimal.Parse(dgvProduct.Rows[Rownumber].Cells["Qty"].Value.ToString()); }
+                    catch { }
+
+                    try { dRate = decimal.Parse(dgvProduct.Rows[Rownumber].Cells["ExcludeRate"].Value.ToString()); }
+                    catch { }
+                    try { dIncludeRate = decimal.Parse(dgvProduct.Rows[Rownumber].Cells["SalesRate"].Value.ToString()); }
+                    catch { }
+
+                    dGrossValue = dQty * dRate;
+
+                    try { dTaxPerc = decimal.Parse(dgvProduct.Rows[Rownumber].Cells["TaxPerc"].Value.ToString()); }
+                    catch { }
+
+                    if (dTaxPerc != 0)
+                    {
+                        dTaxAmt = Math.Round(((dGrossValue * dTaxPerc) / (100)), FinanceSettingsInfo._roundDecimal);
+
+                        dgvProduct.Rows[Rownumber].Cells["TaxAmt"].Value = dTaxAmt.ToString(FinanceSettingsInfo._roundDecimalPart);
+                    }
+                    else
+                    {
+                        dgvProduct.Rows[Rownumber].Cells["TaxAmt"].Value = "0.00";
+                    }
+
+                    //Adjestment
+                    decimal dcNetTot = 0;
+                    decimal dcTot = 0;
+                    dcNetTot = dGrossValue + dTaxAmt;
+                    dcTot = dQty * dIncludeRate;
+
+                    if (dcNetTot != dcTot)
+                    {
+                        decimal dcDiff = dcTot - dcNetTot;
+                        dGrossValue += dcDiff;
+                    }
+                    //
+
+                    dgvProduct.Rows[Rownumber].Cells["GrossValue"].Value = Math.Round(dGrossValue, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[Rownumber].Cells["DiscAmt"].Value = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+
+                    dgvProduct.Rows[Rownumber].Cells["NetValue"].Value = Math.Round(dGrossValue, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+
+
+                    dgvProduct.Rows[Rownumber].Cells["Total"].Value = (dGrossValue + dTaxAmt).ToString(FinanceSettingsInfo._roundDecimalPart);
+
+                    CalculateBillTotal();
+
+                    //dgvSlno = dgvSlno + 1;
+                    //dgvCurRow = dgvCurRow + 1;
+
+                    //dgvProduct.CurrentCell = dgvProduct.Rows[dgvCurRow - 1].Cells["Barcode"];
+
+                    strBarcode = "";
+                    strItemCode = "";
+                    strItemName = "";
+                    strItemNameArabic = "";
+                    strUnitId = "";
+                    strUnitName = "";
+                    decUnitConversion = 0;
+                    decSalesPrice = 0;
+                    strScaleItemType = "";
+                    strScaleQtyPart = "";
+
+
+                    if (lblBarcodeScanningType.Visible == true)
+                    {
+                        lblBarcodeScanningType.Text = "";
+                        lblBarcodeScanningType.Visible = false;
+                    }
+                }
+                else
+                {
+                    dgvProduct.RowCount = dgvCurRow + 2;
+                    dgvProduct.Rows[dgvCurRow].Cells["SLNo"].Value = dgvSlno;
+                    dgvProduct.Rows[dgvCurRow].Cells["ProductCode"].Value = strItemCode;
+                    dgvProduct.Rows[dgvCurRow].Cells["Barcode"].Value = strBarcode;
+                    dgvProduct.Rows[dgvCurRow].Cells["ItemName"].Value = strItemName;
+                    dgvProduct.Rows[dgvCurRow].Cells["ArabicName"].Value = strItemNameArabic;
+                    if (strScaleItemType == "Inventory")
+                    {
+                        dgvProduct.Rows[dgvCurRow].Cells["Qty"].Value = strScaleQtyPart;
+                    }
+                    else
+                    {
+                        if (lblBarcodeScanningType.Visible == true && lblBarcodeScanningType.Text == "Exchange Item")
+                        {
+                            dgvProduct.Rows[dgvCurRow].Cells["Qty"].Value = -1;
+                        }
+                        else
+                        {
+                            dgvProduct.Rows[dgvCurRow].Cells["Qty"].Value = 1;
+                        }
+                    }
+
+
+                    dgvProduct.Rows[dgvCurRow].Cells["UnitId"].Value = strUnitId;
+                    dgvProduct.Rows[dgvCurRow].Cells["Unit"].Value = strUnitName;
+                    dgvProduct.Rows[dgvCurRow].Cells["BaseUnitId"].Value = strBaseUnitId;
+                    dgvProduct.Rows[dgvCurRow].Cells["UnitConversion"].Value = decUnitConversion;
+
+                    // assiging stock 
+                    decimal decStock = salesMasterSP.ProductStockGetCorrespondingtoBatchAndGodown("POS Sales", "", strItemCode, "1", "1", "1");
+                    dgvProduct.Rows[dgvCurRow].Cells["Stock"].Value = decStock;
+                    //PurchaseRate
                     DataTable dtblRate = new DataTable();
-                      decimal dRt = 0;
+                    decimal dRt = 0;
 
-                      dtblRate = SPGeneral.ProductPurchaseRate(dgvProduct.Rows[dgvCurRow].Cells["ProductCode"].Value.ToString());
+                    dtblRate = SPGeneral.ProductPurchaseRate(dgvProduct.Rows[dgvCurRow].Cells["ProductCode"].Value.ToString());
 
+                    if (dtblRate.Rows.Count > 0)
+                    {
+                        dRt = Convert.ToDecimal(dtblRate.Rows[0]["rate"]);
+                        dgvProduct.Rows[dgvCurRow].Cells["PurchaseRate"].Value = (dRt * decUnitConversion).ToString(FinanceSettingsInfo._roundDecimalPart);
 
-                      if (dtblRate.Rows.Count > 0)
-                      {
-                          dRt = Convert.ToDecimal(dtblRate.Rows[0]["rate"]);
-                          dgvProduct.Rows[dgvCurRow].Cells["PurchaseRate"].Value = (dRt * decUnitConversion).ToString(FinanceSettingsInfo._roundDecimalPart);
-                      }
-                      else
-                      {
-                          dRt = 0;
-                          dgvProduct.Rows[dgvCurRow].Cells["PurchaseRate"].Value = "0";
-                      }
-
-                      dgvProduct.Rows[dgvCurRow].Cells["SalesRate"].Value = Math.Round(decSalesPrice, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
-                      dgvProduct.Rows[dgvCurRow].Cells["amountBeforeDisc"].Value = Math.Round(amountBeforeDisc, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
-                      dgvProduct.Rows[dgvCurRow].Cells["rateDiscAmount"].Value = Math.Round(rateDiscAmount, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
-                      dgvProduct.Rows[dgvCurRow].Cells["offerId"].Value = offerId;
-                      if (rateDiscAmount > 0)
-                          dgvProduct.Rows[dgvCurRow].DefaultCellStyle.ForeColor = Color.Red;
-
-                      dtbl = SPGeneral.GetProductTaxDetails(strItemCode);
-                      if (dtbl.Rows.Count > 0) //load tax details details by ProductCode
-                      {
-                          dgvProduct.Rows[dgvCurRow].Cells["TaxId"].Value = dtbl.Rows[0]["taxId"].ToString();
-                          dgvProduct.Rows[dgvCurRow].Cells["TaxPerc"].Value = float.Parse(dtbl.Rows[0]["rate"].ToString());
-                      }
-                      else
-                      {
-                          dgvProduct.Rows[dgvCurRow].Cells["TaxId"].Value = "1";
-                          dgvProduct.Rows[dgvCurRow].Cells["TaxPerc"].Value = 0;
-                      }
-
-                      AssignExludeRate(dgvCurRow);
+                    }
+                    else
+                    {
+                        dRt = 0;
+                        dgvProduct.Rows[dgvCurRow].Cells["PurchaseRate"].Value = "0";
+                    }
 
 
-                      decimal dQty = 0;
-                      decimal dRate = 0;
-                      decimal dIncludeRate = 0;
-                      decimal dGrossValue = 0;
-                      decimal dTaxPerc = 0;
-                      decimal dTaxAmt = 0;
-                      try { dQty = decimal.Parse(dgvProduct.Rows[dgvCurRow].Cells["Qty"].Value.ToString()); }
-                      catch { }
+                    dgvProduct.Rows[dgvCurRow].Cells["SalesRate"].Value = Math.Round(decSalesPrice, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[dgvCurRow].Cells["amountBeforeDisc"].Value = Math.Round(amountBeforeDisc, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[dgvCurRow].Cells["rateDiscAmount"].Value = Math.Round(rateDiscAmount, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[dgvCurRow].Cells["offerId"].Value = offerId;
+                    if (rateDiscAmount > 0)
+                        dgvProduct.Rows[dgvCurRow].DefaultCellStyle.ForeColor = Color.Red;
 
-                      try { dRate = decimal.Parse(dgvProduct.Rows[dgvCurRow].Cells["ExcludeRate"].Value.ToString()); }
-                      catch { }
-                      try { dIncludeRate = decimal.Parse(dgvProduct.Rows[dgvCurRow].Cells["SalesRate"].Value.ToString()); }
-                      catch { }
+                    dtbl = SPGeneral.GetProductTaxDetails(strItemCode);
+                    if (dtbl.Rows.Count > 0) //load tax details details by ProductCode
+                    {
+                        dgvProduct.Rows[dgvCurRow].Cells["TaxId"].Value = dtbl.Rows[0]["taxId"].ToString();
+                        dgvProduct.Rows[dgvCurRow].Cells["TaxPerc"].Value = float.Parse(dtbl.Rows[0]["rate"].ToString());
+                    }
+                    else
+                    {
+                        dgvProduct.Rows[dgvCurRow].Cells["TaxId"].Value = "1";
+                        dgvProduct.Rows[dgvCurRow].Cells["TaxPerc"].Value = 0;
+                    }
 
-                      dGrossValue = dQty * dRate;
-
-                      try { dTaxPerc = decimal.Parse(dgvProduct.Rows[dgvCurRow].Cells["TaxPerc"].Value.ToString()); }
-                      catch { }
-
-                      if (dTaxPerc != 0)
-                      {
-                          dTaxAmt = Math.Round(((dGrossValue * dTaxPerc) / (100)), FinanceSettingsInfo._roundDecimal);
-
-                          dgvProduct.Rows[dgvCurRow].Cells["TaxAmt"].Value = dTaxAmt.ToString(FinanceSettingsInfo._roundDecimalPart);
-                      }
-                      else
-                      {
-                          dgvProduct.Rows[dgvCurRow].Cells["TaxAmt"].Value = "0.00";
-                      }
-
-                      //Adjestment
-                      decimal dcNetTot = 0;
-                      decimal dcTot = 0;
-                      dcNetTot = dGrossValue + dTaxAmt;
-                      dcTot = dQty * dIncludeRate;
-
-                      if (dcNetTot != dcTot)
-                      {
-                          decimal dcDiff = dcTot - dcNetTot;
-                          dGrossValue += dcDiff;
-                      }
-                      //
-
-                      dgvProduct.Rows[dgvCurRow].Cells["GrossValue"].Value = Math.Round(dGrossValue, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
-                      dgvProduct.Rows[dgvCurRow].Cells["DiscAmt"].Value = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
-
-                      dgvProduct.Rows[dgvCurRow].Cells["NetValue"].Value = Math.Round(dGrossValue, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    AssignExludeRate(dgvCurRow);
 
 
-                      dgvProduct.Rows[dgvCurRow].Cells["Total"].Value = (dGrossValue + dTaxAmt).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    decimal dQty = 0;
+                    decimal dRate = 0;
+                    decimal dIncludeRate = 0;
+                    decimal dGrossValue = 0;
+                    decimal dTaxPerc = 0;
+                    decimal dTaxAmt = 0;
+                    try { dQty = decimal.Parse(dgvProduct.Rows[dgvCurRow].Cells["Qty"].Value.ToString()); }
+                    catch { }
 
-                      CalculateBillTotal();
+                    try { dRate = decimal.Parse(dgvProduct.Rows[dgvCurRow].Cells["ExcludeRate"].Value.ToString()); }
+                    catch { }
+                    try { dIncludeRate = decimal.Parse(dgvProduct.Rows[dgvCurRow].Cells["SalesRate"].Value.ToString()); }
+                    catch { }
 
-                      dgvSlno = dgvSlno + 1;
-                      dgvCurRow = dgvCurRow + 1;
+                    dGrossValue = dQty * dRate;
 
-                      dgvProduct.CurrentCell = dgvProduct.Rows[dgvCurRow - 1].Cells["Barcode"];
+                    try { dTaxPerc = decimal.Parse(dgvProduct.Rows[dgvCurRow].Cells["TaxPerc"].Value.ToString()); }
+                    catch { }
 
-                      strBarcode = "";
-                      strItemCode = "";
-                      strItemName = "";
-                      strItemNameArabic = "";
-                      strUnitId = "";
-                      strUnitName = "";
-                      decUnitConversion = 0;
-                      decSalesPrice = 0;
-                      strScaleItemType = "";
-                      strScaleQtyPart = "";
+                    if (dTaxPerc != 0)
+                    {
+                        dTaxAmt = Math.Round(((dGrossValue * dTaxPerc) / (100)), FinanceSettingsInfo._roundDecimal);
 
-                      if (lblBarcodeScanningType.Visible == true)
-                      {
-                          lblBarcodeScanningType.Text = "";
-                          lblBarcodeScanningType.Visible = false;
-                      }
+                        dgvProduct.Rows[dgvCurRow].Cells["TaxAmt"].Value = dTaxAmt.ToString(FinanceSettingsInfo._roundDecimalPart);
+                    }
+                    else
+                    {
+                        dgvProduct.Rows[dgvCurRow].Cells["TaxAmt"].Value = "0.00";
+                    }
 
-                  }
+                    //Adjestment
+                    decimal dcNetTot = 0;
+                    decimal dcTot = 0;
+                    dcNetTot = dGrossValue + dTaxAmt;
+                    dcTot = dQty * dIncludeRate;
+
+                    if (dcNetTot != dcTot)
+                    {
+                        decimal dcDiff = dcTot - dcNetTot;
+                        dGrossValue += dcDiff;
+                    }
+                    //
+
+                    dgvProduct.Rows[dgvCurRow].Cells["GrossValue"].Value = Math.Round(dGrossValue, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[dgvCurRow].Cells["DiscAmt"].Value = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+
+                    dgvProduct.Rows[dgvCurRow].Cells["NetValue"].Value = Math.Round(dGrossValue, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
 
-                  if (counterInfo.DisplayStatus == true)
-                  {
-                      PoleDisplay("BarcodeScan");
-                  }
+                    dgvProduct.Rows[dgvCurRow].Cells["Total"].Value = (dGrossValue + dTaxAmt).ToString(FinanceSettingsInfo._roundDecimalPart);
 
-                  barcodeFocus();
-              }
-              else
+                    CalculateBillTotal();
+
+                    dgvSlno = dgvSlno + 1;
+                    dgvCurRow = dgvCurRow + 1;
+
+                    dgvProduct.CurrentCell = dgvProduct.Rows[dgvCurRow - 1].Cells["Barcode"];
+
+                    strBarcode = "";
+                    strItemCode = "";
+                    strItemName = "";
+                    strItemNameArabic = "";
+                    strUnitId = "";
+                    strUnitName = "";
+                    decUnitConversion = 0;
+                    decSalesPrice = 0;
+                    strScaleItemType = "";
+                    strScaleQtyPart = "";
+
+                    if (lblBarcodeScanningType.Visible == true)
+                    {
+                        lblBarcodeScanningType.Text = "";
+                        lblBarcodeScanningType.Visible = false;
+                    }
+
+                }
+
+
+                if (counterInfo.DisplayStatus == true)
+                {
+                    PoleDisplay("BarcodeScan");
+                }
+
+                barcodeFocus();
+            }
+            else
               {
                   Console.Beep(500, 500);
                   MessageBox.Show("Barcode not Found", "WARNING");
@@ -3686,7 +3957,7 @@ namespace FinacPOS
         private void dgvProduct_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             //if (dgvProduct.Columns[e.RowIndex].Name == "Qty")
-            if (e.ColumnIndex == 4) //Qty
+            if (e.ColumnIndex == 5) //Qty
             {
                 CalculateGridTotal(e.RowIndex);
                 Qty.ReadOnly = true; 

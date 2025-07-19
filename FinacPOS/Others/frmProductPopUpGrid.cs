@@ -289,7 +289,7 @@ namespace FinacPOS
                 }
                 else if (strcontrolname == "reciept")
                 {
-                    dtGrid = spProduct.POSSalesRecieptCopy(criteria, serachValue, PublicVariables._branchId, DateTime.Parse(dtpFromDate.Text), DateTime.Parse(dtpToDate.Text));
+                    dtGrid = spProduct.POSSalesRecieptCopy(criteria, serachValue, PublicVariables._branchId, DateTime.Parse(dtpFromDate.Text), DateTime.Parse(dtpToDate.Text),PublicVariables._counterId);
                     dgvProducts.DataSource = dtGrid;
 
 
