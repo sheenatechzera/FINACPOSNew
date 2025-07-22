@@ -1853,7 +1853,7 @@ namespace FinacPOS
             }
             return dtbl;
         }
-        public DataTable POSSalesRecieptCopy(string criteria, string SearchValue, string branchId,DateTime fromDate,DateTime toDate,string CounterId)
+        public DataTable POSSalesRecieptCopy(string criteria, string SearchValue, string branchId,DateTime fromDate,DateTime toDate,string CounterId, string userGroup)
         {
             DataTable dtbl = new DataTable();
             try
@@ -1877,7 +1877,8 @@ namespace FinacPOS
                 prm.Value = toDate;
                 prm = sdaadapter.SelectCommand.Parameters.Add("@CounterId", SqlDbType.VarChar);
                 prm.Value = @CounterId;
-
+                prm = sdaadapter.SelectCommand.Parameters.Add("@userGroup", SqlDbType.VarChar);
+                prm.Value = @userGroup;
 
                 sdaadapter.Fill(dtbl);
             }
