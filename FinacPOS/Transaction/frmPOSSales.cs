@@ -2384,8 +2384,8 @@ namespace FinacPOS
             InfoPOSSalesMaster.SessionDate = Convert.ToDateTime(lblSessionDate.Text);
             InfoPOSSalesMaster.CounterId = PublicVariables._counterId;
             InfoPOSSalesMaster.SessionNo = lblSessionNO.Text;
-            InfoPOSSalesMaster.LedgerId = "";
-            InfoPOSSalesMaster.LedgerName = "";
+            InfoPOSSalesMaster.LedgerId = txtCustCode.Text;
+            InfoPOSSalesMaster.LedgerName = txtCustomerName.Text;
             InfoPOSSalesMaster.SubTotalAmount = Convert.ToDecimal(txtSubTotal.Text);
             InfoPOSSalesMaster.BillDiscPer = Convert.ToDecimal(txtDiscPer.Text);
             InfoPOSSalesMaster.BillDiscAmount = Convert.ToDecimal(txtDiscAmt.Text);
