@@ -158,28 +158,36 @@ namespace FinacPOS
 
             if (holdExists)
             {
-                MessageBox.Show("Hold bill exists and cannot be closed.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                DialogResult result = MessageBox.Show( "Hold bill exists and cannot be closed.Do you want to continue?","Hold Bill Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-                if (POSSettingsInfo._HoldBillAuth)
+                if (result == DialogResult.No)
                 {
-                    IsAuthenticationApproved = false;
-                    string condition = "_HoldBillAuth";
-
-                    frmUserAuthentication frm = new frmUserAuthentication();
-                    frm.CallFromFrmEasyAccess(this, condition);
-
-                    if (IsAuthenticationApproved)
-                    {
-                        objSettingsForm.sessionClose(); 
-                    }
+                    return; 
                 }
+                else
+                {
+                    if (POSSettingsInfo._HoldBillAuth)
+                    {
+                        IsAuthenticationApproved = false;
+                        string condition = "_HoldBillAuth";
 
-                return; 
+                        frmUserAuthentication frm = new frmUserAuthentication();
+                        frm.CallFromFrmEasyAccess(this, condition);
+
+                        if (IsAuthenticationApproved)
+                        {
+                            objSettingsForm.sessionClose();
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                    objSettingsForm.sessionClose();
+                }
             }
-
-            objSettingsForm.sessionClose();
-
-
+            else
+                objSettingsForm.sessionClose();
         }
 
         private void panel5_Click(object sender, EventArgs e)

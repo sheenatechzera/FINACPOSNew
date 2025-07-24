@@ -1920,7 +1920,8 @@ namespace FinacPOS
                                 FillDatatatablesforDevPrint(decTotalTenderAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decBalanceAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decCashAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decCreditCardAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decUPIAmt.ToString(FinanceSettingsInfo._roundDecimalPart), false, "", "", strTenderType);
                             }
                         }
-                        //FillDatatatablesforDevPrint(decTotalTenderAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decBalanceAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decCashAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decCreditCardAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decUPIAmt.ToString(FinanceSettingsInfo._roundDecimalPart), false, "", "", strTenderType);
+                        else
+                            FillDatatatablesforDevPrint(decTotalTenderAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decBalanceAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decCashAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decCreditCardAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decUPIAmt.ToString(FinanceSettingsInfo._roundDecimalPart), false, "", "", strTenderType);
                         isPrintSuccess = true;
                     }
                     catch (Exception ex)
