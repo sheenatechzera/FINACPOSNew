@@ -51,9 +51,9 @@ namespace FinacPOS
         int CurColIndex = 0;
         int CurEditRowIndex = 0;
         string strBarcode = "";
-
-        //varis form thermal print
-        DataTable dtblCompanyDetailsThermal;
+        bool IsChecked;
+       //varis form thermal print
+       DataTable dtblCompanyDetailsThermal;
         DataTable dtblGridDetailsThermal;
         DataTable dtblOtherDetailsThermal;
         DataTable dtblTaxDetailsThermal;
@@ -115,6 +115,7 @@ namespace FinacPOS
             POSSettingsSP SpPOSSettings = new POSSettingsSP();
             InfoPOSSettings = SpPOSSettings.POSSettingsViewByBranchId(PublicVariables._branchId);
             DataTable dtbl = new DataTable();
+            ChkHoldBilView.Checked = InfoPosSetting.AlwaysEnableHoldBillView;
             showproductInload(dtbl);
 
             productFill(); //Added on 10/Mar/2025 Varis
@@ -2815,12 +2816,13 @@ namespace FinacPOS
             }
 
             //Re Call Hold Bill Details
-            if (lblBarcodeScanningType.Visible == true && lblBarcodeScanningType.Text == "Scan Hold Bill No")
+            if (lblBarcodeScanningType.Visible == true && lblBarcodeScanningType.Text == "Scan Hold Bill No" || IsChecked == true)
             {
                 LoadHoldBillDetails();
                 lblBarcodeScanningType.Text = "";
                 lblBarcodeScanningType.Visible = false;
-
+                ChkHoldBilView.Checked = InfoPosSetting.AlwaysEnableHoldBillView;
+                IsChecked = false;
                 return;
             }
 
@@ -4593,26 +4595,68 @@ namespace FinacPOS
 
         private void btnUnhold_Click(object sender, EventArgs e)
         {
-            if (lblBarcodeScanningType.Text == "Scan Hold Bill No")
+            if (!ChkHoldBilView.Checked)
             {
-                lblBarcodeScanningType.Text = "";
-                lblBarcodeScanningType.Visible = false;
-            }
-            else
-            {
-                if (dgvProduct.Rows.Count > 1)
+                if (lblBarcodeScanningType.Text == "Scan Hold Bill No")
                 {
-                    MessageBox.Show("Please Clear Current Bill!");
+                    lblBarcodeScanningType.Text = "";
+                    lblBarcodeScanningType.Visible = false;
+
                 }
                 else
                 {
-                    lblBarcodeScanningType.Text = "Scan Hold Bill No";
-                    lblBarcodeScanningType.Visible = true;
+                    if (dgvProduct.Rows.Count > 1)
+                    {
+                        MessageBox.Show("Please Clear Current Bill!");
+                    }
+                    else
+                    {
+                        lblBarcodeScanningType.Text = "Scan Hold Bill No";
+                        lblBarcodeScanningType.Visible = true;
+                    }
+                }
+                barcodeFocus();
+            }
+            else
+            {
+                try
+                {
+                     IsChecked = true;
+                    frmLookup frmlookup = new frmLookup();
+                    frmlookup.strSearchingName = "HoldBillNo";
+                    frmlookup.strFromFormName = "HoldBillDetails";
+                    frmlookup.strSearchColumn = "HoldBillNo";
+                    frmlookup.strSearchOrder = " BillDate DESC,HoldBillNo DESC ";
+                    frmlookup.strSearchQry = "HoldBillNumber,HoldBillNo,BillDate,Customer,TotalAmount";
 
+
+                    //frmlookup.strSearchTable = "(SELECT  POSHoldMasterId as HoldBillNumber,POSHoldMasterId as HoldBillNo,billDate as BillDate,ledgerName as Customer,totalAmount as TotalAmount FROM tbl_POSHoldMaster) A ";
+                    // frmlookup.strSearchTable = "(SELECT  POSHoldMasterId AS HoldBillNumber, POSHoldMasterId AS HoldBillNo, billDate AS BillDate, ledgerName AS Customer, totalAmount AS TotalAmount FROM tbl_POSHoldMaster WHERE counterId = PublicVariables._counterId AND sessionDate = strSessionNo AND HoldStatus = 'P') A ";
+                    string query = $@"(SELECT   POSHoldMasterId AS HoldBillNumber, POSHoldMasterId AS HoldBillNo, billDate AS BillDate, ledgerName AS Customer, totalAmount AS TotalAmount FROM tbl_POSHoldMaster WHERE counterId = '{PublicVariables._counterId}' AND sessionNo = '{lblSessionNO.Text}' AND HoldStatus = 'P') A";
+                    frmlookup.strSearchTable = query;
+
+
+                    frmlookup.strMasterIdColumnName = "HoldBillNumber";
+                    frmlookup.IntSearchFiledCount = 5;
+
+                    frmlookup.DoWhenComingFromPOSSaleForm(this);
                 }
 
+
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+              // barcodeFocus();
             }
-            barcodeFocus();
+        }
+        public void DowhenReturningFromSearchForm(string strHoldBillNo)
+        {
+           
+            txtBarcode.Text = strHoldBillNo;
+            barcodeScanning();
+
+
         }
         public void FillrowAfterPickingReciept(string BillNo)
         {
@@ -5069,6 +5113,6 @@ namespace FinacPOS
 
        }
 
-      
+       
     }
 }

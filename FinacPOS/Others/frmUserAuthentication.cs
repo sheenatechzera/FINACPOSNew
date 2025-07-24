@@ -21,11 +21,14 @@ namespace FinacPOS
         POSCounterSP counterSP = new POSCounterSP();
         bool isFromPOSSales = false;
         bool isFromPOSSales2 = false;
+        bool isFrmeasyAccess = false;
         frmPOSSales ObjfrmPOSSales;
         frmPOSSales2 ObjfrmPOSSales2;
         bool isTrue = false;
         bool isClose = false;
         string _conditionFromSales = "";
+        string _conditionFromFrmeasyAcces = "";
+        FrmeasyAccess objfrmeasyAccess = new FrmeasyAccess();
         private void btnLogin_KeyDown(object sender, KeyEventArgs e)
         {
             try
@@ -167,6 +170,13 @@ namespace FinacPOS
             ObjfrmPOSSales2 = frm;
             DoWhenComingFromOtherForms();
         }
+        public void CallFromFrmEasyAccess(FrmeasyAccess frm, string condition)
+        {
+            isFrmeasyAccess = true;
+            _conditionFromFrmeasyAcces = condition;
+            objfrmeasyAccess = frm;
+            DoWhenComingFromOtherForms();
+        }
         public void DoWhenComingFromOtherForms()
         {           
             base.ShowInTaskbar = false;
@@ -193,7 +203,14 @@ namespace FinacPOS
                 ObjfrmPOSSales2.AuthenticateUser(isTrue, isClose, _conditionFromSales);
                 ObjfrmPOSSales2.BringToFront();
             }
-           
+            if (isFrmeasyAccess)
+            {
+                objfrmeasyAccess.Enabled = true;
+                objfrmeasyAccess.Activate();
+                objfrmeasyAccess.AuthenticateUser(isTrue, isClose, _conditionFromSales);
+                objfrmeasyAccess.BringToFront();
+            }
+
         }
 
         private void frmUserAuthentication_FormClosing(object sender, FormClosingEventArgs e)

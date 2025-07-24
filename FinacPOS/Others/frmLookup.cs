@@ -33,6 +33,7 @@ namespace FinacPOS
         public string strcustomerAddress;
         public string strcustomerPhone;
         public string strcustomerVATNo;
+        public string strHoldBillNo;
 
 
         int inCurrenRowIndex = 0;// To keep row index
@@ -44,6 +45,8 @@ namespace FinacPOS
         FrmPOSTable frmTableObj;
         frmBillPrint frmBillPrintObj;
         frmBillPrint objReceiptPaymentBillNo = new frmBillPrint();
+        frmPOSSales objfrmpossale = new frmPOSSales();
+
 
 
         bool isFromReceiptForm = false;
@@ -51,6 +54,7 @@ namespace FinacPOS
         bool isFromPOSTable = false;
         bool isFrmBillPrint = false;
         bool isReceiptPaymentBill = false;
+        bool isFrmPossale = false;
        
 
         DBClass DBClass = new DBClass();
@@ -215,7 +219,14 @@ namespace FinacPOS
             SearchFunction(strSearchQry, strSearchTable, strSearchCondition, strSearchOrder, IntSearchFiledCount, strMasterIdColumnName);
             base.ShowDialog();
         }
-
+        public void DoWhenComingFromPOSSaleForm(frmPOSSales frm)
+        {
+            this.objfrmpossale = frm;
+            isFrmPossale = true;
+            base.ShowInTaskbar = false;
+            SearchFunction(strSearchQry, strSearchTable, strSearchCondition, strSearchOrder, IntSearchFiledCount, strMasterIdColumnName);
+            base.ShowDialog();
+        }
 
         private void frmLookup_KeyDown(object sender, KeyEventArgs e)
         {
@@ -355,8 +366,11 @@ namespace FinacPOS
                         strcustomerVATNo = dgvRegister.Rows[inCurrenRowIndex].Cells["CustomerVATNo"].Value.ToString();
 
                     }
-
-                    this.Close();
+                    if (isFrmPossale)
+                    {
+                        strHoldBillNo = dgvRegister.Rows[inCurrenRowIndex].Cells["HoldBillNo"].Value.ToString();
+                    }
+                        this.Close();
 
                 }
             }
@@ -368,11 +382,12 @@ namespace FinacPOS
         {
             string strId = "";
             string StrBillNumber = "";
+           
             //if (inCurrenRowIndex >= 0)
             //{
             //    try { strId = dgvRegister.Rows[inCurrenRowIndex].Cells[strMasterIdColumnName].Value.ToString(); }
             //    catch { strId = ""; }
-                
+
             //}
             strId = strMasterIdColumnValue;
             StrBillNumber = strBillNo;
@@ -398,7 +413,10 @@ namespace FinacPOS
             {
                 objReceiptPaymentBillNo.DoWhenReturningFromSearchofReceiptPaymentBill(StrBillNumber);
             }
-           
+            if (isFrmPossale)
+            { 
+                objfrmpossale.DowhenReturningFromSearchForm(strHoldBillNo);
+            }
         }
 
         private void dgvRegister_DoubleClick(object sender, EventArgs e)

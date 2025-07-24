@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Drawing.Printing;
 using System.IO;
 using FinacPOS.Masters;
+using DevExpress.Xpo;
 
 namespace FinacPOS
 {
@@ -127,8 +128,9 @@ namespace FinacPOS
         }
         private void btnClose_Click(object sender, EventArgs e)
         {
+
             //--------Company Details Datatable--------------
-            
+
             //BranchSP SpBranch = new BranchSP();
             //dtblCompanyDetailsThermal = SpBranch.BranchViewByBranchId(PublicVariables._branchId);
 
@@ -144,7 +146,7 @@ namespace FinacPOS
             //printPreviewDialog1.Document = printDocumentClosing;
             ////printPreviewDialog1.ShowDialog();
             //printDocumentClosing.Print();
-
+    
             this.Close();
        }
 

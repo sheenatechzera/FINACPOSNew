@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.chkAlwaysEnableHoldBillView = new System.Windows.Forms.CheckBox();
             this.chkSessionMngmnt = new System.Windows.Forms.CheckBox();
             this.ChkStockView = new System.Windows.Forms.CheckBox();
             this.ChkActiveTable = new System.Windows.Forms.CheckBox();
@@ -76,6 +77,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.chkAlwaysEnableHoldBillView);
             this.panel1.Controls.Add(this.chkSessionMngmnt);
             this.panel1.Controls.Add(this.ChkStockView);
             this.panel1.Controls.Add(this.ChkActiveTable);
@@ -106,6 +108,17 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(713, 488);
             this.panel1.TabIndex = 0;
+            // 
+            // chkAlwaysEnableHoldBillView
+            // 
+            this.chkAlwaysEnableHoldBillView.AutoSize = true;
+            this.chkAlwaysEnableHoldBillView.Location = new System.Drawing.Point(440, 131);
+            this.chkAlwaysEnableHoldBillView.Name = "chkAlwaysEnableHoldBillView";
+            this.chkAlwaysEnableHoldBillView.Size = new System.Drawing.Size(200, 18);
+            this.chkAlwaysEnableHoldBillView.TabIndex = 42;
+            this.chkAlwaysEnableHoldBillView.Text = "Always Enable HoldBill View";
+            this.chkAlwaysEnableHoldBillView.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.chkAlwaysEnableHoldBillView.UseVisualStyleBackColor = true;
             // 
             // chkSessionMngmnt
             // 
@@ -540,7 +553,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(620, 421);
+            this.ClientSize = new System.Drawing.Size(632, 421);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "frmPOSSettings";
@@ -599,5 +612,6 @@
         private System.Windows.Forms.CheckBox ChkActiveTable;
         private System.Windows.Forms.CheckBox ChkStockView;
         private System.Windows.Forms.CheckBox chkSessionMngmnt;
+        private System.Windows.Forms.CheckBox chkAlwaysEnableHoldBillView;
     }
 }

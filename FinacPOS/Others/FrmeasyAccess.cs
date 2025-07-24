@@ -16,6 +16,7 @@ namespace FinacPOS
         {
             InitializeComponent();
         }
+        bool IsAuthenticationApproved = false;
         frmPOSSettings objSettingsForm = new frmPOSSettings();
         private void FrmeasyAccess_Load(object sender, EventArgs e)
         {
@@ -147,7 +148,38 @@ namespace FinacPOS
         {
             //
             //MDIFinacPOS.MDIObj.sessionClose();   
+
+        
+            SessionControlSp objsessioncontrol = new SessionControlSp();
+            SessionManagementSP sessionSp = new SessionManagementSP();
+
+            DataTable dtbl = sessionSp.GetActiveSession(PublicVariables._currentUserId, PublicVariables._counterId);
+            bool holdExists = objsessioncontrol.IsHoldBillStillActive(dtbl.Rows[0]["sessionNo"].ToString());
+
+            if (holdExists)
+            {
+                MessageBox.Show("Hold bill exists and cannot be closed.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                if (POSSettingsInfo._HoldBillAuth)
+                {
+                    IsAuthenticationApproved = false;
+                    string condition = "_HoldBillAuth";
+
+                    frmUserAuthentication frm = new frmUserAuthentication();
+                    frm.CallFromFrmEasyAccess(this, condition);
+
+                    if (IsAuthenticationApproved)
+                    {
+                        objSettingsForm.sessionClose(); 
+                    }
+                }
+
+                return; 
+            }
+
             objSettingsForm.sessionClose();
+
+
         }
 
         private void panel5_Click(object sender, EventArgs e)
@@ -199,6 +231,20 @@ namespace FinacPOS
                 MDIFinacPOS.MDIObj.openPOSPayment();
         }
 
-
+        public void AuthenticateUser(bool IstrueUser, bool isClose, string condition)
+        {
+            IsAuthenticationApproved = IstrueUser;
+            if (!isClose)
+            {
+                if (IsAuthenticationApproved == false)
+                {
+                    MessageBox.Show("You are not an authenticated user!!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            //else
+            //{
+            //    barcodeFocus();
+            //}
+        }
     }
 }

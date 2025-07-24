@@ -39,6 +39,7 @@ namespace FinacPOS
         public static bool _ActiveTableManage;
         public static bool _StockView;
         public static bool _SessionManagmentByAdmin;
+        public static bool _AlwaysEnableHoldBillView;
 
         public string POSSettingsId
         {
@@ -201,6 +202,11 @@ namespace FinacPOS
         {
             get { return _SessionManagmentByAdmin; }
             set { _SessionManagmentByAdmin = value; }
+        }
+        public bool AlwaysEnableHoldBillView
+        {
+            get { return _AlwaysEnableHoldBillView; }
+            set { _AlwaysEnableHoldBillView = value; }
         }
     }
 }

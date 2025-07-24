@@ -96,6 +96,7 @@
             this.txtCustCode = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.lblCustomerName = new System.Windows.Forms.Label();
+            this.lblLedgerId = new System.Windows.Forms.Label();
             this.FlpanelProductGroup = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.lblBarcodeScanningType = new System.Windows.Forms.Label();
@@ -141,6 +142,7 @@
             this.btnFive = new System.Windows.Forms.Button();
             this.btnSix = new System.Windows.Forms.Button();
             this.panelBarcode = new System.Windows.Forms.Panel();
+            this.ChkHoldBilView = new System.Windows.Forms.CheckBox();
             this.panelBillDetails = new System.Windows.Forms.Panel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.panelMainButton = new System.Windows.Forms.Panel();
@@ -158,7 +160,6 @@
             this.label16 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
-            this.lblLedgerId = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.printDocumentThermal3 = new System.Drawing.Printing.PrintDocument();
             this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
@@ -767,6 +768,16 @@
             this.lblCustomerName.TabIndex = 22;
             this.lblCustomerName.Text = "Name";
             this.lblCustomerName.Click += new System.EventHandler(this.lblCustomerName_Click);
+            // 
+            // lblLedgerId
+            // 
+            this.lblLedgerId.AutoSize = true;
+            this.lblLedgerId.ForeColor = System.Drawing.Color.Black;
+            this.lblLedgerId.Location = new System.Drawing.Point(112, 13);
+            this.lblLedgerId.Name = "lblLedgerId";
+            this.lblLedgerId.Size = new System.Drawing.Size(0, 13);
+            this.lblLedgerId.TabIndex = 46;
+            this.lblLedgerId.Click += new System.EventHandler(this.lblLedgerId_Click);
             // 
             // FlpanelProductGroup
             // 
@@ -1437,6 +1448,18 @@
             this.panelBarcode.TabIndex = 24;
             this.panelBarcode.Paint += new System.Windows.Forms.PaintEventHandler(this.panelBarcode_Paint);
             // 
+            // ChkHoldBilView
+            // 
+            this.ChkHoldBilView.AutoSize = true;
+            this.ChkHoldBilView.Font = new System.Drawing.Font("Century Gothic", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ChkHoldBilView.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ChkHoldBilView.Location = new System.Drawing.Point(380, 5);
+            this.ChkHoldBilView.Name = "ChkHoldBilView";
+            this.ChkHoldBilView.Size = new System.Drawing.Size(63, 17);
+            this.ChkHoldBilView.TabIndex = 0;
+            this.ChkHoldBilView.Text = "Show All";
+            this.ChkHoldBilView.UseVisualStyleBackColor = true;
+            // 
             // panelBillDetails
             // 
             this.panelBillDetails.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(33)))), ((int)(((byte)(42)))));
@@ -1472,6 +1495,7 @@
             // panelMainButton
             // 
             this.panelMainButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(71)))), ((int)(((byte)(83)))));
+            this.panelMainButton.Controls.Add(this.ChkHoldBilView);
             this.panelMainButton.Controls.Add(this.btnExchange);
             this.panelMainButton.Controls.Add(this.btnCashBox);
             this.panelMainButton.Controls.Add(this.btnPriceCheck);
@@ -1594,7 +1618,7 @@
             this.btnUnhold.ForeColor = System.Drawing.Color.White;
             this.btnUnhold.Location = new System.Drawing.Point(339, 3);
             this.btnUnhold.Name = "btnUnhold";
-            this.btnUnhold.Size = new System.Drawing.Size(105, 70);
+            this.btnUnhold.Size = new System.Drawing.Size(106, 70);
             this.btnUnhold.TabIndex = 17;
             this.btnUnhold.Text = "UnHold\r\n(F8)";
             this.btnUnhold.UseVisualStyleBackColor = false;
@@ -1680,16 +1704,6 @@
             this.label21.TabIndex = 36;
             this.label21.Text = "Taxable";
             this.label21.Click += new System.EventHandler(this.label21_Click);
-            // 
-            // lblLedgerId
-            // 
-            this.lblLedgerId.AutoSize = true;
-            this.lblLedgerId.ForeColor = System.Drawing.Color.Black;
-            this.lblLedgerId.Location = new System.Drawing.Point(112, 13);
-            this.lblLedgerId.Name = "lblLedgerId";
-            this.lblLedgerId.Size = new System.Drawing.Size(0, 13);
-            this.lblLedgerId.TabIndex = 46;
-            this.lblLedgerId.Click += new System.EventHandler(this.lblLedgerId_Click);
             // 
             // timer1
             // 
@@ -1867,5 +1881,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn rateDiscAmount;
         private System.Windows.Forms.DataGridViewTextBoxColumn amountBeforeDisc;
         private System.Windows.Forms.DataGridViewTextBoxColumn offerId;
+        private System.Windows.Forms.CheckBox ChkHoldBilView;
     }
 }

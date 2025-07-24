@@ -92,6 +92,8 @@ namespace FinacPOS
                 sprmparam.Value = counterinfo.StockView;
                 sprmparam = sccmd.Parameters.Add("@SessionAdminControl", SqlDbType.Bit);
                 sprmparam.Value = counterinfo.SessionManagmentByAdmin;
+                sprmparam = sccmd.Parameters.Add("@HoldBillViewAll", SqlDbType.Bit);
+                sprmparam.Value = counterinfo.AlwaysEnableHoldBillView;
                 id = sccmd.ExecuteScalar().ToString();
 
             }
@@ -153,6 +155,7 @@ namespace FinacPOS
                 settingsinfo.ActiveTableManage = bool.Parse(sdrreader["ActiveTableManage"].ToString());
                 settingsinfo.StockView = bool.Parse(sdrreader["StockView"].ToString());
                 settingsinfo.SessionManagmentByAdmin = bool.Parse(sdrreader["SessionAdminControl"].ToString());
+              settingsinfo.AlwaysEnableHoldBillView = bool.Parse(sdrreader["HoldBillViewAll"].ToString());
             }
             sdrreader.Close();
 

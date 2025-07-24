@@ -110,6 +110,36 @@ namespace FinacPOS
 
             return dt;
         }
+        public bool IsHoldBillStillActive(string strSessionNo)
+        {
+            bool exists = false;
+            try
+            {
+                if (sqlcon.State == ConnectionState.Closed)
+                {
+                    sqlcon.Open();
+                }
+
+                SqlCommand  cmd = new SqlCommand("POSCheckHoldBillExist", sqlcon);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CounterId", PublicVariables._counterId);
+                cmd.Parameters.AddWithValue("@SessionNo", strSessionNo);
+                int count = Convert.ToInt32(cmd.ExecuteScalar());
+                exists = count > 0;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                sqlcon.Close();
+            }
+
+            return exists;
+        }
+
     }
 }
 

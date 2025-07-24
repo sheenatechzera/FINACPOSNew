@@ -20,6 +20,7 @@ namespace FinacPOS
         public static MDIFinacPOS MDIObj;
         ComboValidation objComboValidation = new ComboValidation();
         POSSettingsSP spPOSSettings = new POSSettingsSP();
+       POSSalesMasterInfo objsalesmasterinfo = new POSSalesMasterInfo();
         private void btnSave_Click(object sender, EventArgs e)
         {
 
@@ -56,6 +57,8 @@ namespace FinacPOS
             infoPOS.ActiveTableManage = ChkActiveTable.Checked;
             infoPOS.StockView = ChkStockView.Checked;
             infoPOS.SessionManagmentByAdmin = chkSessionMngmnt.Checked;
+            infoPOS.AlwaysEnableHoldBillView = chkAlwaysEnableHoldBillView.Checked;
+
             spPOSSettings.POSSettingsEdit(infoPOS);
             MessageBox.Show("Settings saved successfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -102,6 +105,7 @@ namespace FinacPOS
                 ChkActiveTable.Checked = infoPOS.ActiveTableManage;
                 ChkStockView.Checked = infoPOS.StockView;
                 chkSessionMngmnt.Checked = infoPOS.SessionManagmentByAdmin;
+                chkAlwaysEnableHoldBillView.Checked = infoPOS.AlwaysEnableHoldBillView;
             }
         }
 
