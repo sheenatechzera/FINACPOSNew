@@ -1356,35 +1356,43 @@ namespace FinacPOS
 
                 ////dRowDetails["qrCode"] = strQRvariable;
                 //////---------------------------------
+                if (FinanceSettingsInfo._ZatcaType == "Phase 2")
+                {
+                    DataTable dtbl = new DataTable();
+                    dtbl = POSSalesMasterSP.GetPOSLastBillProductsforLastBillPrint(lblBillNo.Text);
 
-                //------------------------ QR Code Generation ----------- by Navas --------------------
-                Zen.Barcode.CodeQrBarcodeDraw qrBarcode = Zen.Barcode.BarcodeDrawFactory.CodeQr;
-                string companyname = dtblCompanyDetails.Rows[0]["branchName"].ToString();
-                string vatno = dtblCompanyDetails.Rows[0]["tinNo"].ToString();
-                string invoicedate = DateTime.Parse(lblBillDate.Text.ToString()).ToString("yyyy-MM-dd");
-                string invoicetime = DateTime.Now.ToString("HH:mm:ss");
-                invoicedate = invoicedate + "T" + invoicetime;
-                string invoicetotal = Convert.ToDecimal(txtTotal.Text).ToString(FinanceSettingsInfo._roundDecimalPart);
-                string invoicevatamount = Convert.ToDecimal(txtTaxAmt.Text).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dRowDetails["qrCode"] = dtbl.Rows[0]["qr_link"].ToString();
+                }
+                else
+                {
+                    //------------------------ QR Code Generation ----------- by Navas --------------------
+                    Zen.Barcode.CodeQrBarcodeDraw qrBarcode = Zen.Barcode.BarcodeDrawFactory.CodeQr;
+                    string companyname = dtblCompanyDetails.Rows[0]["branchName"].ToString();
+                    string vatno = dtblCompanyDetails.Rows[0]["tinNo"].ToString();
+                    string invoicedate = DateTime.Parse(lblBillDate.Text.ToString()).ToString("yyyy-MM-dd");
+                    string invoicetime = DateTime.Now.ToString("HH:mm:ss");
+                    invoicedate = invoicedate + "T" + invoicetime;
+                    string invoicetotal = Convert.ToDecimal(txtTotal.Text).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    string invoicevatamount = Convert.ToDecimal(txtTaxAmt.Text).ToString(FinanceSettingsInfo._roundDecimalPart);
 
-                int lencompanyname = companyname.Length;
-                int lenvatno = vatno.Length;
-                int leninvoicedate = invoicedate.Length;
-                int leninvoicetime = invoicetime.Length;
-                int leninvoicetotal = invoicetotal.Length;
-                int leninvoicevatamount = invoicevatamount.Length;
+                    int lencompanyname = companyname.Length;
+                    int lenvatno = vatno.Length;
+                    int leninvoicedate = invoicedate.Length;
+                    int leninvoicetime = invoicetime.Length;
+                    int leninvoicetotal = invoicetotal.Length;
+                    int leninvoicevatamount = invoicevatamount.Length;
 
-                string strQRvariable = Convert.ToChar(1).ToString() + Convert.ToChar(lencompanyname).ToString() + companyname
-                    + Convert.ToChar(2).ToString() + Convert.ToChar(lenvatno).ToString() + vatno + Convert.ToChar(3).ToString() + Convert.ToChar(19).ToString()
-                    + invoicedate + Convert.ToChar(4).ToString() + Convert.ToChar(leninvoicetotal).ToString() + invoicetotal + Convert.ToChar(5).ToString()
-                    + Convert.ToChar(leninvoicevatamount).ToString() + invoicevatamount;
+                    string strQRvariable = Convert.ToChar(1).ToString() + Convert.ToChar(lencompanyname).ToString() + companyname
+                        + Convert.ToChar(2).ToString() + Convert.ToChar(lenvatno).ToString() + vatno + Convert.ToChar(3).ToString() + Convert.ToChar(19).ToString()
+                        + invoicedate + Convert.ToChar(4).ToString() + Convert.ToChar(leninvoicetotal).ToString() + invoicetotal + Convert.ToChar(5).ToString()
+                        + Convert.ToChar(leninvoicevatamount).ToString() + invoicevatamount;
 
-                var utf8text = System.Text.Encoding.UTF8.GetBytes(strQRvariable);
-                string qrdata = System.Convert.ToBase64String(utf8text);
+                    var utf8text = System.Text.Encoding.UTF8.GetBytes(strQRvariable);
+                    string qrdata = System.Convert.ToBase64String(utf8text);
 
-                dRowDetails["qrCode"] = qrdata;
+                    dRowDetails["qrCode"] = qrdata;
 
-
+                }
 
                 //for (int i = 0; i < dtblTaxDetailsThermal.Rows.Count; i++)
                 //{
@@ -1880,9 +1888,8 @@ namespace FinacPOS
                             }
                         }
                         else
-                        
                             FillDatatatablesforDevPrint(decTotalTenderAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decBalanceAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decCashAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decCreditCardAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decUPIAmt.ToString(FinanceSettingsInfo._roundDecimalPart), false, "", "", strTenderType);
-                            isPrintSuccess = true;
+                        isPrintSuccess = true;
                     }
                     catch (Exception ex)
                     {
@@ -2220,7 +2227,10 @@ namespace FinacPOS
             {
                 POSSalesMasterSP.UpdatePOSHoldBillStatus(strHoldMasterIdToEdit, lblBillNo.Text);//updated sheena 04-05-2024
             }
-
+            if (FinanceSettingsInfo._ZatcaType == "Phase 2")
+            {
+                var result = EinvoiceGenerator.EinvoiceReq(strMasterId, "Sales Invoice");
+            }
             //CreditNote Status Update
             if (InfoPOSSalesMaster.CreditNoteNo != "")
             {

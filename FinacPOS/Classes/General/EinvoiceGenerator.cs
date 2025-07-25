@@ -122,49 +122,35 @@ namespace FinacPOS
                 string salestype1 = "";
                 string productname = "";
 
+                string BillType = dtMaster.Rows[0]["BillType"].ToString();
+                BillType = "Tax Invoice";// comment later. Hard coded For HOOKAH 
                 if (strVoucherType == "Sales Invoice")
                 {
-                    if (dtMaster.Rows[0]["BillType"].ToString() == "Tax Invoice")
+                    if (BillType == "Tax Invoice")
                     {
-                        salestype1 = "2";
+                        EinvoiceMode = "01";  // B2B
+                        salestype = "388";    // Standard Invoice
                     }
-                    else if (dtMaster.Rows[0]["BillType"].ToString() == "Retail Invoice")
+                    else if (BillType == "Retail Invoice")
                     {
-                        salestype1 = "1";
+                        EinvoiceMode = "02";  // B2C
+                        salestype = "388";    // Simplified Invoice
                     }
                 }
-                else
+                else if (strVoucherType == "Sales Return")
                 {
-                    salestype1 = "2";
-                }
-                    
-
-                if (Convert.ToInt32(salestype1) == 1)
-                {
-                    EinvoiceMode = "02"; // 02 for B2C
-                    if (strVoucherType == "Sales Invoice")
+                    if (BillType == "Tax Invoice")
                     {
-                        salestype = "388"; //Sales Invoice
+                        EinvoiceMode = "01";  // B2B
+                        salestype = "383";    // Standard Debit Note
                     }
-                    else if (strVoucherType == "Sales Return")
+                    else if (BillType == "Retail Invoice")
                     {
-                        salestype = "381"; //Sales Return
+                        EinvoiceMode = "02";  // B2C
+                        salestype = "381";    // Simplified Debit Note
                     }
                 }
-                else
-                {
-                    EinvoiceMode = "01"; //01 for B2B.
-                    if (strVoucherType == "Sales Invoice")
-                    {
-                        salestype = "388"; //Sales Invoice
-                    }
-                    else if (strVoucherType == "Sales Return")
-                    {
-                        salestype = "381"; //Sales Return
-                    }
 
-
-                }
 
                 foreach (DataRow Dv in dtDetails.Rows)
                 {
@@ -210,18 +196,18 @@ namespace FinacPOS
                         }
                         else
                         {
-                            Drn["BuyerCityName"] = "";
-                            Drn["BuyerCitySubDivisionName"] = "";
-                            Drn["BuyerBuildingNo"] = "";
-                            Drn["BuyerStreetName"] = "";
+                            Drn["BuyerCityName"] = dtblCompanyDetails.Rows[0]["CityName"].ToString();
+                            Drn["BuyerCitySubDivisionName"] = dtblCompanyDetails.Rows[0]["District"].ToString();
+                            Drn["BuyerBuildingNo"] = dtblCompanyDetails.Rows[0]["BiuldingNo"].ToString();
+                            Drn["BuyerStreetName"] = dtblCompanyDetails.Rows[0]["StreetName"].ToString();
                             Drn["BuyerPlotIdentification"] = "";
-                            Drn["BuyerPostalZone"] = "";
+                            Drn["BuyerPostalZone"] = dtblCompanyDetails.Rows[0]["PostalCode"].ToString();
                             Drn["BuyerContactName"] = "Cash Customer";
                             Drn["BuyerSchemeID"] = "";
-                            Drn["BuyerSchemIDNo"] = "";
+                            Drn["BuyerSchemIDNo"] = dtblCompanyDetails.Rows[0]["CRNumber"].ToString();
                             Drn["BuyerTaxCode"] = "";
-                            Drn["BuyerDistrict"] = "";
-                            Drn["BuyerCountryCode"] = "";
+                            Drn["BuyerDistrict"] = dtblCompanyDetails.Rows[0]["District"].ToString();
+                            Drn["BuyerCountryCode"] = "SA";
                         }
 
                         
