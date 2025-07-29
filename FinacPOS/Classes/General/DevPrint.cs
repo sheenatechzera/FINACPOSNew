@@ -114,8 +114,8 @@ namespace FinacPOS
             report.Parameters["CustomerAddress"].Value = dtblOtherDetails.Rows[0]["CustomerAddress"].ToString();
             report.Parameters["CustomerPhone"].Value = dtblOtherDetails.Rows[0]["CustomerPhone"].ToString();
             report.Parameters["CustomerVatNo"].Value = dtblOtherDetails.Rows[0]["CustomerVATNo"].ToString();
-            //
-
+            //Added on 29/Jul/2025
+            report.Parameters["TokenNo"].Value = dtblOtherDetails.Rows[0]["TokenNo"].ToString();
             //Tax Details
             if (dtblTaxDetails.Rows.Count > 0)
             {

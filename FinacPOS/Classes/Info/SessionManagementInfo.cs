@@ -27,6 +27,7 @@ namespace FinacPOS
         private decimal _TotalSales;
         private string _Particular;
         private decimal _AMOUNT;
+        private string _lastTokenNo;
         public string SessionNo
         {
             get { return _sessionNo; }
@@ -104,6 +105,11 @@ namespace FinacPOS
         {
             get { return _AMOUNT; }
             set { _AMOUNT = value; }
+        }
+        public string lastTokenNo
+        {
+            get { return _lastTokenNo; }
+            set { _lastTokenNo = value; }
         }
     }
 }

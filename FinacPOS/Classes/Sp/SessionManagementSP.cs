@@ -51,6 +51,8 @@ namespace FinacPOS
                 sprmparam.Value = sessioninfo.Extra1;
                 sprmparam = sccmd.Parameters.Add("@extra2", SqlDbType.VarChar);
                 sprmparam.Value = sessioninfo.Extra2;
+                sprmparam = sccmd.Parameters.Add("@lastTokenNo", SqlDbType.VarChar);
+                sprmparam.Value = sessioninfo.lastTokenNo;
                 id = sccmd.ExecuteScalar().ToString();
 
             }

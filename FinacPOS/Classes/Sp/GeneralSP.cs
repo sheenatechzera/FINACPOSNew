@@ -38,6 +38,38 @@ namespace FinacPOS
             }
             return dtbl;
         }
+        public DataTable GetPOSLastTokenNo(string CounterId, string SessionNo,DateTime SessionDate)
+        {
+            DataTable dtbl = new DataTable();
+            try
+            {
+                if (sqlcon.State == ConnectionState.Closed)
+                {
+                    sqlcon.Open();
+                }
+                SqlDataAdapter sdaadapter = new SqlDataAdapter("GetPOSTokenMax", sqlcon);
+                sdaadapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+                SqlParameter sqlparameter = new SqlParameter();
+                sqlparameter = sdaadapter.SelectCommand.Parameters.Add("@counterId", SqlDbType.VarChar);
+                sqlparameter.Value = CounterId;
+                sqlparameter = sdaadapter.SelectCommand.Parameters.Add("@sessionNo", SqlDbType.VarChar);
+                sqlparameter.Value = SessionNo;
+                sqlparameter = sdaadapter.SelectCommand.Parameters.Add("@sessionDate", SqlDbType.DateTime);
+                sqlparameter.Value = SessionDate;
+                sdaadapter.Fill(dtbl);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            finally
+            {
+                sqlcon.Close();
+            }
+            return dtbl;
+        }
+
         public DataTable GetProductDetailsByProductCode(string ProductCode)
         {
             DataTable dtbl = new DataTable();
@@ -286,5 +318,36 @@ namespace FinacPOS
             }
 
         }
+
+        public void POSTokenNoUpdate(string CounterId, string SessionNo, DateTime SessionDate)
+        {
+
+            try
+            {
+                if (sqlcon.State == ConnectionState.Closed)
+                {
+                    sqlcon.Open();
+                }
+                SqlCommand sccmd = new SqlCommand("POSTokenNoUpdate", sqlcon);
+                sccmd.CommandType = CommandType.StoredProcedure;
+                SqlParameter sprmparam = new SqlParameter();
+                sprmparam = sccmd.Parameters.Add("@counterId", SqlDbType.VarChar);
+                sprmparam.Value = CounterId;
+                sprmparam = sccmd.Parameters.Add("@sessionNo", SqlDbType.VarChar);
+                sprmparam.Value = SessionNo;
+                sprmparam = sccmd.Parameters.Add("@sessionDate", SqlDbType.DateTime);
+                sprmparam.Value = SessionDate;
+                sccmd.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            finally
+            {
+                sqlcon.Close();
+            }
+        }
+
     }
 }

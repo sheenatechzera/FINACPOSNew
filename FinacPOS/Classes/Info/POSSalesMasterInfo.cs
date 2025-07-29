@@ -38,7 +38,9 @@ namespace FinacPOS
         private decimal _creditNoteAmount;
         private string _userId;
         private String _SalesMode;
-        
+        private string _TokenNo;
+
+
 
         public string POSSalesMasterId
         {
@@ -198,7 +200,12 @@ namespace FinacPOS
             set { _CustomerVATNo = value; }
         }
 
-      
+        public string TokenNo
+        {
+            get { return _TokenNo; }
+            set { _TokenNo = value; }
+        }
+
 
     }
 }

@@ -171,6 +171,7 @@ namespace FinacPOS
                 sessionInfo.BranchId = PublicVariables._branchId;
                 sessionInfo.Extra1 = "";
                 sessionInfo.Extra2 = "";
+                sessionInfo.lastTokenNo= 0.ToString();
                 sessionSp.SessionManagementAdd(sessionInfo);
                 MessageBox.Show("Session created successfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtOpenBal.Text = "0";

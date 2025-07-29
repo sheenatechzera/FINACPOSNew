@@ -645,6 +645,8 @@ namespace FinacPOS
         public void ClearFunction()
         {
             lblBillNo.Text = POSBillNumberMax();
+            POSSalesMasterInfo InfoPOSSalesMaster = new POSSalesMasterInfo();
+            InfoPOSSalesMaster.TokenNo = POSTokenNoMax();
             btnCash.Enabled = true;
             btnCreditCard.Enabled = true;
             btnUPI.Enabled = true;
@@ -810,6 +812,27 @@ namespace FinacPOS
                 MessageBox.Show(ex.Message,"", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             return PartBillNo;
+        }
+
+        public string POSTokenNoMax()
+        {
+            string TokenNo = "1";
+
+            try
+            {
+                DataTable dtbl = SPGeneral.GetPOSLastTokenNo(PublicVariables._counterId.ToString(), strSessionNo, Convert.ToDateTime(strSessionDate));
+
+                if (dtbl.Rows.Count > 0 && !dtbl.Rows[0].IsNull("LastTokenNo"))
+                {
+                    TokenNo = dtbl.Rows[0]["LastTokenNo"].ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            return TokenNo;
         }
         public void CallFromSessionManagement(frmSessionManagement frm)
         {
@@ -1240,6 +1263,7 @@ namespace FinacPOS
             dtblOtherDetails.Columns.Add("CustomerAddress");
             dtblOtherDetails.Columns.Add("CustomerPhone");
             dtblOtherDetails.Columns.Add("CustomerVatNo");
+            dtblOtherDetails.Columns.Add("TokenNo");
 
             if (isDuplicatePrint == false)
             {
@@ -1350,7 +1374,7 @@ namespace FinacPOS
                     dRowDetails["CustomerAddress"] = "";
                     dRowDetails["CustomerPhone"] = "";
                     dRowDetails["CustomerVatNo"] = "";
-
+                    dRowDetails["TokenNo"] = POSTokenNoMax();
                     dRowDetails["isCredit"] = false;
                     dRowDetails["prevBalance"] = "";
                     dRowDetails["BillAmount"] = "";
@@ -1512,7 +1536,7 @@ namespace FinacPOS
                     dRowDetails["CustomerAddress"] = "";
                     dRowDetails["CustomerPhone"] = "";
                     dRowDetails["CustomerVatNo"] = "";
-
+                    dRowDetails["TokenNo"] = dtbl.Rows[0]["TokenNo"].ToString();
                     if (dtbl.Rows[0]["customerCode"].ToString() != "")
                     {
                         dRowDetails["isCredit"] = true;
@@ -1977,7 +2001,8 @@ namespace FinacPOS
                         }
                         //-------------------------------------------------------------------------------------
                     }
-                    SPGeneral.POSBillUpdate(PublicVariables._counterId, PublicVariables._currentUserId, "Sales");   
+                    SPGeneral.POSBillUpdate(PublicVariables._counterId, PublicVariables._currentUserId, "Sales");
+                    SPGeneral.POSTokenNoUpdate(PublicVariables._counterId.ToString(), strSessionNo, Convert.ToDateTime(strSessionDate));
                     ClearFunction();
                 }
             }
@@ -2219,6 +2244,7 @@ namespace FinacPOS
             InfoPOSSalesMaster.CustomerAddress = "";
             InfoPOSSalesMaster.CustomerPhone = "";
             InfoPOSSalesMaster.CustomerVATNo = "";
+            InfoPOSSalesMaster.TokenNo = POSTokenNoMax();
             strMasterId = POSSalesMasterSP.POSSalesMasterAdd(InfoPOSSalesMaster);
 
             if (strMasterId != "")
@@ -2299,7 +2325,6 @@ namespace FinacPOS
             string strMasterId = "";
 
             lblBillNo.Text = POSBillNumberMax();
-
             POSSalesMasterInfo InfoPOSSalesMaster = new POSSalesMasterInfo();
             InfoPOSSalesMaster.InvoiceNo = lblBillNo.Text;
             InfoPOSSalesMaster.BillDate = Convert.ToDateTime(lblBillDate.Text);
@@ -2331,7 +2356,7 @@ namespace FinacPOS
             InfoPOSSalesMaster.CustomerAddress = "";
             InfoPOSSalesMaster.CustomerPhone = "";
             InfoPOSSalesMaster.CustomerVATNo = "";
-
+            InfoPOSSalesMaster.TokenNo = POSTokenNoMax();
 
             strMasterId = POSSalesMasterSP.POSDeletedSalesMasterHistoryAdd(InfoPOSSalesMaster);
 
@@ -2464,6 +2489,7 @@ namespace FinacPOS
             InfoPOSSalesMaster.CashPaidAmount = 0m;
             InfoPOSSalesMaster.CreditNoteNo = "";
             InfoPOSSalesMaster.CreditNoteAmount = 0m;
+            InfoPOSSalesMaster.TokenNo = POSTokenNoMax();
             InfoPOSSalesMaster.UserId = PublicVariables._currentUserId;
 
             if (strHoldMasterIdToEdit == "")
