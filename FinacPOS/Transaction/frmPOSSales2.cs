@@ -1566,7 +1566,8 @@ namespace FinacPOS
                     }
 
                     dRowDetails["BillAmount"] = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
-                   
+
+
                     //////------------------------ QR Code Generation ----------- by Navas --------------------
                     ////Zen.Barcode.CodeQrBarcodeDraw qrBarcode = Zen.Barcode.BarcodeDrawFactory.CodeQr;
                     ////string companyname = dtblCompanyDetails.Rows[0][2].ToString();
@@ -1602,33 +1603,43 @@ namespace FinacPOS
                     //////dRowDetails["qrCode"] = arr;
 
                     ////dRowDetails["qrCode"] = strQRvariable;
+                    if (FinanceSettingsInfo._ZatcaType == "Phase 2")
+                    {
+                        DataTable dtblQre = new DataTable();
+                        dtblQre = POSSalesMasterSP.GetPOSLastBillProductsforLastBillPrint(lblBillNo.Text);
 
-                    //------------------------ QR Code Generation ----------- by Navas --------------------
-                    Zen.Barcode.CodeQrBarcodeDraw qrBarcode = Zen.Barcode.BarcodeDrawFactory.CodeQr;
-                    string companyname = dtblCompanyDetails.Rows[0]["branchName"].ToString();
-                    string vatno = dtblCompanyDetails.Rows[0]["tinNo"].ToString();
-                    string invoicedate = DateTime.Parse(dtbl.Rows[0]["billDate"].ToString()).ToString("yyyy-MM-dd");
-                    string invoicetime = DateTime.Now.ToString("HH:mm:ss");
-                    invoicedate = invoicedate + "T" + invoicetime;
-                    string invoicetotal = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
-                    string invoicevatamount = Convert.ToDecimal(dtbl.Rows[0]["totalTaxAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dRowDetails["qrCode"] = dtblQre.Rows[0]["qr_link"].ToString();
+                    }
+                    else
+                    {
 
-                    int lencompanyname = companyname.Length;
-                    int lenvatno = vatno.Length;
-                    int leninvoicedate = invoicedate.Length;
-                    int leninvoicetime = invoicetime.Length;
-                    int leninvoicetotal = invoicetotal.Length;
-                    int leninvoicevatamount = invoicevatamount.Length;
+                        //------------------------ QR Code Generation ----------- by Navas --------------------
+                        Zen.Barcode.CodeQrBarcodeDraw qrBarcode = Zen.Barcode.BarcodeDrawFactory.CodeQr;
+                        string companyname = dtblCompanyDetails.Rows[0]["branchName"].ToString();
+                        string vatno = dtblCompanyDetails.Rows[0]["tinNo"].ToString();
+                        string invoicedate = DateTime.Parse(dtbl.Rows[0]["billDate"].ToString()).ToString("yyyy-MM-dd");
+                        string invoicetime = DateTime.Now.ToString("HH:mm:ss");
+                        invoicedate = invoicedate + "T" + invoicetime;
+                        string invoicetotal = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        string invoicevatamount = Convert.ToDecimal(dtbl.Rows[0]["totalTaxAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
 
-                    string strQRvariable = Convert.ToChar(1).ToString() + Convert.ToChar(lencompanyname).ToString() + companyname
-                        + Convert.ToChar(2).ToString() + Convert.ToChar(lenvatno).ToString() + vatno + Convert.ToChar(3).ToString() + Convert.ToChar(19).ToString()
-                        + invoicedate + Convert.ToChar(4).ToString() + Convert.ToChar(leninvoicetotal).ToString() + invoicetotal + Convert.ToChar(5).ToString()
-                        + Convert.ToChar(leninvoicevatamount).ToString() + invoicevatamount;
+                        int lencompanyname = companyname.Length;
+                        int lenvatno = vatno.Length;
+                        int leninvoicedate = invoicedate.Length;
+                        int leninvoicetime = invoicetime.Length;
+                        int leninvoicetotal = invoicetotal.Length;
+                        int leninvoicevatamount = invoicevatamount.Length;
 
-                    var utf8text = System.Text.Encoding.UTF8.GetBytes(strQRvariable);
-                    string qrdata = System.Convert.ToBase64String(utf8text);
+                        string strQRvariable = Convert.ToChar(1).ToString() + Convert.ToChar(lencompanyname).ToString() + companyname
+                            + Convert.ToChar(2).ToString() + Convert.ToChar(lenvatno).ToString() + vatno + Convert.ToChar(3).ToString() + Convert.ToChar(19).ToString()
+                            + invoicedate + Convert.ToChar(4).ToString() + Convert.ToChar(leninvoicetotal).ToString() + invoicetotal + Convert.ToChar(5).ToString()
+                            + Convert.ToChar(leninvoicevatamount).ToString() + invoicevatamount;
 
-                    dRowDetails["qrCode"] = qrdata;
+                        var utf8text = System.Text.Encoding.UTF8.GetBytes(strQRvariable);
+                        string qrdata = System.Convert.ToBase64String(utf8text);
+
+                        dRowDetails["qrCode"] = qrdata;
+                    }
 
                     //---------------------------------
                     dtblOtherDetails.Rows.Add(dRowDetails);

@@ -235,7 +235,8 @@ namespace FinacPOS
 
                         // Add item details
                         Drn["ItemName"] = productname;
-                        Drn["Rate"] = Dv["rate"];
+                        //Drn["Rate"] = Dv["rate"];
+                        Drn["Rate"] = Dv["excludeRate"];
                         Drn["Qty"] = Dv["qty"];
                         Drn["Discount"] = 0;
 

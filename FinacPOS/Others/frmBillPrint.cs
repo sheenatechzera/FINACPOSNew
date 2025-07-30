@@ -283,140 +283,149 @@ namespace FinacPOS
                 dtbl = new DataTable();
                 dtbl = POSSalesMasterSP.GetPOSBillDetailsforBillPrint(strDuplicateBillNo);
 
-                if (dtbl.Rows.Count > 0)
+            if (dtbl.Rows.Count > 0)
+            {
+                DataRow dRowDetails = dtblOtherDetails.NewRow();
+                dRowDetails["PartyName"] = dtbl.Rows[0]["customerName"].ToString();
+                dRowDetails["PartyAddress"] = dtbl.Rows[0]["PartyAddress"].ToString();
+                dRowDetails["phoneNo"] = dtbl.Rows[0]["phoneNo"].ToString();
+                dRowDetails["VatNo"] = dtbl.Rows[0]["VatNo"].ToString();
+                dRowDetails["BillDate"] = Convert.ToDateTime(dtbl.Rows[0]["billDate"]).ToString("dd/MMM/yyyy");
+                dRowDetails["BillTime"] = dtbl.Rows[0]["billTime"].ToString();
+                dRowDetails["SessionDate"] = Convert.ToDateTime(dtbl.Rows[0]["sessionDate"]).ToString("dd/MMM/yyyy");
+                dRowDetails["SessionNo"] = dtbl.Rows[0]["sessionNo"].ToString();
+                dRowDetails["CounterId"] = dtbl.Rows[0]["counterId"].ToString();
+                dRowDetails["UserName"] = dtbl.Rows[0]["userId"].ToString();
+                dRowDetails["InvoiceNo"] = dtbl.Rows[0]["invoiceNo"].ToString();
+                dRowDetails["SubTotal"] = Convert.ToDecimal(dtbl.Rows[0]["subTotalAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                dRowDetails["BillDiscount"] = Convert.ToDecimal(dtbl.Rows[0]["billDiscAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                dRowDetails["TaxableAmount"] = Convert.ToDecimal(dtbl.Rows[0]["taxableAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                dRowDetails["TaxAmount"] = Convert.ToDecimal(dtbl.Rows[0]["totalTaxAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                dRowDetails["GrandTotal"] = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                decimal grandTotal = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"].ToString());
+                dRowDetails["AmountInWords"] = new NumToText().ConvertAmountToWordsForPrint(grandTotal, dtbl.Rows[0]["currencyId"].ToString()); //General    
+                                                                                                                                                //---------------------
+                                                                                                                                                //List<CurrencyArabicInfo> currencies = new List<CurrencyArabicInfo>();
+                CurrencyArabicInfo currencies = new CurrencyArabicInfo(PublicVariables._currencyId);
+                ToWord toWord = new ToWord(Convert.ToDecimal(grandTotal), currencies);
+
+                dRowDetails["AmountInWordsArabic"] = toWord.ConvertToArabic();
+                //   dRowDetails["AmountInWords"] = "";
+                dRowDetails["BillName"] = "TAX INVOICE COPY / فاتورة ضريبية";
+                dRowDetails["QtyTotal"] = dtbl.Rows[0]["totalQty"].ToString();
+                dRowDetails["TenderPaid"] = Convert.ToDecimal(dtbl.Rows[0]["paidAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                dRowDetails["TenderBalance"] = Convert.ToDecimal(dtbl.Rows[0]["balanceAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                dRowDetails["ReportName"] = dtbl.Rows[0]["ReportName"].ToString();
+                dRowDetails["PartyArabic"] = dtbl.Rows[0]["PartyArabic"].ToString();
+                if (Convert.ToDecimal(dtbl.Rows[0]["cashAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart) != "0.00")
                 {
-                    DataRow dRowDetails = dtblOtherDetails.NewRow();
-                    dRowDetails["PartyName"] = dtbl.Rows[0]["customerName"].ToString();
-                    dRowDetails["PartyAddress"] = dtbl.Rows[0]["PartyAddress"].ToString();
-                    dRowDetails["phoneNo"] = dtbl.Rows[0]["phoneNo"].ToString();
-                    dRowDetails["VatNo"] = dtbl.Rows[0]["VatNo"].ToString();
-                    dRowDetails["BillDate"] = Convert.ToDateTime(dtbl.Rows[0]["billDate"]).ToString("dd/MMM/yyyy");
-                    dRowDetails["BillTime"] = dtbl.Rows[0]["billTime"].ToString();
-                    dRowDetails["SessionDate"] = Convert.ToDateTime(dtbl.Rows[0]["sessionDate"]).ToString("dd/MMM/yyyy");
-                    dRowDetails["SessionNo"] = dtbl.Rows[0]["sessionNo"].ToString();
-                    dRowDetails["CounterId"] = dtbl.Rows[0]["counterId"].ToString();
-                    dRowDetails["UserName"] = dtbl.Rows[0]["userId"].ToString();
-                    dRowDetails["InvoiceNo"] = dtbl.Rows[0]["invoiceNo"].ToString();
-                    dRowDetails["SubTotal"] = Convert.ToDecimal(dtbl.Rows[0]["subTotalAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
-                    dRowDetails["BillDiscount"] = Convert.ToDecimal(dtbl.Rows[0]["billDiscAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
-                    dRowDetails["TaxableAmount"] = Convert.ToDecimal(dtbl.Rows[0]["taxableAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
-                    dRowDetails["TaxAmount"] = Convert.ToDecimal(dtbl.Rows[0]["totalTaxAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
-                    dRowDetails["GrandTotal"] = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
-                    decimal grandTotal = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"].ToString());
-                    dRowDetails["AmountInWords"] = new NumToText().ConvertAmountToWordsForPrint(grandTotal, dtbl.Rows[0]["currencyId"].ToString()); //General    
-                                                                                                                                                    //---------------------
-                                                                                                                                                    //List<CurrencyArabicInfo> currencies = new List<CurrencyArabicInfo>();
-                    CurrencyArabicInfo currencies = new CurrencyArabicInfo(PublicVariables._currencyId);
-                    ToWord toWord = new ToWord(Convert.ToDecimal(grandTotal), currencies);
+                    dRowDetails["TenderCashText"] = "Cash Tendered";
+                    dRowDetails["TenderCash"] = Convert.ToDecimal(dtbl.Rows[0]["cashAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                }
+                else
+                {
+                    dRowDetails["TenderCashText"] = "";
+                    dRowDetails["TenderCash"] = "";
+                }
+                if (Convert.ToDecimal(dtbl.Rows[0]["creditCardAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart) != "0.00")
+                {
+                    dRowDetails["TenderCCText"] = "CC Tendered";
+                    dRowDetails["TenderCC"] = Convert.ToDecimal(dtbl.Rows[0]["creditCardAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                }
+                else
+                {
+                    dRowDetails["TenderCCText"] = "";
+                    dRowDetails["TenderCC"] = "";
+                }
+                if (Convert.ToDecimal(dtbl.Rows[0]["UPIAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart) != "0.00")
+                {
+                    dRowDetails["TenderUPIText"] = "UPI Tendered";
+                    dRowDetails["TenderUPI"] = Convert.ToDecimal(dtbl.Rows[0]["UPIAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                }
+                else
+                {
+                    dRowDetails["TenderUPIText"] = "";
+                    dRowDetails["TenderUPI"] = "";
+                }
+                dRowDetails["customerCode"] = dtbl.Rows[0]["customerCode"].ToString();
+                dRowDetails["customerName"] = dtbl.Rows[0]["customerName"].ToString();
 
-                    dRowDetails["AmountInWordsArabic"] = toWord.ConvertToArabic();
-                    //   dRowDetails["AmountInWords"] = "";
-                    dRowDetails["BillName"] = "TAX INVOICE COPY / فاتورة ضريبية";
-                    dRowDetails["QtyTotal"] = dtbl.Rows[0]["totalQty"].ToString();
-                    dRowDetails["TenderPaid"] = Convert.ToDecimal(dtbl.Rows[0]["paidAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
-                    dRowDetails["TenderBalance"] = Convert.ToDecimal(dtbl.Rows[0]["balanceAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
-                    dRowDetails["ReportName"] = dtbl.Rows[0]["ReportName"].ToString();
-                    dRowDetails["PartyArabic"] = dtbl.Rows[0]["PartyArabic"].ToString();
-                    if (Convert.ToDecimal(dtbl.Rows[0]["cashAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart) != "0.00")
+                if (dtbl.Rows[0]["customerCode"].ToString() != "")
+                {
+                    dRowDetails["isCredit"] = true;
+                    if (POSSettingsInfo._ShowCustBalinPrint)
                     {
-                        dRowDetails["TenderCashText"] = "Cash Tendered";
-                        dRowDetails["TenderCash"] = Convert.ToDecimal(dtbl.Rows[0]["cashAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dRowDetails["showCustBalance"] = true;
                     }
                     else
-                    {
-                        dRowDetails["TenderCashText"] = "";
-                        dRowDetails["TenderCash"] = "";
-                    }
-                    if (Convert.ToDecimal(dtbl.Rows[0]["creditCardAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart) != "0.00")
-                    {
-                        dRowDetails["TenderCCText"] = "CC Tendered";
-                        dRowDetails["TenderCC"] = Convert.ToDecimal(dtbl.Rows[0]["creditCardAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
-                    }
-                    else
-                    {
-                        dRowDetails["TenderCCText"] = "";
-                        dRowDetails["TenderCC"] = "";
-                    }
-                    if (Convert.ToDecimal(dtbl.Rows[0]["UPIAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart) != "0.00")
-                    {
-                        dRowDetails["TenderUPIText"] = "UPI Tendered";
-                        dRowDetails["TenderUPI"] = Convert.ToDecimal(dtbl.Rows[0]["UPIAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
-                    }
-                    else
-                    {
-                        dRowDetails["TenderUPIText"] = "";
-                        dRowDetails["TenderUPI"] = "";
-                    }
-                    dRowDetails["customerCode"] = dtbl.Rows[0]["customerCode"].ToString();
-                    dRowDetails["customerName"] = dtbl.Rows[0]["customerName"].ToString();
-
-                    if (dtbl.Rows[0]["customerCode"].ToString() != "")
-                    {
-                        dRowDetails["isCredit"] = true;
-                        if (POSSettingsInfo._ShowCustBalinPrint)
-                        {
-                            dRowDetails["showCustBalance"] = true;
-                        }
-                        else
-                            dRowDetails["showCustBalance"] = false;
-                    }
-                    else
-                    {
-                        dRowDetails["isCredit"] = false;
                         dRowDetails["showCustBalance"] = false;
-                    }
-                    dRowDetails["CustomerAddress"] = dtbl.Rows[0]["PartyAddress"].ToString();
-                    dRowDetails["CustomerPhone"] = dtbl.Rows[0]["phoneNo"].ToString();
-                    dRowDetails["CustomerVatNo"] = dtbl.Rows[0]["VatNo"].ToString();
-                    DataTable dtblBalance = salesmaster.GetCustomerCurrentBalance(dtbl.Rows[0]["customerCode"].ToString(), PublicVariables._branchId);
-                    if (dtblBalance.Rows.Count > 0)
-                    {
-                        dRowDetails["prevBalance"] = Convert.ToDecimal(decimal.Parse(dtblBalance.Rows[0]["currentBal"].ToString()) - Convert.ToDecimal(dtbl.Rows[0]["totalAmount"].ToString())).ToString(FinanceSettingsInfo._roundDecimalPart);
-                        dRowDetails["totalBalance"] = decimal.Parse(dtblBalance.Rows[0]["currentBal"].ToString()).ToString(FinanceSettingsInfo._roundDecimalPart);
-                    }
-                    else
-                    {
-                        dRowDetails["prevBalance"] = 0;
-                        dRowDetails["totalBalance"] = 0;
-                    }
+                }
+                else
+                {
+                    dRowDetails["isCredit"] = false;
+                    dRowDetails["showCustBalance"] = false;
+                }
+                dRowDetails["CustomerAddress"] = dtbl.Rows[0]["PartyAddress"].ToString();
+                dRowDetails["CustomerPhone"] = dtbl.Rows[0]["phoneNo"].ToString();
+                dRowDetails["CustomerVatNo"] = dtbl.Rows[0]["VatNo"].ToString();
+                DataTable dtblBalance = salesmaster.GetCustomerCurrentBalance(dtbl.Rows[0]["customerCode"].ToString(), PublicVariables._branchId);
+                if (dtblBalance.Rows.Count > 0)
+                {
+                    dRowDetails["prevBalance"] = Convert.ToDecimal(decimal.Parse(dtblBalance.Rows[0]["currentBal"].ToString()) - Convert.ToDecimal(dtbl.Rows[0]["totalAmount"].ToString())).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dRowDetails["totalBalance"] = decimal.Parse(dtblBalance.Rows[0]["currentBal"].ToString()).ToString(FinanceSettingsInfo._roundDecimalPart);
+                }
+                else
+                {
+                    dRowDetails["prevBalance"] = 0;
+                    dRowDetails["totalBalance"] = 0;
+                }
 
-                    dRowDetails["BillAmount"] = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                dRowDetails["BillAmount"] = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
 
-                    //////------------------------ QR Code Generation ----------- by Navas --------------------
-                    ////Zen.Barcode.CodeQrBarcodeDraw qrBarcode = Zen.Barcode.BarcodeDrawFactory.CodeQr;
-                    ////string companyname = dtblCompanyDetails.Rows[0][2].ToString();
-                    ////string vatno = dtblCompanyDetails.Rows[0][9].ToString();
-                    ////string invoicedate = Convert.ToDateTime(dtbl.Rows[0]["billDate"]).ToString("yyyy-MM-dd");
-                    ////string invoicetime = DateTime.Now.ToString("HH:mm:ss");
-                    ////invoicedate = invoicedate + "T" + invoicetime;
-                    ////string invoicetotal = Convert.ToDecimal(dtbl.Rows[0]["taxableAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                    //////txtTotal.Text.Replace("SR", "");
-                    ////string invoicevatamount = Convert.ToDecimal(dtbl.Rows[0]["totalTaxAmount"]).ToString(SettingsInfo._roundDecimalPart);
-                    //////txtTaxAmt.Text.Replace("SR", "");
+                //////------------------------ QR Code Generation ----------- by Navas --------------------
+                ////Zen.Barcode.CodeQrBarcodeDraw qrBarcode = Zen.Barcode.BarcodeDrawFactory.CodeQr;
+                ////string companyname = dtblCompanyDetails.Rows[0][2].ToString();
+                ////string vatno = dtblCompanyDetails.Rows[0][9].ToString();
+                ////string invoicedate = Convert.ToDateTime(dtbl.Rows[0]["billDate"]).ToString("yyyy-MM-dd");
+                ////string invoicetime = DateTime.Now.ToString("HH:mm:ss");
+                ////invoicedate = invoicedate + "T" + invoicetime;
+                ////string invoicetotal = Convert.ToDecimal(dtbl.Rows[0]["taxableAmount"]).ToString(SettingsInfo._roundDecimalPart);
+                //////txtTotal.Text.Replace("SR", "");
+                ////string invoicevatamount = Convert.ToDecimal(dtbl.Rows[0]["totalTaxAmount"]).ToString(SettingsInfo._roundDecimalPart);
+                //////txtTaxAmt.Text.Replace("SR", "");
 
-                    ////int lencompanyname = companyname.Length;
-                    ////int lenvatno = vatno.Length;
-                    ////int leninvoicedate = invoicedate.Length;
-                    ////int leninvoicetime = invoicetime.Length;
-                    ////int leninvoicetotal = invoicetotal.Length;
-                    ////int leninvoicevatamount = invoicevatamount.Length;
+                ////int lencompanyname = companyname.Length;
+                ////int lenvatno = vatno.Length;
+                ////int leninvoicedate = invoicedate.Length;
+                ////int leninvoicetime = invoicetime.Length;
+                ////int leninvoicetotal = invoicetotal.Length;
+                ////int leninvoicevatamount = invoicevatamount.Length;
 
-                    ////string strQRvariable = Convert.ToChar(1).ToString() + Convert.ToChar(lencompanyname).ToString() + companyname
-                    ////    + Convert.ToChar(2).ToString() + Convert.ToChar(lenvatno).ToString() + vatno + Convert.ToChar(3).ToString() + Convert.ToChar(19).ToString()
-                    ////    + invoicedate + Convert.ToChar(4).ToString() + Convert.ToChar(leninvoicetotal).ToString() + invoicetotal + Convert.ToChar(5).ToString()
-                    ////    + Convert.ToChar(leninvoicevatamount).ToString() + invoicevatamount;
+                ////string strQRvariable = Convert.ToChar(1).ToString() + Convert.ToChar(lencompanyname).ToString() + companyname
+                ////    + Convert.ToChar(2).ToString() + Convert.ToChar(lenvatno).ToString() + vatno + Convert.ToChar(3).ToString() + Convert.ToChar(19).ToString()
+                ////    + invoicedate + Convert.ToChar(4).ToString() + Convert.ToChar(leninvoicetotal).ToString() + invoicetotal + Convert.ToChar(5).ToString()
+                ////    + Convert.ToChar(leninvoicevatamount).ToString() + invoicevatamount;
 
 
 
-                    //////var utf8text = System.Text.Encoding.UTF8.GetBytes(strQRvariable);
-                    //////string qrdata = System.Convert.ToBase64String(utf8text);
-                    //////Image img = qrBarcode.Draw(qrdata, 500); //pictureBox1.Image;
-                    //////byte[] arr;
-                    //////ImageConverter converter = new ImageConverter();
-                    //////arr = (byte[])converter.ConvertTo(img, typeof(byte[]));
-                    //////dRowDetails["qrCode"] = arr;
+                //////var utf8text = System.Text.Encoding.UTF8.GetBytes(strQRvariable);
+                //////string qrdata = System.Convert.ToBase64String(utf8text);
+                //////Image img = qrBarcode.Draw(qrdata, 500); //pictureBox1.Image;
+                //////byte[] arr;
+                //////ImageConverter converter = new ImageConverter();
+                //////arr = (byte[])converter.ConvertTo(img, typeof(byte[]));
+                //////dRowDetails["qrCode"] = arr;
 
-                    ////dRowDetails["qrCode"] = strQRvariable;
+                ////dRowDetails["qrCode"] = strQRvariable;
+                if (FinanceSettingsInfo._ZatcaType == "Phase 2")
+                {
+                    DataTable dtblQre = new DataTable();
+                    dtblQre = POSSalesMasterSP.GetPOSLastBillProductsforLastBillPrint(strDuplicateBillNo);
+
+                    dRowDetails["qrCode"] = dtblQre.Rows[0]["qr_link"].ToString();
+                }
+                else
+                {
 
                     //------------------------ QR Code Generation ----------- by Navas --------------------
                     Zen.Barcode.CodeQrBarcodeDraw qrBarcode = Zen.Barcode.BarcodeDrawFactory.CodeQr;
@@ -444,10 +453,11 @@ namespace FinacPOS
                     string qrdata = System.Convert.ToBase64String(utf8text);
 
                     dRowDetails["qrCode"] = qrdata;
-
-                    //---------------------------------
-                    dtblOtherDetails.Rows.Add(dRowDetails);
                 }
+
+                //---------------------------------
+                dtblOtherDetails.Rows.Add(dRowDetails);
+            }
             dtblCompanyDetailsThermal = dtblCompanyDetails;
             dtblGridDetailsThermal = dtblGridDetails;
             dtblOtherDetailsThermal = dtblOtherDetails;
