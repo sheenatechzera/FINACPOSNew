@@ -123,7 +123,7 @@ namespace FinacPOS
                 string productname = "";
 
                 string BillType = dtMaster.Rows[0]["BillType"].ToString();
-                BillType = "Tax Invoice";// comment later. Hard coded For HOOKAH 
+                //BillType = "Tax Invoice";// comment later. Hard coded For HOOKAH 
                 if (strVoucherType == "Sales Invoice")
                 {
                     if (BillType == "Tax Invoice")
