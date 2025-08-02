@@ -83,32 +83,39 @@ namespace FinacPOS
         }
         public string POSBillNumberMax()
         {
+
             string PartBillNo = "";
 
             try
             {
-                DataTable dtbl = new DataTable();
-                dtbl = SPGeneral.GetPOSLastBillNo(PublicVariables._counterId, "SalesReturn");
+                DataTable dtbl = SPGeneral.GetPOSLastBillNo(PublicVariables._counterId, "Sales");
 
+                int billNumber = 1;
 
-                if (dtbl.Rows.Count > 0)
+                if (dtbl.Rows.Count > 0 && !dtbl.Rows[0].IsNull("LastBillNo"))
                 {
-                    if (!dtbl.Rows[0].IsNull(0))
-                        PartBillNo = dtbl.Rows[0]["LastBillNo"].ToString();
-                    else
-                        PartBillNo = "1";
+                    // Try parsing the last bill number to int
+                    if (int.TryParse(dtbl.Rows[0]["LastBillNo"].ToString(), out int lastBillNo))
+                    {
+                        billNumber = lastBillNo + 1;
+                    }
+                }
+
+                if (!counterInfo.ShowPrefixInBillNo)
+                {
+                    PartBillNo = billNumber.ToString();
                 }
                 else
-                    PartBillNo = "1";
 
-                PartBillNo = (PartBillNo.ToString()).PadLeft(7, '0');
+                    PartBillNo = PublicVariables._counterId + DateTime.Now.ToString("yy") + billNumber.ToString();
 
-                PartBillNo = "R" + PublicVariables._counterId + "" + DateTime.Now.Date.ToString("yy") + "" + PartBillNo;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                PartBillNo = "1"; // fallback
             }
+
             return PartBillNo;
         }
         public void FormLoadFunction()

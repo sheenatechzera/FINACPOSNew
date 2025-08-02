@@ -657,5 +657,35 @@ namespace FinacPOS
             }
             return dStock;
         }
+        public DataTable POSGetCategoryPrintersByCounterId(string strCounterId)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                if (sqlcon.State == ConnectionState.Closed)
+                {
+                    sqlcon.Open();
+                }
+
+                SqlDataAdapter sdaadapter = new SqlDataAdapter("POSGetCategoryPrintersByCounterId", sqlcon);
+                sdaadapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+
+                SqlParameter sqlparameter = new SqlParameter();
+                sqlparameter = sdaadapter.SelectCommand.Parameters.Add("@CounterId", SqlDbType.VarChar);
+                sqlparameter.Value = strCounterId;
+
+                sdaadapter.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("GetPOSCounterPrintersByCounterId: " + ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                sqlcon.Close();
+            }
+            return dt;
+        }
+
     }
 }

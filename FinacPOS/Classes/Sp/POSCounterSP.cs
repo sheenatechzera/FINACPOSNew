@@ -68,7 +68,12 @@ namespace FinacPOS
                 sprmparam.Value = counterinfo.SalesType;
                 sprmparam = sccmd.Parameters.Add("@ProductSearchWithImage", SqlDbType.Bit);
                 sprmparam.Value = counterinfo.ProductSearchWithImage;
-
+                sprmparam = sccmd.Parameters.Add("@ShowPrefixInBillNo", SqlDbType.Bit);
+                sprmparam.Value = counterinfo.ShowPrefixInBillNo;
+                sprmparam = sccmd.Parameters.Add("@CategoryWaysPrint", SqlDbType.Bit);
+                sprmparam.Value = counterinfo.CategoryWaysPrint;
+                sprmparam = sccmd.Parameters.Add("@KOTPrint", SqlDbType.Bit);
+                sprmparam.Value = counterinfo.KOTPrint;
                 id = sccmd.ExecuteScalar().ToString();
 
             }
@@ -140,7 +145,12 @@ namespace FinacPOS
                 sprmparam.Value = counterinfo.SalesType;
                 sprmparam = sccmd.Parameters.Add("@ProductSearchWithImage", SqlDbType.Bit);
                 sprmparam.Value = counterinfo.ProductSearchWithImage;
-
+                sprmparam = sccmd.Parameters.Add("@ShowPrefixInBillNo", SqlDbType.Bit);
+                sprmparam.Value = counterinfo.ShowPrefixInBillNo;
+                sprmparam = sccmd.Parameters.Add("@CategoryWaysPrint", SqlDbType.Bit);
+                sprmparam.Value = counterinfo.CategoryWaysPrint;
+                sprmparam = sccmd.Parameters.Add("@KOTPrint", SqlDbType.Bit);
+                sprmparam.Value = counterinfo.KOTPrint;
 
 
                 sccmd.ExecuteNonQuery();
@@ -221,6 +231,9 @@ namespace FinacPOS
                     counterinfo.SalesReturnPrintCopy = Convert.ToInt32(sdrreader["SalesReturnPrintCopy"].ToString());
                     counterinfo.SalesType = sdrreader["SalesType"].ToString();
                     counterinfo.ProductSearchWithImage = bool.Parse(sdrreader["ProductSearchWithImage"].ToString());
+                    counterinfo.ShowPrefixInBillNo = bool.Parse(sdrreader["ShowPrefixInBillNo"].ToString());
+                    counterinfo.CategoryWaysPrint = bool.Parse(sdrreader["CategoryWaysPrint"].ToString());
+                    counterinfo.KOTPrint = bool.Parse(sdrreader["KOTPrint"].ToString());
                 }
                 sdrreader.Close();
             }
@@ -326,6 +339,107 @@ namespace FinacPOS
                 sqlcon.Close();
             }
             return counterinfo;
+        }
+        public void POSCounterPrinterDetailsAdd(PosCounterPrinterDetailsInfo  info)
+        {
+            try
+            {
+                if (sqlcon.State == ConnectionState.Closed)
+                {
+                    sqlcon.Open();
+                }
+
+                SqlCommand sccmd = new SqlCommand("POSCounterPrinterDetailsAdd", sqlcon);
+                sccmd.CommandType = CommandType.StoredProcedure;
+
+                SqlParameter sprmparam = new SqlParameter();
+
+             
+                sprmparam = sccmd.Parameters.Add("@CounterId", SqlDbType.VarChar);
+                sprmparam.Value = info.CounterId;
+
+                sprmparam = sccmd.Parameters.Add("@ProductGroupCategory", SqlDbType.VarChar);
+                sprmparam.Value = info.ProductGroupCategory;
+
+                sprmparam = sccmd.Parameters.Add("@DefaultPrinter", SqlDbType.VarChar);
+                sprmparam.Value = info.DefaultPrinter;
+
+                sprmparam = sccmd.Parameters.Add("@extra1", SqlDbType.VarChar);
+                sprmparam.Value = info.extra1;
+
+                sprmparam = sccmd.Parameters.Add("@extra2", SqlDbType.VarChar);
+                sprmparam.Value = info.extra2;
+
+                sccmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error editing printer details: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                sqlcon.Close();
+            }
+        }
+
+        public DataTable POSCounterDetailsViewByCounterId(string counterId)
+        {
+            DataTable dtPrinterDetails = new DataTable();
+
+            try
+            {
+                if (sqlcon.State == ConnectionState.Closed)
+                {
+                    sqlcon.Open();
+                }
+
+                SqlCommand cmd = new SqlCommand("POSCounterPrinterDetailsViewByCounterId", sqlcon);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CounterId", counterId);
+
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                adapter.Fill(dtPrinterDetails);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading printer details: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                sqlcon.Close();
+            }
+
+            return dtPrinterDetails;
+        }
+
+
+          
+        
+        public void POSCounterPrinterDetailsDelete(string counterId)
+        {
+            try
+            {
+                if (sqlcon.State == ConnectionState.Closed)
+                {
+                    sqlcon.Open();
+                }
+
+                SqlCommand cmd = new SqlCommand("POSCounterPrinterDetailsDelete", sqlcon);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                SqlParameter param = cmd.Parameters.Add("@CounterId", SqlDbType.NVarChar, 50);
+                param.Value = counterId;
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error deleting printer details: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                sqlcon.Close();
+            }
         }
     }
 }

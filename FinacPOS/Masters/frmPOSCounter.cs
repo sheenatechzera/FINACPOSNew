@@ -8,6 +8,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing.Printing;
 using DevExpress.Utils.About;
+using System.IO;
+//using FinacPOS.Classes.Info;
 
 namespace FinacPOS
 {
@@ -25,7 +27,7 @@ namespace FinacPOS
         POSCounterSP counterSP = new POSCounterSP();
         ComboValidation objComboValidation = new ComboValidation();
         frmCountersReport objfrmcounter = null;
-
+        PosCounterPrinterDetailsInfo counterprinterDetailsInfo = new PosCounterPrinterDetailsInfo();
         private void txtCounterId_Enter(object sender, EventArgs e)
         {
             lblCounterId.ForeColor = System.Drawing.Color.Red;
@@ -48,8 +50,8 @@ namespace FinacPOS
             FillPaymentModeCombo(cmbBankAccount);
             FillPaymentModeCombo(cmbUpiAccount);
             cmbSalesType.SelectedItem = "Type1";
-
-
+            UpdateCounterPrinterGroupBoxStatus();
+            FillCounterPrinterComboBoxes();
             Clear();
         }
 
@@ -293,7 +295,7 @@ namespace FinacPOS
                 else if (e.KeyCode == Keys.Enter)
                 {
 
-                   ChkshowProductInSalesinvoice.Focus();
+                    ChkshowProductInSalesinvoice.Focus();
 
                 }
             }
@@ -407,6 +409,7 @@ namespace FinacPOS
             }
 
         }
+
         private void btnSave_Click(object sender, EventArgs e)
         {
             SaveOrEdit();
@@ -439,9 +442,20 @@ namespace FinacPOS
             cmbUpiAccount.SelectedValue = 1;
             txtSalesPrintcopy.Text = "1";
             TxtReturnprintcopy.Text = "1";
-          //  cmbSalesType.SelectedIndex = -1;
+            //  cmbSalesType.SelectedIndex = -1;
             FillDefaultPrinters();
             txtCounterId.Focus();
+            foreach (DataGridViewRow row in dgvPosCounterPrinterDetails.Rows)
+            {
+                if (!row.IsNewRow)
+                {
+                    row.Cells["ProductCategory"].Value = null;
+                    row.Cells["DefaultPrinters"].Value = null;
+                }
+            }
+
+
+            dgvPosCounterPrinterDetails.Rows.Clear();
         }
 
         private void chkStatus_KeyDown(object sender, KeyEventArgs e)
@@ -508,12 +522,12 @@ namespace FinacPOS
                 MessageBox.Show("Select Bank Account", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 cmbBankAccount.Focus();
             }
-            else if (cmbUpiAccount.SelectedValue  == null)
+            else if (cmbUpiAccount.SelectedValue == null)
             {
                 MessageBox.Show("Select Upi Account", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 cmbUpiAccount.Focus();
             }
-          
+
             else if (txtSalesPrintcopy.Text == "")
             {
                 MessageBox.Show("Select Counter Id", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -541,7 +555,7 @@ namespace FinacPOS
                 }
                 if (isSave)
                 {
-                    POSCounterInfo counterInfo = new POSCounterInfo();
+                    counterInfo = new POSCounterInfo();
                     counterInfo.CounterId = txtCounterId.Text;
                     counterInfo.CounterName = txtCounterName.Text;
                     counterInfo.SystemName = txtSystName.Text;
@@ -565,39 +579,46 @@ namespace FinacPOS
                     counterInfo.SalesReturnPrintCopy = Convert.ToInt32(TxtReturnprintcopy.Text);
                     counterInfo.SalesType = cmbSalesType.Text.ToString();
                     counterInfo.ProductSearchWithImage = ChkProductSearchWithImage.Checked;
+                    counterInfo.ShowPrefixInBillNo = ChkShowPrefixInBillNo.Checked;
+                    counterInfo.CategoryWaysPrint = chkCategoryWaysPrint.Checked;
+                    counterInfo.KOTPrint = chkkotPrint.Checked;
 
-                    if (!isInEditMode)
+
+                }
+
+                if (!isInEditMode)
+                {
+                    if (counterSP.CheckExistanceOfCounterID(txtCounterId.Text))
                     {
-                        if (counterSP.CheckExistanceOfCounterID(txtCounterId.Text))
-                        {
-                            MessageBox.Show("Counter Id already exist", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            txtCounterId.Focus();
-                            txtCounterId.SelectAll();
-                        }
-                        else
-                        {
-                            // Save 
-                            counterSP.POSCounterAdd(counterInfo);
-                            MessageBox.Show("Counter created successfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            //Added on 04/May/2025
-                            POSCounterInfo Info = new POSCounterInfo();
-                            Info = counterSP.POSCounterViewBySystemName();
-                            if (Info.CounterId != null)
-                            {
-                                PublicVariables._counterId = Info.CounterId;
-                                PublicVariables._counterName = Info.CounterName;
-                                PublicVariables._SalesScreenType = Info.SalesType;
-
-                            }
-                            //
-
-                            Clear();
-                        }
+                        MessageBox.Show("Counter Id already exist", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtCounterId.Focus();
+                        txtCounterId.SelectAll();
                     }
                     else
                     {
-                        counterSP.POSCounterEdit(counterInfo);
-                        MessageBox.Show("Updated successfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        // Save 
+                        counterSP.POSCounterAdd(counterInfo);
+                        foreach (DataGridViewRow row in dgvPosCounterPrinterDetails.Rows)
+                        {
+                            if (row.IsNewRow) continue;
+
+                            string productCategory = row.Cells["ProductCategory"].Value?.ToString()?.Trim();
+                            string defaultPrinter = row.Cells["DefaultPrinters"].Value?.ToString()?.Trim();
+
+
+                            if (string.IsNullOrWhiteSpace(productCategory) || string.IsNullOrWhiteSpace(defaultPrinter))
+                                continue;
+                            PosCounterPrinterDetailsInfo counterprinterDetailsInfo = new PosCounterPrinterDetailsInfo();
+                            counterprinterDetailsInfo.CounterId = txtCounterId.Text;
+                            counterprinterDetailsInfo.ProductGroupCategory = productCategory;
+                            counterprinterDetailsInfo.DefaultPrinter = defaultPrinter;
+                            counterprinterDetailsInfo.extra1 = "";
+                            counterprinterDetailsInfo.extra2 = "";
+
+                            counterSP.POSCounterPrinterDetailsAdd(counterprinterDetailsInfo);
+                           
+                        }
+                        MessageBox.Show("Counter created successfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         //Added on 04/May/2025
                         POSCounterInfo Info = new POSCounterInfo();
                         Info = counterSP.POSCounterViewBySystemName();
@@ -609,9 +630,49 @@ namespace FinacPOS
 
                         }
                         //
+
                         Clear();
                     }
                 }
+                else
+                {
+                    counterSP.POSCounterEdit(counterInfo);
+                    counterSP.POSCounterPrinterDetailsDelete(strCounterIdToEdit);
+                    foreach (DataGridViewRow row in dgvPosCounterPrinterDetails.Rows)
+                    {
+                        if (row.IsNewRow) continue;
+
+                        string productCategory = row.Cells["ProductCategory"].Value?.ToString()?.Trim();
+                        string defaultPrinter = row.Cells["DefaultPrinters"].Value?.ToString()?.Trim();
+
+
+                        if (string.IsNullOrWhiteSpace(productCategory) || string.IsNullOrWhiteSpace(defaultPrinter))
+                            continue;
+                        PosCounterPrinterDetailsInfo counterprinterDetailsInfo = new PosCounterPrinterDetailsInfo();
+                        counterprinterDetailsInfo.CounterId = txtCounterId.Text;
+                        counterprinterDetailsInfo.ProductGroupCategory = productCategory;
+                        counterprinterDetailsInfo.DefaultPrinter = defaultPrinter;
+                        counterprinterDetailsInfo.extra1 = "";
+                        counterprinterDetailsInfo.extra2 = "";
+
+                        counterSP.POSCounterPrinterDetailsAdd(counterprinterDetailsInfo);
+
+                    }
+                    MessageBox.Show("Updated successfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //Added on 04/May/2025
+                    POSCounterInfo Info = new POSCounterInfo();
+                    Info = counterSP.POSCounterViewBySystemName();
+                    if (Info.CounterId != null)
+                    {
+                        PublicVariables._counterId = Info.CounterId;
+                        PublicVariables._counterName = Info.CounterName;
+                        PublicVariables._SalesScreenType = Info.SalesType;
+
+                    }
+                    //
+                    Clear();
+                }
+
             }
         }
 
@@ -687,7 +748,7 @@ namespace FinacPOS
                 MessageBox.Show("RV10:" + ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-       
+
 
         public void FillCounterForEdit(string StrCounterId)
         {
@@ -722,6 +783,18 @@ namespace FinacPOS
                 TxtReturnprintcopy.Text = InfoPOSCounter.SalesReturnPrintCopy.ToString();
                 cmbSalesType.Text = InfoPOSCounter.SalesType;
                 ChkProductSearchWithImage.Checked = InfoPOSCounter.ProductSearchWithImage;
+                chkCategoryWaysPrint.Checked = InfoPOSCounter.CategoryWaysPrint;
+                chkkotPrint.Checked = InfoPOSCounter.KOTPrint;
+
+                dgvPosCounterPrinterDetails.Rows.Clear();
+                DataTable dt = counterSP.POSCounterDetailsViewByCounterId(strCounterIdToEdit);
+                foreach (DataRow row in dt.Rows)
+                {
+                    dgvPosCounterPrinterDetails.Rows.Add(
+                        row["ProductGroupCategory"].ToString(),
+                        row["DefaultPrinter"].ToString()
+                    );
+                }
             }
 
         }
@@ -739,7 +812,7 @@ namespace FinacPOS
                 {
                     cmbCurr.DisplayMember = "ledgerName";
                     cmbCurr.ValueMember = "ledgerId";
-                   
+
                     cmbSalesAccount.SelectedValue = "7";
                 }
             }
@@ -752,7 +825,9 @@ namespace FinacPOS
         {
             try
             {
+                counterSP.POSCounterPrinterDetailsDelete(strCounterIdToEdit);
                 counterSP.POSCounterDelete(txtCounterId.Text);
+
                 MessageBox.Show("Deleted successfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 if (objfrmcounter != null)
@@ -779,6 +854,7 @@ namespace FinacPOS
                 if (MessageBox.Show("Do you want to delete?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                 {
                     DeleteCounter();
+
                 }
             }
 
@@ -858,7 +934,7 @@ namespace FinacPOS
                 else if (e.KeyCode == Keys.Enter)
                 {
 
-                   Chkdirectprint.Focus();
+                    Chkdirectprint.Focus();
 
                 }
 
@@ -915,20 +991,20 @@ namespace FinacPOS
 
         private void cmbSalesAccount_KeyDown(object sender, KeyEventArgs e)
         {
-            
-                if (e.KeyCode == Keys.Back)
-                {
 
-                    cmbDefaltPRinter.Focus();
+            if (e.KeyCode == Keys.Back)
+            {
 
-                }
-                else if (e.KeyCode == Keys.Enter)
-                {
+                cmbDefaltPRinter.Focus();
 
-                    cmbCashAccount.Focus();
+            }
+            else if (e.KeyCode == Keys.Enter)
+            {
 
-                }
-            
+                cmbCashAccount.Focus();
+
+            }
+
         }
 
         private void cmbSalesAccount_Leave(object sender, EventArgs e)
@@ -947,7 +1023,7 @@ namespace FinacPOS
             if (e.KeyCode == Keys.Back)
             {
 
-              cmbSalesAccount.Focus();
+                cmbSalesAccount.Focus();
 
             }
             else if (e.KeyCode == Keys.Enter)
@@ -1038,7 +1114,7 @@ namespace FinacPOS
 
         private void TxtReturnprintcopy_Leave(object sender, EventArgs e)
         {
-           lblSalesReturnPrintcopy.ForeColor = System.Drawing.Color.Black;
+            lblSalesReturnPrintcopy.ForeColor = System.Drawing.Color.Black;
         }
 
         private void TxtReturnprintcopy_KeyPress(object sender, KeyPressEventArgs e)
@@ -1048,7 +1124,7 @@ namespace FinacPOS
 
         private void txtSalesPrintcopy_KeyDown(object sender, KeyEventArgs e)
         {
-            
+
             if (e.KeyCode == Keys.Enter)
             {
 
@@ -1059,8 +1135,8 @@ namespace FinacPOS
 
         private void TxtReturnprintcopy_KeyDown(object sender, KeyEventArgs e)
         {
-         
-             if (e.KeyCode == Keys.Enter)
+
+            if (e.KeyCode == Keys.Enter)
             {
 
                 txtFootrDetails.Focus();
@@ -1079,7 +1155,7 @@ namespace FinacPOS
             else if (e.KeyCode == Keys.Enter)
             {
 
-               cmbSalesAccount.Focus();
+                cmbSalesAccount.Focus();
 
             }
         }
@@ -1121,9 +1197,114 @@ namespace FinacPOS
             ChkProductSearchWithImage.ForeColor = System.Drawing.Color.Black;
         }
 
-       
+        private void FillCounterPrinterComboBoxes()
+        {
+            try
+            {
 
+                ProductSP objProductSp = new ProductSP();
+
+                DataTable PdtCtgryDtble = new DataTable();
+                PdtCtgryDtble = objProductSp.ProductGroupViewAllByCategorys("Category 4");
+                DataGridViewComboBoxColumn comboxCol = dgvPosCounterPrinterDetails.Columns["ProductCategory"] as DataGridViewComboBoxColumn;
+
+                if (comboxCol != null)
+                {
+                    comboxCol.DataSource = PdtCtgryDtble;
+                    comboxCol.DisplayMember = "groupName";
+                    comboxCol.ValueMember = "groupId";
+                }
+
+
+                DataGridViewComboBoxColumn printerCol = dgvPosCounterPrinterDetails.Columns["DefaultPrinters"] as DataGridViewComboBoxColumn;
+                if (printerCol != null)
+                {
+                    printerCol.Items.Clear();
+                    foreach (string strPrinter in System.Drawing.Printing.PrinterSettings.InstalledPrinters)
+                    {
+                        printerCol.Items.Add(strPrinter);
+                    }
+                }
+
+            }
+
+            catch { }
+
+        }
+        private void UpdateCounterPrinterGroupBoxStatus()
+        {
+            groupBoxCountrprinter.Enabled = chkCategoryWaysPrint.Checked;
+        }
+        private void chkCategoryWaysPrint_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateCounterPrinterGroupBoxStatus();
+
+
+        }
+
+    
+      
+        private void dgvPosCounterPrinterDetails_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+         
+            if (e.ColumnIndex == dgvPosCounterPrinterDetails.Columns["ProductCategory"].Index)
+            {
+                var currentCell = dgvPosCounterPrinterDetails.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                string newValue = currentCell.Value?.ToString()?.Trim();
+
+                if (string.IsNullOrWhiteSpace(newValue)) return;
+
+                for (int i = 0; i < dgvPosCounterPrinterDetails.Rows.Count; i++)
+                {
+                    if (i == e.RowIndex) continue;
+
+                    var otherCell = dgvPosCounterPrinterDetails.Rows[i].Cells["ProductCategory"];
+                    string existingValue = otherCell.Value?.ToString()?.Trim();
+
+                    if (string.Equals(existingValue, newValue, StringComparison.OrdinalIgnoreCase))
+                    {
+                        MessageBox.Show("This Product Category is already selected in another row.",
+                                        "Duplicate Entry",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Warning);
+
+                        // Clear the cell
+                        dgvPosCounterPrinterDetails.Rows[e.RowIndex].Cells["ProductCategory"].Value = null;
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void lnklblUnitRemove_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+            try
+            {
+                if (dgvPosCounterPrinterDetails.SelectedCells.Count > 0)
+                {
+                    int selectedRowIndex = dgvPosCounterPrinterDetails.SelectedCells[0].RowIndex;
+
+                    DataGridViewRow selectedRow = dgvPosCounterPrinterDetails.Rows[selectedRowIndex];
+
+                    if (!selectedRow.IsNewRow)
+                    {
+                        DialogResult result = MessageBox.Show(
+                            "Do you want to remove the selected row?",  "Remove Row", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                        if (result == DialogResult.Yes)
+                        {
+                            dgvPosCounterPrinterDetails.Rows.RemoveAt(selectedRowIndex);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error removing row: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
      
- 
+
 }

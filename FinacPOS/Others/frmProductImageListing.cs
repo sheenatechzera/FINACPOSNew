@@ -235,33 +235,70 @@ namespace FinacPOS
                 LoadProducts(dtblProductFiltered);
             }
         }
-        private string CreateFilterQry(string strVal,DataTable dt)
+        //private string CreateFilterQry(string strVal,DataTable dt)
+        //{
+        //    string strqry = "";
+        //    if (!string.IsNullOrEmpty(strVal))
+        //    {
+        //        strVal = strVal.Replace("'", "''"); // Escape single quotes to prevent syntax errors
+        //    }
+        //    for (int i = 0; i < dt.Columns.Count; ++i)
+        //    {
+        //         foreach (DataColumn column in dt.Columns)
+        //{
+        //    // Only include columns of type string
+        //    if (column.DataType == typeof(string))
+        //    {
+        //        if (strqry.Length > 0)
+        //            strqry += " OR ";
+
+        //        strqry += $"[{column.ColumnName}] LIKE '%{strVal}%'";
+        //    }
+        //}
+        //        if (dt.Columns[i].ColumnName != "salesPrice" && dt.Columns[i].ColumnName != "productImage" && dt.Columns[i].ColumnName != "pic")
+        //        {
+        //            if (strqry == "")
+        //            {
+        //                strqry = dt.Columns[i].ColumnName + " LIKE '%" + strVal + "%' ";
+        //            }
+        //            else
+        //            {
+        //                strqry = strqry + " OR " + dt.Columns[i].ColumnName + " LIKE '%" + strVal + "%' ";
+        //            }
+        //        }
+
+
+        //    }
+        //    return strqry;
+
+        //}
+        private string CreateFilterQry(string strVal, DataTable dt)
         {
             string strqry = "";
+
             if (!string.IsNullOrEmpty(strVal))
             {
-                strVal = strVal.Replace("'", "''"); // Escape single quotes to prevent syntax errors
-            }
-            for (int i = 0; i < dt.Columns.Count; ++i)
-            {
+                strVal = strVal.Replace("'", "''"); // Escape single quotes
 
-                if (dt.Columns[i].ColumnName != "salesPrice" && dt.Columns[i].ColumnName != "productImage" && dt.Columns[i].ColumnName != "pic")
+                foreach (DataColumn column in dt.Columns)
                 {
-                    if (strqry == "")
+                    // Only include string columns, and skip known binary/image columns
+                    if (column.DataType == typeof(string) &&
+                        column.ColumnName != "productImage" &&
+                        column.ColumnName != "pic" &&
+                        column.ColumnName != "picImage")
                     {
-                        strqry = dt.Columns[i].ColumnName + " LIKE '%" + strVal + "%' ";
-                    }
-                    else
-                    {
-                        strqry = strqry + " OR " + dt.Columns[i].ColumnName + " LIKE '%" + strVal + "%' ";
+                        if (strqry.Length > 0)
+                            strqry += " OR ";
+
+                        strqry += $"[{column.ColumnName}] LIKE '%{strVal}%'";
                     }
                 }
-
-                
             }
-            return strqry;
 
+            return strqry;
         }
+
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {

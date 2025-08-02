@@ -1437,5 +1437,172 @@ namespace FinacPOS
             //    printTools.Print();
             //}
         }
+        public void PrintKOTPOS(DataTable dtblCompanyDetails, DataTable dtblGridDetails, DataTable dtblOtherDetails, string strPrinterName, bool directprint, int SalesPrintCopy)
+        {
+            report.LoadLayout(Application.StartupPath + "\\Report_files\\rptKOTPrint_THER.repx");
+
+            //Company Details
+            report.Parameters["address"].Value = dtblCompanyDetails.Rows[0]["address"].ToString();
+            report.Parameters["branchName"].Value = dtblCompanyDetails.Rows[0]["branchName"].ToString();
+            report.Parameters["cstNo"].Value = dtblCompanyDetails.Rows[0]["cstNo"].ToString();
+            report.Parameters["email"].Value = dtblCompanyDetails.Rows[0]["email"].ToString();
+            report.Parameters["fax"].Value = dtblCompanyDetails.Rows[0]["fax"].ToString();
+            report.Parameters["logo"].Value = dtblCompanyDetails.Rows[0]["logo"].ToString();
+            report.Parameters["mobile"].Value = dtblCompanyDetails.Rows[0]["mobile"].ToString();
+            report.Parameters["panNo"].Value = dtblCompanyDetails.Rows[0]["panNo"].ToString();
+            report.Parameters["phoneNo"].Value = dtblCompanyDetails.Rows[0]["phoneNo"].ToString();
+            report.Parameters["pinNo"].Value = dtblCompanyDetails.Rows[0]["pinNo"].ToString();
+            report.Parameters["tinNo"].Value = dtblCompanyDetails.Rows[0]["tinNo"].ToString();
+            report.Parameters["web"].Value = dtblCompanyDetails.Rows[0]["web"].ToString();
+            report.Parameters["companyheader_logo"].Value = dtblCompanyDetails.Rows[0]["companyheader_logo"].ToString();
+
+            report.Parameters["CRNumber"].Value = dtblCompanyDetails.Rows[0]["CRNumber"].ToString();
+            report.Parameters["StreetName"].Value = dtblCompanyDetails.Rows[0]["StreetName"].ToString();
+            report.Parameters["BiuldingNo"].Value = dtblCompanyDetails.Rows[0]["BiuldingNo"].ToString();
+            report.Parameters["AdditionalNumber"].Value = dtblCompanyDetails.Rows[0]["AdditionalNumber"].ToString();
+            report.Parameters["CityName"].Value = dtblCompanyDetails.Rows[0]["CityName"].ToString();
+            report.Parameters["District"].Value = dtblCompanyDetails.Rows[0]["District"].ToString();
+            report.Parameters["Country"].Value = dtblCompanyDetails.Rows[0]["Country"].ToString();
+            report.Parameters["PostalCode"].Value = dtblCompanyDetails.Rows[0]["PostalCode"].ToString();
+            report.Parameters["branchNameArabic"].Value = dtblCompanyDetails.Rows[0]["branchNameArabic"].ToString();
+            report.Parameters["AddressArabic"].Value = dtblCompanyDetails.Rows[0]["AddressArabic"].ToString();
+            report.Parameters["StreetNameARB"].Value = dtblCompanyDetails.Rows[0]["StreetNameARB"].ToString();
+            report.Parameters["BiuldingNoARB"].Value = dtblCompanyDetails.Rows[0]["BiuldingNoARB"].ToString();
+            report.Parameters["AdditionalNumberARB"].Value = dtblCompanyDetails.Rows[0]["AdditionalNumberARB"].ToString();
+            report.Parameters["CityNameARB"].Value = dtblCompanyDetails.Rows[0]["CityNameARB"].ToString();
+            report.Parameters["DistrictARB"].Value = dtblCompanyDetails.Rows[0]["DistrictARB"].ToString();
+            report.Parameters["CountryARB"].Value = dtblCompanyDetails.Rows[0]["CountryARB"].ToString();
+            report.Parameters["PostalCodeARB"].Value = dtblCompanyDetails.Rows[0]["PostalCodeARB"].ToString();
+
+
+            //report.Parameters["extra1"].Value = dtblCompanyDetails.Rows[0]["extra1"].ToString();
+            //report.Parameters["extra2"].Value = dtblCompanyDetails.Rows[0]["extra2"].ToString();
+
+            //report.Parameters["companyheader_logo"].Value = dtblCompanyDetails.Rows[0]["companyheader_logo"].ToString();
+            //report.Parameters["companyfooter_logo"].Value = dtblCompanyDetails.Rows[0]["companyfooter_logo"].ToString();
+            //report.Parameters["TokenNo"].Value = dtblOtherDetails.Rows[0]["CounterId"].ToString();
+            report.Parameters["BillDate"].Value = dtblOtherDetails.Rows[0]["BillDate"].ToString();
+
+            report.Parameters["BillName"].Value = "Kitchen Order Token  تذكرة طلب المطبخ";
+            report.Parameters["BillTime"].Value = dtblOtherDetails.Rows[0]["BillTime"];
+            report.Parameters["InvoiceNo"].Value = dtblOtherDetails.Rows[0]["InvoiceNo"];
+            report.Parameters["QtyTotal"].Value = dtblOtherDetails.Rows[0]["QtyTotal"];
+            report.Parameters["TokenNo"].Value = dtblOtherDetails.Rows[0]["TokenNo"].ToString();
+            DataSet ds = new DataSet();
+
+            DataTable dtcopy = new DataTable();
+            dtcopy = dtblGridDetails.Copy();
+            ds.Tables.Add(dtcopy);
+
+            report.DataSource = ds;
+
+            report.RequestParameters = false;
+            report.PrinterName = strPrinterName;
+
+            report.CreateDocument();
+
+
+            if (!directprint == true)
+            {
+                using (ReportPrintTool printTool = new ReportPrintTool(report))
+                {
+                    printTool.AutoShowParametersPanel = false;
+                    printTool.ShowPreviewDialog();
+                }
+            }
+            else
+            {
+
+                //report.Print();
+                ReportPrintTool printTools = new ReportPrintTool(report);
+                printTools.PrinterSettings.Copies = (short)SalesPrintCopy;
+                printTools.PrintingSystem.ShowMarginsWarning = false;
+                printTools.Print();
+            }
+        }
+        public void POSCategoryWaysPrint(DataTable dtblCompanyDetails, DataTable dtblGridDetails,DataTable dtCategoryProductPrint, DataTable dtblOtherDetails, string strPrinterName, bool directprint, int SalesPrintCopy)
+        {
+            report.LoadLayout(Application.StartupPath + "\\Report_files\\rptCategoryWaysPrint_THER.repx");
+
+            //Company Details
+            report.Parameters["address"].Value = dtblCompanyDetails.Rows[0]["address"].ToString();
+            report.Parameters["branchName"].Value = dtblCompanyDetails.Rows[0]["branchName"].ToString();
+            report.Parameters["cstNo"].Value = dtblCompanyDetails.Rows[0]["cstNo"].ToString();
+            report.Parameters["email"].Value = dtblCompanyDetails.Rows[0]["email"].ToString();
+            report.Parameters["fax"].Value = dtblCompanyDetails.Rows[0]["fax"].ToString();
+            report.Parameters["logo"].Value = dtblCompanyDetails.Rows[0]["logo"].ToString();
+            report.Parameters["mobile"].Value = dtblCompanyDetails.Rows[0]["mobile"].ToString();
+            report.Parameters["panNo"].Value = dtblCompanyDetails.Rows[0]["panNo"].ToString();
+            report.Parameters["phoneNo"].Value = dtblCompanyDetails.Rows[0]["phoneNo"].ToString();
+            report.Parameters["pinNo"].Value = dtblCompanyDetails.Rows[0]["pinNo"].ToString();
+            report.Parameters["tinNo"].Value = dtblCompanyDetails.Rows[0]["tinNo"].ToString();
+            report.Parameters["web"].Value = dtblCompanyDetails.Rows[0]["web"].ToString();
+            report.Parameters["companyheader_logo"].Value = dtblCompanyDetails.Rows[0]["companyheader_logo"].ToString();
+
+            report.Parameters["CRNumber"].Value = dtblCompanyDetails.Rows[0]["CRNumber"].ToString();
+            report.Parameters["StreetName"].Value = dtblCompanyDetails.Rows[0]["StreetName"].ToString();
+            report.Parameters["BiuldingNo"].Value = dtblCompanyDetails.Rows[0]["BiuldingNo"].ToString();
+            report.Parameters["AdditionalNumber"].Value = dtblCompanyDetails.Rows[0]["AdditionalNumber"].ToString();
+            report.Parameters["CityName"].Value = dtblCompanyDetails.Rows[0]["CityName"].ToString();
+            report.Parameters["District"].Value = dtblCompanyDetails.Rows[0]["District"].ToString();
+            report.Parameters["Country"].Value = dtblCompanyDetails.Rows[0]["Country"].ToString();
+            report.Parameters["PostalCode"].Value = dtblCompanyDetails.Rows[0]["PostalCode"].ToString();
+            report.Parameters["branchNameArabic"].Value = dtblCompanyDetails.Rows[0]["branchNameArabic"].ToString();
+            report.Parameters["AddressArabic"].Value = dtblCompanyDetails.Rows[0]["AddressArabic"].ToString();
+            report.Parameters["StreetNameARB"].Value = dtblCompanyDetails.Rows[0]["StreetNameARB"].ToString();
+            report.Parameters["BiuldingNoARB"].Value = dtblCompanyDetails.Rows[0]["BiuldingNoARB"].ToString();
+            report.Parameters["AdditionalNumberARB"].Value = dtblCompanyDetails.Rows[0]["AdditionalNumberARB"].ToString();
+            report.Parameters["CityNameARB"].Value = dtblCompanyDetails.Rows[0]["CityNameARB"].ToString();
+            report.Parameters["DistrictARB"].Value = dtblCompanyDetails.Rows[0]["DistrictARB"].ToString();
+            report.Parameters["CountryARB"].Value = dtblCompanyDetails.Rows[0]["CountryARB"].ToString();
+            report.Parameters["PostalCodeARB"].Value = dtblCompanyDetails.Rows[0]["PostalCodeARB"].ToString();
+
+
+            //report.Parameters["extra1"].Value = dtblCompanyDetails.Rows[0]["extra1"].ToString();
+            //report.Parameters["extra2"].Value = dtblCompanyDetails.Rows[0]["extra2"].ToString();
+
+            //report.Parameters["companyheader_logo"].Value = dtblCompanyDetails.Rows[0]["companyheader_logo"].ToString();
+            //report.Parameters["companyfooter_logo"].Value = dtblCompanyDetails.Rows[0]["companyfooter_logo"].ToString();
+            //report.Parameters["TokenNo"].Value = dtblOtherDetails.Rows[0]["CounterId"].ToString();
+            report.Parameters["BillDate"].Value = dtblOtherDetails.Rows[0]["BillDate"].ToString();
+
+            report.Parameters["BillName"].Value = "Category Ways Printers  فئة طرق الطابعة";
+            report.Parameters["BillTime"].Value = dtblOtherDetails.Rows[0]["BillTime"];
+            report.Parameters["InvoiceNo"].Value= dtblOtherDetails.Rows[0]["InvoiceNo"];
+            report.Parameters["QtyTotal"].Value = dtblOtherDetails.Rows[0]["QtyTotal"];
+            report.Parameters["TokenNo"].Value = dtblOtherDetails.Rows[0]["TokenNo"].ToString();
+            DataSet ds = new DataSet();
+
+            DataTable dtcopy = new DataTable();
+            dtcopy = dtCategoryProductPrint.Copy();
+            ds.Tables.Add(dtcopy);
+
+            report.DataSource = ds;
+
+            report.RequestParameters = false;
+            report.PrinterName = strPrinterName;
+
+            report.CreateDocument();
+
+
+            if (!directprint == true)
+            {
+                using (ReportPrintTool printTool = new ReportPrintTool(report))
+                {
+                    printTool.AutoShowParametersPanel = false;
+                    printTool.ShowPreviewDialog();
+                }
+            }
+            else
+            {
+
+                //report.Print();
+                ReportPrintTool printTools = new ReportPrintTool(report);
+                printTools.PrinterSettings.Copies = (short)SalesPrintCopy;
+                printTools.PrintingSystem.ShowMarginsWarning = false;
+                printTools.Print();
+            }
+        }
     }
 }
+

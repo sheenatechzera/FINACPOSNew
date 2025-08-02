@@ -32,7 +32,12 @@ namespace FinacPOS
         private int _SalesReturnPrintCopy;
         private String _SalesType;
         private bool _ProductSearchWithImage;
- 
+        private bool _ShowPrefixInBillNo;
+        private bool _CategoryWaysPrint;
+        private bool _KOTPrint;
+
+
+
         public string CounterId
         {
             get { return _counterId; }
@@ -154,5 +159,20 @@ namespace FinacPOS
              get { return _ProductSearchWithImage; }
              set { _ProductSearchWithImage = value; }
          }
+        public bool ShowPrefixInBillNo
+        {
+            get { return _ShowPrefixInBillNo; }
+            set { _ShowPrefixInBillNo = value; }
+        }
+        public bool CategoryWaysPrint
+        {
+            get { return _CategoryWaysPrint; }
+            set { _CategoryWaysPrint = value; }
+        }
+        public bool KOTPrint
+        {
+            get { return _KOTPrint; }
+            set { _KOTPrint = value; }
+        }
     }
 }

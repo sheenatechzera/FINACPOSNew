@@ -1954,5 +1954,32 @@ namespace FinacPOS
             }
             return dtbl;
         }
+        public DataTable ProductGroupViewAllByCategorys(string category)
+        {
+            DataTable dtbl = new DataTable();
+            try
+            {
+                if (sqlcon.State == ConnectionState.Closed)
+                {
+                    sqlcon.Open();
+                }
+                SqlDataAdapter sdaadapter = new SqlDataAdapter("ProductGroupViewAllByCategory", sqlcon);
+                sdaadapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+                SqlParameter sprmparam = new SqlParameter();
+                sprmparam = sdaadapter.SelectCommand.Parameters.Add("@category", SqlDbType.NVarChar);
+                sprmparam.Value = category;
+                sdaadapter.Fill(dtbl);
+              
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            finally
+            {
+                sqlcon.Close();
+            }
+            return dtbl;
+        }
     }
 }

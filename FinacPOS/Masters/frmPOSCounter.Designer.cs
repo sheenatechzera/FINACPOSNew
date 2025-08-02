@@ -29,6 +29,14 @@
         private void InitializeComponent()
         {
             this.pnlPOSCounter = new System.Windows.Forms.Panel();
+            this.chkkotPrint = new System.Windows.Forms.CheckBox();
+            this.chkCategoryWaysPrint = new System.Windows.Forms.CheckBox();
+            this.groupBoxCountrprinter = new System.Windows.Forms.GroupBox();
+            this.dgvPosCounterPrinterDetails = new System.Windows.Forms.DataGridView();
+            this.ProductCategory = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.DefaultPrinters = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.ChkShowPrefixInBillNo = new System.Windows.Forms.CheckBox();
+            this.ChkProductSearchWithImage = new System.Windows.Forms.CheckBox();
             this.cmbSalesType = new System.Windows.Forms.ComboBox();
             this.lblSalesType = new System.Windows.Forms.Label();
             this.TxtReturnprintcopy = new System.Windows.Forms.TextBox();
@@ -70,13 +78,20 @@
             this.lblSystName = new System.Windows.Forms.Label();
             this.lblCounterName = new System.Windows.Forms.Label();
             this.lblCounterId = new System.Windows.Forms.Label();
-            this.ChkProductSearchWithImage = new System.Windows.Forms.CheckBox();
+            this.lnklblUnitRemove = new System.Windows.Forms.LinkLabel();
             this.pnlPOSCounter.SuspendLayout();
+            this.groupBoxCountrprinter.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvPosCounterPrinterDetails)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlPOSCounter
             // 
             this.pnlPOSCounter.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.pnlPOSCounter.Controls.Add(this.lnklblUnitRemove);
+            this.pnlPOSCounter.Controls.Add(this.chkkotPrint);
+            this.pnlPOSCounter.Controls.Add(this.chkCategoryWaysPrint);
+            this.pnlPOSCounter.Controls.Add(this.groupBoxCountrprinter);
+            this.pnlPOSCounter.Controls.Add(this.ChkShowPrefixInBillNo);
             this.pnlPOSCounter.Controls.Add(this.ChkProductSearchWithImage);
             this.pnlPOSCounter.Controls.Add(this.cmbSalesType);
             this.pnlPOSCounter.Controls.Add(this.lblSalesType);
@@ -122,8 +137,96 @@
             this.pnlPOSCounter.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.pnlPOSCounter.Location = new System.Drawing.Point(0, -2);
             this.pnlPOSCounter.Name = "pnlPOSCounter";
-            this.pnlPOSCounter.Size = new System.Drawing.Size(729, 413);
+            this.pnlPOSCounter.Size = new System.Drawing.Size(884, 431);
             this.pnlPOSCounter.TabIndex = 0;
+            // 
+            // chkkotPrint
+            // 
+            this.chkkotPrint.AutoSize = true;
+            this.chkkotPrint.Location = new System.Drawing.Point(563, 150);
+            this.chkkotPrint.Name = "chkkotPrint";
+            this.chkkotPrint.Size = new System.Drawing.Size(84, 18);
+            this.chkkotPrint.TabIndex = 36456519;
+            this.chkkotPrint.Text = "KOT Print";
+            this.chkkotPrint.UseVisualStyleBackColor = true;
+            // 
+            // chkCategoryWaysPrint
+            // 
+            this.chkCategoryWaysPrint.AutoSize = true;
+            this.chkCategoryWaysPrint.Location = new System.Drawing.Point(562, 129);
+            this.chkCategoryWaysPrint.Name = "chkCategoryWaysPrint";
+            this.chkCategoryWaysPrint.Size = new System.Drawing.Size(155, 18);
+            this.chkCategoryWaysPrint.TabIndex = 36456518;
+            this.chkCategoryWaysPrint.Text = "Category Ways Print";
+            this.chkCategoryWaysPrint.UseVisualStyleBackColor = true;
+            this.chkCategoryWaysPrint.CheckedChanged += new System.EventHandler(this.chkCategoryWaysPrint_CheckedChanged);
+            // 
+            // groupBoxCountrprinter
+            // 
+            this.groupBoxCountrprinter.Controls.Add(this.dgvPosCounterPrinterDetails);
+            this.groupBoxCountrprinter.Location = new System.Drawing.Point(562, 172);
+            this.groupBoxCountrprinter.Name = "groupBoxCountrprinter";
+            this.groupBoxCountrprinter.Size = new System.Drawing.Size(308, 193);
+            this.groupBoxCountrprinter.TabIndex = 36456517;
+            this.groupBoxCountrprinter.TabStop = false;
+            this.groupBoxCountrprinter.Text = "Counter Printer Details";
+            // 
+            // dgvPosCounterPrinterDetails
+            // 
+            this.dgvPosCounterPrinterDetails.AllowDrop = true;
+            this.dgvPosCounterPrinterDetails.AllowUserToDeleteRows = false;
+            this.dgvPosCounterPrinterDetails.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvPosCounterPrinterDetails.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ProductCategory,
+            this.DefaultPrinters});
+            this.dgvPosCounterPrinterDetails.Location = new System.Drawing.Point(13, 21);
+            this.dgvPosCounterPrinterDetails.Name = "dgvPosCounterPrinterDetails";
+            this.dgvPosCounterPrinterDetails.RowHeadersVisible = false;
+            this.dgvPosCounterPrinterDetails.Size = new System.Drawing.Size(289, 166);
+            this.dgvPosCounterPrinterDetails.TabIndex = 36456516;
+            this.dgvPosCounterPrinterDetails.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPosCounterPrinterDetails_CellEndEdit);
+            // 
+            // ProductCategory
+            // 
+            this.ProductCategory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ProductCategory.FillWeight = 5F;
+            this.ProductCategory.HeaderText = "Product Category";
+            this.ProductCategory.MinimumWidth = 10;
+            this.ProductCategory.Name = "ProductCategory";
+            this.ProductCategory.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.ProductCategory.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // DefaultPrinters
+            // 
+            this.DefaultPrinters.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.DefaultPrinters.FillWeight = 5F;
+            this.DefaultPrinters.HeaderText = "Default Printers";
+            this.DefaultPrinters.Name = "DefaultPrinters";
+            this.DefaultPrinters.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.DefaultPrinters.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // ChkShowPrefixInBillNo
+            // 
+            this.ChkShowPrefixInBillNo.AutoSize = true;
+            this.ChkShowPrefixInBillNo.Location = new System.Drawing.Point(310, 214);
+            this.ChkShowPrefixInBillNo.Name = "ChkShowPrefixInBillNo";
+            this.ChkShowPrefixInBillNo.Size = new System.Drawing.Size(155, 18);
+            this.ChkShowPrefixInBillNo.TabIndex = 36456515;
+            this.ChkShowPrefixInBillNo.Text = "Show Prefix In BillNo";
+            this.ChkShowPrefixInBillNo.UseVisualStyleBackColor = true;
+            // 
+            // ChkProductSearchWithImage
+            // 
+            this.ChkProductSearchWithImage.AutoSize = true;
+            this.ChkProductSearchWithImage.Location = new System.Drawing.Point(310, 187);
+            this.ChkProductSearchWithImage.Name = "ChkProductSearchWithImage";
+            this.ChkProductSearchWithImage.Size = new System.Drawing.Size(198, 18);
+            this.ChkProductSearchWithImage.TabIndex = 36456514;
+            this.ChkProductSearchWithImage.Text = "Product Search With Image";
+            this.ChkProductSearchWithImage.UseVisualStyleBackColor = true;
+            this.ChkProductSearchWithImage.Enter += new System.EventHandler(this.ChkProductSearchWithImage_Enter);
+            this.ChkProductSearchWithImage.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ChkProductSearchWithImage_KeyDown);
+            this.ChkProductSearchWithImage.Leave += new System.EventHandler(this.ChkProductSearchWithImage_Leave);
             // 
             // cmbSalesType
             // 
@@ -151,9 +254,9 @@
             // 
             // TxtReturnprintcopy
             // 
-            this.TxtReturnprintcopy.Location = new System.Drawing.Point(590, 181);
+            this.TxtReturnprintcopy.Location = new System.Drawing.Point(505, 162);
             this.TxtReturnprintcopy.Name = "TxtReturnprintcopy";
-            this.TxtReturnprintcopy.Size = new System.Drawing.Size(55, 22);
+            this.TxtReturnprintcopy.Size = new System.Drawing.Size(39, 22);
             this.TxtReturnprintcopy.TabIndex = 36456511;
             this.TxtReturnprintcopy.Enter += new System.EventHandler(this.TxtReturnprintcopy_Enter);
             this.TxtReturnprintcopy.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtReturnprintcopy_KeyDown);
@@ -162,7 +265,7 @@
             // 
             // txtSalesPrintcopy
             // 
-            this.txtSalesPrintcopy.Location = new System.Drawing.Point(590, 146);
+            this.txtSalesPrintcopy.Location = new System.Drawing.Point(489, 134);
             this.txtSalesPrintcopy.Name = "txtSalesPrintcopy";
             this.txtSalesPrintcopy.Size = new System.Drawing.Size(55, 22);
             this.txtSalesPrintcopy.TabIndex = 36456510;
@@ -174,7 +277,7 @@
             // lblSalesReturnPrintcopy
             // 
             this.lblSalesReturnPrintcopy.AutoSize = true;
-            this.lblSalesReturnPrintcopy.Location = new System.Drawing.Point(380, 183);
+            this.lblSalesReturnPrintcopy.Location = new System.Drawing.Point(306, 163);
             this.lblSalesReturnPrintcopy.Name = "lblSalesReturnPrintcopy";
             this.lblSalesReturnPrintcopy.Size = new System.Drawing.Size(193, 14);
             this.lblSalesReturnPrintcopy.TabIndex = 36456509;
@@ -183,7 +286,7 @@
             // lblSalesPrintCopy
             // 
             this.lblSalesPrintCopy.AutoSize = true;
-            this.lblSalesPrintCopy.Location = new System.Drawing.Point(379, 154);
+            this.lblSalesPrintCopy.Location = new System.Drawing.Point(307, 137);
             this.lblSalesPrintCopy.Name = "lblSalesPrintCopy";
             this.lblSalesPrintCopy.Size = new System.Drawing.Size(176, 14);
             this.lblSalesPrintCopy.TabIndex = 36456508;
@@ -192,7 +295,7 @@
             // cmbUpiAccount
             // 
             this.cmbUpiAccount.FormattingEnabled = true;
-            this.cmbUpiAccount.Location = new System.Drawing.Point(502, 117);
+            this.cmbUpiAccount.Location = new System.Drawing.Point(405, 105);
             this.cmbUpiAccount.Name = "cmbUpiAccount";
             this.cmbUpiAccount.Size = new System.Drawing.Size(143, 22);
             this.cmbUpiAccount.TabIndex = 36456507;
@@ -203,7 +306,7 @@
             // cmbBankAccount
             // 
             this.cmbBankAccount.FormattingEnabled = true;
-            this.cmbBankAccount.Location = new System.Drawing.Point(502, 84);
+            this.cmbBankAccount.Location = new System.Drawing.Point(405, 77);
             this.cmbBankAccount.Name = "cmbBankAccount";
             this.cmbBankAccount.Size = new System.Drawing.Size(143, 22);
             this.cmbBankAccount.TabIndex = 36456506;
@@ -214,7 +317,7 @@
             // cmbCashAccount
             // 
             this.cmbCashAccount.FormattingEnabled = true;
-            this.cmbCashAccount.Location = new System.Drawing.Point(502, 53);
+            this.cmbCashAccount.Location = new System.Drawing.Point(405, 46);
             this.cmbCashAccount.Name = "cmbCashAccount";
             this.cmbCashAccount.Size = new System.Drawing.Size(143, 22);
             this.cmbCashAccount.TabIndex = 36456505;
@@ -225,7 +328,7 @@
             // cmbSalesAccount
             // 
             this.cmbSalesAccount.FormattingEnabled = true;
-            this.cmbSalesAccount.Location = new System.Drawing.Point(502, 20);
+            this.cmbSalesAccount.Location = new System.Drawing.Point(405, 18);
             this.cmbSalesAccount.Name = "cmbSalesAccount";
             this.cmbSalesAccount.Size = new System.Drawing.Size(143, 22);
             this.cmbSalesAccount.TabIndex = 36456504;
@@ -236,7 +339,7 @@
             // lblUPIAccount
             // 
             this.lblUPIAccount.AutoSize = true;
-            this.lblUPIAccount.Location = new System.Drawing.Point(380, 119);
+            this.lblUPIAccount.Location = new System.Drawing.Point(307, 105);
             this.lblUPIAccount.Name = "lblUPIAccount";
             this.lblUPIAccount.Size = new System.Drawing.Size(82, 14);
             this.lblUPIAccount.TabIndex = 36456503;
@@ -245,7 +348,7 @@
             // lblBankAccount
             // 
             this.lblBankAccount.AutoSize = true;
-            this.lblBankAccount.Location = new System.Drawing.Point(380, 86);
+            this.lblBankAccount.Location = new System.Drawing.Point(307, 77);
             this.lblBankAccount.Name = "lblBankAccount";
             this.lblBankAccount.Size = new System.Drawing.Size(91, 14);
             this.lblBankAccount.TabIndex = 36456502;
@@ -254,7 +357,7 @@
             // lblCashAccount
             // 
             this.lblCashAccount.AutoSize = true;
-            this.lblCashAccount.Location = new System.Drawing.Point(378, 53);
+            this.lblCashAccount.Location = new System.Drawing.Point(306, 49);
             this.lblCashAccount.Name = "lblCashAccount";
             this.lblCashAccount.Size = new System.Drawing.Size(92, 14);
             this.lblCashAccount.TabIndex = 36456501;
@@ -263,7 +366,7 @@
             // lblSalesAccount
             // 
             this.lblSalesAccount.AutoSize = true;
-            this.lblSalesAccount.Location = new System.Drawing.Point(377, 23);
+            this.lblSalesAccount.Location = new System.Drawing.Point(304, 21);
             this.lblSalesAccount.Name = "lblSalesAccount";
             this.lblSalesAccount.Size = new System.Drawing.Size(94, 14);
             this.lblSalesAccount.TabIndex = 36456500;
@@ -272,7 +375,7 @@
             // Chkdirectprint
             // 
             this.Chkdirectprint.AutoSize = true;
-            this.Chkdirectprint.Location = new System.Drawing.Point(323, 351);
+            this.Chkdirectprint.Location = new System.Drawing.Point(670, 49);
             this.Chkdirectprint.Name = "Chkdirectprint";
             this.Chkdirectprint.Size = new System.Drawing.Size(95, 18);
             this.Chkdirectprint.TabIndex = 36456499;
@@ -285,7 +388,7 @@
             // ChkshowProductInSalesinvoice
             // 
             this.ChkshowProductInSalesinvoice.AutoSize = true;
-            this.ChkshowProductInSalesinvoice.Location = new System.Drawing.Point(113, 352);
+            this.ChkshowProductInSalesinvoice.Location = new System.Drawing.Point(562, 104);
             this.ChkshowProductInSalesinvoice.Name = "ChkshowProductInSalesinvoice";
             this.ChkshowProductInSalesinvoice.Size = new System.Drawing.Size(201, 18);
             this.ChkshowProductInSalesinvoice.TabIndex = 36456498;
@@ -309,7 +412,7 @@
             // 
             this.chkStatus.AutoSize = true;
             this.chkStatus.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkStatus.Location = new System.Drawing.Point(113, 329);
+            this.chkStatus.Location = new System.Drawing.Point(562, 21);
             this.chkStatus.Name = "chkStatus";
             this.chkStatus.Size = new System.Drawing.Size(63, 18);
             this.chkStatus.TabIndex = 11;
@@ -346,7 +449,7 @@
             this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDelete.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDelete.ForeColor = System.Drawing.Color.Black;
-            this.btnDelete.Location = new System.Drawing.Point(467, 376);
+            this.btnDelete.Location = new System.Drawing.Point(296, 336);
             this.btnDelete.Margin = new System.Windows.Forms.Padding(1);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(88, 28);
@@ -363,7 +466,7 @@
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSave.ForeColor = System.Drawing.Color.Black;
-            this.btnSave.Location = new System.Drawing.Point(287, 376);
+            this.btnSave.Location = new System.Drawing.Point(116, 336);
             this.btnSave.Margin = new System.Windows.Forms.Padding(1);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(88, 28);
@@ -382,7 +485,7 @@
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClose.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClose.ForeColor = System.Drawing.Color.Black;
-            this.btnClose.Location = new System.Drawing.Point(557, 376);
+            this.btnClose.Location = new System.Drawing.Point(386, 336);
             this.btnClose.Margin = new System.Windows.Forms.Padding(1);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(88, 28);
@@ -399,7 +502,7 @@
             this.btnClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClear.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClear.ForeColor = System.Drawing.Color.Black;
-            this.btnClear.Location = new System.Drawing.Point(377, 376);
+            this.btnClear.Location = new System.Drawing.Point(206, 336);
             this.btnClear.Margin = new System.Windows.Forms.Padding(1);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(88, 28);
@@ -412,7 +515,7 @@
             // 
             this.chkCashDrStatus.AutoSize = true;
             this.chkCashDrStatus.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkCashDrStatus.Location = new System.Drawing.Point(181, 329);
+            this.chkCashDrStatus.Location = new System.Drawing.Point(630, 21);
             this.chkCashDrStatus.Name = "chkCashDrStatus";
             this.chkCashDrStatus.Size = new System.Drawing.Size(108, 18);
             this.chkCashDrStatus.TabIndex = 8;
@@ -426,7 +529,7 @@
             // 
             this.chkDisplayStatus.AutoSize = true;
             this.chkDisplayStatus.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkDisplayStatus.Location = new System.Drawing.Point(290, 329);
+            this.chkDisplayStatus.Location = new System.Drawing.Point(562, 50);
             this.chkDisplayStatus.Name = "chkDisplayStatus";
             this.chkDisplayStatus.Size = new System.Drawing.Size(102, 18);
             this.chkDisplayStatus.TabIndex = 6;
@@ -470,7 +573,7 @@
             "COM8",
             "COM9",
             "COM10"});
-            this.cmbDisplayPort.Location = new System.Drawing.Point(474, 327);
+            this.cmbDisplayPort.Location = new System.Drawing.Point(647, 77);
             this.cmbDisplayPort.Name = "cmbDisplayPort";
             this.cmbDisplayPort.Size = new System.Drawing.Size(79, 22);
             this.cmbDisplayPort.TabIndex = 7;
@@ -522,10 +625,10 @@
             // txtFootrDetails
             // 
             this.txtFootrDetails.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtFootrDetails.Location = new System.Drawing.Point(134, 241);
+            this.txtFootrDetails.Location = new System.Drawing.Point(118, 239);
             this.txtFootrDetails.Multiline = true;
             this.txtFootrDetails.Name = "txtFootrDetails";
-            this.txtFootrDetails.Size = new System.Drawing.Size(434, 77);
+            this.txtFootrDetails.Size = new System.Drawing.Size(434, 76);
             this.txtFootrDetails.TabIndex = 10;
             this.txtFootrDetails.Enter += new System.EventHandler(this.txtFootrDetails_Enter);
             this.txtFootrDetails.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtFootrDetails_KeyDown);
@@ -589,7 +692,7 @@
             // 
             this.lblDisplayPort.AutoSize = true;
             this.lblDisplayPort.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDisplayPort.Location = new System.Drawing.Point(389, 331);
+            this.lblDisplayPort.Location = new System.Drawing.Point(559, 77);
             this.lblDisplayPort.Name = "lblDisplayPort";
             this.lblDisplayPort.Size = new System.Drawing.Size(82, 14);
             this.lblDisplayPort.TabIndex = 6;
@@ -645,25 +748,24 @@
             this.lblCounterId.TabIndex = 0;
             this.lblCounterId.Text = "Counter Id";
             // 
-            // ChkProductSearchWithImage
+            // lnklblUnitRemove
             // 
-            this.ChkProductSearchWithImage.AutoSize = true;
-            this.ChkProductSearchWithImage.Location = new System.Drawing.Point(383, 210);
-            this.ChkProductSearchWithImage.Name = "ChkProductSearchWithImage";
-            this.ChkProductSearchWithImage.Size = new System.Drawing.Size(198, 18);
-            this.ChkProductSearchWithImage.TabIndex = 36456514;
-            this.ChkProductSearchWithImage.Text = "Product Search With Image";
-            this.ChkProductSearchWithImage.UseVisualStyleBackColor = true;
-            this.ChkProductSearchWithImage.Enter += new System.EventHandler(this.ChkProductSearchWithImage_Enter);
-            this.ChkProductSearchWithImage.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ChkProductSearchWithImage_KeyDown);
-            this.ChkProductSearchWithImage.Leave += new System.EventHandler(this.ChkProductSearchWithImage_Leave);
+            this.lnklblUnitRemove.AutoSize = true;
+            this.lnklblUnitRemove.DisabledLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.lnklblUnitRemove.Location = new System.Drawing.Point(807, 368);
+            this.lnklblUnitRemove.Name = "lnklblUnitRemove";
+            this.lnklblUnitRemove.Size = new System.Drawing.Size(57, 14);
+            this.lnklblUnitRemove.TabIndex = 36456520;
+            this.lnklblUnitRemove.TabStop = true;
+            this.lnklblUnitRemove.Text = "Remove";
+            this.lnklblUnitRemove.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnklblUnitRemove_LinkClicked);
             // 
             // frmPOSCounter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(675, 423);
+            this.ClientSize = new System.Drawing.Size(896, 441);
             this.Controls.Add(this.pnlPOSCounter);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "frmPOSCounter";
@@ -672,6 +774,8 @@
             this.Load += new System.EventHandler(this.frmPOSCounter_Load);
             this.pnlPOSCounter.ResumeLayout(false);
             this.pnlPOSCounter.PerformLayout();
+            this.groupBoxCountrprinter.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvPosCounterPrinterDetails)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -721,5 +825,13 @@
         private System.Windows.Forms.ComboBox cmbSalesType;
         private System.Windows.Forms.Label lblSalesType;
         private System.Windows.Forms.CheckBox ChkProductSearchWithImage;
+        private System.Windows.Forms.CheckBox ChkShowPrefixInBillNo;
+        private System.Windows.Forms.DataGridView dgvPosCounterPrinterDetails;
+        private System.Windows.Forms.GroupBox groupBoxCountrprinter;
+        private System.Windows.Forms.DataGridViewComboBoxColumn ProductCategory;
+        private System.Windows.Forms.DataGridViewComboBoxColumn DefaultPrinters;
+        private System.Windows.Forms.CheckBox chkkotPrint;
+        private System.Windows.Forms.CheckBox chkCategoryWaysPrint;
+        private System.Windows.Forms.LinkLabel lnklblUnitRemove;
     }
 }

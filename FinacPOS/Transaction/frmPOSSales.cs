@@ -33,7 +33,6 @@ namespace FinacPOS
         POSSalesMasterSP salesMasterSP = new POSSalesMasterSP();
         ProductSP SPProduct = new ProductSP();
         POSCounterInfo POSCounterInfo = new POSCounterInfo();
-
         #region PUBLICVARIABLES
 
         public string strSessionNo = "";
@@ -599,6 +598,8 @@ namespace FinacPOS
         public void ClearFunction()
         {
             lblBillNo.Text = POSBillNumberMax();
+            POSSalesMasterInfo InfoPOSSalesMaster = new POSSalesMasterInfo();
+            InfoPOSSalesMaster.TokenNo = POSTokenNoMax();
             btnCash.Enabled = true;
             btnCreditCard.Enabled = true;
             btnUPI.Enabled = true;
@@ -740,34 +741,43 @@ namespace FinacPOS
         //}
         public string POSBillNumberMax()
         {
+
             string PartBillNo = "";
 
             try
             {
-                DataTable dtbl = new DataTable();
-                dtbl = SPGeneral.GetPOSLastBillNo(PublicVariables._counterId, "Sales");
+                DataTable dtbl = SPGeneral.GetPOSLastBillNo(PublicVariables._counterId, "Sales");
 
+                int billNumber = 1;
 
-                if (dtbl.Rows.Count > 0)
+                if (dtbl.Rows.Count > 0 && !dtbl.Rows[0].IsNull("LastBillNo"))
                 {
-                    if (!dtbl.Rows[0].IsNull(0))
-                        PartBillNo = dtbl.Rows[0]["LastBillNo"].ToString();
-                    else
-                        PartBillNo = "1";
+                    // Try parsing the last bill number to int
+                    if (int.TryParse(dtbl.Rows[0]["LastBillNo"].ToString(), out int lastBillNo))
+                    {
+                        billNumber = lastBillNo + 1;
+                    }
+                }
+
+                if (!counterInfo.ShowPrefixInBillNo)
+                {
+                    PartBillNo = billNumber.ToString();
                 }
                 else
-                    PartBillNo = "1";
 
-                PartBillNo = (PartBillNo.ToString()).PadLeft(7, '0');
+                    PartBillNo = PublicVariables._counterId + DateTime.Now.ToString("yy") + billNumber.ToString();
 
-                //PartBillNo = PublicVariables._counterId + "" + DateTime.Now.Date.ToString("yy") + "" + PartBillNo;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                PartBillNo = "1"; // fallback
             }
+
             return PartBillNo;
         }
+
+
         public void CallFromSessionManagement(frmSessionManagement frm)
         {
             frm.Close();
@@ -1048,6 +1058,7 @@ namespace FinacPOS
 
         public void FillDatatatablesforDevPrint(string strTenderPaid, string strTenderBalance, string strTenderCash, string strTenderCC, string strTenderUPI, bool isDuplicatePrint, string strDuplicateBillNo, string strHoldBillNo, string strTenderType)
         {
+           
             //--------Company Details Datatable--------------
             DataTable dtblCompanyDetails = new DataTable();
             BranchSP SpBranch = new BranchSP();
@@ -1101,7 +1112,7 @@ namespace FinacPOS
             dtblGridDetails.Columns.Add("NETVALUE");
             dtblGridDetails.Columns.Add("Total Amt");
             dtblGridDetails.Columns.Add("NameArabic");
-
+            dtblGridDetails.Columns.Add("groupId");
 
             if (isDuplicatePrint == false)
             {
@@ -1152,6 +1163,7 @@ namespace FinacPOS
                         dr["NETVALUE"] = Convert.ToDecimal(dtbl.Rows[i]["netAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                         dr["Total Amt"] = Convert.ToDecimal(dtbl.Rows[i]["Amount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                         dr["NameArabic"] = dtbl.Rows[i]["ArabicName"].ToString();
+                        dr["groupId"] = dtbl.Rows[i]["groupId"].ToString();
                     }
                 }
             }
@@ -1197,6 +1209,7 @@ namespace FinacPOS
             dtblOtherDetails.Columns.Add("CustomerAddress");
             dtblOtherDetails.Columns.Add("CustomerPhone");
             dtblOtherDetails.Columns.Add("CustomerVatNo");
+            dtblOtherDetails.Columns.Add("TokenNo");
 
             if (isDuplicatePrint == false)
             {
@@ -1225,7 +1238,7 @@ namespace FinacPOS
                     {
                         dRowDetails["BillName"] = "SIMPLIFIED TAX INVOICE / فاتورة ضريبية مبسطة";
                     }
-                    
+
                 }
                 dRowDetails["SubTotal"] = txtSubTotal.Text;
                 dRowDetails["BillDiscount"] = txtDiscAmt.Text;
@@ -1255,7 +1268,7 @@ namespace FinacPOS
                     dRowDetails["CustomerAddress"] = txtAdress.Text;
                     dRowDetails["CustomerPhone"] = txtphone.Text;
                     dRowDetails["CustomerVatNo"] = txtVatNo.Text;
-                  
+
                     DataTable dtblBalance = salesmaster.GetCustomerCurrentBalance(lblLedgerId.Text.ToString(), PublicVariables._branchId);
                     if (dtblBalance.Rows.Count > 0)
                     {
@@ -1316,6 +1329,7 @@ namespace FinacPOS
                     dRowDetails["CustomerAddress"] = txtAdress.Text;
                     dRowDetails["CustomerPhone"] = txtphone.Text;
                     dRowDetails["CustomerVatNo"] = txtVatNo.Text;
+                    dRowDetails["TokenNo"] = POSTokenNoMax();
                     dRowDetails["isCredit"] = false;
                     dRowDetails["prevBalance"] = "";
                     dRowDetails["BillAmount"] = "";
@@ -1411,7 +1425,7 @@ namespace FinacPOS
             else
             {
 
-                DataTable dtbl = new DataTable();
+                 DataTable dtbl = new DataTable();
                 dtbl = POSSalesMasterSP.GetPOSLastBillDetialsforLastBillPrint(strDuplicateBillNo);
 
                 if (dtbl.Rows.Count > 0)
@@ -1432,7 +1446,7 @@ namespace FinacPOS
                     dRowDetails["TaxAmount"] = Convert.ToDecimal(dtbl.Rows[0]["totalTaxAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                     dRowDetails["GrandTotal"] = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                     dRowDetails["AmountInWords"] = "";
-                   // dRowDetails["BillName"] = "TAX INVOICE COPY / فاتورة ضريبية";
+                    // dRowDetails["BillName"] = "TAX INVOICE COPY / فاتورة ضريبية";
                     dRowDetails["QtyTotal"] = dtbl.Rows[0]["totalQty"].ToString();
                     dRowDetails["TenderPaid"] = Convert.ToDecimal(dtbl.Rows[0]["paidAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                     dRowDetails["TenderBalance"] = Convert.ToDecimal(dtbl.Rows[0]["balanceAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
@@ -1496,6 +1510,7 @@ namespace FinacPOS
                     dRowDetails["CustomerAddress"] = dtbl.Rows[0]["CustomerAddress"].ToString();
                     dRowDetails["CustomerPhone"] = dtbl.Rows[0]["CustomerPhone"].ToString();
                     dRowDetails["CustomerVatNo"] = dtbl.Rows[0]["CustomerVATNo"].ToString();
+                    dRowDetails["TokenNo"] = dtbl.Rows[0]["TokenNo"].ToString();
                     DataTable dtblBalance = salesmaster.GetCustomerCurrentBalance(dtbl.Rows[0]["customerCode"].ToString(), PublicVariables._branchId);
                     if (dtblBalance.Rows.Count > 0)
                     {
@@ -1618,6 +1633,71 @@ namespace FinacPOS
                 }
                 else
                     spPrint.PrintSalesInvoicePOS(dtblCompanyDetails, dtblGridDetails, dtblOtherDetails, dtblTaxDetailsThermal, counterInfo.DefaultPrinter, counterInfo.Directprint, counterInfo.SalesPrintCopy);
+
+                if (counterInfo.KOTPrint)
+                {
+                    spPrint.PrintKOTPOS(dtblCompanyDetails, dtblGridDetails, dtblOtherDetails, counterInfo.DefaultPrinter, counterInfo.Directprint, counterInfo.SalesPrintCopy);
+                }
+                string StrcategoryId = "";
+                string StrprinterName = "";
+                DataTable dtCategoryProductPrint = new DataTable();
+                dtCategoryProductPrint.Columns.Add("ProductName");
+                dtCategoryProductPrint.Columns.Add("ArabicName");
+                dtCategoryProductPrint.Columns.Add("Qty", typeof(decimal));
+                if (counterInfo.CategoryWaysPrint)
+                {
+                    DataTable dtCounterPrinters = salesMasterSP.POSGetCategoryPrintersByCounterId(counterInfo.CounterId);
+                    foreach (DataRow dr in dtCounterPrinters.Rows)
+                    {
+                        StrcategoryId = dr["CategoryId"].ToString();
+                        StrprinterName = dr["PrintName"].ToString();
+                         dtCategoryProductPrint.Clear();
+                        if (!isDuplicatePrint)
+                        {
+                            foreach (DataGridViewRow dtPrdt in dgvProduct.Rows)
+                            {
+
+                                if (dtPrdt.Cells["CategoryId"].Value?.ToString() == StrcategoryId)
+                                {
+                                    DataRow newProductRow = dtCategoryProductPrint.NewRow(); 
+                                    newProductRow["ProductName"] = dtPrdt.Cells["ItemName"].Value?.ToString();
+                                    newProductRow["ArabicName"] = dtPrdt.Cells["ArabicName"].Value?.ToString();
+                                    newProductRow["Qty"] = dtPrdt.Cells["Qty"].Value?.ToString();
+
+                                    dtCategoryProductPrint.Rows.Add(newProductRow);
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            foreach (DataRow dtPrdt in dtblGridDetails.Rows)
+                            {
+
+                                if (dtPrdt["groupId"].ToString() == StrcategoryId)
+                                {
+                                    DataRow newProductRow = dtCategoryProductPrint.NewRow();
+                                    newProductRow["ProductName"] = dtPrdt["ProductName"].ToString();
+                                    newProductRow["ArabicName"] = dtPrdt["NameArabic"].ToString();
+                                    newProductRow["Qty"] =decimal.Parse(dtPrdt["Qty"].ToString());
+
+                                    dtCategoryProductPrint.Rows.Add(newProductRow);
+                                }
+                            }
+                            
+                        }
+
+                        if (dtCategoryProductPrint.Rows.Count > 0)
+                        {
+                            int totalQty = dtCategoryProductPrint.AsEnumerable()
+                            .Sum(row => int.TryParse(row["Qty"].ToString(), out int qty) ? qty : 0);
+                            dtblOtherDetails.Rows[0]["QtyTotal"]= totalQty.ToString();
+                            
+                            spPrint.POSCategoryWaysPrint(dtblCompanyDetails, dtblGridDetails, dtCategoryProductPrint, dtblOtherDetails, StrprinterName, counterInfo.Directprint, counterInfo.SalesPrintCopy);
+                        }
+                       
+                    }
+                 }
             }
 
 
@@ -1954,6 +2034,7 @@ namespace FinacPOS
                         //-------------------------------------------------------------------------------------
                     }
                     SPGeneral.POSBillUpdate(PublicVariables._counterId, PublicVariables._currentUserId, "Sales");
+                    SPGeneral.POSTokenNoUpdate(PublicVariables._counterId.ToString(), strSessionNo, Convert.ToDateTime(strSessionDate));
                     ClearFunction();
                 }
             }
@@ -2179,7 +2260,7 @@ namespace FinacPOS
             InfoPOSSalesMaster.CustomerAddress = txtAdress.Text.ToString();
             InfoPOSSalesMaster.CustomerPhone = txtphone.Text.ToString();
             InfoPOSSalesMaster.CustomerVATNo = txtVatNo.Text.ToString();
-
+            InfoPOSSalesMaster.TokenNo = POSTokenNoMax();
 
             strMasterId = POSSalesMasterSP.POSSalesMasterAdd(InfoPOSSalesMaster);
 
@@ -2292,7 +2373,7 @@ namespace FinacPOS
             InfoPOSSalesMaster.CustomerPhone = txtphone.Text.ToString();
             InfoPOSSalesMaster.CustomerVATNo = txtVatNo.Text.ToString();
 
-
+            InfoPOSSalesMaster.TokenNo = POSTokenNoMax();
             strMasterId = POSSalesMasterSP.POSDeletedSalesMasterHistoryAdd(InfoPOSSalesMaster);
 
             if (strMasterId != "")
@@ -2426,6 +2507,7 @@ namespace FinacPOS
             InfoPOSSalesMaster.CreditNoteNo = "";
             InfoPOSSalesMaster.CreditNoteAmount = 0m;
             InfoPOSSalesMaster.UserId = PublicVariables._currentUserId;
+            InfoPOSSalesMaster.TokenNo = POSTokenNoMax();
 
             if (strHoldMasterIdToEdit == "")
             {
@@ -2824,6 +2906,7 @@ namespace FinacPOS
             decimal amountBeforeDisc = 0;
             decimal rateDiscAmount = 0;
             string offerId = "";
+            string strCategoryid = "";
             DataTable dtblSalesRate = new DataTable();
 
             if (lblTenderTotalAmount.Visible == true)
@@ -2939,7 +3022,7 @@ namespace FinacPOS
                 // IsDiscounted = Convert.ToBoolean(dtblSalesRate.Rows[0]["IsDiscounted"].ToString());
                 amountBeforeDisc = Convert.ToDecimal(dtblSalesRate.Rows[0]["amountBeforeDisc"].ToString());
                 rateDiscAmount = Convert.ToDecimal(dtblSalesRate.Rows[0]["rateDiscAmount"].ToString());
-             
+                strCategoryid = dtbl.Rows[0]["groupId"].ToString();
 
                 offerId = dtblSalesRate.Rows[0]["offerId"].ToString();
                 if (decSalesPrice == 0)
@@ -2963,6 +3046,7 @@ namespace FinacPOS
                     strUnitName = dtbl.Rows[0]["unitName"].ToString();
                     strBaseUnitId = dtbl.Rows[0]["unitId"].ToString();
                     decUnitConversion = Convert.ToDecimal(dtbl.Rows[0]["conversionRate"].ToString());
+                    strCategoryid = dtbl.Rows[0]["groupId"].ToString();
 
                     dtblSalesRate = SPGeneral.ProductSalesRateForSalePOS(strItemCode, "1", DateTime.Parse(lblBillDate.Text), strUnitId);
                     decSalesPrice = Convert.ToDecimal(dtblSalesRate.Rows[0]["rate"].ToString());
@@ -3117,7 +3201,7 @@ namespace FinacPOS
 
 
                     dgvProduct.Rows[Rownumber].Cells["Total"].Value = (dGrossValue + dTaxAmt).ToString(FinanceSettingsInfo._roundDecimalPart);
-
+                    dgvProduct.Rows[Rownumber].Cells["CategoryId"].Value = strCategoryid;
                     CalculateBillTotal();
 
                     //dgvSlno = dgvSlno + 1;
@@ -3172,7 +3256,7 @@ namespace FinacPOS
                     dgvProduct.Rows[dgvCurRow].Cells["Unit"].Value = strUnitName;
                     dgvProduct.Rows[dgvCurRow].Cells["BaseUnitId"].Value = strBaseUnitId;
                     dgvProduct.Rows[dgvCurRow].Cells["UnitConversion"].Value = decUnitConversion;
-
+                    dgvProduct.Rows[dgvCurRow].Cells["CategoryId"].Value = strCategoryid;
                     // assiging stock 
                     decimal decStock = salesMasterSP.ProductStockGetCorrespondingtoBatchAndGodown("POS Sales", "", strItemCode, "1", "1", "1");
                     dgvProduct.Rows[dgvCurRow].Cells["Stock"].Value = decStock;
@@ -3267,7 +3351,8 @@ namespace FinacPOS
 
 
                     dgvProduct.Rows[dgvCurRow].Cells["Total"].Value = (dGrossValue + dTaxAmt).ToString(FinanceSettingsInfo._roundDecimalPart);
-
+                    
+                    
                     CalculateBillTotal();
 
                     dgvSlno = dgvSlno + 1;
@@ -4510,6 +4595,7 @@ namespace FinacPOS
             else
             {
                 PrintLastBill("lastbill", "");
+
             }
         }
 
@@ -5134,6 +5220,25 @@ namespace FinacPOS
 
        }
 
-       
+        public string POSTokenNoMax()
+        {
+            string TokenNo = "1";
+
+            try
+            {
+                DataTable dtbl = SPGeneral.GetPOSLastTokenNo(PublicVariables._counterId.ToString(), strSessionNo, Convert.ToDateTime(strSessionDate));
+
+                if (dtbl.Rows.Count > 0 && !dtbl.Rows[0].IsNull("LastTokenNo"))
+                {
+                    TokenNo = dtbl.Rows[0]["LastTokenNo"].ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            return TokenNo;
+        }
     }
 }
