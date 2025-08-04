@@ -205,6 +205,7 @@
     <Compile Include="Classes\Info\LedgerPostingInfo.cs" />
     <Compile Include="Classes\Info\PartyBalanceInfo.cs" />
     <Compile Include="Classes\Info\POSCounterInfo.cs" />
+    <Compile Include="Classes\Info\PosCounterPrinterDetailsInfo.cs" />
     <Compile Include="Classes\Info\POSPaymentDetailsInfo.cs" />
     <Compile Include="Classes\Info\POSPaymentMasterInfo.cs" />
     <Compile Include="Classes\Info\POSReceiptDetailsInfo.cs" />

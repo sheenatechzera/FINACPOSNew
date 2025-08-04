@@ -598,26 +598,30 @@ namespace FinacPOS
                     {
                         // Save 
                         counterSP.POSCounterAdd(counterInfo);
-                        foreach (DataGridViewRow row in dgvPosCounterPrinterDetails.Rows)
+                        if(dgvPosCounterPrinterDetails.Rows.Count >0 )
                         {
-                            if (row.IsNewRow) continue;
+                            foreach (DataGridViewRow row in dgvPosCounterPrinterDetails.Rows)
+                            {
+                                if (row.IsNewRow) continue;
 
-                            string productCategory = row.Cells["ProductCategory"].Value?.ToString()?.Trim();
-                            string defaultPrinter = row.Cells["DefaultPrinters"].Value?.ToString()?.Trim();
+                                string productCategory = row.Cells["ProductCategory"].Value?.ToString()?.Trim();
+                                string defaultPrinter = row.Cells["DefaultPrinters"].Value?.ToString()?.Trim();
 
 
-                            if (string.IsNullOrWhiteSpace(productCategory) || string.IsNullOrWhiteSpace(defaultPrinter))
-                                continue;
-                            PosCounterPrinterDetailsInfo counterprinterDetailsInfo = new PosCounterPrinterDetailsInfo();
-                            counterprinterDetailsInfo.CounterId = txtCounterId.Text;
-                            counterprinterDetailsInfo.ProductGroupCategory = productCategory;
-                            counterprinterDetailsInfo.DefaultPrinter = defaultPrinter;
-                            counterprinterDetailsInfo.extra1 = "";
-                            counterprinterDetailsInfo.extra2 = "";
+                                if (string.IsNullOrWhiteSpace(productCategory) || string.IsNullOrWhiteSpace(defaultPrinter))
+                                    continue;
+                                PosCounterPrinterDetailsInfo counterprinterDetailsInfo = new PosCounterPrinterDetailsInfo();
+                                counterprinterDetailsInfo.CounterId = txtCounterId.Text;
+                                counterprinterDetailsInfo.ProductGroupCategory = productCategory;
+                                counterprinterDetailsInfo.DefaultPrinter = defaultPrinter;
+                                counterprinterDetailsInfo.extra1 = "";
+                                counterprinterDetailsInfo.extra2 = "";
 
-                            counterSP.POSCounterPrinterDetailsAdd(counterprinterDetailsInfo);
-                           
+                                counterSP.POSCounterPrinterDetailsAdd(counterprinterDetailsInfo);
+
+                            }
                         }
+                       
                         MessageBox.Show("Counter created successfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         //Added on 04/May/2025
                         POSCounterInfo Info = new POSCounterInfo();
