@@ -1483,7 +1483,7 @@ namespace FinacPOS
             //report.Parameters["TokenNo"].Value = dtblOtherDetails.Rows[0]["CounterId"].ToString();
             report.Parameters["BillDate"].Value = dtblOtherDetails.Rows[0]["BillDate"].ToString();
 
-            report.Parameters["BillName"].Value = "Kitchen Order Token  تذكرة طلب المطبخ";
+            report.Parameters["BillName"].Value = "KOT";
             report.Parameters["BillTime"].Value = dtblOtherDetails.Rows[0]["BillTime"];
             report.Parameters["InvoiceNo"].Value = dtblOtherDetails.Rows[0]["InvoiceNo"];
             report.Parameters["QtyTotal"].Value = dtblOtherDetails.Rows[0]["QtyTotal"];
@@ -1566,7 +1566,7 @@ namespace FinacPOS
             //report.Parameters["TokenNo"].Value = dtblOtherDetails.Rows[0]["CounterId"].ToString();
             report.Parameters["BillDate"].Value = dtblOtherDetails.Rows[0]["BillDate"].ToString();
 
-            report.Parameters["BillName"].Value = "Category Ways Printers  فئة طرق الطابعة";
+            report.Parameters["BillName"].Value = "KOT";
             report.Parameters["BillTime"].Value = dtblOtherDetails.Rows[0]["BillTime"];
             report.Parameters["InvoiceNo"].Value= dtblOtherDetails.Rows[0]["InvoiceNo"];
             report.Parameters["QtyTotal"].Value = dtblOtherDetails.Rows[0]["QtyTotal"];
