@@ -14,6 +14,17 @@ namespace FinacPOS
         public frmPOSUser()
         {
             InitializeComponent();
+            setLanguage(PublicVariables._ModuleLanguage);
+        }
+        public void setLanguage(String language)
+        {
+            //Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(language);
+            if (language == "ARB")
+            {
+                this.RightToLeft = RightToLeft.Yes;
+                this.RightToLeftLayout = true;
+            }
+            //this.Controls.Clear();
         }
         #region PUBLIC VARIABLES
 
@@ -483,6 +494,7 @@ namespace FinacPOS
                 MessageBox.Show("Select Group", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 cmbGroupId.Focus();
             }
+          
             else
             {
                 bool isSave = true;

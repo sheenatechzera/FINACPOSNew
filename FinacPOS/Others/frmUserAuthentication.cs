@@ -16,8 +16,18 @@ namespace FinacPOS
         public frmUserAuthentication()
         {
             InitializeComponent();
+            setLanguage(PublicVariables._ModuleLanguage);
         }
-
+        public void setLanguage(String language)
+        {
+            //Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(language);
+            if (language == "ARB")
+            {
+                this.RightToLeft = RightToLeft.Yes;
+                this.RightToLeftLayout = true;
+            }
+            //this.Controls.Clear();
+        }
         POSCounterSP counterSP = new POSCounterSP();
         bool isFromPOSSales = false;
         bool isFromPOSSales2 = false;

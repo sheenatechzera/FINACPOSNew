@@ -15,8 +15,18 @@ namespace FinacPOS
         public frmPOSReceiptVoucher()
         {
             InitializeComponent();
+            setLanguage(PublicVariables._ModuleLanguage);
         }
-
+        public void setLanguage(String language)
+        {
+            //Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(language);
+            if (language == "ARB")
+            {
+                this.RightToLeft = RightToLeft.Yes;
+                this.RightToLeftLayout = true;
+            }
+            //this.Controls.Clear();
+        }
         bool formCancel = false;
         frmPOSSales frmPOSSales;
         string strFocusedControl = "";

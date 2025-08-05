@@ -25,6 +25,8 @@ namespace FinacPOS
             setLanguage(PublicVariables._ModuleLanguage);
 
         }
+     
+      
         public void setLanguage(String language)
         {
             //Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(language);

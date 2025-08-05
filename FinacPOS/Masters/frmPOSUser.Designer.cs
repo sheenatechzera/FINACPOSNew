@@ -157,7 +157,7 @@
             this.chkAdmin.AutoSize = true;
             this.chkAdmin.BackColor = System.Drawing.Color.Transparent;
             this.chkAdmin.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkAdmin.Location = new System.Drawing.Point(114, 220);
+            this.chkAdmin.Location = new System.Drawing.Point(114, 221);
             this.chkAdmin.Name = "chkAdmin";
             this.chkAdmin.Size = new System.Drawing.Size(111, 18);
             this.chkAdmin.TabIndex = 6;
@@ -222,7 +222,7 @@
             this.chkActive.AutoSize = true;
             this.chkActive.BackColor = System.Drawing.Color.Transparent;
             this.chkActive.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkActive.Location = new System.Drawing.Point(252, 220);
+            this.chkActive.Location = new System.Drawing.Point(231, 221);
             this.chkActive.Name = "chkActive";
             this.chkActive.Size = new System.Drawing.Size(63, 18);
             this.chkActive.TabIndex = 13;
@@ -461,6 +461,5 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Button btnDelete;
-
     }
 }

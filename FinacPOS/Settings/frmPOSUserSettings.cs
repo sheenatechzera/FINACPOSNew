@@ -13,11 +13,21 @@ namespace FinacPOS
         public frmPOSUserSettings()
         {
             InitializeComponent();
-            
+            setLanguage(PublicVariables._ModuleLanguage);
+
         }
-        
-      
-      //  MDIForm frmQuick = new MDIForm();
+        public void setLanguage(String language)
+        {
+            //Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(language);
+            if (language == "ARB")
+            {
+                this.RightToLeft = RightToLeft.Yes;
+                this.RightToLeftLayout = true;
+            }
+            //this.Controls.Clear();
+        }
+
+        //  MDIForm frmQuick = new MDIForm();
 
         DataTable dtblViewAllSelectedCustomization = new DataTable();
         DataTable dtblViewAllNonSelectedCustomization = new DataTable();

@@ -17,6 +17,17 @@ namespace FinacPOS
         public frmSessionManagement()
         {
             InitializeComponent();
+            setLanguage(PublicVariables._ModuleLanguage);
+        }
+        public void setLanguage(String language)
+        {
+            //Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(language);
+            if (language == "ARB")
+            {
+                this.RightToLeft = RightToLeft.Yes;
+                this.RightToLeftLayout = true;
+            }
+            //this.Controls.Clear();
         }
         SessionManagementSP sessionSp = new SessionManagementSP();
         int sessionNo = 0;
