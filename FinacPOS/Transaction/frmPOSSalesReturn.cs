@@ -17,9 +17,19 @@ namespace FinacPOS
         public frmPOSSalesReturn()
         {
             InitializeComponent();
+            setLanguage(PublicVariables._ModuleLanguage);
         }
         #region PUBLICVARIABLES
-
+        public void setLanguage(String language)
+        {
+            //Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(language);
+            if (language == "ARB")
+            {
+                this.RightToLeft = RightToLeft.Yes;
+                this.RightToLeftLayout = true;
+            }
+            //this.Controls.Clear();
+        }
         public string strSessionNo = "";
         public string strSessionDate = "";
         int dgvCurRow = 0;
