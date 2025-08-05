@@ -54,11 +54,15 @@
             this.txtUserId = new System.Windows.Forms.TextBox();
             this.lblUserId = new System.Windows.Forms.Label();
             this.lblName = new System.Windows.Forms.Label();
+            this.cmbLanguage = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.pnlPOSUser.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlPOSUser
             // 
+            this.pnlPOSUser.Controls.Add(this.label4);
+            this.pnlPOSUser.Controls.Add(this.cmbLanguage);
             this.pnlPOSUser.Controls.Add(this.btnDelete);
             this.pnlPOSUser.Controls.Add(this.label3);
             this.pnlPOSUser.Controls.Add(this.label2);
@@ -157,7 +161,7 @@
             this.chkAdmin.AutoSize = true;
             this.chkAdmin.BackColor = System.Drawing.Color.Transparent;
             this.chkAdmin.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkAdmin.Location = new System.Drawing.Point(114, 221);
+            this.chkAdmin.Location = new System.Drawing.Point(185, 221);
             this.chkAdmin.Name = "chkAdmin";
             this.chkAdmin.Size = new System.Drawing.Size(111, 18);
             this.chkAdmin.TabIndex = 6;
@@ -222,7 +226,7 @@
             this.chkActive.AutoSize = true;
             this.chkActive.BackColor = System.Drawing.Color.Transparent;
             this.chkActive.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkActive.Location = new System.Drawing.Point(231, 221);
+            this.chkActive.Location = new System.Drawing.Point(301, 221);
             this.chkActive.Name = "chkActive";
             this.chkActive.Size = new System.Drawing.Size(63, 18);
             this.chkActive.TabIndex = 13;
@@ -413,6 +417,27 @@
             this.lblName.TabIndex = 5;
             this.lblName.Text = "Employee Name";
             // 
+            // cmbLanguage
+            // 
+            this.cmbLanguage.FormattingEnabled = true;
+            this.cmbLanguage.Items.AddRange(new object[] {
+            "English",
+            "Arabic"});
+            this.cmbLanguage.Location = new System.Drawing.Point(114, 221);
+            this.cmbLanguage.Name = "cmbLanguage";
+            this.cmbLanguage.Size = new System.Drawing.Size(63, 21);
+            this.cmbLanguage.TabIndex = 36456492;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(21, 225);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(70, 14);
+            this.label4.TabIndex = 36456493;
+            this.label4.Text = "Language";
+            // 
             // frmPOSUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -461,5 +486,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox cmbLanguage;
     }
 }

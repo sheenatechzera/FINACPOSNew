@@ -494,7 +494,11 @@ namespace FinacPOS
                 MessageBox.Show("Select Group", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 cmbGroupId.Focus();
             }
-          
+            else if (cmbLanguage.Text == "")
+            {
+                MessageBox.Show("Select Group", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cmbLanguage.Focus();
+            }
             else
             {
                 bool isSave = true;
@@ -531,7 +535,7 @@ namespace FinacPOS
                     UserInfo.Extra1 = "";
                     UserInfo.Extra2 = "";
                     UserInfo.BranchId = PublicVariables._branchId;
-
+                    UserInfo.language = cmbLanguage.Text.ToString();
                     if (!isInEditMode)
                     {
                         if (userSP.CheckExistanceOfUserID(txtUserId.Text))

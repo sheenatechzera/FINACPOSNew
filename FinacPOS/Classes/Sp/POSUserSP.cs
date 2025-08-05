@@ -46,6 +46,8 @@ namespace FinacPOS
                 sprmparam.Value = userinfo.Extra1;
                 sprmparam = sccmd.Parameters.Add("@extra2", SqlDbType.VarChar);
                 sprmparam.Value = userinfo.Extra2;
+                sprmparam = sccmd.Parameters.Add("@language", SqlDbType.VarChar);
+                sprmparam.Value = userinfo.language;
                 id = sccmd.ExecuteScalar().ToString();
 
             }
@@ -95,6 +97,8 @@ namespace FinacPOS
                 sprmparam.Value = userinfo.Extra1;
                 sprmparam = sccmd.Parameters.Add("@extra2", SqlDbType.VarChar);
                 sprmparam.Value = userinfo.Extra2;
+                sprmparam = sccmd.Parameters.Add("@language", SqlDbType.VarChar);
+                sprmparam.Value = userinfo.language;
                 sccmd.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -162,6 +166,7 @@ namespace FinacPOS
                     userinfo.ExtraDate = DateTime.Parse(sdrreader["extraDate"].ToString());
                     userinfo.Extra1 = sdrreader["extra1"].ToString();
                     userinfo.Extra2 = sdrreader["extra2"].ToString();
+                    userinfo.language = sdrreader["language"].ToString();
                 }
                 sdrreader.Close();
             }
@@ -205,6 +210,7 @@ namespace FinacPOS
                     userinfo.ExtraDate = DateTime.Parse(sdrreader["extraDate"].ToString());
                     userinfo.Extra1 = sdrreader["extra1"].ToString();
                     userinfo.Extra2 = sdrreader["extra2"].ToString();
+                    userinfo.language = sdrreader["language"].ToString();
                 }
                 sdrreader.Close();
             }

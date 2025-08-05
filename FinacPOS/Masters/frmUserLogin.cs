@@ -123,6 +123,16 @@ namespace FinacPOS
                                 BranchSP SpBranch = new BranchSP();
                                 InfoBranch = SpBranch.BranchView(PublicVariables._branchId);
                                 PublicVariables._currencyId = InfoBranch.CurrencyId;
+
+                                if (userinfo.language == "English")
+                                {
+                                    PublicVariables._ModuleLanguage = "ENG";
+                                }
+                                else
+                                {
+                                    PublicVariables._ModuleLanguage = "ARB";
+                                }
+
                                 // Assigning values to public variables   
                                 // Opening form to set currentDate
                                 // frmChangeCurrentDate objFrom = new frmChangeCurrentDate();

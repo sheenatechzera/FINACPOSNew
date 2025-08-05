@@ -20,6 +20,7 @@ namespace FinacPOS
         private DateTime _extraDate;
         private string _extra1;
         private string _extra2;
+        private string _language;
         public string UserId
         {
             get { return _userId; }
@@ -89,8 +90,13 @@ namespace FinacPOS
         {
             get { return _extra2; }
             set { _extra2 = value; }
-        } 
+        }
 
+        public string language
+        {
+            get { return _language; }
+            set { _language = value; }
+        }
 
     }
 }
