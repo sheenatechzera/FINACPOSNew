@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.pnlPOSCounter = new System.Windows.Forms.Panel();
+            this.lnklblUnitRemove = new System.Windows.Forms.LinkLabel();
             this.chkkotPrint = new System.Windows.Forms.CheckBox();
             this.chkCategoryWaysPrint = new System.Windows.Forms.CheckBox();
             this.groupBoxCountrprinter = new System.Windows.Forms.GroupBox();
@@ -78,7 +79,7 @@
             this.lblSystName = new System.Windows.Forms.Label();
             this.lblCounterName = new System.Windows.Forms.Label();
             this.lblCounterId = new System.Windows.Forms.Label();
-            this.lnklblUnitRemove = new System.Windows.Forms.LinkLabel();
+            this.chkPreview = new System.Windows.Forms.CheckBox();
             this.pnlPOSCounter.SuspendLayout();
             this.groupBoxCountrprinter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPosCounterPrinterDetails)).BeginInit();
@@ -87,6 +88,7 @@
             // pnlPOSCounter
             // 
             this.pnlPOSCounter.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.pnlPOSCounter.Controls.Add(this.chkPreview);
             this.pnlPOSCounter.Controls.Add(this.lnklblUnitRemove);
             this.pnlPOSCounter.Controls.Add(this.chkkotPrint);
             this.pnlPOSCounter.Controls.Add(this.chkCategoryWaysPrint);
@@ -139,6 +141,18 @@
             this.pnlPOSCounter.Name = "pnlPOSCounter";
             this.pnlPOSCounter.Size = new System.Drawing.Size(884, 431);
             this.pnlPOSCounter.TabIndex = 0;
+            // 
+            // lnklblUnitRemove
+            // 
+            this.lnklblUnitRemove.AutoSize = true;
+            this.lnklblUnitRemove.DisabledLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.lnklblUnitRemove.Location = new System.Drawing.Point(807, 368);
+            this.lnklblUnitRemove.Name = "lnklblUnitRemove";
+            this.lnklblUnitRemove.Size = new System.Drawing.Size(57, 14);
+            this.lnklblUnitRemove.TabIndex = 36456520;
+            this.lnklblUnitRemove.TabStop = true;
+            this.lnklblUnitRemove.Text = "Remove";
+            this.lnklblUnitRemove.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnklblUnitRemove_LinkClicked);
             // 
             // chkkotPrint
             // 
@@ -375,7 +389,7 @@
             // Chkdirectprint
             // 
             this.Chkdirectprint.AutoSize = true;
-            this.Chkdirectprint.Location = new System.Drawing.Point(670, 49);
+            this.Chkdirectprint.Location = new System.Drawing.Point(563, 49);
             this.Chkdirectprint.Name = "Chkdirectprint";
             this.Chkdirectprint.Size = new System.Drawing.Size(95, 18);
             this.Chkdirectprint.TabIndex = 36456499;
@@ -529,7 +543,7 @@
             // 
             this.chkDisplayStatus.AutoSize = true;
             this.chkDisplayStatus.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkDisplayStatus.Location = new System.Drawing.Point(562, 50);
+            this.chkDisplayStatus.Location = new System.Drawing.Point(744, 21);
             this.chkDisplayStatus.Name = "chkDisplayStatus";
             this.chkDisplayStatus.Size = new System.Drawing.Size(102, 18);
             this.chkDisplayStatus.TabIndex = 6;
@@ -748,17 +762,15 @@
             this.lblCounterId.TabIndex = 0;
             this.lblCounterId.Text = "Counter Id";
             // 
-            // lnklblUnitRemove
+            // chkPreview
             // 
-            this.lnklblUnitRemove.AutoSize = true;
-            this.lnklblUnitRemove.DisabledLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.lnklblUnitRemove.Location = new System.Drawing.Point(807, 368);
-            this.lnklblUnitRemove.Name = "lnklblUnitRemove";
-            this.lnklblUnitRemove.Size = new System.Drawing.Size(57, 14);
-            this.lnklblUnitRemove.TabIndex = 36456520;
-            this.lnklblUnitRemove.TabStop = true;
-            this.lnklblUnitRemove.Text = "Remove";
-            this.lnklblUnitRemove.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnklblUnitRemove_LinkClicked);
+            this.chkPreview.AutoSize = true;
+            this.chkPreview.Location = new System.Drawing.Point(664, 48);
+            this.chkPreview.Name = "chkPreview";
+            this.chkPreview.Size = new System.Drawing.Size(119, 18);
+            this.chkPreview.TabIndex = 36456521;
+            this.chkPreview.Text = " Show Preview";
+            this.chkPreview.UseVisualStyleBackColor = true;
             // 
             // frmPOSCounter
             // 
@@ -833,5 +845,6 @@
         private System.Windows.Forms.CheckBox chkkotPrint;
         private System.Windows.Forms.CheckBox chkCategoryWaysPrint;
         private System.Windows.Forms.LinkLabel lnklblUnitRemove;
+        private System.Windows.Forms.CheckBox chkPreview;
     }
 }

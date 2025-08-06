@@ -593,7 +593,7 @@ namespace FinacPOS
                     counterInfo.ShowPrefixInBillNo = ChkShowPrefixInBillNo.Checked;
                     counterInfo.CategoryWaysPrint = chkCategoryWaysPrint.Checked;
                     counterInfo.KOTPrint = chkkotPrint.Checked;
-
+                    counterInfo.ShowPreview = chkPreview.Checked;
 
                 }
 
@@ -800,6 +800,7 @@ namespace FinacPOS
                 ChkProductSearchWithImage.Checked = InfoPOSCounter.ProductSearchWithImage;
                 chkCategoryWaysPrint.Checked = InfoPOSCounter.CategoryWaysPrint;
                 chkkotPrint.Checked = InfoPOSCounter.KOTPrint;
+                chkPreview.Checked = InfoPOSCounter.ShowPreview;
 
                 dgvPosCounterPrinterDetails.Rows.Clear();
                 DataTable dt = counterSP.POSCounterDetailsViewByCounterId(strCounterIdToEdit);

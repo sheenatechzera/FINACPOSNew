@@ -35,6 +35,7 @@ namespace FinacPOS
         private bool _ShowPrefixInBillNo;
         private bool _CategoryWaysPrint;
         private bool _KOTPrint;
+        private bool _ShowPreview;
 
 
 
@@ -173,6 +174,11 @@ namespace FinacPOS
         {
             get { return _KOTPrint; }
             set { _KOTPrint = value; }
+        }
+        public bool ShowPreview
+        {
+            get { return _ShowPreview; }
+            set { _ShowPreview = value; }
         }
     }
 }

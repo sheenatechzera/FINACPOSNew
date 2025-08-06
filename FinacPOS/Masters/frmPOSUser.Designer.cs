@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.pnlPOSUser = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cmbLanguage = new System.Windows.Forms.ComboBox();
             this.btnDelete = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -54,8 +56,6 @@
             this.txtUserId = new System.Windows.Forms.TextBox();
             this.lblUserId = new System.Windows.Forms.Label();
             this.lblName = new System.Windows.Forms.Label();
-            this.cmbLanguage = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.pnlPOSUser.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -93,6 +93,28 @@
             this.pnlPOSUser.Name = "pnlPOSUser";
             this.pnlPOSUser.Size = new System.Drawing.Size(379, 293);
             this.pnlPOSUser.TabIndex = 0;
+            this.pnlPOSUser.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlPOSUser_Paint);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(21, 225);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(70, 14);
+            this.label4.TabIndex = 36456493;
+            this.label4.Text = "Language";
+            // 
+            // cmbLanguage
+            // 
+            this.cmbLanguage.FormattingEnabled = true;
+            this.cmbLanguage.Items.AddRange(new object[] {
+            "English",
+            "Arabic"});
+            this.cmbLanguage.Location = new System.Drawing.Point(114, 221);
+            this.cmbLanguage.Name = "cmbLanguage";
+            this.cmbLanguage.Size = new System.Drawing.Size(63, 21);
+            this.cmbLanguage.TabIndex = 36456492;
             // 
             // btnDelete
             // 
@@ -416,27 +438,6 @@
             this.lblName.Size = new System.Drawing.Size(108, 14);
             this.lblName.TabIndex = 5;
             this.lblName.Text = "Employee Name";
-            // 
-            // cmbLanguage
-            // 
-            this.cmbLanguage.FormattingEnabled = true;
-            this.cmbLanguage.Items.AddRange(new object[] {
-            "English",
-            "Arabic"});
-            this.cmbLanguage.Location = new System.Drawing.Point(114, 221);
-            this.cmbLanguage.Name = "cmbLanguage";
-            this.cmbLanguage.Size = new System.Drawing.Size(63, 21);
-            this.cmbLanguage.TabIndex = 36456492;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(21, 225);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(70, 14);
-            this.label4.TabIndex = 36456493;
-            this.label4.Text = "Language";
             // 
             // frmPOSUser
             // 

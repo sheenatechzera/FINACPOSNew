@@ -605,7 +605,9 @@ namespace FinacPOS
             btnDelete.Enabled = false;
             txtUserId.ReadOnly = false;
             cmbGroupId.SelectedIndex = -1;
-            txtUserId.Focus();  
+            txtUserId.Focus();
+            cmbLanguage.SelectedIndex = 0;
+
         }
         //---------------------------------call from other form----------------------------------------------------
         bool isFromOther = false;
@@ -669,5 +671,9 @@ namespace FinacPOS
 
         #endregion
 
+        private void pnlPOSUser_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

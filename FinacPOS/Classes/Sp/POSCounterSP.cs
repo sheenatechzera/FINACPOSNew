@@ -74,6 +74,8 @@ namespace FinacPOS
                 sprmparam.Value = counterinfo.CategoryWaysPrint;
                 sprmparam = sccmd.Parameters.Add("@KOTPrint", SqlDbType.Bit);
                 sprmparam.Value = counterinfo.KOTPrint;
+                sprmparam = sccmd.Parameters.Add("@ShowPreview", SqlDbType.Bit);
+                sprmparam.Value = counterinfo.ShowPreview;
                 id = sccmd.ExecuteScalar().ToString();
 
             }
@@ -151,7 +153,8 @@ namespace FinacPOS
                 sprmparam.Value = counterinfo.CategoryWaysPrint;
                 sprmparam = sccmd.Parameters.Add("@KOTPrint", SqlDbType.Bit);
                 sprmparam.Value = counterinfo.KOTPrint;
-
+                sprmparam = sccmd.Parameters.Add("@ShowPreview", SqlDbType.Bit);
+                sprmparam.Value = counterinfo.ShowPreview;
 
                 sccmd.ExecuteNonQuery();
 
@@ -234,6 +237,7 @@ namespace FinacPOS
                     counterinfo.ShowPrefixInBillNo = bool.Parse(sdrreader["ShowPrefixInBillNo"].ToString());
                     counterinfo.CategoryWaysPrint = bool.Parse(sdrreader["CategoryWaysPrint"].ToString());
                     counterinfo.KOTPrint = bool.Parse(sdrreader["KOTPrint"].ToString());
+                    counterinfo.ShowPreview = bool.Parse(sdrreader["ShowPreview"].ToString());
                 }
                 sdrreader.Close();
             }

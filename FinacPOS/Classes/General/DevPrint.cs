@@ -150,13 +150,27 @@ namespace FinacPOS
 
             report.CreateDocument();
 
+            POSCounterInfo counterInfo = new POSCounterInfo();
+            POSCounterSP counterSP = new POSCounterSP();
+            counterInfo = counterSP.POSCounterViewbyCounterId(PublicVariables._counterId);
+            if (directprint == false)
 
-            if (!directprint == true)
             {
                 using (ReportPrintTool printTool = new ReportPrintTool(report))
                 {
                     printTool.AutoShowParametersPanel = false;
-                    printTool.ShowPreviewDialog();
+                    if(counterInfo.ShowPreview)
+                    {
+                        printTool.ShowPreviewDialog();
+                    }
+                    else
+                    {
+                        ReportPrintTool printTools = new ReportPrintTool(report);
+                        printTools.PrinterSettings.Copies = (short)SalesPrintCopy;
+                        printTools.PrintingSystem.ShowMarginsWarning = false;
+                        printTools.Print();
+                    }
+                 
                 }
             }
             else
@@ -279,18 +293,36 @@ namespace FinacPOS
 
             report.CreateDocument();
 
-            if (!directprint == true)
+            POSCounterInfo counterInfo = new POSCounterInfo();
+            POSCounterSP counterSP = new POSCounterSP();
+            counterInfo = counterSP.POSCounterViewbyCounterId(PublicVariables._counterId);
+            if (directprint == false)
+
             {
                 using (ReportPrintTool printTool = new ReportPrintTool(report))
                 {
                     printTool.AutoShowParametersPanel = false;
-                    printTool.ShowPreviewDialog();
+                    if (counterInfo.ShowPreview)
+                    {
+                        printTool.ShowPreviewDialog();
+                    }
+                    else
+                    {
+                        ReportPrintTool printTools = new ReportPrintTool(report);
+                        printTools.PrinterSettings.Copies = (short)SalesPrintCopy;
+                        printTools.PrintingSystem.ShowMarginsWarning = false;
+                        printTools.Print();
+                    }
+
                 }
             }
             else
             {
+
+                //report.Print();
                 ReportPrintTool printTools = new ReportPrintTool(report);
                 printTools.PrinterSettings.Copies = (short)SalesPrintCopy;
+                printTools.PrintingSystem.ShowMarginsWarning = false;
                 printTools.Print();
             }
         }
@@ -409,19 +441,37 @@ namespace FinacPOS
 
             report.CreateDocument();
 
-            if (!directprint == true)
+         
+            POSCounterInfo counterInfo = new POSCounterInfo();
+            POSCounterSP counterSP = new POSCounterSP();
+            counterInfo = counterSP.POSCounterViewbyCounterId(PublicVariables._counterId);
+            if (directprint == false)
+
             {
                 using (ReportPrintTool printTool = new ReportPrintTool(report))
                 {
                     printTool.AutoShowParametersPanel = false;
-                    printTool.ShowPreviewDialog();
+                    if (counterInfo.ShowPreview)
+                    {
+                        printTool.ShowPreviewDialog();
+                    }
+                    else
+                    {
+                        ReportPrintTool printTools = new ReportPrintTool(report);
+                        printTools.PrinterSettings.Copies = (short)SalesReturnPrintCopy;
+                        printTools.PrintingSystem.ShowMarginsWarning = false;
+                        printTools.Print();
+                    }
+
                 }
             }
             else
             {
-                // report.Print();
+
+                //report.Print();
                 ReportPrintTool printTools = new ReportPrintTool(report);
                 printTools.PrinterSettings.Copies = (short)SalesReturnPrintCopy;
+                printTools.PrintingSystem.ShowMarginsWarning = false;
                 printTools.Print();
             }
         }
@@ -541,21 +591,54 @@ namespace FinacPOS
 
             report.CreateDocument();
 
-            if (!directprint == true)
+            //if (!directprint == true)
+            //{
+            //    using (ReportPrintTool printTool = new ReportPrintTool(report))
+            //    {
+            //        printTool.AutoShowParametersPanel = false;
+            //        printTool.ShowPreviewDialog();
+            //    }
+            //}
+            //else
+            //{
+            //    //  report.Print();
+            //    ReportPrintTool printTools = new ReportPrintTool(report);
+            //    printTools.PrinterSettings.Copies = (short)SalesPrintCopy;
+            //    printTools.Print();
+
+            //}
+
+            POSCounterInfo counterInfo = new POSCounterInfo();
+            POSCounterSP counterSP = new POSCounterSP();
+            counterInfo = counterSP.POSCounterViewbyCounterId(PublicVariables._counterId);
+            if (directprint == false)
+
             {
                 using (ReportPrintTool printTool = new ReportPrintTool(report))
                 {
                     printTool.AutoShowParametersPanel = false;
-                    printTool.ShowPreviewDialog();
+                    if (counterInfo.ShowPreview)
+                    {
+                        printTool.ShowPreviewDialog();
+                    }
+                    else
+                    {
+                        ReportPrintTool printTools = new ReportPrintTool(report);
+                        printTools.PrinterSettings.Copies = (short)SalesPrintCopy;
+                        printTools.PrintingSystem.ShowMarginsWarning = false;
+                        printTools.Print();
+                    }
+
                 }
             }
             else
             {
-                //  report.Print();
+
+                //report.Print();
                 ReportPrintTool printTools = new ReportPrintTool(report);
                 printTools.PrinterSettings.Copies = (short)SalesPrintCopy;
+                printTools.PrintingSystem.ShowMarginsWarning = false;
                 printTools.Print();
-
             }
         }
 
@@ -660,12 +743,6 @@ namespace FinacPOS
                     }
                 }
             }
-
-
-
-
-
-
             DataSet ds = new DataSet();
 
             DataTable dtcopy = new DataTable();
@@ -679,19 +756,36 @@ namespace FinacPOS
 
             report.CreateDocument();
 
-            if (!directprint == true)
+             POSCounterInfo counterInfo = new POSCounterInfo();
+            POSCounterSP counterSP = new POSCounterSP();
+            counterInfo = counterSP.POSCounterViewbyCounterId(PublicVariables._counterId);
+            if (directprint == false)
+
             {
                 using (ReportPrintTool printTool = new ReportPrintTool(report))
                 {
                     printTool.AutoShowParametersPanel = false;
-                    printTool.ShowPreviewDialog();
+                    if (counterInfo.ShowPreview)
+                    {
+                        printTool.ShowPreviewDialog();
+                    }
+                    else
+                    {
+                        ReportPrintTool printTools = new ReportPrintTool(report);
+                        printTools.PrinterSettings.Copies = (short)SalesPrintCopy;
+                        printTools.PrintingSystem.ShowMarginsWarning = false;
+                        printTools.Print();
+                    }
+
                 }
             }
             else
             {
-                //  report.Print();
+
+                //report.Print();
                 ReportPrintTool printTools = new ReportPrintTool(report);
                 printTools.PrinterSettings.Copies = (short)SalesPrintCopy;
+                printTools.PrintingSystem.ShowMarginsWarning = false;
                 printTools.Print();
             }
         }
@@ -1502,12 +1596,44 @@ namespace FinacPOS
             report.CreateDocument();
 
 
-            if (!directprint == true)
+            //if (!directprint == true)
+            //{
+            //    using (ReportPrintTool printTool = new ReportPrintTool(report))
+            //    {
+            //        printTool.AutoShowParametersPanel = false;
+            //        printTool.ShowPreviewDialog();
+            //    }
+            //}
+            //else
+            //{
+
+            //    //report.Print();
+            //    ReportPrintTool printTools = new ReportPrintTool(report);
+            //    printTools.PrinterSettings.Copies = (short)SalesPrintCopy;
+            //    printTools.PrintingSystem.ShowMarginsWarning = false;
+            //    printTools.Print();
+            //}
+            POSCounterInfo counterInfo = new POSCounterInfo();
+            POSCounterSP counterSP = new POSCounterSP();
+            counterInfo = counterSP.POSCounterViewbyCounterId(PublicVariables._counterId);
+            if (directprint == false)
+
             {
                 using (ReportPrintTool printTool = new ReportPrintTool(report))
                 {
                     printTool.AutoShowParametersPanel = false;
-                    printTool.ShowPreviewDialog();
+                    if (counterInfo.ShowPreview)
+                    {
+                        printTool.ShowPreviewDialog();
+                    }
+                    else
+                    {
+                        ReportPrintTool printTools = new ReportPrintTool(report);
+                        printTools.PrinterSettings.Copies = (short)SalesPrintCopy;
+                        printTools.PrintingSystem.ShowMarginsWarning = false;
+                        printTools.Print();
+                    }
+
                 }
             }
             else
@@ -1585,12 +1711,44 @@ namespace FinacPOS
             report.CreateDocument();
 
 
-            if (!directprint == true)
+            //if (!directprint == true)
+            //{
+            //    using (ReportPrintTool printTool = new ReportPrintTool(report))
+            //    {
+            //        printTool.AutoShowParametersPanel = false;
+            //        printTool.ShowPreviewDialog();
+            //    }
+            //}
+            //else
+            //{
+
+            //    //report.Print();
+            //    ReportPrintTool printTools = new ReportPrintTool(report);
+            //    printTools.PrinterSettings.Copies = (short)SalesPrintCopy;
+            //    printTools.PrintingSystem.ShowMarginsWarning = false;
+            //    printTools.Print();
+            //}
+            POSCounterInfo counterInfo = new POSCounterInfo();
+            POSCounterSP counterSP = new POSCounterSP();
+            counterInfo = counterSP.POSCounterViewbyCounterId(PublicVariables._counterId);
+            if (directprint == false)
+
             {
                 using (ReportPrintTool printTool = new ReportPrintTool(report))
                 {
                     printTool.AutoShowParametersPanel = false;
-                    printTool.ShowPreviewDialog();
+                    if (counterInfo.ShowPreview)
+                    {
+                        printTool.ShowPreviewDialog();
+                    }
+                    else
+                    {
+                        ReportPrintTool printTools = new ReportPrintTool(report);
+                        printTools.PrinterSettings.Copies = (short)SalesPrintCopy;
+                        printTools.PrintingSystem.ShowMarginsWarning = false;
+                        printTools.Print();
+                    }
+
                 }
             }
             else
