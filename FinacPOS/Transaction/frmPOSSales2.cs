@@ -4079,7 +4079,7 @@ namespace FinacPOS
                 Qty.ReadOnly = true; 
                 
             }
-            if (e.ColumnIndex == 9) //SalesRate
+            if (e.ColumnIndex == 10) //SalesRate
             {
                 decimal purchaseRate = Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells["PurchaseRate"].Value);
                 decimal salesRate = Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells["SalesRate"].Value);

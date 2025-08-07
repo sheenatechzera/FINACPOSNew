@@ -560,8 +560,11 @@ namespace FinacPOS
                 if (isInEditMode)
                 {
                     if (MessageBox.Show("Do you want to update?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                        
                     {
+                        return;
                         isSave = false;
+                        
                     }
                 }
                 else
