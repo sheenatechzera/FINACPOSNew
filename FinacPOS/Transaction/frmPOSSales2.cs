@@ -785,19 +785,18 @@ namespace FinacPOS
         //}
         public string POSBillNumberMax()
         {
-
             string PartBillNo = "";
+            int billNumber = 1;
+            int lastBillNo = 0;
 
             try
             {
                 DataTable dtbl = SPGeneral.GetPOSLastBillNo(PublicVariables._counterId, "Sales");
 
-                int billNumber = 1;
-
                 if (dtbl.Rows.Count > 0 && !dtbl.Rows[0].IsNull("LastBillNo"))
                 {
                     // Try parsing the last bill number to int
-                    if (int.TryParse(dtbl.Rows[0]["LastBillNo"].ToString(), out int lastBillNo))
+                    if (int.TryParse(dtbl.Rows[0]["LastBillNo"].ToString(), out lastBillNo))
                     {
                         billNumber = lastBillNo + 1;
                     }
@@ -808,9 +807,10 @@ namespace FinacPOS
                     PartBillNo = billNumber.ToString();
                 }
                 else
+                {
 
-                    PartBillNo = PublicVariables._counterId + DateTime.Now.ToString("yy") + billNumber.ToString();
-
+                    PartBillNo = PublicVariables._counterId + DateTime.Now.ToString("yy") + lastBillNo.ToString().PadLeft(7, '0');
+                }
             }
             catch (Exception ex)
             {

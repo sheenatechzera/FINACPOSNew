@@ -142,7 +142,6 @@
             this.timerSessionDate = new System.Windows.Forms.Timer(this.components);
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.SLNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CategoryId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ProductCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Barcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ItemName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -167,6 +166,7 @@
             this.rateDiscAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.amountBeforeDisc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.offerId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CategoryId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProduct)).BeginInit();
             this.panelMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -229,7 +229,6 @@
             this.dgvProduct.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvProduct.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.SLNo,
-            this.CategoryId,
             this.ProductCode,
             this.Barcode,
             this.ItemName,
@@ -253,7 +252,8 @@
             this.ArabicName,
             this.rateDiscAmount,
             this.amountBeforeDisc,
-            this.offerId});
+            this.offerId,
+            this.CategoryId});
             dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1559,12 +1559,6 @@
             this.SLNo.ReadOnly = true;
             this.SLNo.Width = 30;
             // 
-            // CategoryId
-            // 
-            this.CategoryId.HeaderText = "CategoryId";
-            this.CategoryId.Name = "CategoryId";
-            this.CategoryId.Visible = false;
-            // 
             // ProductCode
             // 
             this.ProductCode.HeaderText = "ProductCode";
@@ -1737,6 +1731,12 @@
             this.offerId.Name = "offerId";
             this.offerId.Visible = false;
             // 
+            // CategoryId
+            // 
+            this.CategoryId.HeaderText = "CategoryId";
+            this.CategoryId.Name = "CategoryId";
+            this.CategoryId.Visible = false;
+            // 
             // frmPOSSales
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1866,7 +1866,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.CheckBox ChkHoldBilView;
         private System.Windows.Forms.DataGridViewTextBoxColumn SLNo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CategoryId;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProductCode;
         private System.Windows.Forms.DataGridViewTextBoxColumn Barcode;
         private System.Windows.Forms.DataGridViewTextBoxColumn ItemName;
@@ -1891,5 +1890,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn rateDiscAmount;
         private System.Windows.Forms.DataGridViewTextBoxColumn amountBeforeDisc;
         private System.Windows.Forms.DataGridViewTextBoxColumn offerId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CategoryId;
     }
 }

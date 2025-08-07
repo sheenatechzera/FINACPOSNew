@@ -453,6 +453,13 @@ namespace FinacPOS
             cmbUpiAccount.SelectedValue = 1;
             txtSalesPrintcopy.Text = "1";
             TxtReturnprintcopy.Text = "1";
+            ChkProductSearchWithImage.Checked = false;
+            ChkShowPrefixInBillNo.Checked = false;
+            ChkshowProductInSalesinvoice.Checked = false;
+            chkCategoryWaysPrint.Checked = false;
+            chkkotPrint.Checked = false;
+            chkPreview.Checked = false;
+            Chkdirectprint.Checked = false;
             //  cmbSalesType.SelectedIndex = -1;
             FillDefaultPrinters();
             txtCounterId.Focus();
@@ -798,19 +805,50 @@ namespace FinacPOS
                 TxtReturnprintcopy.Text = InfoPOSCounter.SalesReturnPrintCopy.ToString();
                 cmbSalesType.Text = InfoPOSCounter.SalesType;
                 ChkProductSearchWithImage.Checked = InfoPOSCounter.ProductSearchWithImage;
+                ChkShowPrefixInBillNo.Checked = InfoPOSCounter.ShowPrefixInBillNo;
                 chkCategoryWaysPrint.Checked = InfoPOSCounter.CategoryWaysPrint;
                 chkkotPrint.Checked = InfoPOSCounter.KOTPrint;
                 chkPreview.Checked = InfoPOSCounter.ShowPreview;
 
                 dgvPosCounterPrinterDetails.Rows.Clear();
                 DataTable dt = counterSP.POSCounterDetailsViewByCounterId(strCounterIdToEdit);
-                foreach (DataRow row in dt.Rows)
+                if (dt.Rows.Count > 0)
                 {
-                    dgvPosCounterPrinterDetails.Rows.Add(
-                        row["ProductGroupCategory"].ToString(),
-                        row["DefaultPrinter"].ToString()
-                    );
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        ISValueChanged = true;
+                        try
+                        {
+                            dgvPosCounterPrinterDetails.Rows.Add(
+                                row["ProductGroupCategory"].ToString(),
+                                row["DefaultPrinter"].ToString()
+                             );
+                            //var defaultPrinter = row["DefaultPrinter"].ToString();
+                            //var printerExists = printerList.Any(p => p.PrinterID == defaultPrinter);
+
+                            //if (printerExists)
+                            //{
+                            //    dgvPosCounterPrinterDetails.Rows.Add(
+                            //        row["ProductGroupCategory"].ToString(),
+                            //        defaultPrinter
+                            //    );
+                            //}
+                            //else
+                            //{
+                            //    dgvPosCounterPrinterDetails.Rows.Add(
+                            //        row["ProductGroupCategory"].ToString(),
+                            //        DBNull.Value // or some default value
+                            //    );
+                            //}
+
+                        }
+                        catch { }
+                        ISValueChanged = false;
+                    }
+
                 }
+               
+                
             }
 
         }
@@ -1258,35 +1296,38 @@ namespace FinacPOS
 
         }
 
-    
-      
+
+        bool ISValueChanged = false;
         private void dgvPosCounterPrinterDetails_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-         
-            if (e.ColumnIndex == dgvPosCounterPrinterDetails.Columns["ProductCategory"].Index)
+            if (!ISValueChanged)
+
             {
-                var currentCell = dgvPosCounterPrinterDetails.Rows[e.RowIndex].Cells[e.ColumnIndex];
-                string newValue = currentCell.Value?.ToString()?.Trim();
-
-                if (string.IsNullOrWhiteSpace(newValue)) return;
-
-                for (int i = 0; i < dgvPosCounterPrinterDetails.Rows.Count; i++)
+                if (e.ColumnIndex == dgvPosCounterPrinterDetails.Columns["ProductCategory"].Index)
                 {
-                    if (i == e.RowIndex) continue;
+                    var currentCell = dgvPosCounterPrinterDetails.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                    string newValue = currentCell.Value?.ToString()?.Trim();
 
-                    var otherCell = dgvPosCounterPrinterDetails.Rows[i].Cells["ProductCategory"];
-                    string existingValue = otherCell.Value?.ToString()?.Trim();
+                    if (string.IsNullOrWhiteSpace(newValue)) return;
 
-                    if (string.Equals(existingValue, newValue, StringComparison.OrdinalIgnoreCase))
+                    for (int i = 0; i < dgvPosCounterPrinterDetails.Rows.Count; i++)
                     {
-                        MessageBox.Show("This Product Category is already selected in another row.",
-                                        "Duplicate Entry",
-                                        MessageBoxButtons.OK,
-                                        MessageBoxIcon.Warning);
+                        if (i == e.RowIndex) continue;
 
-                        // Clear the cell
-                        dgvPosCounterPrinterDetails.Rows[e.RowIndex].Cells["ProductCategory"].Value = null;
-                        break;
+                        var otherCell = dgvPosCounterPrinterDetails.Rows[i].Cells["ProductCategory"];
+                        string existingValue = otherCell.Value?.ToString()?.Trim();
+
+                        if (string.Equals(existingValue, newValue, StringComparison.OrdinalIgnoreCase))
+                        {
+                            MessageBox.Show("This Product Category is already selected in another row.",
+                                            "Duplicate Entry",
+                                            MessageBoxButtons.OK,
+                                            MessageBoxIcon.Warning);
+
+                            // Clear the cell
+                            dgvPosCounterPrinterDetails.Rows[e.RowIndex].Cells["ProductCategory"].Value = null;
+                            break;
+                        }
                     }
                 }
             }
@@ -1320,7 +1361,19 @@ namespace FinacPOS
                 MessageBox.Show("Error removing row: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void dgvPosCounterPrinterDetails_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+        
+            // Prevents the exception from crashing your program
+            e.Cancel = true;
+
+            // Optional: Log the error or show a friendly message
+            Console.WriteLine($"DataError: {e.Exception?.Message}");
+        }
+
     }
+}
      
 
-}
+

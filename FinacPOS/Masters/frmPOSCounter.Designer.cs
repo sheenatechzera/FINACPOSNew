@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.pnlPOSCounter = new System.Windows.Forms.Panel();
+            this.chkPreview = new System.Windows.Forms.CheckBox();
             this.lnklblUnitRemove = new System.Windows.Forms.LinkLabel();
             this.chkkotPrint = new System.Windows.Forms.CheckBox();
             this.chkCategoryWaysPrint = new System.Windows.Forms.CheckBox();
@@ -79,7 +80,6 @@
             this.lblSystName = new System.Windows.Forms.Label();
             this.lblCounterName = new System.Windows.Forms.Label();
             this.lblCounterId = new System.Windows.Forms.Label();
-            this.chkPreview = new System.Windows.Forms.CheckBox();
             this.pnlPOSCounter.SuspendLayout();
             this.groupBoxCountrprinter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPosCounterPrinterDetails)).BeginInit();
@@ -142,6 +142,16 @@
             this.pnlPOSCounter.Size = new System.Drawing.Size(884, 431);
             this.pnlPOSCounter.TabIndex = 0;
             // 
+            // chkPreview
+            // 
+            this.chkPreview.AutoSize = true;
+            this.chkPreview.Location = new System.Drawing.Point(664, 48);
+            this.chkPreview.Name = "chkPreview";
+            this.chkPreview.Size = new System.Drawing.Size(119, 18);
+            this.chkPreview.TabIndex = 36456521;
+            this.chkPreview.Text = " Show Preview";
+            this.chkPreview.UseVisualStyleBackColor = true;
+            // 
             // lnklblUnitRemove
             // 
             this.lnklblUnitRemove.AutoSize = true;
@@ -169,9 +179,9 @@
             this.chkCategoryWaysPrint.AutoSize = true;
             this.chkCategoryWaysPrint.Location = new System.Drawing.Point(562, 129);
             this.chkCategoryWaysPrint.Name = "chkCategoryWaysPrint";
-            this.chkCategoryWaysPrint.Size = new System.Drawing.Size(155, 18);
+            this.chkCategoryWaysPrint.Size = new System.Drawing.Size(152, 18);
             this.chkCategoryWaysPrint.TabIndex = 36456518;
-            this.chkCategoryWaysPrint.Text = "Category Ways Print";
+            this.chkCategoryWaysPrint.Text = "Category Wise Print";
             this.chkCategoryWaysPrint.UseVisualStyleBackColor = true;
             this.chkCategoryWaysPrint.CheckedChanged += new System.EventHandler(this.chkCategoryWaysPrint_CheckedChanged);
             // 
@@ -199,6 +209,7 @@
             this.dgvPosCounterPrinterDetails.Size = new System.Drawing.Size(289, 166);
             this.dgvPosCounterPrinterDetails.TabIndex = 36456516;
             this.dgvPosCounterPrinterDetails.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPosCounterPrinterDetails_CellEndEdit);
+            this.dgvPosCounterPrinterDetails.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvPosCounterPrinterDetails_DataError);
             // 
             // ProductCategory
             // 
@@ -761,16 +772,6 @@
             this.lblCounterId.Size = new System.Drawing.Size(75, 14);
             this.lblCounterId.TabIndex = 0;
             this.lblCounterId.Text = "Counter Id";
-            // 
-            // chkPreview
-            // 
-            this.chkPreview.AutoSize = true;
-            this.chkPreview.Location = new System.Drawing.Point(664, 48);
-            this.chkPreview.Name = "chkPreview";
-            this.chkPreview.Size = new System.Drawing.Size(119, 18);
-            this.chkPreview.TabIndex = 36456521;
-            this.chkPreview.Text = " Show Preview";
-            this.chkPreview.UseVisualStyleBackColor = true;
             // 
             // frmPOSCounter
             // 
