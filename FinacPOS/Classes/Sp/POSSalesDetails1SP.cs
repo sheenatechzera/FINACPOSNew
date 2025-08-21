@@ -79,6 +79,8 @@ namespace FinacPOS
                 sprmparam.Value = infoPOSSalesDetails1.RateDiscAmount;
                 sprmparam = sccmd.Parameters.Add("@offerId", SqlDbType.VarChar);
                 sprmparam.Value = infoPOSSalesDetails1.OfferId;
+                sprmparam = sccmd.Parameters.Add("@DiscPerc", SqlDbType.Decimal);
+                sprmparam.Value = infoPOSSalesDetails1.DiscPercentage;
                 id = sccmd.ExecuteScalar().ToString();
 
             }

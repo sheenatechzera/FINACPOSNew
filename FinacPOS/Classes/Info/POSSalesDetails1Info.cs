@@ -38,6 +38,7 @@ namespace FinacPOS
         private string _userId;
         private decimal _amountBeforeDisc;
         private decimal _rateDiscAmount;
+        private decimal _discPercentage;
         private string _offerId;
         public string POSSalesDetails1Id
         {
@@ -196,6 +197,11 @@ namespace FinacPOS
         {
             get { return _offerId; }
             set { _offerId = value; }
+        }
+        public decimal DiscPercentage
+        {
+            get { return _discPercentage; }
+            set { _discPercentage = value; }
         }
 
     }

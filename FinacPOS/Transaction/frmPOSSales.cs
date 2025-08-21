@@ -1,4 +1,5 @@
-﻿using FinacPOS.Masters;
+﻿using DevExpress.XtraGrid.Views.Grid;
+using FinacPOS.Masters;
 using Microsoft.VisualBasic;
 using OnBarcode.Barcode.WinForms;
 using System;
@@ -1126,6 +1127,9 @@ namespace FinacPOS
             dtblGridDetails.Columns.Add("Total Amt");
             dtblGridDetails.Columns.Add("NameArabic");
             dtblGridDetails.Columns.Add("groupId");
+            dtblGridDetails.Columns.Add("AmountBeforeDisc");
+            dtblGridDetails.Columns.Add("rateDiscAmount");
+            dtblGridDetails.Columns.Add("DiscPerc");
 
             if (isDuplicatePrint == false)
             {
@@ -1148,6 +1152,10 @@ namespace FinacPOS
                         dr["NETVALUE"] = gridrow.Cells["NetValue"].Value.ToString();
                         dr["Total Amt"] = gridrow.Cells["Total"].Value.ToString();
                         dr["NameArabic"] = gridrow.Cells["ArabicName"].Value.ToString();
+
+                        dr["AmountBeforeDisc"] = gridrow.Cells["amountBeforeDisc"].Value.ToString();
+                        dr["rateDiscAmount"] = gridrow.Cells["rateDiscAmount"].Value.ToString();
+                        dr["DiscPerc"] = gridrow.Cells["DiscPerc"].Value.ToString();
                     }
                 }
             }
@@ -1177,6 +1185,10 @@ namespace FinacPOS
                         dr["Total Amt"] = Convert.ToDecimal(dtbl.Rows[i]["Amount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                         dr["NameArabic"] = dtbl.Rows[i]["ArabicName"].ToString();
                         dr["groupId"] = dtbl.Rows[i]["groupId"].ToString();
+
+                        dr["AmountBeforeDisc"] = Convert.ToDecimal(dtbl.Rows[i]["AmountBeforeDisc"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dr["rateDiscAmount"] = Convert.ToDecimal(dtbl.Rows[i]["rateDiscAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dr["DiscPerc"] = Convert.ToDecimal(dtbl.Rows[i]["DiscPerc"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                     }
                 }
                 else
@@ -2318,6 +2330,7 @@ namespace FinacPOS
                         InfoPOSSalesDetails1.ConversionFactor = decimal.Parse(dgvrowCurChk.Cells["UnitConversion"].Value.ToString());
                         InfoPOSSalesDetails1.AmountBeforeDisc = decimal.Parse(dgvrowCurChk.Cells["amountBeforeDisc"].Value.ToString()) * decimal.Parse(dgvrowCurChk.Cells["Qty"].Value.ToString());
                         InfoPOSSalesDetails1.RateDiscAmount = decimal.Parse(dgvrowCurChk.Cells["rateDiscAmount"].Value.ToString()) * decimal.Parse(dgvrowCurChk.Cells["Qty"].Value.ToString());
+                        InfoPOSSalesDetails1.DiscPercentage = decimal.Parse(dgvrowCurChk.Cells["DiscPerc"].Value.ToString());
                         InfoPOSSalesDetails1.OfferId = dgvrowCurChk.Cells["offerId"].Value.ToString();
 
                         string strPOSSalesDetails1Id = "";
@@ -2884,6 +2897,7 @@ namespace FinacPOS
 
                         dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["amountBeforeDisc"].Value = Convert.ToDecimal(drowDetails["amountBeforeDisc"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                         dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["rateDiscAmount"].Value = Convert.ToDecimal(drowDetails["rateDiscAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["DiscPerc"].Value = 0m;
                         dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["offerId"].Value = drowDetails["offerId"].ToString();
 
 
@@ -2924,6 +2938,7 @@ namespace FinacPOS
             decimal rateDiscAmount = 0;
             string offerId = "";
             string strCategoryid = "";
+            decimal DiscPerc = 0;
             DataTable dtblSalesRate = new DataTable();
 
             if (lblTenderTotalAmount.Visible == true)
@@ -3039,6 +3054,7 @@ namespace FinacPOS
                 // IsDiscounted = Convert.ToBoolean(dtblSalesRate.Rows[0]["IsDiscounted"].ToString());
                 amountBeforeDisc = Convert.ToDecimal(dtblSalesRate.Rows[0]["amountBeforeDisc"].ToString());
                 rateDiscAmount = Convert.ToDecimal(dtblSalesRate.Rows[0]["rateDiscAmount"].ToString());
+                DiscPerc = Convert.ToDecimal(dtblSalesRate.Rows[0]["DiscPerc"].ToString());
                 strCategoryid = dtbl.Rows[0]["groupId"].ToString();
 
                 offerId = dtblSalesRate.Rows[0]["offerId"].ToString();
@@ -3070,6 +3086,7 @@ namespace FinacPOS
                     // IsDiscounted = Convert.ToBoolean(dtblSalesRate.Rows[0]["IsDiscounted"].ToString());
                     amountBeforeDisc = Convert.ToDecimal(dtblSalesRate.Rows[0]["amountBeforeDisc"].ToString());
                     rateDiscAmount = Convert.ToDecimal(dtblSalesRate.Rows[0]["rateDiscAmount"].ToString());
+                    DiscPerc = Convert.ToDecimal(dtblSalesRate.Rows[0]["DiscPerc"].ToString());
                     offerId = dtblSalesRate.Rows[0]["offerId"].ToString();
                     
                     if (decSalesPrice == 0)
@@ -3299,6 +3316,8 @@ namespace FinacPOS
                     dgvProduct.Rows[dgvCurRow].Cells["SalesRate"].Value = Math.Round(decSalesPrice,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
                     dgvProduct.Rows[dgvCurRow].Cells["amountBeforeDisc"].Value = Math.Round(amountBeforeDisc,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
                     dgvProduct.Rows[dgvCurRow].Cells["rateDiscAmount"].Value = Math.Round(rateDiscAmount,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[dgvCurRow].Cells["DiscPerc"].Value = Math.Round(DiscPerc, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+
                     dgvProduct.Rows[dgvCurRow].Cells["offerId"].Value = offerId;
                     if (rateDiscAmount > 0)
                         dgvProduct.Rows[dgvCurRow].DefaultCellStyle.ForeColor = Color.Red;

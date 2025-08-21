@@ -165,10 +165,12 @@ namespace FinacPOS
                     }
                     else
                     {
-                        ReportPrintTool printTools = new ReportPrintTool(report);
-                        printTools.PrinterSettings.Copies = (short)SalesPrintCopy;
-                        printTools.PrintingSystem.ShowMarginsWarning = false;
-                        printTools.Print();
+                        for (int i = 0; i < SalesPrintCopy; i++)
+                        {
+                            ReportPrintTool rptTool = new ReportPrintTool(report);
+                            rptTool.PrintingSystem.ShowMarginsWarning = false;
+                            rptTool.Print();
+                        }
                     }
                  
                 }
@@ -176,11 +178,12 @@ namespace FinacPOS
             else
             {
 
-                //report.Print();
-                ReportPrintTool printTools = new ReportPrintTool(report);
-                printTools.PrinterSettings.Copies = (short)SalesPrintCopy;
-                printTools.PrintingSystem.ShowMarginsWarning = false;
-                printTools.Print();
+                for (int i = 0; i < SalesPrintCopy; i++)
+                {
+                    ReportPrintTool rptTool = new ReportPrintTool(report);
+                    rptTool.PrintingSystem.ShowMarginsWarning = false;
+                    rptTool.Print();
+                }
             }
         }
         public void PrintSalesInvoiceHoldBill(DataTable dtblCompanyDetails, DataTable dtblGridDetails, DataTable dtblOtherDetails, DataTable dtblTaxDetails, string strPrinterName, bool directprint, int SalesPrintCopy)
@@ -1629,7 +1632,7 @@ namespace FinacPOS
                     else
                     {
                         ReportPrintTool printTools = new ReportPrintTool(report);
-                        printTools.PrinterSettings.Copies = (short)SalesPrintCopy;
+                       // printTools.PrinterSettings.Copies = (short)SalesPrintCopy;
                         printTools.PrintingSystem.ShowMarginsWarning = false;
                         printTools.Print();
                     }
@@ -1641,7 +1644,7 @@ namespace FinacPOS
 
                 //report.Print();
                 ReportPrintTool printTools = new ReportPrintTool(report);
-                printTools.PrinterSettings.Copies = (short)SalesPrintCopy;
+              //  printTools.PrinterSettings.Copies = (short)SalesPrintCopy;
                 printTools.PrintingSystem.ShowMarginsWarning = false;
                 printTools.Print();
             }
@@ -1744,7 +1747,7 @@ namespace FinacPOS
                     else
                     {
                         ReportPrintTool printTools = new ReportPrintTool(report);
-                        printTools.PrinterSettings.Copies = (short)SalesPrintCopy;
+                      //  printTools.PrinterSettings.Copies = (short)SalesPrintCopy;
                         printTools.PrintingSystem.ShowMarginsWarning = false;
                         printTools.Print();
                     }
@@ -1756,7 +1759,7 @@ namespace FinacPOS
 
                 //report.Print();
                 ReportPrintTool printTools = new ReportPrintTool(report);
-                printTools.PrinterSettings.Copies = (short)SalesPrintCopy;
+               // printTools.PrinterSettings.Copies = (short)SalesPrintCopy;
                 printTools.PrintingSystem.ShowMarginsWarning = false;
                 printTools.Print();
             }

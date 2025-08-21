@@ -166,6 +166,7 @@
             this.amountBeforeDisc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.offerId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CategoryId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DiscPerc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProduct)).BeginInit();
             this.panelMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -254,7 +255,8 @@
             this.rateDiscAmount,
             this.amountBeforeDisc,
             this.offerId,
-            this.CategoryId});
+            this.CategoryId,
+            this.DiscPerc});
             dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1779,6 +1781,12 @@
             this.CategoryId.Name = "CategoryId";
             this.CategoryId.Visible = false;
             // 
+            // DiscPerc
+            // 
+            this.DiscPerc.HeaderText = "DiscPerc";
+            this.DiscPerc.Name = "DiscPerc";
+            this.DiscPerc.Visible = false;
+            // 
             // frmPOSSales2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1935,5 +1943,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn amountBeforeDisc;
         private System.Windows.Forms.DataGridViewTextBoxColumn offerId;
         private System.Windows.Forms.DataGridViewTextBoxColumn CategoryId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DiscPerc;
     }
 }
