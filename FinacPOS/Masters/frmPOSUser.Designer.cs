@@ -93,7 +93,7 @@
             this.pnlPOSUser.Name = "pnlPOSUser";
             this.pnlPOSUser.Size = new System.Drawing.Size(379, 293);
             this.pnlPOSUser.TabIndex = 0;
-            this.pnlPOSUser.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlPOSUser_Paint);
+          //  this.pnlPOSUser.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlPOSUser_Paint);
             // 
             // label4
             // 

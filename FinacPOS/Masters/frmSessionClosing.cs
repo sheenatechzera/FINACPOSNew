@@ -42,6 +42,8 @@ namespace FinacPOS
         private void frmSessionClosing_Load(object sender, EventArgs e)
         {
             POSCounterSP counterSP = new POSCounterSP();
+            clsGeneral objGeneral = new clsGeneral();
+            objGeneral.formSettings(this);
             counterInfo = counterSP.POSCounterViewbyCounterId(PublicVariables._counterId);
             Instance = this; // Store the reference when the form loads
 

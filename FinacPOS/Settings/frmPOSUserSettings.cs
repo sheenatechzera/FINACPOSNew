@@ -40,6 +40,8 @@ namespace FinacPOS
         {
             try
             {
+                clsGeneral objGeneral = new clsGeneral();
+                objGeneral.formSettings(this);
                 FillUserGroup();
                 //cmbUSerGroup.SelectedIndex = 0;
                 clear(); // clear all the datas

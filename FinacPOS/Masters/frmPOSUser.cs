@@ -639,6 +639,7 @@ namespace FinacPOS
                 chkActive.Checked = InfoPOSUser.Active;
                 txtDiscPer.Text = InfoPOSUser.MaxLineDiscountPer.ToString();
                 txtBillPer.Text = InfoPOSUser.MaxBillDiscountPer.ToString();
+                cmbLanguage.Text = InfoPOSUser.language;
             }
 
         }
@@ -671,9 +672,6 @@ namespace FinacPOS
 
         #endregion
 
-        private void pnlPOSUser_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
+     
     }
 }

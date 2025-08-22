@@ -216,7 +216,8 @@ namespace FinacPOS
                     { bolDataGridView = false; }
 
 
-                    Type formType = Assembly.GetEntryAssembly().GetType(fullFormName);
+                     Type formType = Assembly.GetEntryAssembly().GetType(fullFormName);
+                    
 
                     if (formType != null && formType.IsSubclassOf(typeof(Form)))
                     {

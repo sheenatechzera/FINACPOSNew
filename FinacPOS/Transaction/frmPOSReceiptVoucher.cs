@@ -830,7 +830,8 @@ namespace FinacPOS
         }
         private void frmPOSReceiptVoucher_Load(object sender, EventArgs e)
         {
-           
+            clsGeneral objGeneral = new clsGeneral();
+            objGeneral.formSettings(this);
             FormLoadFunction();
             ClearFunction();
             CreatingPartyBalanceDatatable();
