@@ -718,6 +718,8 @@ namespace FinacPOS
                 txtBillNo.Focus();
                 POSCounterSP counterSP = new POSCounterSP();
                 counterInfo = counterSP.POSCounterViewbyCounterId(PublicVariables._counterId);
+                clsGeneral objGeneral = new clsGeneral();
+                objGeneral.formSettings(this);
                 rbtnSale.Checked = true;
                 cmbPrintFormat.SelectedItem = "A4";
             }

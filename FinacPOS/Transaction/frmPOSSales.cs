@@ -3439,6 +3439,8 @@ namespace FinacPOS
 
         private void frmPOSSales_Load(object sender, EventArgs e)
         {
+            clsGeneral objGeneral = new clsGeneral();
+            objGeneral.formSettings(this);
             //this.Bounds = Screen.PrimaryScreen.WorkingArea;  
             this.WindowState = FormWindowState.Maximized;
 

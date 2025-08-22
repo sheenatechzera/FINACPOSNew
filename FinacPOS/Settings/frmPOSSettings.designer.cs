@@ -106,13 +106,13 @@
             this.panel1.Font = new System.Drawing.Font("Verdana", 9F);
             this.panel1.Location = new System.Drawing.Point(-8, -2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(713, 488);
+            this.panel1.Size = new System.Drawing.Size(782, 431);
             this.panel1.TabIndex = 0;
             // 
             // chkAlwaysEnableHoldBillView
             // 
             this.chkAlwaysEnableHoldBillView.AutoSize = true;
-            this.chkAlwaysEnableHoldBillView.Location = new System.Drawing.Point(440, 131);
+            this.chkAlwaysEnableHoldBillView.Location = new System.Drawing.Point(514, 131);
             this.chkAlwaysEnableHoldBillView.Name = "chkAlwaysEnableHoldBillView";
             this.chkAlwaysEnableHoldBillView.Size = new System.Drawing.Size(200, 18);
             this.chkAlwaysEnableHoldBillView.TabIndex = 42;
@@ -123,7 +123,7 @@
             // chkSessionMngmnt
             // 
             this.chkSessionMngmnt.AutoSize = true;
-            this.chkSessionMngmnt.Location = new System.Drawing.Point(359, 83);
+            this.chkSessionMngmnt.Location = new System.Drawing.Point(433, 83);
             this.chkSessionMngmnt.Name = "chkSessionMngmnt";
             this.chkSessionMngmnt.Size = new System.Drawing.Size(214, 18);
             this.chkSessionMngmnt.TabIndex = 41;
@@ -133,7 +133,7 @@
             // ChkStockView
             // 
             this.ChkStockView.AutoSize = true;
-            this.ChkStockView.Location = new System.Drawing.Point(465, 108);
+            this.ChkStockView.Location = new System.Drawing.Point(539, 108);
             this.ChkStockView.Name = "ChkStockView";
             this.ChkStockView.Size = new System.Drawing.Size(94, 18);
             this.ChkStockView.TabIndex = 40;
@@ -143,7 +143,7 @@
             // ChkActiveTable
             // 
             this.ChkActiveTable.AutoSize = true;
-            this.ChkActiveTable.Location = new System.Drawing.Point(359, 106);
+            this.ChkActiveTable.Location = new System.Drawing.Point(433, 106);
             this.ChkActiveTable.Name = "ChkActiveTable";
             this.ChkActiveTable.Size = new System.Drawing.Size(100, 18);
             this.ChkActiveTable.TabIndex = 39;
@@ -156,7 +156,7 @@
             // ChkShowProdtSummryInSessionclose
             // 
             this.ChkShowProdtSummryInSessionclose.AutoSize = true;
-            this.ChkShowProdtSummryInSessionclose.Location = new System.Drawing.Point(335, 58);
+            this.ChkShowProdtSummryInSessionclose.Location = new System.Drawing.Point(433, 58);
             this.ChkShowProdtSummryInSessionclose.Name = "ChkShowProdtSummryInSessionclose";
             this.ChkShowProdtSummryInSessionclose.Size = new System.Drawing.Size(288, 18);
             this.ChkShowProdtSummryInSessionclose.TabIndex = 38;
@@ -169,7 +169,7 @@
             // ChkAddqtyinsameBarcode
             // 
             this.ChkAddqtyinsameBarcode.AutoSize = true;
-            this.ChkAddqtyinsameBarcode.Location = new System.Drawing.Point(335, 33);
+            this.ChkAddqtyinsameBarcode.Location = new System.Drawing.Point(433, 33);
             this.ChkAddqtyinsameBarcode.Name = "ChkAddqtyinsameBarcode";
             this.ChkAddqtyinsameBarcode.Size = new System.Drawing.Size(234, 18);
             this.ChkAddqtyinsameBarcode.TabIndex = 37;
@@ -185,7 +185,7 @@
             this.cmbCustBill.Items.AddRange(new object[] {
             "Summary",
             "Full Bill"});
-            this.cmbCustBill.Location = new System.Drawing.Point(332, 162);
+            this.cmbCustBill.Location = new System.Drawing.Point(363, 162);
             this.cmbCustBill.Name = "cmbCustBill";
             this.cmbCustBill.Size = new System.Drawing.Size(121, 22);
             this.cmbCustBill.TabIndex = 36;
@@ -193,7 +193,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(197, 162);
+            this.label1.Location = new System.Drawing.Point(228, 162);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(125, 14);
             this.label1.TabIndex = 35;
@@ -202,7 +202,7 @@
             // chkShowCustBill
             // 
             this.chkShowCustBill.AutoSize = true;
-            this.chkShowCustBill.Location = new System.Drawing.Point(335, 9);
+            this.chkShowCustBill.Location = new System.Drawing.Point(433, 9);
             this.chkShowCustBill.Name = "chkShowCustBill";
             this.chkShowCustBill.Size = new System.Drawing.Size(229, 18);
             this.chkShowCustBill.TabIndex = 34;
@@ -227,7 +227,7 @@
             this.grpPrint.Controls.Add(this.txtAddress);
             this.grpPrint.Controls.Add(this.txtCompanyArabic);
             this.grpPrint.Controls.Add(this.txtCompanyName);
-            this.grpPrint.Location = new System.Drawing.Point(24, 181);
+            this.grpPrint.Location = new System.Drawing.Point(37, 181);
             this.grpPrint.Name = "grpPrint";
             this.grpPrint.Size = new System.Drawing.Size(546, 190);
             this.grpPrint.TabIndex = 33;
@@ -377,7 +377,7 @@
             // 
             // txtExpiry
             // 
-            this.txtExpiry.Location = new System.Drawing.Point(358, 130);
+            this.txtExpiry.Location = new System.Drawing.Point(432, 130);
             this.txtExpiry.Name = "txtExpiry";
             this.txtExpiry.Size = new System.Drawing.Size(75, 22);
             this.txtExpiry.TabIndex = 12;
@@ -389,7 +389,7 @@
             // lblExpiry
             // 
             this.lblExpiry.AutoSize = true;
-            this.lblExpiry.Location = new System.Drawing.Point(197, 133);
+            this.lblExpiry.Location = new System.Drawing.Point(226, 133);
             this.lblExpiry.Name = "lblExpiry";
             this.lblExpiry.Size = new System.Drawing.Size(155, 14);
             this.lblExpiry.TabIndex = 31;
@@ -433,7 +433,7 @@
             // chkQtyChangeAuth
             // 
             this.chkQtyChangeAuth.AutoSize = true;
-            this.chkQtyChangeAuth.Location = new System.Drawing.Point(26, 144);
+            this.chkQtyChangeAuth.Location = new System.Drawing.Point(39, 144);
             this.chkQtyChangeAuth.Name = "chkQtyChangeAuth";
             this.chkQtyChangeAuth.Size = new System.Drawing.Size(134, 18);
             this.chkQtyChangeAuth.TabIndex = 10;
@@ -443,7 +443,7 @@
             // chkCashBoxOpenAuth
             // 
             this.chkCashBoxOpenAuth.AutoSize = true;
-            this.chkCashBoxOpenAuth.Location = new System.Drawing.Point(199, 108);
+            this.chkCashBoxOpenAuth.Location = new System.Drawing.Point(228, 108);
             this.chkCashBoxOpenAuth.Name = "chkCashBoxOpenAuth";
             this.chkCashBoxOpenAuth.Size = new System.Drawing.Size(152, 18);
             this.chkCashBoxOpenAuth.TabIndex = 9;
@@ -453,7 +453,7 @@
             // chkExchangeItemAuth
             // 
             this.chkExchangeItemAuth.AutoSize = true;
-            this.chkExchangeItemAuth.Location = new System.Drawing.Point(199, 83);
+            this.chkExchangeItemAuth.Location = new System.Drawing.Point(228, 83);
             this.chkExchangeItemAuth.Name = "chkExchangeItemAuth";
             this.chkExchangeItemAuth.Size = new System.Drawing.Size(153, 18);
             this.chkExchangeItemAuth.TabIndex = 8;
@@ -463,7 +463,7 @@
             // chklastBillPrintAuth
             // 
             this.chklastBillPrintAuth.AutoSize = true;
-            this.chklastBillPrintAuth.Location = new System.Drawing.Point(199, 58);
+            this.chklastBillPrintAuth.Location = new System.Drawing.Point(228, 58);
             this.chklastBillPrintAuth.Name = "chklastBillPrintAuth";
             this.chklastBillPrintAuth.Size = new System.Drawing.Size(107, 18);
             this.chklastBillPrintAuth.TabIndex = 7;
@@ -473,7 +473,7 @@
             // chkItemGrouping
             // 
             this.chkItemGrouping.AutoSize = true;
-            this.chkItemGrouping.Location = new System.Drawing.Point(199, 33);
+            this.chkItemGrouping.Location = new System.Drawing.Point(228, 33);
             this.chkItemGrouping.Name = "chkItemGrouping";
             this.chkItemGrouping.Size = new System.Drawing.Size(120, 18);
             this.chkItemGrouping.TabIndex = 6;
@@ -483,7 +483,7 @@
             // chkZeroStockAuth
             // 
             this.chkZeroStockAuth.AutoSize = true;
-            this.chkZeroStockAuth.Location = new System.Drawing.Point(199, 9);
+            this.chkZeroStockAuth.Location = new System.Drawing.Point(228, 9);
             this.chkZeroStockAuth.Name = "chkZeroStockAuth";
             this.chkZeroStockAuth.Size = new System.Drawing.Size(126, 18);
             this.chkZeroStockAuth.TabIndex = 5;
@@ -493,7 +493,7 @@
             // chkCreditSalesAuth
             // 
             this.chkCreditSalesAuth.AutoSize = true;
-            this.chkCreditSalesAuth.Location = new System.Drawing.Point(26, 120);
+            this.chkCreditSalesAuth.Location = new System.Drawing.Point(39, 120);
             this.chkCreditSalesAuth.Name = "chkCreditSalesAuth";
             this.chkCreditSalesAuth.Size = new System.Drawing.Size(135, 18);
             this.chkCreditSalesAuth.TabIndex = 4;
@@ -503,7 +503,7 @@
             // chkPriceChangeAuth
             // 
             this.chkPriceChangeAuth.AutoSize = true;
-            this.chkPriceChangeAuth.Location = new System.Drawing.Point(26, 95);
+            this.chkPriceChangeAuth.Location = new System.Drawing.Point(39, 95);
             this.chkPriceChangeAuth.Name = "chkPriceChangeAuth";
             this.chkPriceChangeAuth.Size = new System.Drawing.Size(142, 18);
             this.chkPriceChangeAuth.TabIndex = 3;
@@ -513,7 +513,7 @@
             // chkHoldBillAuth
             // 
             this.chkHoldBillAuth.AutoSize = true;
-            this.chkHoldBillAuth.Location = new System.Drawing.Point(26, 70);
+            this.chkHoldBillAuth.Location = new System.Drawing.Point(39, 70);
             this.chkHoldBillAuth.Name = "chkHoldBillAuth";
             this.chkHoldBillAuth.Size = new System.Drawing.Size(108, 18);
             this.chkHoldBillAuth.TabIndex = 2;
@@ -523,7 +523,7 @@
             // chkDiscountAuth
             // 
             this.chkDiscountAuth.AutoSize = true;
-            this.chkDiscountAuth.Location = new System.Drawing.Point(26, 45);
+            this.chkDiscountAuth.Location = new System.Drawing.Point(39, 45);
             this.chkDiscountAuth.Name = "chkDiscountAuth";
             this.chkDiscountAuth.Size = new System.Drawing.Size(113, 18);
             this.chkDiscountAuth.TabIndex = 1;
@@ -533,7 +533,7 @@
             // chkBillClearAuth
             // 
             this.chkBillClearAuth.AutoSize = true;
-            this.chkBillClearAuth.Location = new System.Drawing.Point(26, 20);
+            this.chkBillClearAuth.Location = new System.Drawing.Point(39, 20);
             this.chkBillClearAuth.Name = "chkBillClearAuth";
             this.chkBillClearAuth.Size = new System.Drawing.Size(84, 18);
             this.chkBillClearAuth.TabIndex = 0;
@@ -553,7 +553,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(632, 421);
+            this.ClientSize = new System.Drawing.Size(759, 421);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "frmPOSSettings";
