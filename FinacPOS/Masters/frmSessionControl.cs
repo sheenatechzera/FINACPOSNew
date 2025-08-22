@@ -41,7 +41,8 @@ namespace FinacPOS.Masters
         private void SessionManagmentByAdmin_Load(object sender, EventArgs e)
         {
             lblSessionDate.ForeColor = System.Drawing.Color.Red;
-          
+            clsGeneral objGeneral = new clsGeneral();
+            objGeneral.formSettings(this);
             Clear();  
         }
 

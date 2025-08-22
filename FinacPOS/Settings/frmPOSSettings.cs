@@ -77,6 +77,8 @@ namespace FinacPOS
 
         private void frmPOSSettings_Load(object sender, EventArgs e)
         {
+            clsGeneral objGeneral = new clsGeneral();
+            objGeneral.formSettings(this);
             FillCheckBox();
         }
         private void FillCheckBox()
