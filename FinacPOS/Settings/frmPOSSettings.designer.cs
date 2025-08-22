@@ -71,12 +71,14 @@
             this.chkDiscountAuth = new System.Windows.Forms.CheckBox();
             this.chkBillClearAuth = new System.Windows.Forms.CheckBox();
             this.lblPOSSettingsId = new System.Windows.Forms.Label();
+            this.chkBlockZeroPrice = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.grpPrint.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.chkBlockZeroPrice);
             this.panel1.Controls.Add(this.chkAlwaysEnableHoldBillView);
             this.panel1.Controls.Add(this.chkSessionMngmnt);
             this.panel1.Controls.Add(this.ChkStockView);
@@ -185,7 +187,7 @@
             this.cmbCustBill.Items.AddRange(new object[] {
             "Summary",
             "Full Bill"});
-            this.cmbCustBill.Location = new System.Drawing.Point(332, 162);
+            this.cmbCustBill.Location = new System.Drawing.Point(264, 164);
             this.cmbCustBill.Name = "cmbCustBill";
             this.cmbCustBill.Size = new System.Drawing.Size(121, 22);
             this.cmbCustBill.TabIndex = 36;
@@ -193,7 +195,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(197, 162);
+            this.label1.Location = new System.Drawing.Point(129, 164);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(125, 14);
             this.label1.TabIndex = 35;
@@ -549,6 +551,17 @@
             this.lblPOSSettingsId.TabIndex = 32;
             this.lblPOSSettingsId.Text = "0";
             // 
+            // chkBlockZeroPrice
+            // 
+            this.chkBlockZeroPrice.AutoSize = true;
+            this.chkBlockZeroPrice.Location = new System.Drawing.Point(440, 153);
+            this.chkBlockZeroPrice.Name = "chkBlockZeroPrice";
+            this.chkBlockZeroPrice.Size = new System.Drawing.Size(184, 18);
+            this.chkBlockZeroPrice.TabIndex = 43;
+            this.chkBlockZeroPrice.Text = "Block Zero Price In Sales ";
+            this.chkBlockZeroPrice.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.chkBlockZeroPrice.UseVisualStyleBackColor = true;
+            // 
             // frmPOSSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -613,5 +626,6 @@
         private System.Windows.Forms.CheckBox ChkStockView;
         private System.Windows.Forms.CheckBox chkSessionMngmnt;
         private System.Windows.Forms.CheckBox chkAlwaysEnableHoldBillView;
+        private System.Windows.Forms.CheckBox chkBlockZeroPrice;
     }
 }

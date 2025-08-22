@@ -4392,11 +4392,14 @@ namespace FinacPOS
                             isExchangebill = true;
                         }
 
-                        if (dcSalesRate == 0 && dgvProduct.Rows[i].Cells["SalesRate"].Value.ToString() != "Barcode")
+                        if (POSSettingsInfo._BlockZeroPriceInSales)
                         {
-                            MessageBox.Show("Product with ZERO PRICE on Line number " + (i + 1) + " - " + dgvProduct.Rows[i].Cells["ItemName"].Value.ToString());
-                            barcodeFocus();
-                            return;
+                            if (dcSalesRate == 0 && dgvProduct.Rows[i].Cells["SalesRate"].Value.ToString() != "Barcode")
+                            {
+                                MessageBox.Show("Product with ZERO PRICE on Line number " + (i + 1) + " - " + dgvProduct.Rows[i].Cells["ItemName"].Value.ToString());
+                                barcodeFocus();
+                                return;
+                            }
                         }
 
                     }
