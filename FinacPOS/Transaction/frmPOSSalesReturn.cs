@@ -272,12 +272,15 @@ namespace FinacPOS
                 amountBeforeDisc = Convert.ToDecimal(dtblSalesRate.Rows[0]["amountBeforeDisc"].ToString());
                 rateDiscAmount = Convert.ToDecimal(dtblSalesRate.Rows[0]["rateDiscAmount"].ToString());
                 offerId = dtblSalesRate.Rows[0]["offerId"].ToString();
-                if (decSalesPrice == 0)
+                if (POSSettingsInfo._BlockZeroPriceInSales)
                 {
-                    Console.Beep(500, 500);
-                    MessageBox.Show("Sales Price is ZERO", "WARNING");
-                    barcodeFocus();
-                    return;
+                    if (decSalesPrice == 0)
+                    {
+                        Console.Beep(500, 500);
+                        MessageBox.Show("Sales Price is ZERO", "WARNING");
+                        barcodeFocus();
+                        return;
+                    }
                 }
             }
             else
@@ -299,12 +302,15 @@ namespace FinacPOS
                     amountBeforeDisc = Convert.ToDecimal(dtblSalesRate.Rows[0]["amountBeforeDisc"].ToString());
                     rateDiscAmount = Convert.ToDecimal(dtblSalesRate.Rows[0]["rateDiscAmount"].ToString());
                     offerId = dtblSalesRate.Rows[0]["offerId"].ToString();
-                    if (decSalesPrice == 0)
+                    if (POSSettingsInfo._BlockZeroPriceInSales)
                     {
-                        Console.Beep(500, 500);
-                        MessageBox.Show("Sales Price is ZERO", "WARNING");
-                        barcodeFocus();
-                        return;
+                        if (decSalesPrice == 0)
+                        {
+                            Console.Beep(500, 500);
+                            MessageBox.Show("Sales Price is ZERO", "WARNING");
+                            barcodeFocus();
+                            return;
+                        }
                     }
                 }
 

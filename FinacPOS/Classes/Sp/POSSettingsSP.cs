@@ -94,6 +94,8 @@ namespace FinacPOS
                 sprmparam.Value = counterinfo.SessionManagmentByAdmin;
                 sprmparam = sccmd.Parameters.Add("@HoldBillViewAll", SqlDbType.Bit);
                 sprmparam.Value = counterinfo.AlwaysEnableHoldBillView;
+                sprmparam = sccmd.Parameters.Add("@BlockZeroPriceInSales", SqlDbType.Bit);
+                sprmparam.Value = counterinfo.BlockZeroPriceInSales;
                 id = sccmd.ExecuteScalar().ToString();
 
             }
@@ -155,7 +157,8 @@ namespace FinacPOS
                 settingsinfo.ActiveTableManage = bool.Parse(sdrreader["ActiveTableManage"].ToString());
                 settingsinfo.StockView = bool.Parse(sdrreader["StockView"].ToString());
                 settingsinfo.SessionManagmentByAdmin = bool.Parse(sdrreader["SessionAdminControl"].ToString());
-              settingsinfo.AlwaysEnableHoldBillView = bool.Parse(sdrreader["HoldBillViewAll"].ToString());
+                settingsinfo.AlwaysEnableHoldBillView = bool.Parse(sdrreader["HoldBillViewAll"].ToString());
+                settingsinfo.BlockZeroPriceInSales = bool.Parse(sdrreader["BlockZeroPriceInSales"].ToString());
             }
             sdrreader.Close();
 
