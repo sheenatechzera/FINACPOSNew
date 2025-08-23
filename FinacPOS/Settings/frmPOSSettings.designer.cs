@@ -72,6 +72,7 @@
             this.chkDiscountAuth = new System.Windows.Forms.CheckBox();
             this.chkBillClearAuth = new System.Windows.Forms.CheckBox();
             this.lblPOSSettingsId = new System.Windows.Forms.Label();
+            this.chkBlockZeroPrice = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.grpPrint.SuspendLayout();
             this.SuspendLayout();
@@ -561,6 +562,16 @@
             this.lblPOSSettingsId.Size = new System.Drawing.Size(15, 14);
             this.lblPOSSettingsId.TabIndex = 32;
             this.lblPOSSettingsId.Text = "0";
+            // 
+            // chkBlockZeroPrice
+            // 
+            this.chkBlockZeroPrice.AutoSize = true;
+            this.chkBlockZeroPrice.Location = new System.Drawing.Point(502, 164);
+            this.chkBlockZeroPrice.Name = "chkBlockZeroPrice";
+            this.chkBlockZeroPrice.Size = new System.Drawing.Size(178, 18);
+            this.chkBlockZeroPrice.TabIndex = 43;
+            this.chkBlockZeroPrice.Text = "Block Zero Price in Sales";
+            this.chkBlockZeroPrice.UseVisualStyleBackColor = true;
             // 
             // frmPOSSettings
             // 
