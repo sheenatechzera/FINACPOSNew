@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.chkBlockZeroPrice = new System.Windows.Forms.CheckBox();
             this.chkAlwaysEnableHoldBillView = new System.Windows.Forms.CheckBox();
             this.chkSessionMngmnt = new System.Windows.Forms.CheckBox();
             this.ChkStockView = new System.Windows.Forms.CheckBox();
@@ -77,6 +78,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.chkBlockZeroPrice);
             this.panel1.Controls.Add(this.chkAlwaysEnableHoldBillView);
             this.panel1.Controls.Add(this.chkSessionMngmnt);
             this.panel1.Controls.Add(this.ChkStockView);
@@ -108,6 +110,17 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(782, 431);
             this.panel1.TabIndex = 0;
+            // 
+            // chkBlockZeroPrice
+            // 
+            this.chkBlockZeroPrice.AutoSize = true;
+            this.chkBlockZeroPrice.Location = new System.Drawing.Point(463, 160);
+            this.chkBlockZeroPrice.Name = "chkBlockZeroPrice";
+            this.chkBlockZeroPrice.Size = new System.Drawing.Size(184, 18);
+            this.chkBlockZeroPrice.TabIndex = 43;
+            this.chkBlockZeroPrice.Text = "Block Zero Price In Sales ";
+            this.chkBlockZeroPrice.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.chkBlockZeroPrice.UseVisualStyleBackColor = true;
             // 
             // chkAlwaysEnableHoldBillView
             // 
@@ -185,7 +198,7 @@
             this.cmbCustBill.Items.AddRange(new object[] {
             "Summary",
             "Full Bill"});
-            this.cmbCustBill.Location = new System.Drawing.Point(363, 162);
+            this.cmbCustBill.Location = new System.Drawing.Point(332, 162);
             this.cmbCustBill.Name = "cmbCustBill";
             this.cmbCustBill.Size = new System.Drawing.Size(121, 22);
             this.cmbCustBill.TabIndex = 36;
@@ -193,7 +206,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(228, 162);
+            this.label1.Location = new System.Drawing.Point(197, 162);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(125, 14);
             this.label1.TabIndex = 35;
@@ -613,5 +626,6 @@
         private System.Windows.Forms.CheckBox ChkStockView;
         private System.Windows.Forms.CheckBox chkSessionMngmnt;
         private System.Windows.Forms.CheckBox chkAlwaysEnableHoldBillView;
+        private System.Windows.Forms.CheckBox chkBlockZeroPrice;
     }
 }
