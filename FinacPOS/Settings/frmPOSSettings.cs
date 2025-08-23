@@ -70,6 +70,7 @@ namespace FinacPOS
             infoPOS.SessionManagmentByAdmin = chkSessionMngmnt.Checked;
             infoPOS.AlwaysEnableHoldBillView = chkAlwaysEnableHoldBillView.Checked;
             infoPOS.BlockZeroPriceInSales = chkBlockZeroPrice.Checked;
+            infoPOS.ZeroQtyAlert= cmbZeroQty.Text;
 
             spPOSSettings.POSSettingsEdit(infoPOS);
             MessageBox.Show("Settings saved successfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -121,6 +122,7 @@ namespace FinacPOS
                 chkSessionMngmnt.Checked = infoPOS.SessionManagmentByAdmin;
                 chkAlwaysEnableHoldBillView.Checked = infoPOS.AlwaysEnableHoldBillView;
                 chkBlockZeroPrice.Checked = infoPOS.BlockZeroPriceInSales;
+                cmbZeroQty.Text= infoPOS.ZeroQtyAlert;
             }
         }
 
@@ -566,6 +568,8 @@ namespace FinacPOS
                 }
             }
         }
+
+        
     }
 
 }    

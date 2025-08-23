@@ -4657,6 +4657,22 @@ namespace FinacPOS
                         {
                             isExchangebill = true;
                         }
+                        // Zero Quantity Check
+                        if (dcQty == 0)
+                        {
+                            if (POSSettingsInfo._ZeroQtyAlert == "Warn")
+                            {
+                                MessageBox.Show("Product with ZERO QTY on Line number " + (i + 1) + " - " + dgvProduct.Rows[i].Cells["ItemName"].Value.ToString(),
+                                                "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
+                            else if (POSSettingsInfo._ZeroQtyAlert == "Block")
+                            {
+                                MessageBox.Show("Cannot proceed! ZERO QTY found on Line number " + (i + 1) + " - " + dgvProduct.Rows[i].Cells["ItemName"].Value.ToString(),
+                                                "Blocked", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                                barcodeFocus();
+                                return;
+                            }
+                        }
                         if (POSSettingsInfo._BlockZeroPriceInSales)
                         {
                             if (dcSalesRate == 0 && dgvProduct.Rows[i].Cells["SalesRate"].Value.ToString() != "Barcode")

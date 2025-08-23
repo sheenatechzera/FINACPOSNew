@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.cmbZeroQty = new System.Windows.Forms.ComboBox();
+            this.lblZeroQty = new System.Windows.Forms.Label();
             this.chkBlockZeroPrice = new System.Windows.Forms.CheckBox();
             this.chkAlwaysEnableHoldBillView = new System.Windows.Forms.CheckBox();
             this.chkSessionMngmnt = new System.Windows.Forms.CheckBox();
@@ -72,13 +74,14 @@
             this.chkDiscountAuth = new System.Windows.Forms.CheckBox();
             this.chkBillClearAuth = new System.Windows.Forms.CheckBox();
             this.lblPOSSettingsId = new System.Windows.Forms.Label();
-            this.chkBlockZeroPrice = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.grpPrint.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.cmbZeroQty);
+            this.panel1.Controls.Add(this.lblZeroQty);
             this.panel1.Controls.Add(this.chkBlockZeroPrice);
             this.panel1.Controls.Add(this.chkAlwaysEnableHoldBillView);
             this.panel1.Controls.Add(this.chkSessionMngmnt);
@@ -109,24 +112,45 @@
             this.panel1.Font = new System.Drawing.Font("Verdana", 9F);
             this.panel1.Location = new System.Drawing.Point(-8, -2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(782, 431);
+            this.panel1.Size = new System.Drawing.Size(815, 431);
             this.panel1.TabIndex = 0;
+            // 
+            // cmbZeroQty
+            // 
+            this.cmbZeroQty.FormattingEnabled = true;
+            this.cmbZeroQty.Items.AddRange(new object[] {
+            "Warn",
+            "Block",
+            "Ignore"});
+            this.cmbZeroQty.Location = new System.Drawing.Point(668, 166);
+            this.cmbZeroQty.Name = "cmbZeroQty";
+            this.cmbZeroQty.Size = new System.Drawing.Size(121, 22);
+            this.cmbZeroQty.TabIndex = 45;
+            // 
+            // lblZeroQty
+            // 
+            this.lblZeroQty.AutoSize = true;
+            this.lblZeroQty.Location = new System.Drawing.Point(491, 167);
+            this.lblZeroQty.Name = "lblZeroQty";
+            this.lblZeroQty.Size = new System.Drawing.Size(172, 14);
+            this.lblZeroQty.TabIndex = 44;
+            this.lblZeroQty.Text = "Zero Quantity Alert Status";
             // 
             // chkBlockZeroPrice
             // 
             this.chkBlockZeroPrice.AutoSize = true;
-            this.chkBlockZeroPrice.Location = new System.Drawing.Point(463, 160);
+            this.chkBlockZeroPrice.Location = new System.Drawing.Point(539, 145);
             this.chkBlockZeroPrice.Name = "chkBlockZeroPrice";
-            this.chkBlockZeroPrice.Size = new System.Drawing.Size(184, 18);
+            this.chkBlockZeroPrice.Size = new System.Drawing.Size(178, 18);
             this.chkBlockZeroPrice.TabIndex = 43;
-            this.chkBlockZeroPrice.Text = "Block Zero Price In Sales ";
+            this.chkBlockZeroPrice.Text = "Block Zero Price in Sales";
             this.chkBlockZeroPrice.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.chkBlockZeroPrice.UseVisualStyleBackColor = true;
             // 
             // chkAlwaysEnableHoldBillView
             // 
             this.chkAlwaysEnableHoldBillView.AutoSize = true;
-            this.chkAlwaysEnableHoldBillView.Location = new System.Drawing.Point(514, 131);
+            this.chkAlwaysEnableHoldBillView.Location = new System.Drawing.Point(539, 125);
             this.chkAlwaysEnableHoldBillView.Name = "chkAlwaysEnableHoldBillView";
             this.chkAlwaysEnableHoldBillView.Size = new System.Drawing.Size(200, 18);
             this.chkAlwaysEnableHoldBillView.TabIndex = 42;
@@ -147,7 +171,7 @@
             // ChkStockView
             // 
             this.ChkStockView.AutoSize = true;
-            this.ChkStockView.Location = new System.Drawing.Point(539, 108);
+            this.ChkStockView.Location = new System.Drawing.Point(539, 106);
             this.ChkStockView.Name = "ChkStockView";
             this.ChkStockView.Size = new System.Drawing.Size(94, 18);
             this.ChkStockView.TabIndex = 40;
@@ -199,7 +223,7 @@
             this.cmbCustBill.Items.AddRange(new object[] {
             "Summary",
             "Full Bill"});
-            this.cmbCustBill.Location = new System.Drawing.Point(332, 162);
+            this.cmbCustBill.Location = new System.Drawing.Point(361, 156);
             this.cmbCustBill.Name = "cmbCustBill";
             this.cmbCustBill.Size = new System.Drawing.Size(121, 22);
             this.cmbCustBill.TabIndex = 36;
@@ -207,7 +231,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(197, 162);
+            this.label1.Location = new System.Drawing.Point(226, 156);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(125, 14);
             this.label1.TabIndex = 35;
@@ -241,7 +265,7 @@
             this.grpPrint.Controls.Add(this.txtAddress);
             this.grpPrint.Controls.Add(this.txtCompanyArabic);
             this.grpPrint.Controls.Add(this.txtCompanyName);
-            this.grpPrint.Location = new System.Drawing.Point(37, 181);
+            this.grpPrint.Location = new System.Drawing.Point(37, 193);
             this.grpPrint.Name = "grpPrint";
             this.grpPrint.Size = new System.Drawing.Size(546, 190);
             this.grpPrint.TabIndex = 33;
@@ -418,7 +442,7 @@
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClose.ForeColor = System.Drawing.Color.Black;
-            this.btnClose.Location = new System.Drawing.Point(477, 384);
+            this.btnClose.Location = new System.Drawing.Point(477, 387);
             this.btnClose.Margin = new System.Windows.Forms.Padding(1);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(89, 28);
@@ -435,7 +459,7 @@
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSave.ForeColor = System.Drawing.Color.Black;
-            this.btnSave.Location = new System.Drawing.Point(387, 384);
+            this.btnSave.Location = new System.Drawing.Point(387, 387);
             this.btnSave.Margin = new System.Windows.Forms.Padding(1);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(88, 28);
@@ -557,27 +581,17 @@
             // lblPOSSettingsId
             // 
             this.lblPOSSettingsId.AutoSize = true;
-            this.lblPOSSettingsId.Location = new System.Drawing.Point(517, 391);
+            this.lblPOSSettingsId.Location = new System.Drawing.Point(517, 394);
             this.lblPOSSettingsId.Name = "lblPOSSettingsId";
             this.lblPOSSettingsId.Size = new System.Drawing.Size(15, 14);
             this.lblPOSSettingsId.TabIndex = 32;
             this.lblPOSSettingsId.Text = "0";
             // 
-            // chkBlockZeroPrice
-            // 
-            this.chkBlockZeroPrice.AutoSize = true;
-            this.chkBlockZeroPrice.Location = new System.Drawing.Point(502, 164);
-            this.chkBlockZeroPrice.Name = "chkBlockZeroPrice";
-            this.chkBlockZeroPrice.Size = new System.Drawing.Size(178, 18);
-            this.chkBlockZeroPrice.TabIndex = 43;
-            this.chkBlockZeroPrice.Text = "Block Zero Price in Sales";
-            this.chkBlockZeroPrice.UseVisualStyleBackColor = true;
-            // 
             // frmPOSSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(759, 421);
+            this.ClientSize = new System.Drawing.Size(793, 421);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "frmPOSSettings";
@@ -638,5 +652,7 @@
         private System.Windows.Forms.CheckBox chkSessionMngmnt;
         private System.Windows.Forms.CheckBox chkAlwaysEnableHoldBillView;
         private System.Windows.Forms.CheckBox chkBlockZeroPrice;
+        private System.Windows.Forms.ComboBox cmbZeroQty;
+        private System.Windows.Forms.Label lblZeroQty;
     }
 }
