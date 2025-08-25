@@ -66,6 +66,7 @@ namespace FinacPOS
         DataTable dtblOtherDetailsThermal;
         DataTable dtblTaxDetailsThermal;
         int PrintPageHight;
+        public string selectedGroupId = "0";
         //--------------------------
 
         bool isRateChanged = false;
@@ -371,6 +372,14 @@ namespace FinacPOS
         {
             LoadProductGroup();
             LoadProducts(dtblProductWithImage);
+            if (FlpanelProductGroup.Controls.Count > 0)
+            {
+                Button firstGroupButton = FlpanelProductGroup.Controls[0] as Button;
+                if (firstGroupButton != null)
+                {
+                    firstGroupButton.PerformClick(); // trigger ProductGroupButton_Click
+                }
+            }
         }
         private void LoadProductGroup()
         {
@@ -382,6 +391,16 @@ namespace FinacPOS
             foreach (DataRow row in dtbl.Rows)
             {
                 AddProductGroupButton(row);
+            }
+            if (dtbl.Rows.Count > 0)       // added  by nishana on 23-08-2025
+            {
+
+                selectedGroupId = dtbl.Rows[0]["groupId"].ToString();
+                string searchvalue = "groupId='" + selectedGroupId + "'";
+                DataView dv = dtblProductWithImage.DefaultView;
+                dv.RowFilter = searchvalue;
+                dtblProductFiltered = dv.ToTable();
+                LoadProducts(dtblProductFiltered);
             }
         }
         private void AddProductGroupButton(DataRow row)
@@ -559,7 +578,11 @@ namespace FinacPOS
             Panel clickedButton = sender as Panel;
 
             String strBarcode = clickedButton.Tag.ToString();
-
+            if (string.IsNullOrEmpty(strBarcode))
+            {
+                MessageBox.Show("This product does not have a barcode assigned.", "No Barcode", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             //MessageBox.Show("Selected Product:" + productName, "Product Selected", MessageBoxButtons.OK, MessageBoxIcon.Information);
             SelectProduct(strBarcode);
         }
@@ -569,7 +592,11 @@ namespace FinacPOS
             PictureBox clickedButton = sender as PictureBox;
             string strBarcode = "";
             strBarcode = clickedButton.Tag.ToString();
-
+            if (string.IsNullOrEmpty(strBarcode))
+            {
+                MessageBox.Show("This product does not have a barcode assigned.", "No Barcode", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             //MessageBox.Show("Selected Product:" + productName, "Product Selected", MessageBoxButtons.OK, MessageBoxIcon.Information);
             SelectProduct(strBarcode);
         }
@@ -579,7 +606,11 @@ namespace FinacPOS
             Label clickedButton = sender as Label;
             string strBarcode = "";
             strBarcode = clickedButton.Tag.ToString();
-
+            if (string.IsNullOrEmpty(strBarcode))
+            {
+                MessageBox.Show("This product does not have a barcode assigned.", "No Barcode", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             //MessageBox.Show("Selected Product:" + productName, "Product Selected", MessageBoxButtons.OK, MessageBoxIcon.Information);
             SelectProduct(strBarcode);
         }
@@ -1702,7 +1733,7 @@ namespace FinacPOS
 
                 if (counterInfo.KOTPrint)
                 {
-                    spPrint.PrintKOTPOS(dtblCompanyDetails, dtblGridDetails, dtblOtherDetails, counterInfo.DefaultPrinter, counterInfo.Directprint, counterInfo.SalesPrintCopy);
+                    spPrint.PrintKOTPOS(dtblCompanyDetails, dtblGridDetails, dtblOtherDetails, counterInfo.KOTPrinter, counterInfo.Directprint, counterInfo.SalesPrintCopy);
                 }
                 string StrcategoryId = "";
                 string StrprinterName = "";

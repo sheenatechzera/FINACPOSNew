@@ -36,6 +36,7 @@ namespace FinacPOS
         private bool _CategoryWaysPrint;
         private bool _KOTPrint;
         private bool _ShowPreview;
+        private string _KOTPrinter;
 
 
 
@@ -179,6 +180,11 @@ namespace FinacPOS
         {
             get { return _ShowPreview; }
             set { _ShowPreview = value; }
+        }
+        public String KOTPrinter
+        {
+            get { return _KOTPrinter; }
+            set { _KOTPrinter = value; }
         }
     }
 }

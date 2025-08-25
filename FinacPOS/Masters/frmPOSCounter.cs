@@ -420,7 +420,22 @@ namespace FinacPOS
             }
 
         }
+        public void FillKOTPrinters()
+        {
+           cmbKOTPrinter.Items.Clear();
+            PrintDocument prtdoc = new PrintDocument();
+            string strDefaultPrinter = prtdoc.PrinterSettings.PrinterName;
 
+            foreach (String strPrinter in System.Drawing.Printing.PrinterSettings.InstalledPrinters)
+            {
+                cmbKOTPrinter.Items.Add(strPrinter);
+                if (strPrinter == strDefaultPrinter)
+                {
+                    cmbKOTPrinter.SelectedIndex = cmbKOTPrinter.Items.IndexOf(strPrinter);
+                }
+            }
+
+        }
         private void btnSave_Click(object sender, EventArgs e)
         {
             SaveOrEdit();
@@ -474,6 +489,7 @@ namespace FinacPOS
 
 
             dgvPosCounterPrinterDetails.Rows.Clear();
+            FillKOTPrinters();
         }
 
         private void chkStatus_KeyDown(object sender, KeyEventArgs e)
@@ -604,6 +620,7 @@ namespace FinacPOS
                     counterInfo.CategoryWaysPrint = chkCategoryWaysPrint.Checked;
                     counterInfo.KOTPrint = chkkotPrint.Checked;
                     counterInfo.ShowPreview = chkPreview.Checked;
+                    counterInfo.KOTPrinter = cmbKOTPrinter.Text.ToString();
 
                 }
 
@@ -812,14 +829,13 @@ namespace FinacPOS
                 chkCategoryWaysPrint.Checked = InfoPOSCounter.CategoryWaysPrint;
                 chkkotPrint.Checked = InfoPOSCounter.KOTPrint;
                 chkPreview.Checked = InfoPOSCounter.ShowPreview;
-
+                cmbKOTPrinter.Text = InfoPOSCounter.KOTPrinter.ToString();
                 dgvPosCounterPrinterDetails.Rows.Clear();
                 DataTable dt = counterSP.POSCounterDetailsViewByCounterId(strCounterIdToEdit);
                 if (dt.Rows.Count > 0)
                 {
                     foreach (DataRow row in dt.Rows)
                     {
-                        ISValueChanged = true;
                         try
                         {
                             dgvPosCounterPrinterDetails.Rows.Add(

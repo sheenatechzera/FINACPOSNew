@@ -33,7 +33,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPOSSales));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -43,10 +42,38 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPOSSales));
             this.txtBarcode = new System.Windows.Forms.TextBox();
             this.lblUser = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.dgvProduct = new System.Windows.Forms.DataGridView();
+            this.SLNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProductCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Barcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ItemName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UnitId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BaseUnitId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UnitConversion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SalesRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ExcludeRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PurchaseRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Stock = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.GrossValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DiscAmt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NetValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TaxId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TaxPerc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TaxAmt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BillDiscIndProductAmt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ArabicName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.rateDiscAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.amountBeforeDisc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.offerId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CategoryId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DiscPerc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label3 = new System.Windows.Forms.Label();
             this.lblBillDate = new System.Windows.Forms.Label();
             this.lblBillTime = new System.Windows.Forms.Label();
@@ -141,33 +168,6 @@
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
             this.timerSessionDate = new System.Windows.Forms.Timer(this.components);
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
-            this.SLNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProductCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Barcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ItemName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.UnitId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BaseUnitId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.UnitConversion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SalesRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ExcludeRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PurchaseRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Stock = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.GrossValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DiscAmt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NetValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TaxId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TaxPerc = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TaxAmt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BillDiscIndProductAmt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ArabicName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.rateDiscAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.amountBeforeDisc = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.offerId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CategoryId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DiscPerc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProduct)).BeginInit();
             this.panelMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -286,6 +286,197 @@
             this.dgvProduct.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProduct_CellMouseEnter);
             this.dgvProduct.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgvProduct_EditingControlShowing);
             this.dgvProduct.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvProduct_KeyDown);
+            // 
+            // SLNo
+            // 
+            this.SLNo.HeaderText = "SN";
+            this.SLNo.Name = "SLNo";
+            this.SLNo.ReadOnly = true;
+            this.SLNo.Width = 30;
+            // 
+            // ProductCode
+            // 
+            this.ProductCode.HeaderText = "ProductCode";
+            this.ProductCode.Name = "ProductCode";
+            this.ProductCode.Visible = false;
+            // 
+            // Barcode
+            // 
+            this.Barcode.HeaderText = "Barcode";
+            this.Barcode.Name = "Barcode";
+            this.Barcode.ReadOnly = true;
+            this.Barcode.Width = 70;
+            // 
+            // ItemName
+            // 
+            this.ItemName.HeaderText = "Product Name";
+            this.ItemName.Name = "ItemName";
+            this.ItemName.ReadOnly = true;
+            this.ItemName.Width = 180;
+            // 
+            // Qty
+            // 
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.Qty.DefaultCellStyle = dataGridViewCellStyle3;
+            this.Qty.HeaderText = "Qty";
+            this.Qty.Name = "Qty";
+            this.Qty.ReadOnly = true;
+            this.Qty.Width = 50;
+            // 
+            // UnitId
+            // 
+            this.UnitId.HeaderText = "UnitId";
+            this.UnitId.Name = "UnitId";
+            this.UnitId.Visible = false;
+            // 
+            // Unit
+            // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Unit.DefaultCellStyle = dataGridViewCellStyle4;
+            this.Unit.HeaderText = "Unit";
+            this.Unit.Name = "Unit";
+            this.Unit.ReadOnly = true;
+            this.Unit.Width = 40;
+            // 
+            // BaseUnitId
+            // 
+            this.BaseUnitId.HeaderText = "BaseUnitId";
+            this.BaseUnitId.Name = "BaseUnitId";
+            this.BaseUnitId.Visible = false;
+            // 
+            // UnitConversion
+            // 
+            this.UnitConversion.HeaderText = "UnitConversion";
+            this.UnitConversion.Name = "UnitConversion";
+            this.UnitConversion.Visible = false;
+            // 
+            // SalesRate
+            // 
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.SalesRate.DefaultCellStyle = dataGridViewCellStyle5;
+            this.SalesRate.HeaderText = "Rate";
+            this.SalesRate.Name = "SalesRate";
+            this.SalesRate.ReadOnly = true;
+            this.SalesRate.Width = 60;
+            // 
+            // ExcludeRate
+            // 
+            this.ExcludeRate.HeaderText = "ExcludeRate";
+            this.ExcludeRate.Name = "ExcludeRate";
+            this.ExcludeRate.Visible = false;
+            // 
+            // PurchaseRate
+            // 
+            this.PurchaseRate.HeaderText = "PurchaseRate";
+            this.PurchaseRate.Name = "PurchaseRate";
+            this.PurchaseRate.Visible = false;
+            // 
+            // Stock
+            // 
+            this.Stock.HeaderText = "Stock";
+            this.Stock.Name = "Stock";
+            this.Stock.Visible = false;
+            // 
+            // GrossValue
+            // 
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.GrossValue.DefaultCellStyle = dataGridViewCellStyle6;
+            this.GrossValue.HeaderText = "G.V";
+            this.GrossValue.Name = "GrossValue";
+            this.GrossValue.ReadOnly = true;
+            this.GrossValue.Width = 50;
+            // 
+            // DiscAmt
+            // 
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.DiscAmt.DefaultCellStyle = dataGridViewCellStyle7;
+            this.DiscAmt.HeaderText = "Disc";
+            this.DiscAmt.Name = "DiscAmt";
+            this.DiscAmt.Width = 40;
+            // 
+            // NetValue
+            // 
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.NetValue.DefaultCellStyle = dataGridViewCellStyle8;
+            this.NetValue.HeaderText = "NetValue";
+            this.NetValue.Name = "NetValue";
+            this.NetValue.ReadOnly = true;
+            this.NetValue.Width = 65;
+            // 
+            // TaxId
+            // 
+            this.TaxId.HeaderText = "TaxId";
+            this.TaxId.Name = "TaxId";
+            this.TaxId.Visible = false;
+            // 
+            // TaxPerc
+            // 
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.TaxPerc.DefaultCellStyle = dataGridViewCellStyle9;
+            this.TaxPerc.HeaderText = "Tax%";
+            this.TaxPerc.Name = "TaxPerc";
+            this.TaxPerc.ReadOnly = true;
+            this.TaxPerc.Width = 39;
+            // 
+            // TaxAmt
+            // 
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.TaxAmt.DefaultCellStyle = dataGridViewCellStyle10;
+            this.TaxAmt.HeaderText = "TaxAmt";
+            this.TaxAmt.Name = "TaxAmt";
+            this.TaxAmt.ReadOnly = true;
+            this.TaxAmt.Width = 54;
+            // 
+            // Total
+            // 
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.Total.DefaultCellStyle = dataGridViewCellStyle11;
+            this.Total.HeaderText = "Total";
+            this.Total.Name = "Total";
+            this.Total.ReadOnly = true;
+            this.Total.Width = 56;
+            // 
+            // BillDiscIndProductAmt
+            // 
+            this.BillDiscIndProductAmt.HeaderText = "BillDiscIndProductAmt";
+            this.BillDiscIndProductAmt.Name = "BillDiscIndProductAmt";
+            this.BillDiscIndProductAmt.Visible = false;
+            // 
+            // ArabicName
+            // 
+            this.ArabicName.HeaderText = "ArabicName";
+            this.ArabicName.Name = "ArabicName";
+            this.ArabicName.Visible = false;
+            // 
+            // rateDiscAmount
+            // 
+            this.rateDiscAmount.HeaderText = "Discount";
+            this.rateDiscAmount.Name = "rateDiscAmount";
+            this.rateDiscAmount.Visible = false;
+            // 
+            // amountBeforeDisc
+            // 
+            this.amountBeforeDisc.HeaderText = "Amount";
+            this.amountBeforeDisc.Name = "amountBeforeDisc";
+            this.amountBeforeDisc.Visible = false;
+            // 
+            // offerId
+            // 
+            this.offerId.HeaderText = "offerId";
+            this.offerId.Name = "offerId";
+            this.offerId.Visible = false;
+            // 
+            // CategoryId
+            // 
+            this.CategoryId.HeaderText = "CategoryId";
+            this.CategoryId.Name = "CategoryId";
+            this.CategoryId.Visible = false;
+            // 
+            // DiscPerc
+            // 
+            this.DiscPerc.HeaderText = "DiscPerc";
+            this.DiscPerc.Name = "DiscPerc";
+            this.DiscPerc.Visible = false;
             // 
             // label3
             // 
@@ -1553,197 +1744,6 @@
             // 
             this.timerSessionDate.Interval = 500;
             this.timerSessionDate.Tick += new System.EventHandler(this.timerSessionDate_Tick);
-            // 
-            // SLNo
-            // 
-            this.SLNo.HeaderText = "SN";
-            this.SLNo.Name = "SLNo";
-            this.SLNo.ReadOnly = true;
-            this.SLNo.Width = 30;
-            // 
-            // ProductCode
-            // 
-            this.ProductCode.HeaderText = "ProductCode";
-            this.ProductCode.Name = "ProductCode";
-            this.ProductCode.Visible = false;
-            // 
-            // Barcode
-            // 
-            this.Barcode.HeaderText = "Barcode";
-            this.Barcode.Name = "Barcode";
-            this.Barcode.ReadOnly = true;
-            this.Barcode.Width = 70;
-            // 
-            // ItemName
-            // 
-            this.ItemName.HeaderText = "Product Name";
-            this.ItemName.Name = "ItemName";
-            this.ItemName.ReadOnly = true;
-            this.ItemName.Width = 180;
-            // 
-            // Qty
-            // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.Qty.DefaultCellStyle = dataGridViewCellStyle3;
-            this.Qty.HeaderText = "Qty";
-            this.Qty.Name = "Qty";
-            this.Qty.ReadOnly = true;
-            this.Qty.Width = 50;
-            // 
-            // UnitId
-            // 
-            this.UnitId.HeaderText = "UnitId";
-            this.UnitId.Name = "UnitId";
-            this.UnitId.Visible = false;
-            // 
-            // Unit
-            // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Unit.DefaultCellStyle = dataGridViewCellStyle4;
-            this.Unit.HeaderText = "Unit";
-            this.Unit.Name = "Unit";
-            this.Unit.ReadOnly = true;
-            this.Unit.Width = 40;
-            // 
-            // BaseUnitId
-            // 
-            this.BaseUnitId.HeaderText = "BaseUnitId";
-            this.BaseUnitId.Name = "BaseUnitId";
-            this.BaseUnitId.Visible = false;
-            // 
-            // UnitConversion
-            // 
-            this.UnitConversion.HeaderText = "UnitConversion";
-            this.UnitConversion.Name = "UnitConversion";
-            this.UnitConversion.Visible = false;
-            // 
-            // SalesRate
-            // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.SalesRate.DefaultCellStyle = dataGridViewCellStyle5;
-            this.SalesRate.HeaderText = "Rate";
-            this.SalesRate.Name = "SalesRate";
-            this.SalesRate.ReadOnly = true;
-            this.SalesRate.Width = 60;
-            // 
-            // ExcludeRate
-            // 
-            this.ExcludeRate.HeaderText = "ExcludeRate";
-            this.ExcludeRate.Name = "ExcludeRate";
-            this.ExcludeRate.Visible = false;
-            // 
-            // PurchaseRate
-            // 
-            this.PurchaseRate.HeaderText = "PurchaseRate";
-            this.PurchaseRate.Name = "PurchaseRate";
-            this.PurchaseRate.Visible = false;
-            // 
-            // Stock
-            // 
-            this.Stock.HeaderText = "Stock";
-            this.Stock.Name = "Stock";
-            this.Stock.Visible = false;
-            // 
-            // GrossValue
-            // 
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.GrossValue.DefaultCellStyle = dataGridViewCellStyle6;
-            this.GrossValue.HeaderText = "G.V";
-            this.GrossValue.Name = "GrossValue";
-            this.GrossValue.ReadOnly = true;
-            this.GrossValue.Width = 50;
-            // 
-            // DiscAmt
-            // 
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.DiscAmt.DefaultCellStyle = dataGridViewCellStyle7;
-            this.DiscAmt.HeaderText = "Disc";
-            this.DiscAmt.Name = "DiscAmt";
-            this.DiscAmt.Width = 40;
-            // 
-            // NetValue
-            // 
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.NetValue.DefaultCellStyle = dataGridViewCellStyle8;
-            this.NetValue.HeaderText = "NetValue";
-            this.NetValue.Name = "NetValue";
-            this.NetValue.ReadOnly = true;
-            this.NetValue.Width = 65;
-            // 
-            // TaxId
-            // 
-            this.TaxId.HeaderText = "TaxId";
-            this.TaxId.Name = "TaxId";
-            this.TaxId.Visible = false;
-            // 
-            // TaxPerc
-            // 
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.TaxPerc.DefaultCellStyle = dataGridViewCellStyle9;
-            this.TaxPerc.HeaderText = "Tax%";
-            this.TaxPerc.Name = "TaxPerc";
-            this.TaxPerc.ReadOnly = true;
-            this.TaxPerc.Width = 39;
-            // 
-            // TaxAmt
-            // 
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.TaxAmt.DefaultCellStyle = dataGridViewCellStyle10;
-            this.TaxAmt.HeaderText = "TaxAmt";
-            this.TaxAmt.Name = "TaxAmt";
-            this.TaxAmt.ReadOnly = true;
-            this.TaxAmt.Width = 54;
-            // 
-            // Total
-            // 
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.Total.DefaultCellStyle = dataGridViewCellStyle11;
-            this.Total.HeaderText = "Total";
-            this.Total.Name = "Total";
-            this.Total.ReadOnly = true;
-            this.Total.Width = 56;
-            // 
-            // BillDiscIndProductAmt
-            // 
-            this.BillDiscIndProductAmt.HeaderText = "BillDiscIndProductAmt";
-            this.BillDiscIndProductAmt.Name = "BillDiscIndProductAmt";
-            this.BillDiscIndProductAmt.Visible = false;
-            // 
-            // ArabicName
-            // 
-            this.ArabicName.HeaderText = "ArabicName";
-            this.ArabicName.Name = "ArabicName";
-            this.ArabicName.Visible = false;
-            // 
-            // rateDiscAmount
-            // 
-            this.rateDiscAmount.HeaderText = "Discount";
-            this.rateDiscAmount.Name = "rateDiscAmount";
-            this.rateDiscAmount.Visible = false;
-            // 
-            // amountBeforeDisc
-            // 
-            this.amountBeforeDisc.HeaderText = "Amount";
-            this.amountBeforeDisc.Name = "amountBeforeDisc";
-            this.amountBeforeDisc.Visible = false;
-            // 
-            // offerId
-            // 
-            this.offerId.HeaderText = "offerId";
-            this.offerId.Name = "offerId";
-            this.offerId.Visible = false;
-            // 
-            // CategoryId
-            // 
-            this.CategoryId.HeaderText = "CategoryId";
-            this.CategoryId.Name = "CategoryId";
-            this.CategoryId.Visible = false;
-            // 
-            // DiscPerc
-            // 
-            this.DiscPerc.HeaderText = "DiscPerc";
-            this.DiscPerc.Name = "DiscPerc";
-            this.DiscPerc.Visible = false;
             // 
             // frmPOSSales
             // 
