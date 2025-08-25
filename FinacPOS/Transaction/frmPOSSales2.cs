@@ -4064,7 +4064,7 @@ namespace FinacPOS
                         catch { dQty = 0; }
 
 
-                        if (dQty > 0)
+                        if (dQty >= 0)
                         {
                             dgvProduct.Rows[CurEditRowIndex].Cells[CurColIndex].Value = dQty.ToString();
                         }
