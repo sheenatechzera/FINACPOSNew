@@ -471,8 +471,6 @@ namespace FinacPOS
                     row.Cells["DefaultPrinters"].Value = null;
                 }
             }
-
-
             dgvPosCounterPrinterDetails.Rows.Clear();
         }
 
