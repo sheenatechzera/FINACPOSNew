@@ -86,6 +86,7 @@ namespace FinacPOS
         string strCCSalesLedgerId = "";
         string strUPISalesLedgerId = "";
         string strSalesLedgerId = "";
+        string nxtTokenNo = "";
         bool IsAuthenticationApproved = false;
 
         DataTable dtblProductWithImage;
@@ -100,6 +101,7 @@ namespace FinacPOS
             timer1.Start();
             lblSessionNO.Text = strSessionNo;
             lblSessionDate.Text = strSessionDate;
+            lblTokenNo.Text= POSTokenNoMax();
             lblCounter.Text = PublicVariables._counterName;
             lblUser.Text = PublicVariables._EmpName;
             rbDineIn.Checked = true;
@@ -128,6 +130,8 @@ namespace FinacPOS
             productFill(); //Added on 10/Mar/2025 Varis
             showproductInload();
             ListTableInLoad();
+
+
         }
         public void ListTableInLoad() // added by Nishana on 24-04-2025
         {
@@ -2447,7 +2451,7 @@ namespace FinacPOS
                 InfoPOSSalesReturnMaster.UserId = PublicVariables._currentUserId;
                 POSSalesReturnMasterSP.POSCreditNoteMasterEdit(InfoPOSSalesReturnMaster);
             }
-
+            lblTokenNo.Text = (Convert.ToInt32(POSTokenNoMax()) + 1).ToString();
             return strMasterId;
         }
         public string SaveDeletedSaleHistory()
@@ -2685,8 +2689,6 @@ namespace FinacPOS
 
 
             }
-
-
 
             return strHoldMasterId;
         }
