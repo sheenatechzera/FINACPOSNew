@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using DevExpress.CodeParser;
 using DevExpress.Xpo;
 
 namespace FinacPOS
@@ -71,7 +72,7 @@ namespace FinacPOS
             infoPOS.AlwaysEnableHoldBillView = chkAlwaysEnableHoldBillView.Checked;
             infoPOS.BlockZeroPriceInSales = chkBlockZeroPrice.Checked;
             infoPOS.ZeroQtyAlert= cmbZeroQty.Text;
-
+            infoPOS.DeleteMode = cmbDeleteMode.Text;
             spPOSSettings.POSSettingsEdit(infoPOS);
             MessageBox.Show("Settings saved successfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -81,6 +82,7 @@ namespace FinacPOS
             clsGeneral objGeneral = new clsGeneral();
             objGeneral.formSettings(this);
             FillCheckBox();
+            Clear();
         }
         private void FillCheckBox()
         {
@@ -123,9 +125,26 @@ namespace FinacPOS
                 chkAlwaysEnableHoldBillView.Checked = infoPOS.AlwaysEnableHoldBillView;
                 chkBlockZeroPrice.Checked = infoPOS.BlockZeroPriceInSales;
                 cmbZeroQty.Text= infoPOS.ZeroQtyAlert;
+                cmbDeleteMode.Text= infoPOS.DeleteMode;
             }
         }
+        public void Clear()
+        {    chkAddress.Checked = false;
+            chkAlwaysEnableHoldBillView.Checked = false;
+            chkBillClearAuth.Checked = false;
+            chkBlockZeroPrice.Checked = false;
+            chkSessionMngmnt.Checked = false;
+            chkZeroStockAuth.Checked = false;
+            ChkActiveTable.Checked = false;
+            ChkStockView.Checked = false;
+            ChkAddqtyinsameBarcode.Checked = false;
+            chkCashBoxOpenAuth.Checked = false;
+            chkHoldBillAuth.Checked = false;
+            cmbCustBill.SelectedIndex = -1;
+            cmbZeroQty.SelectedIndex = -1;
+            cmbDeleteMode.SelectedIndex = -1;
 
+        }
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();

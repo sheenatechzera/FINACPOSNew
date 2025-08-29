@@ -116,6 +116,9 @@ namespace FinacPOS
             report.Parameters["CustomerVatNo"].Value = dtblOtherDetails.Rows[0]["CustomerVATNo"].ToString();
             //Added on 29/Jul/2025
             report.Parameters["TokenNo"].Value = dtblOtherDetails.Rows[0]["TokenNo"].ToString();
+            //addede on 28/08/2025
+
+            report.Parameters["SalesMode"].Value = dtblOtherDetails.Rows[0]["SalesMode"].ToString();
             //Tax Details
             if (dtblTaxDetails.Rows.Count > 0)
             {
@@ -1585,6 +1588,7 @@ namespace FinacPOS
             report.Parameters["InvoiceNo"].Value = dtblOtherDetails.Rows[0]["InvoiceNo"];
             report.Parameters["QtyTotal"].Value = dtblOtherDetails.Rows[0]["QtyTotal"];
             report.Parameters["TokenNo"].Value = dtblOtherDetails.Rows[0]["TokenNo"].ToString();
+            report.Parameters["SalesMode"].Value = dtblOtherDetails.Rows[0]["SalesMode"].ToString();
             DataSet ds = new DataSet();
 
             DataTable dtcopy = new DataTable();
@@ -1700,6 +1704,7 @@ namespace FinacPOS
             report.Parameters["InvoiceNo"].Value= dtblOtherDetails.Rows[0]["InvoiceNo"];
             report.Parameters["QtyTotal"].Value = dtblOtherDetails.Rows[0]["QtyTotal"];
             report.Parameters["TokenNo"].Value = dtblOtherDetails.Rows[0]["TokenNo"].ToString();
+            report.Parameters["SalesMode"].Value = dtblOtherDetails.Rows[0]["SalesMode"].ToString();
             DataSet ds = new DataSet();
 
             DataTable dtcopy = new DataTable();

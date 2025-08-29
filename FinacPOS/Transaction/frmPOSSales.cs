@@ -1,4 +1,5 @@
-﻿using DevExpress.XtraGrid.Views.Grid;
+﻿using DevExpress.Utils.Extensions;
+using DevExpress.XtraGrid.Views.Grid;
 using FinacPOS.Masters;
 using Microsoft.VisualBasic;
 using OnBarcode.Barcode.WinForms;
@@ -72,6 +73,7 @@ namespace FinacPOS
         int PrintPageHight;
 
         public string selectedGroupId = "0";
+        public string selectedSalesMode = "";
         //--------------------------
 
         bool isRateChanged = false;
@@ -84,7 +86,7 @@ namespace FinacPOS
         ProductSP spProduct = new ProductSP();
 
         DataGridViewTextBoxEditingControl TextBoxControl;
-
+        POSSettingsInfo InfoPOSSettings = new POSSettingsInfo();
 
 
         //for Posting Account setting
@@ -1290,7 +1292,7 @@ namespace FinacPOS
             dtblOtherDetails.Columns.Add("CustomerPhone");
             dtblOtherDetails.Columns.Add("CustomerVatNo");
             dtblOtherDetails.Columns.Add("TokenNo");
-
+            dtblOtherDetails.Columns.Add("SalesMode");
             if (isDuplicatePrint == false)
             {
                 DataRow dRowDetails = dtblOtherDetails.NewRow();
@@ -1415,6 +1417,7 @@ namespace FinacPOS
                     dRowDetails["BillAmount"] = "";
                     dRowDetails["totalBalance"] = "";
                     dRowDetails["showCustBalance"] = false;
+                    dRowDetails["SalesMode"] = "";
                 }
 
                 //////------------------------ QR Code Generation ----------- by Navas --------------------
@@ -1604,7 +1607,7 @@ namespace FinacPOS
                     }
 
                     dRowDetails["BillAmount"] = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
-
+                    dRowDetails["SalesMode"] = "";
                     //////------------------------ QR Code Generation ----------- by Navas --------------------
                     ////Zen.Barcode.CodeQrBarcodeDraw qrBarcode = Zen.Barcode.BarcodeDrawFactory.CodeQr;
                     ////string companyname = dtblCompanyDetails.Rows[0][2].ToString();
@@ -3016,75 +3019,79 @@ namespace FinacPOS
 
 
             // Delete Product from Grid when barcode is entered
-            bool IsBarcodeExist = false; // added on 12-04-2025 by Nishana
-            int RoWnO = -1;
-            string Barcode = txtBarcode.Text.Trim();
-
-            if (lblBarcodeScanningType.Visible == true && lblBarcodeScanningType.Text == "Delete Product")
+            if (InfoPOSSettings.DeleteMode == "Delete By Barcode" )
             {
+                bool IsBarcodeExist = false; // added on 12-04-2025 by Nishana
+                int RoWnO = -1;
+                string Barcode = txtBarcode.Text.Trim();
 
-                for (int i = 0; i < dgvProduct.RowCount; i++)
+                if (lblBarcodeScanningType.Visible == true && lblBarcodeScanningType.Text == "Delete Product")
                 {
-                    if (dgvProduct.Rows[i].Cells["Barcode"].Value != null && dgvProduct.Rows[i].Cells["Barcode"].Value.ToString() == Barcode)
+
+                    for (int i = 0; i < dgvProduct.RowCount; i++)
                     {
-                        IsBarcodeExist = true;
-                        RoWnO = i;
-                        break;
+                        if (dgvProduct.Rows[i].Cells["Barcode"].Value != null && dgvProduct.Rows[i].Cells["Barcode"].Value.ToString() == Barcode)
+                        {
+                            IsBarcodeExist = true;
+                            RoWnO = i;
+                            break;
 
+                        }
                     }
-                }
-                if (IsBarcodeExist == true)
-                {
-                    if (!dgvProduct.Rows[RoWnO].IsNewRow)
+                    if (IsBarcodeExist == true)
                     {
-                        int selectedRowIndex = dgvProduct.CurrentCell.RowIndex;
-                        SaveGridDeletedItem(selectedRowIndex);
-                   
-                        DeleteRow(RoWnO);
-
-                        if (dgvProduct.Rows.Count > 1)
+                        if (!dgvProduct.Rows[RoWnO].IsNewRow)
                         {
-                            dgvCurRow = dgvProduct.Rows.Count - 1;
-                        }
-                        else
-                        {
-                            dgvCurRow = 0;
-                            dgvSlno = 1;
-                        }
+                            int selectedRowIndex = dgvProduct.CurrentCell.RowIndex;
+                            SaveGridDeletedItem(selectedRowIndex);
 
-                        CalculateBillDiscforIndivProduct();
-                        CalculateBillTotal();
+                            DeleteRow(RoWnO);
+
+                            if (dgvProduct.Rows.Count > 1)
+                            {
+                                dgvCurRow = dgvProduct.Rows.Count - 1;
+                            }
+                            else
+                            {
+                                dgvCurRow = 0;
+                                dgvSlno = 1;
+                            }
+
+                            CalculateBillDiscforIndivProduct();
+                            CalculateBillTotal();
+                        }
                     }
+                    //if (dgvProduct.RowCount > 1)
+                    //{
+                    //    if (!dgvProduct.CurrentRow.IsNewRow)
+                    //    {
+                    //        int selectedRowIndex = dgvProduct.CurrentCell.RowIndex;
+                    //        SaveGridDeletedItem(selectedRowIndex);
+                    //        DeleteRow(selectedRowIndex);
+
+                    //        if (dgvCurRow > 1)
+                    //        {
+                    //            dgvCurRow = dgvProduct.Rows.Count - 1;
+                    //        }
+                    //        else
+                    //        {
+                    //            dgvCurRow = 0;
+                    //            dgvSlno = 1;
+                    //        }
+
+                    //        CalculateBillDiscforIndivProduct();
+                    //        CalculateBillTotal();
+                    //    }
+                    //    barcodeFocus();
+                    //}
+                    lblBarcodeScanningType.Text = "";
+                    lblBarcodeScanningType.Visible = false;
+                    txtBarcode.Text = "";
+
+                    return;
                 }
-                //if (dgvProduct.RowCount > 1)
-                //{
-                //    if (!dgvProduct.CurrentRow.IsNewRow)
-                //    {
-                //        int selectedRowIndex = dgvProduct.CurrentCell.RowIndex;
-                //        SaveGridDeletedItem(selectedRowIndex);
-                //        DeleteRow(selectedRowIndex);
-
-                //        if (dgvCurRow > 1)
-                //        {
-                //            dgvCurRow = dgvProduct.Rows.Count - 1;
-                //        }
-                //        else
-                //        {
-                //            dgvCurRow = 0;
-                //            dgvSlno = 1;
-                //        }
-
-                //        CalculateBillDiscforIndivProduct();
-                //        CalculateBillTotal();
-                //    }
-                //    barcodeFocus();
-                //}
-                lblBarcodeScanningType.Text = "";
-                lblBarcodeScanningType.Visible = false;
-                txtBarcode.Text = "";
-
-                return;
             }
+               
 
             POSSettingsInfo settingsinfo = new POSSettingsInfo();
 
@@ -4353,34 +4360,55 @@ namespace FinacPOS
                 lblBarcodeScanningType.Visible = true;
             }
             barcodeFocus();
-            //if (dgvProduct.RowCount > 1)
-            //{
-            //    if (!dgvProduct.CurrentRow.IsNewRow)
-            //    {
-            //        DataGridViewRow CurRow = dgvProduct.CurrentRow;
-            //        dgvProduct.Rows.Remove(CurRow);
+          
+            if (InfoPOSSettings.DeleteMode == "Delete By Button Click")
+            {
 
-            //        if (dgvCurRow > 1)
-            //        {
-            //            dgvCurRow = dgvProduct.Rows.Count - 1;
-            //        }
-            //        else
-            //        {
-            //            dgvCurRow = 0;
-            //            dgvSlno = 1;
-            //        }
+                if (dgvProduct.RowCount > 1)
+                {
+                    if (!dgvProduct.CurrentRow.IsNewRow)
+                    {
 
+                        //int selectedRowIndex = dgvProduct.CurrentRow.Index;
+                        int selectedRowIndex = strDeleteCurrentRowIndex;
+                        SaveGridDeletedItem(selectedRowIndex);
+                        DeleteRow(selectedRowIndex);
 
-            //        CalculateBillDiscforIndivProduct();
-            //        CalculateBillTotal();
-            //    }
+                        if (dgvCurRow > 1)
+                        {
+                            dgvCurRow = dgvProduct.Rows.Count - 1;
+                        }
+                        else
+                        {
+                            dgvCurRow = 0;
+                            dgvSlno = 1;
+                        }
 
-            //    barcodeFocus();
-            //}
-            //else
-            //{
-            //  barcodeFocus();
-            //}
+                        CalculateBillDiscforIndivProduct();
+                        CalculateBillTotal();
+                    }
+                    barcodeFocus();
+                }
+
+                else
+                {
+                    barcodeFocus();
+                }
+            }
+        }
+
+        
+        private void ResetSerialNumbers()
+        {
+            int slno = 1;
+            foreach (DataGridViewRow row in dgvProduct.Rows)
+            {
+                if (!row.IsNewRow)
+                {
+                    row.Cells["SLNo"].Value = slno; // column name must match your grid column
+                    slno++;
+                }
+            }
         }
         //string strButtonNameCondition = "";
         private void btnCash_Click(object sender, EventArgs e)
@@ -4531,6 +4559,7 @@ namespace FinacPOS
 
         private void dgvProduct_KeyDown(object sender, KeyEventArgs e)
         {
+
             if (e.KeyData == Keys.Enter)
             {
                 e.Handled = true;
@@ -4541,35 +4570,39 @@ namespace FinacPOS
             }
             if (e.KeyCode == Keys.Delete)
             {
-                if (dgvProduct.RowCount > 1)
+                if (InfoPOSSettings.DeleteMode == "Delete By Keyboard Key")
                 {
-                    if (!dgvProduct.CurrentRow.IsNewRow)
+                    if (dgvProduct.RowCount > 1)
                     {
-                        int selectedRowIndex = dgvProduct.CurrentCell.RowIndex;
-                        SaveGridDeletedItem(selectedRowIndex);
-                        DeleteRow(selectedRowIndex);
-
-                        if (dgvCurRow > 1)
+                        if (!dgvProduct.CurrentRow.IsNewRow)
                         {
-                            dgvCurRow = dgvProduct.Rows.Count - 1;
-                        }
-                        else
-                        {
-                            dgvCurRow = 0;
-                            dgvSlno = 1;
-                        }
+                            int selectedRowIndex = dgvProduct.CurrentCell.RowIndex;
+                            SaveGridDeletedItem(selectedRowIndex);
+                            DeleteRow(selectedRowIndex);
 
-                        CalculateBillDiscforIndivProduct();
-                        CalculateBillTotal();
+                            if (dgvCurRow > 1)
+                            {
+                                dgvCurRow = dgvProduct.Rows.Count - 1;
+                            }
+                            else
+                            {
+                                dgvCurRow = 0;
+                                dgvSlno = 1;
+                            }
+
+                            CalculateBillDiscforIndivProduct();
+                            CalculateBillTotal();
+                        }
+                        barcodeFocus();
                     }
-                    barcodeFocus();
-                }
 
-                else
-                {
-                    barcodeFocus();
+                    else
+                    {
+                        barcodeFocus();
+                    }
                 }
             }
+
         }
 
 
@@ -5317,7 +5350,7 @@ namespace FinacPOS
 
             }
         }
-
+        int strDeleteCurrentRowIndex = 0;
        private void dgvProduct_CellClick(object sender, DataGridViewCellEventArgs e)
        {
           
@@ -5326,6 +5359,7 @@ namespace FinacPOS
                 try
                 {
                     strBarcode = dgvProduct.Rows[e.RowIndex].Cells["Barcode"].Value.ToString();
+                    strDeleteCurrentRowIndex = e.RowIndex;
                 }
                 catch { }
            }

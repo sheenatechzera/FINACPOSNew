@@ -42,6 +42,7 @@ namespace FinacPOS
         public static bool _AlwaysEnableHoldBillView;
         public static bool _BlockZeroPriceInSales;
         public static string _ZeroQtyAlert;
+        public static string _DeleteMode;
         public string POSSettingsId
         {
             get { return _POSSettingsId; }
@@ -218,6 +219,11 @@ namespace FinacPOS
         {
             get { return _ZeroQtyAlert; }
             set { _ZeroQtyAlert = value; }
+        }
+        public string DeleteMode
+        {
+            get { return _DeleteMode; }
+            set { _DeleteMode = value; }
         }
     }
 }
