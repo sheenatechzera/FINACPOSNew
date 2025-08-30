@@ -2346,7 +2346,16 @@ namespace FinacPOS
             InfoPOSSalesMaster.CustomerPhone = txtphone.Text.ToString();
             InfoPOSSalesMaster.CustomerVATNo = txtVatNo.Text.ToString();
             InfoPOSSalesMaster.TokenNo = POSTokenNoMax();
-            InfoPOSSalesMaster.SalesManId = lblSalesMan.Tag.ToString();
+            try
+            {
+                InfoPOSSalesMaster.SalesManId = lblSalesMan.Tag.ToString();
+
+            }
+            catch
+            {
+                InfoPOSSalesMaster.SalesManId = "";
+
+            }
 
             strMasterId = POSSalesMasterSP.POSSalesMasterAdd(InfoPOSSalesMaster);
 

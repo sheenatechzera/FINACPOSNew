@@ -2388,7 +2388,13 @@ namespace FinacPOS
             InfoPOSSalesMaster.CustomerPhone = "";
             InfoPOSSalesMaster.CustomerVATNo = "";
             InfoPOSSalesMaster.TokenNo = POSTokenNoMax();
-            InfoPOSSalesMaster.SalesManId =lblSalesMan.Tag.ToString();
+            try { 
+                InfoPOSSalesMaster.SalesManId = lblSalesMan.Tag.ToString();
+            }
+            catch
+            {
+                InfoPOSSalesMaster.SalesManId = "";
+            }
             strMasterId = POSSalesMasterSP.POSSalesMasterAdd(InfoPOSSalesMaster);
 
             if (strMasterId != "")
