@@ -3796,6 +3796,12 @@ namespace FinacPOS
             {
                 btnReceiptCopy_Click(e, e);
             }
+            else if (e.KeyCode == Keys.F6 && e.Control == false)//CreditCard Save
+            {
+                isSavefromButton = true;
+                //btnCash_Click(e, e);
+                btnCreditCard.PerformClick();
+            }
         }
         private void txtQty_KeyDown(object sender, KeyEventArgs e)
         {
