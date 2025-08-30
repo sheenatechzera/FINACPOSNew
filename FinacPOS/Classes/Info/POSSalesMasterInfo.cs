@@ -39,7 +39,7 @@ namespace FinacPOS
         private string _userId;
         private String _SalesMode;
         private string _TokenNo;
-
+        private string _SalesManId;
 
 
         public string POSSalesMasterId
@@ -205,7 +205,11 @@ namespace FinacPOS
             get { return _TokenNo; }
             set { _TokenNo = value; }
         }
-
+        public string SalesManId
+        {
+            get { return _SalesManId; }
+            set { _SalesManId = value; }
+        }
 
     }
 }

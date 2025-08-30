@@ -83,6 +83,8 @@ namespace FinacPOS
                 sprmparam.Value = infoPOSSalesMaster.CustomerVATNo;
                 sprmparam = sccmd.Parameters.Add("@TokenNo", SqlDbType.VarChar);
                 sprmparam.Value = infoPOSSalesMaster.TokenNo;
+                sprmparam = sccmd.Parameters.Add("@SalesManId", SqlDbType.VarChar);
+                sprmparam.Value = infoPOSSalesMaster.SalesManId;
                 id = sccmd.ExecuteScalar().ToString();
 
             }

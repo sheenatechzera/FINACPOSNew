@@ -82,7 +82,7 @@ namespace FinacPOS
             clsGeneral objGeneral = new clsGeneral();
             objGeneral.formSettings(this);
             FillCheckBox();
-            Clear();
+           
         }
         private void FillCheckBox()
         {
@@ -128,23 +128,7 @@ namespace FinacPOS
                 cmbDeleteMode.Text= infoPOS.DeleteMode;
             }
         }
-        public void Clear()
-        {    chkAddress.Checked = false;
-            chkAlwaysEnableHoldBillView.Checked = false;
-            chkBillClearAuth.Checked = false;
-            chkBlockZeroPrice.Checked = false;
-            chkSessionMngmnt.Checked = false;
-            chkZeroStockAuth.Checked = false;
-            ChkActiveTable.Checked = false;
-            ChkStockView.Checked = false;
-            ChkAddqtyinsameBarcode.Checked = false;
-            chkCashBoxOpenAuth.Checked = false;
-            chkHoldBillAuth.Checked = false;
-            cmbCustBill.SelectedIndex = -1;
-            cmbZeroQty.SelectedIndex = -1;
-            cmbDeleteMode.SelectedIndex = -1;
-
-        }
+      
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();

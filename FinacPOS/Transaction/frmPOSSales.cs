@@ -74,9 +74,11 @@ namespace FinacPOS
 
         public string selectedGroupId = "0";
         public string selectedSalesMode = "";
+
         //--------------------------
 
         bool isRateChanged = false;
+        public bool isSalesMan = false;
 
         POSCounterInfo counterInfo = new POSCounterInfo();
         GeneralSP SPGeneral = new GeneralSP();
@@ -690,13 +692,13 @@ namespace FinacPOS
             strHoldMasterIdToEdit = "";
             lblBarcodeScanningType.Text = "";
             lblBarcodeScanningType.Visible = false;
-           
+            lblSalesMan.Text = "";
 
             if (counterInfo.DisplayStatus == true)
             {
                 PoleDisplay("New");
             }
-
+         
             barcodeFocus();
         }
         private void PoleDisplay(string strFunction)
@@ -2344,6 +2346,7 @@ namespace FinacPOS
             InfoPOSSalesMaster.CustomerPhone = txtphone.Text.ToString();
             InfoPOSSalesMaster.CustomerVATNo = txtVatNo.Text.ToString();
             InfoPOSSalesMaster.TokenNo = POSTokenNoMax();
+            InfoPOSSalesMaster.SalesManId = lblSalesMan.Tag.ToString();
 
             strMasterId = POSSalesMasterSP.POSSalesMasterAdd(InfoPOSSalesMaster);
 
@@ -4873,8 +4876,10 @@ namespace FinacPOS
             {
                 try
                 {
-                     IsChecked = true;
+                    isSalesMan = false;
+                    IsChecked = true;
                     frmLookup frmlookup = new frmLookup();
+                   
                     frmlookup.strSearchingName = "HoldBillNo";
                     frmlookup.strFromFormName = "HoldBillDetails";
                     frmlookup.strSearchColumn = "HoldBillNo";
@@ -4902,13 +4907,23 @@ namespace FinacPOS
               // barcodeFocus();
             }
         }
-        public void DowhenReturningFromSearchForm(string strHoldBillNo)
+        public void DowhenReturningFromSearchForm(string strHoldBillNo, string strSalesMan, string strId)
         {
            
-            txtBarcode.Text = strHoldBillNo;
-            barcodeScanning();
+          
+            if(isSalesMan == true)
+            {
+                lblSalesMan.Text = strSalesMan;
+                lblSalesMan.Tag = strId;
 
+            }
+            else
+            {
+                txtBarcode.Text = strHoldBillNo;
+                barcodeScanning();
 
+            }
+     
         }
         public void FillrowAfterPickingReciept(string BillNo)
         {
@@ -5055,10 +5070,7 @@ namespace FinacPOS
             txtBarcode.Focus();
         }
 
-        private void panelMain_Paint(object sender, PaintEventArgs e)
-        {
 
-        }
 
         private void lblTenderTotalAmount_Click(object sender, EventArgs e)
         {
@@ -5386,5 +5398,36 @@ namespace FinacPOS
 
             return TokenNo;
         }
+        private void btnSalesman_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                
+                frmLookup frmlookup = new frmLookup();
+                isSalesMan = true;
+                frmlookup.strSearchingName = "SalesMan";
+                frmlookup.strFromFormName = "SalesMan";
+                frmlookup.strSearchColumn = "SalesMan";
+                frmlookup.strSearchOrder = "SalesManId ";
+                frmlookup.strSearchQry = "SalesManId,SalesManCode,SalesMan";
+                string query = " (SELECT employeeId as SalesManId,employeeCode as SalesManCode,employeeName as SalesMan From tbl_Employee) A";
+                frmlookup.strSearchTable = query;
+
+
+                frmlookup.strMasterIdColumnName = "SalesManId";
+                frmlookup.IntSearchFiledCount = 3;
+
+                frmlookup.DoWhenComingFromPOSSaleForm(this);
+            }
+
+
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+      
+
     }
 }

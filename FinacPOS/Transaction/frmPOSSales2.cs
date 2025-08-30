@@ -708,7 +708,7 @@ namespace FinacPOS
             strHoldMasterIdToEdit = "";
             lblBarcodeScanningType.Text = "";
             lblBarcodeScanningType.Visible = false;
-
+            lblSalesMan.Text = "";
             if (counterInfo.DisplayStatus == true)
             {
                 PoleDisplay("New");
@@ -2361,7 +2361,7 @@ namespace FinacPOS
                 InfoPOSSalesMaster.CashAmount = 0;
             }
             else
-                InfoPOSSalesMaster.CashAmount = Convert.ToDecimal(txtTotal.Text) - (decCreditCardAmt + decUPIAmt);
+            InfoPOSSalesMaster.CashAmount = Convert.ToDecimal(txtTotal.Text) - (decCreditCardAmt + decUPIAmt);
             InfoPOSSalesMaster.CashPaidAmount = decCashAmt;
             InfoPOSSalesMaster.CreditNoteNo = strCreditNoteNo;
             InfoPOSSalesMaster.CreditNoteAmount = decCreditNoteAmt;
@@ -2388,6 +2388,7 @@ namespace FinacPOS
             InfoPOSSalesMaster.CustomerPhone = "";
             InfoPOSSalesMaster.CustomerVATNo = "";
             InfoPOSSalesMaster.TokenNo = POSTokenNoMax();
+            InfoPOSSalesMaster.SalesManId =lblSalesMan.Tag.ToString();
             strMasterId = POSSalesMasterSP.POSSalesMasterAdd(InfoPOSSalesMaster);
 
             if (strMasterId != "")
@@ -3081,10 +3082,8 @@ namespace FinacPOS
                             int selectedRowIndex = dgvProduct.CurrentCell.RowIndex;
                             SaveGridDeletedItem(selectedRowIndex);
 
-
-                            dgvProduct.Rows.RemoveAt(RoWnO);
-
-
+                            DeleteRow(selectedRowIndex);
+                       
                             if (dgvProduct.Rows.Count > 1)
                             {
                                 dgvCurRow = dgvProduct.Rows.Count - 1;
@@ -5554,6 +5553,42 @@ namespace FinacPOS
                 }
                 catch { }
             }
+        }
+
+        private void btnSalesMan_Click(object sender, EventArgs e)
+        {
+            try
+            {
+              
+                frmLookup frmlookup = new frmLookup();
+                frmlookup.strSearchingName = "SalesMan";
+                frmlookup.strFromFormName = "SalesMan";
+                frmlookup.strSearchColumn = "SalesMan";
+                frmlookup.strSearchOrder = "SalesManId ";
+                frmlookup.strSearchQry = "SalesManId,SalesManCode,SalesMan";
+                string query = " (SELECT employeeId as SalesManId,employeeCode as SalesManCode,employeeName as SalesMan From tbl_Employee) A";
+                frmlookup.strSearchTable = query;
+
+
+                frmlookup.strMasterIdColumnName = "SalesManId";
+                frmlookup.IntSearchFiledCount = 3;
+
+               frmlookup.DoWhenComingFromPOSSale2Form(this);
+            }
+
+
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        public void DowhenReturningFromSearchForm(string strSalesMan,string strId)
+        {
+
+          lblSalesMan.Text = strSalesMan;
+          lblSalesMan.Tag = strId;
+
+
         }
     }
 }
