@@ -742,7 +742,7 @@
             this.btnSalesMan.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSalesMan.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSalesMan.ForeColor = System.Drawing.Color.White;
-            this.btnSalesMan.Location = new System.Drawing.Point(712, 30);
+            this.btnSalesMan.Location = new System.Drawing.Point(725, 31);
             this.btnSalesMan.Name = "btnSalesMan";
             this.btnSalesMan.Size = new System.Drawing.Size(90, 27);
             this.btnSalesMan.TabIndex = 58;
@@ -755,7 +755,7 @@
             this.lblTokenNo.AutoSize = true;
             this.lblTokenNo.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTokenNo.ForeColor = System.Drawing.Color.Red;
-            this.lblTokenNo.Location = new System.Drawing.Point(846, 51);
+            this.lblTokenNo.Location = new System.Drawing.Point(873, 54);
             this.lblTokenNo.Name = "lblTokenNo";
             this.lblTokenNo.Size = new System.Drawing.Size(25, 25);
             this.lblTokenNo.TabIndex = 57;
@@ -765,7 +765,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(817, 31);
+            this.label5.Location = new System.Drawing.Point(848, 31);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(87, 18);
             this.label5.TabIndex = 56;
@@ -816,7 +816,7 @@
             this.rbTakeway.AutoSize = true;
             this.rbTakeway.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rbTakeway.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.rbTakeway.Location = new System.Drawing.Point(69, 17);
+            this.rbTakeway.Location = new System.Drawing.Point(3, 17);
             this.rbTakeway.Name = "rbTakeway";
             this.rbTakeway.Size = new System.Drawing.Size(76, 19);
             this.rbTakeway.TabIndex = 53;
@@ -828,7 +828,7 @@
             // 
             this.rbDineIn.AutoSize = true;
             this.rbDineIn.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rbDineIn.Location = new System.Drawing.Point(6, 17);
+            this.rbDineIn.Location = new System.Drawing.Point(81, 17);
             this.rbDineIn.Name = "rbDineIn";
             this.rbDineIn.Size = new System.Drawing.Size(62, 19);
             this.rbDineIn.TabIndex = 51;

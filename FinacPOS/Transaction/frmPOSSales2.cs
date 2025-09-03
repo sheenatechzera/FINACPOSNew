@@ -1,4 +1,5 @@
-﻿using DevExpress.XtraReports.UI;
+﻿using DevExpress.XtraEditors.Repository;
+using DevExpress.XtraReports.UI;
 using DevExpress.XtraRichEdit.Model;
 using FinacPOS.Masters;
 using Microsoft.VisualBasic;
@@ -108,7 +109,7 @@ namespace FinacPOS
             lblTokenNo.Text= POSTokenNoMax();
             lblCounter.Text = PublicVariables._counterName;
             lblUser.Text = PublicVariables._EmpName;
-            rbDineIn.Checked = true;
+            rbTakeway.Checked = true;
             if (DateTime.Compare(Convert.ToDateTime(DateTime.Today), Convert.ToDateTime(strSessionDate)) > 0)
             {
                 MessageBox.Show("Opened Session Date is not Today's Date");
@@ -1480,9 +1481,16 @@ namespace FinacPOS
 
                 if (FinanceSettingsInfo._ZatcaType == "Phase 2")
                 {
-                    DataTable dtbl = new DataTable();
-                    dtbl = POSSalesMasterSP.GetPOSLastBillProductsforLastBillPrint(lblBillNo.Text);
 
+                    DataTable dtbl = new DataTable();
+                    if (isDuplicatePrint == true)
+                    {
+                        dtbl = POSSalesMasterSP.GetPOSLastBillProductsforLastBillPrint(strDuplicateBillNo);
+                    }
+                    else
+                    {
+                        dtbl = POSSalesMasterSP.GetPOSLastBillProductsforLastBillPrint(lblBillNo.Text);
+                    }
                     dRowDetails["qrCode"] = dtbl.Rows[0]["qr_link"].ToString();
                 }
                 else
@@ -1668,8 +1676,15 @@ namespace FinacPOS
                     if (FinanceSettingsInfo._ZatcaType == "Phase 2")
                     {
                         DataTable dtblQre = new DataTable();
-                        dtblQre = POSSalesMasterSP.GetPOSLastBillProductsforLastBillPrint(lblBillNo.Text);
-
+                        
+                        if (isDuplicatePrint == true)
+                        {
+                            dtblQre = POSSalesMasterSP.GetPOSLastBillProductsforLastBillPrint(strDuplicateBillNo);
+                        }
+                        else
+                        {
+                            dtblQre = POSSalesMasterSP.GetPOSLastBillProductsforLastBillPrint(lblBillNo.Text);
+                        }
                         dRowDetails["qrCode"] = dtblQre.Rows[0]["qr_link"].ToString();
                     }
                     else
@@ -4652,6 +4667,7 @@ namespace FinacPOS
                         CalculateBillTotal();
                     }
                     barcodeFocus();
+                    
                 }
 
                 else
