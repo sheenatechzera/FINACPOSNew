@@ -1458,8 +1458,14 @@ namespace FinacPOS
                 if (FinanceSettingsInfo._ZatcaType == "Phase 2")
                 {
                     DataTable dtbl = new DataTable();
-                    dtbl = POSSalesMasterSP.GetPOSLastBillProductsforLastBillPrint(lblBillNo.Text);
-
+                    if (isDuplicatePrint == true)
+                    {
+                        dtbl = POSSalesMasterSP.GetPOSLastBillProductsforLastBillPrint(strDuplicateBillNo);
+                    }
+                    else
+                    {
+                        dtbl = POSSalesMasterSP.GetPOSLastBillProductsforLastBillPrint(lblBillNo.Text);
+                    }
                     dRowDetails["qrCode"] = dtbl.Rows[0]["qr_link"].ToString();
                 }
                 else
@@ -1648,8 +1654,14 @@ namespace FinacPOS
                     if (FinanceSettingsInfo._ZatcaType == "Phase 2")
                     {
                         DataTable dtblQre = new DataTable();
-                        dtblQre = POSSalesMasterSP.GetPOSLastBillProductsforLastBillPrint(lblBillNo.Text);
-
+                        if (isDuplicatePrint == true)
+                        {
+                            dtblQre = POSSalesMasterSP.GetPOSLastBillProductsforLastBillPrint(strDuplicateBillNo);
+                        }
+                        else
+                        {
+                            dtblQre = POSSalesMasterSP.GetPOSLastBillProductsforLastBillPrint(lblBillNo.Text);
+                        }
                         dRowDetails["qrCode"] = dtblQre.Rows[0]["qr_link"].ToString();
                     }
                     else
