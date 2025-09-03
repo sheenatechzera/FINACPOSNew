@@ -134,6 +134,7 @@ namespace FinacPOS
             InfoPOSSettings = SpPOSSettings.POSSettingsViewByBranchId(PublicVariables._branchId);
             DataTable dtbl = new DataTable();
             ChkHoldBilView.Checked = InfoPosSetting.AlwaysEnableHoldBillView;
+            chkKot.Visible=counterInfo.KOTPrint;
             productFill();
             showproductInload(dtbl);
             //Added on 10/Mar/2025 Varis
@@ -1127,7 +1128,7 @@ namespace FinacPOS
 
         public void FillDatatatablesforDevPrint(string strTenderPaid, string strTenderBalance, string strTenderCash, string strTenderCC, string strTenderUPI, bool isDuplicatePrint, string strDuplicateBillNo, string strHoldBillNo, string strTenderType)
         {
-           
+
             //--------Company Details Datatable--------------
             DataTable dtblCompanyDetails = new DataTable();
             BranchSP SpBranch = new BranchSP();
@@ -1516,7 +1517,7 @@ namespace FinacPOS
             else
             {
 
-                 DataTable dtbl = new DataTable();
+                DataTable dtbl = new DataTable();
                 dtbl = POSSalesMasterSP.GetPOSLastBillDetialsforLastBillPrint(strDuplicateBillNo);
 
                 if (dtbl.Rows.Count > 0)
@@ -1733,7 +1734,13 @@ namespace FinacPOS
 
                 if (counterInfo.KOTPrint)
                 {
-                    spPrint.PrintKOTPOS(dtblCompanyDetails, dtblGridDetails, dtblOtherDetails, counterInfo.KOTPrinter, counterInfo.Directprint, counterInfo.SalesPrintCopy);
+                    if (isDuplicatePrint)
+                    {
+                        if (chkKot.Checked)
+                            spPrint.PrintKOTPOS(dtblCompanyDetails, dtblGridDetails, dtblOtherDetails, counterInfo.KOTPrinter, counterInfo.Directprint, counterInfo.SalesPrintCopy);
+                    }
+                    else
+                        spPrint.PrintKOTPOS(dtblCompanyDetails, dtblGridDetails, dtblOtherDetails, counterInfo.KOTPrinter, counterInfo.Directprint, counterInfo.SalesPrintCopy);
                 }
                 string StrcategoryId = "";
                 string StrprinterName = "";
@@ -1741,14 +1748,24 @@ namespace FinacPOS
                 dtCategoryProductPrint.Columns.Add("ProductName");
                 dtCategoryProductPrint.Columns.Add("ArabicName");
                 dtCategoryProductPrint.Columns.Add("Qty", typeof(decimal));
+                bool isPrintOk = false;
                 if (counterInfo.CategoryWaysPrint)
+                {
+                    if (isDuplicatePrint)
+                    {
+                        isPrintOk = chkKot.Checked;
+                    }
+                    else
+                        isPrintOk = true;
+                }
+                if (isPrintOk)
                 {
                     DataTable dtCounterPrinters = salesMasterSP.POSGetCategoryPrintersByCounterId(counterInfo.CounterId);
                     foreach (DataRow dr in dtCounterPrinters.Rows)
                     {
                         StrcategoryId = dr["CategoryId"].ToString();
                         StrprinterName = dr["PrintName"].ToString();
-                         dtCategoryProductPrint.Clear();
+                        dtCategoryProductPrint.Clear();
                         if (!isDuplicatePrint)
                         {
                             foreach (DataGridViewRow dtPrdt in dgvProduct.Rows)
@@ -1756,7 +1773,7 @@ namespace FinacPOS
 
                                 if (dtPrdt.Cells["CategoryId"].Value?.ToString() == StrcategoryId)
                                 {
-                                    DataRow newProductRow = dtCategoryProductPrint.NewRow(); 
+                                    DataRow newProductRow = dtCategoryProductPrint.NewRow();
                                     newProductRow["ProductName"] = dtPrdt.Cells["ItemName"].Value?.ToString();
                                     newProductRow["ArabicName"] = dtPrdt.Cells["ArabicName"].Value?.ToString();
                                     newProductRow["Qty"] = dtPrdt.Cells["Qty"].Value?.ToString();
@@ -1776,26 +1793,28 @@ namespace FinacPOS
                                     DataRow newProductRow = dtCategoryProductPrint.NewRow();
                                     newProductRow["ProductName"] = dtPrdt["ProductName"].ToString();
                                     newProductRow["ArabicName"] = dtPrdt["NameArabic"].ToString();
-                                    newProductRow["Qty"] =decimal.Parse(dtPrdt["Qty"].ToString());
+                                    newProductRow["Qty"] = decimal.Parse(dtPrdt["Qty"].ToString());
 
                                     dtCategoryProductPrint.Rows.Add(newProductRow);
                                 }
                             }
-                            
+
                         }
 
                         if (dtCategoryProductPrint.Rows.Count > 0)
                         {
                             int totalQty = dtCategoryProductPrint.AsEnumerable()
                             .Sum(row => int.TryParse(row["Qty"].ToString(), out int qty) ? qty : 0);
-                            dtblOtherDetails.Rows[0]["QtyTotal"]= totalQty.ToString();
-                            
+                            dtblOtherDetails.Rows[0]["QtyTotal"] = totalQty.ToString();
+
                             spPrint.POSCategoryWaysPrint(dtblCompanyDetails, dtblGridDetails, dtCategoryProductPrint, dtblOtherDetails, StrprinterName, counterInfo.Directprint, counterInfo.SalesPrintCopy);
                         }
-                       
+
                     }
-                 }
+
+                }
             }
+
 
 
             //int pageWidth;

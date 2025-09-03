@@ -171,6 +171,7 @@
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
             this.timerSessionDate = new System.Windows.Forms.Timer(this.components);
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
+            this.chkKot = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProduct)).BeginInit();
             this.panelMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -1515,6 +1516,7 @@
             // panelMainButton
             // 
             this.panelMainButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(71)))), ((int)(((byte)(83)))));
+            this.panelMainButton.Controls.Add(this.chkKot);
             this.panelMainButton.Controls.Add(this.btnReceiptCopy);
             this.panelMainButton.Controls.Add(this.btnLastBill);
             this.panelMainButton.Controls.Add(this.btnNewSale);
@@ -1843,6 +1845,18 @@
             this.timerSessionDate.Interval = 500;
             this.timerSessionDate.Tick += new System.EventHandler(this.timerSessionDate_Tick);
             // 
+            // chkKot
+            // 
+            this.chkKot.AutoSize = true;
+            this.chkKot.Font = new System.Drawing.Font("Century Gothic", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkKot.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.chkKot.Location = new System.Drawing.Point(195, 5);
+            this.chkKot.Name = "chkKot";
+            this.chkKot.Size = new System.Drawing.Size(44, 17);
+            this.chkKot.TabIndex = 43;
+            this.chkKot.Text = "KOT";
+            this.chkKot.UseVisualStyleBackColor = true;
+            // 
             // frmPOSSales2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2004,5 +2018,6 @@
         private System.Windows.Forms.Label lblTokenNo;
         private System.Windows.Forms.Button btnSalesMan;
         private System.Windows.Forms.Label lblSalesMan;
+        private System.Windows.Forms.CheckBox chkKot;
     }
 }

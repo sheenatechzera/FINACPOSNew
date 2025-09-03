@@ -125,7 +125,7 @@ namespace FinacPOS
             strCCSalesLedgerId = counterInfo.BankAccountLedgerId;
             strUPISalesLedgerId = counterInfo.UPIAccountLedgerId;
             strSalesLedgerId = counterInfo.SalesAccountLedgerId;
-
+            chkKot.Visible = counterInfo.KOTPrint;
             //POS Settings
             POSSettingsInfo InfoPOSSettings = new POSSettingsInfo();
             POSSettingsSP SpPOSSettings = new POSSettingsSP();
@@ -1758,7 +1758,13 @@ namespace FinacPOS
 
                 if (counterInfo.KOTPrint)
                 {
-                    spPrint.PrintKOTPOS(dtblCompanyDetails, dtblGridDetails, dtblOtherDetails, counterInfo.KOTPrinter, counterInfo.Directprint, counterInfo.SalesPrintCopy);
+                    if (isDuplicatePrint)
+                    {
+                        if (chkKot.Checked)
+                            spPrint.PrintKOTPOS(dtblCompanyDetails, dtblGridDetails, dtblOtherDetails, counterInfo.KOTPrinter, counterInfo.Directprint, counterInfo.SalesPrintCopy);
+                    }
+                    else
+                        spPrint.PrintKOTPOS(dtblCompanyDetails, dtblGridDetails, dtblOtherDetails, counterInfo.KOTPrinter, counterInfo.Directprint, counterInfo.SalesPrintCopy);
                 }
                 string StrcategoryId = "";
                 string StrprinterName = "";
@@ -1766,7 +1772,17 @@ namespace FinacPOS
                 dtCategoryProductPrint.Columns.Add("ProductName");
                 dtCategoryProductPrint.Columns.Add("ArabicName");
                 dtCategoryProductPrint.Columns.Add("Qty", typeof(decimal));
+                bool isPrintOk = false;
                 if (counterInfo.CategoryWaysPrint)
+                {
+                    if (isDuplicatePrint)
+                    {
+                        isPrintOk = chkKot.Checked;
+                    }
+                    else
+                        isPrintOk = true;
+                }
+                if (isPrintOk)
                 {
                     DataTable dtCounterPrinters = salesMasterSP.POSGetCategoryPrintersByCounterId(counterInfo.CounterId);
                     foreach (DataRow dr in dtCounterPrinters.Rows)

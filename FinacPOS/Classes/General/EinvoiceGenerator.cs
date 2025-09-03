@@ -142,7 +142,7 @@ namespace FinacPOS
                     if (BillType == "Tax Invoice")
                     {
                         EinvoiceMode = "01";  // B2B
-                        salestype = "383";    // Standard Debit Note
+                        salestype = "381";    // Standard Debit Note
                     }
                     else if (BillType == "Retail Invoice")
                     {
