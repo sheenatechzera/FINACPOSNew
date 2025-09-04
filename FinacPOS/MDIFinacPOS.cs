@@ -936,7 +936,31 @@ namespace FinacPOS
 
                     }
                 }
+                else if (NameFrm == "Session Close Reprint")
+                {
+                    frmSessionCloseReprint frmObj = new frmSessionCloseReprint();
+                    frmSessionCloseReprint _isOpen = Application.OpenForms["frmSessionCloseReprint"] as frmSessionCloseReprint;
+                    if (_isOpen == null)
+                    {
+                        frmObj.WindowState = FormWindowState.Normal;
+                        frmObj.MdiParent = MDIObj;
+                        frmObj.Show();
+                    }
+                    else
+                    {
+                        _isOpen.MdiParent = MDIObj;
+                        if (_isOpen.WindowState == FormWindowState.Minimized)
+                        {
+                            _isOpen.WindowState = FormWindowState.Normal;
+                        }
+                        if (_isOpen.Enabled)
+                        {
+                            _isOpen.Activate();
+                            _isOpen.BringToFront();
+                        }
 
+                    }
+                }
                 else if (NameFrm == "Session Close")
                 {
                     sessionClose();

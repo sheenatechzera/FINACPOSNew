@@ -132,11 +132,14 @@ namespace FinacPOS
 
             lbltotalcashreceipt.Text = lblcashreceipt.Text;
             lbltotalcashpayment.Text = lblcashpayment.Text;
-
             lblCashBalance.Text = ((Convert.ToDecimal(lblOB.Text) + Convert.ToDecimal(lblCashSales.Text) + Convert.ToDecimal(lbltotalcashreceipt.Text)) -
              (Convert.ToDecimal(lblCashRefund.Text) + Convert.ToDecimal(lbltotalcashpayment.Text))).ToString(FinanceSettingsInfo._roundDecimalPart);
             lblSessionDate.Text = dtSessionDate.ToString("dd-MMM-yyyy");
-
+ 
+            if (frmSessionCloseReprint.IsSessionCloseReprint)
+            {
+                lblSessionNO.Text = strSessionNo;
+            }
 
         }
         private void btnClose_Click(object sender, EventArgs e)
