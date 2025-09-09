@@ -443,51 +443,128 @@ namespace FinacPOS
             Panel panel = new Panel
             {
                 Width = 140,
-                Height = 140,
+                Height = 100,
                 BackColor = Color.FromArgb(245, 245, 245),
                 Tag = row["barcode"]
 
             };
+
+            // Add Image
+            if (counterInfo.ShowProductWithImage)
+            {
+                imageBytes = row["pic"] != DBNull.Value ? (byte[])row["pic"] : null; // (byte[])row["pic"];
+
+                PictureBox pictureBox = new PictureBox
+                {
+                    Width = 140,
+                    Height = 70,
+                    Image = imageBytes != null ? ByteArrayToImage(imageBytes) : null,  // ByteArrayToImage(imageBytes), 
+                    SizeMode = PictureBoxSizeMode.StretchImage,
+                    Tag = row["barcode"]
+
+                };
+                // Price label 
+
+                Label lblPrice = new Label
+                {
+                    Text = Convert.ToDecimal(row["salesPrice"].ToString()).ToString(FinanceSettingsInfo._roundDecimalPart),
+                    AutoSize = true,
+                    BackColor = Color.RoyalBlue,
+                    ForeColor = Color.White,
+                    Font = new Font("Arial", 8, FontStyle.Bold),
+
+                    Tag = row["barcode"]
+                };
+                // Position at top-right inside PictureBox
+                lblPrice.Location = new Point(pictureBox.Width - lblPrice.PreferredWidth, 0);
+                lblPrice.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+
+                // Add Product Name
+                string productName = "";
+                if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    productName = row["ArabicName"].ToString();
+                }
+                else
+                {
+                    productName = row["productName"].ToString();
+                }
+                Label lbl = new Label
+                {
+                    Text = productName + Environment.NewLine + row["unitName"].ToString(),
+                    Width = 140,
+                    Height = 70,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    ForeColor = Color.Red,
+                    Font = new Font("Arial", 8, FontStyle.Bold),
+                    Top = 50,
+                    Tag = row["barcode"]
+
+                };
+                // Add controls to panel
+                panel.Controls.Add(pictureBox);
+                panel.Controls.Add(lbl);
+                pictureBox.Controls.Add(lblPrice);
+
+                // Add panel to FlowLayoutPanel
+               
+                pictureBox.Click += ProductImage_Click;
+                lbl.Click += ProductLabel_Click;
+                lblPrice.Click += ProductLabel_Click;
            
-
-
-            imageBytes = row["pic"] != DBNull.Value ? (byte[])row["pic"] : null; // (byte[])row["pic"];
-          
-
-            PictureBox pictureBox = new PictureBox
+            }
+            else
             {
-                Width = 140,
-                Height = 70,
-                Image = imageBytes != null ? ByteArrayToImage(imageBytes) : null,  // ByteArrayToImage(imageBytes), 
-                SizeMode = PictureBoxSizeMode.StretchImage,
-                Tag = row["barcode"]
+                panel.Width = 140;
+                panel.Height = 70;
+                  
+                // add salesprice
+                System.Windows.Forms.Label lblPrice = new System.Windows.Forms.Label
+                {
+                    Text = Convert.ToDecimal(row["salesPrice"].ToString()).ToString(FinanceSettingsInfo._roundDecimalPart),
+                    AutoSize = true,
+                    BackColor = Color.RoyalBlue,
+                    ForeColor = Color.White,
+                    Font = new Font("Arial", 8, FontStyle.Bold),
 
-            };
-
-            Label lbl = new Label
-            {
-                Text = row["productName"].ToString() + Environment.NewLine + row["salesPrice"].ToString() + Environment.NewLine + row["unitName"].ToString(),
-                Width = 140,
-                Height = 70,
-                TextAlign = ContentAlignment.MiddleCenter,
-                ForeColor = Color.Red,
-                Font = new Font("Arial", 8, FontStyle.Bold),
-                Top = 70,
-                Tag = row["barcode"]
-
-            };
+                    Tag = row["barcode"]
+                };
+                lblPrice.Location = new Point(panel.Width - lblPrice.PreferredWidth, 0);
+                lblPrice.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 
 
+                System.Windows.Forms.Label lblPrdtName = new System.Windows.Forms.Label
+                {
+                    Text = row["productName"].ToString(),
+                    Dock = DockStyle.Top,
+                    Height = 50,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    ForeColor = Color.Red,
+                    Font = new Font("Arial", 12, FontStyle.Bold),
+                    Tag = row["barcode"]
+                };
 
-            // Add controls to panel
-            panel.Controls.Add(pictureBox);
-            panel.Controls.Add(lbl);
+                System.Windows.Forms.Label lblUnit = new System.Windows.Forms.Label
+                {
+                    Text = row["unitName"].ToString(),
+                    Dock = DockStyle.Bottom,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    ForeColor = Color.Red,
+                    Font = new Font("Arial", 8, FontStyle.Bold),
+                    Top = 40,
+                    Tag = row["barcode"]
+                };
 
-            // Add panel to FlowLayoutPanel
+                panel.Controls.Add(lblPrdtName);
+                panel.Controls.Add(lblPrice);
+                panel.Controls.Add(lblUnit);
+                lblPrice.BringToFront();
+
+                lblPrdtName.Click += ProductLabel_Click;
+                lblPrice.Click += ProductLabel_Click;
+                lblUnit.Click += ProductLabel_Click;
+            }
             panel.Click += ProductButton_Click;
-            pictureBox.Click += ProductImage_Click;
-            lbl.Click += ProductLabel_Click;
-
             flowLayoutPanel.Controls.Add(panel);
         }
         private Image ByteArrayToImage(byte[] byteArray)

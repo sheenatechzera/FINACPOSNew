@@ -37,7 +37,7 @@ namespace FinacPOS
         private bool _KOTPrint;
         private bool _ShowPreview;
         private string _KOTPrinter;
-
+        private bool _ShowProductWithImage;
 
 
         public string CounterId
@@ -185,6 +185,11 @@ namespace FinacPOS
         {
             get { return _KOTPrinter; }
             set { _KOTPrinter = value; }
+        }
+        public bool ShowProductWithImage
+        {
+            get { return _ShowProductWithImage; }
+            set { _ShowProductWithImage = value; }
         }
     }
 }

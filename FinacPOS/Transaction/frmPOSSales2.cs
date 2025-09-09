@@ -1,4 +1,5 @@
-﻿using DevExpress.XtraEditors.Repository;
+﻿using DevExpress.CodeParser;
+using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraReports.UI;
 using DevExpress.XtraRichEdit.Model;
 using FinacPOS.Masters;
@@ -70,6 +71,7 @@ namespace FinacPOS
         DataTable dtblTaxDetailsThermal;
         int PrintPageHight;
         public string selectedGroupId = "0";
+        public string productName = "";
         //--------------------------
 
         bool isRateChanged = false;
@@ -492,57 +494,131 @@ namespace FinacPOS
             Panel panel = new Panel
             {
                 Width = 120,
-                Height = 106,
+                Height = 83,
                 BackColor = Color.FromArgb(245, 245, 245),
                 Tag = row["barcode"]
             };
-
+           
             // Add Image
-            byte[] imageBytes = row["pic"] != DBNull.Value ? (byte[])row["pic"] : null; // (byte[])row["pic"];
-
-            PictureBox pictureBox = new PictureBox
+            if (counterInfo.ShowProductWithImage)
             {
-                Width = 120,
-                Height = 53,
-                Image = imageBytes != null ? ByteArrayToImage(imageBytes) : null,  // ByteArrayToImage(imageBytes), 
-                SizeMode = PictureBoxSizeMode.StretchImage,
-                Tag = row["barcode"]
-            };
+                byte[] imageBytes = row["pic"] != DBNull.Value ? (byte[])row["pic"] : null; // (byte[])row["pic"];
 
-            // Add Product Name and Price
-            string productName = "";
-            if (PublicVariables._ModuleLanguage == "ARB")
-            {
-                productName = row["ArabicName"].ToString();
+                PictureBox pictureBox = new PictureBox
+                {
+                    Width = 120,
+                    Height = 53,
+                    Image = imageBytes != null ? ByteArrayToImage(imageBytes) : null,  // ByteArrayToImage(imageBytes), 
+                    SizeMode = PictureBoxSizeMode.StretchImage,
+                    Tag = row["barcode"]
+                };
+               
+              // add salesprice
+                  System.Windows.Forms.Label lblPrice = new System.Windows.Forms.Label
+                  {
+                    Text = Convert.ToDecimal(row["salesPrice"].ToString()).ToString(FinanceSettingsInfo._roundDecimalPart),
+                    AutoSize = true,
+                    BackColor = Color.RoyalBlue,
+                    ForeColor = Color.White,
+                    Font = new Font("Arial", 8, FontStyle.Bold),
+
+                    Tag = row["barcode"]
+                };
+               // Position at top - right inside PictureBox
+                lblPrice.Location = new Point(pictureBox.Width - lblPrice.PreferredWidth, 0);
+                lblPrice.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+
+                // Add Product Name
+               
+                if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    productName = row["ArabicName"].ToString();
+                }
+                else
+                {
+                    productName = row["productName"].ToString();
+                }
+
+                System.Windows.Forms.Label lbl = new System.Windows.Forms.Label
+                {
+                    Text = productName + Environment.NewLine + row["unitName"].ToString(),
+                    Width = 120,
+                    Height = 53,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    ForeColor = Color.Red,
+                    Font = new Font("Arial", 8, FontStyle.Bold),
+                    Top = 40,
+                    Tag = row["barcode"]
+                };
+
+               // Add controls to panel
+                panel.Controls.Add(pictureBox);
+                panel.Controls.Add(lbl);
+                pictureBox.Controls.Add(lblPrice);
+
+               // Add panel to FlowLayoutPanel
+                  
+                pictureBox.Click += ProductImage_Click;
+                lbl.Click += ProductLabel_Click;
+                lblPrice.Click += ProductLabel_Click;
+
+               
             }
             else
             {
-                productName = row["productName"].ToString();
+                panel.Width = 140;
+                panel.Height = 70;
+                // add salesprice
+                System.Windows.Forms.Label lblPrice = new System.Windows.Forms.Label
+                {
+                    Text = Convert.ToDecimal(row["salesPrice"].ToString()).ToString(FinanceSettingsInfo._roundDecimalPart),
+                    AutoSize = true,
+                    BackColor = Color.RoyalBlue,
+                    ForeColor = Color.White,
+                    Font = new Font("Arial", 8, FontStyle.Bold),
+
+                    Tag = row["barcode"]
+                };
+                lblPrice.Location = new Point(panel.Width - lblPrice.PreferredWidth, 0);
+                lblPrice.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+
+
+                System.Windows.Forms.Label lblPrdtName = new System.Windows.Forms.Label
+                {
+                    Text = row["productName"].ToString(),
+                    Dock = DockStyle.Top,
+                    Height =50,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    ForeColor = Color.Red,
+                    Font = new Font("Arial", 12, FontStyle.Bold), 
+                    Tag = row["barcode"]
+                };
+
+                System.Windows.Forms.Label lblUnit = new System.Windows.Forms.Label
+                {
+                    Text = row["unitName"].ToString(),  
+                    Dock = DockStyle.Bottom,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    ForeColor = Color.Red,
+                    Font = new Font("Arial", 9, FontStyle.Bold),
+                    Top = 40,
+                    Tag = row["barcode"]
+                };
+
+                panel.Controls.Add(lblPrdtName);
+                panel.Controls.Add(lblPrice);
+                panel.Controls.Add(lblUnit);
+                lblPrice.BringToFront();
+
+                lblPrdtName.Click += ProductLabel_Click;
+                lblPrice.Click += ProductLabel_Click;
+                lblUnit.Click += ProductLabel_Click;
             }
-            Label lbl = new Label
-            {
-
-                Text = productName + Environment.NewLine + row["salesPrice"].ToString(),
-                Width = 120,
-                Height = 53,
-                TextAlign = ContentAlignment.MiddleCenter,
-                ForeColor = Color.Red,
-                Font = new Font("Arial", 8, FontStyle.Bold),
-                Top = 53,
-                Tag = row["barcode"]
-            };
-
-            // Add controls to panel
-            panel.Controls.Add(pictureBox);
-            panel.Controls.Add(lbl);
-
-            // Add panel to FlowLayoutPanel
-            panel.Click += ProductButton_Click;
-            pictureBox.Click += ProductImage_Click;
-            lbl.Click += ProductLabel_Click;
-
-            flowLayoutPanel.Controls.Add(panel);
+             panel.Click += ProductButton_Click;
+             flowLayoutPanel.Controls.Add(panel);
         }
+        
+     
         private Image ByteArrayToImage(byte[] byteArray)
         {
             if (byteArray == null || byteArray.Length == 0)
@@ -612,7 +688,7 @@ namespace FinacPOS
         private void ProductLabel_Click(object sender, EventArgs e)
         {
             //Button clickedButton = sender as Button;
-            Label clickedButton = sender as Label;
+            System.Windows.Forms.Label clickedButton = sender as System.Windows.Forms.Label;
             string strBarcode = "";
             strBarcode = clickedButton.Tag.ToString();
             if (string.IsNullOrEmpty(strBarcode))
@@ -3815,13 +3891,15 @@ namespace FinacPOS
             clsGeneral objGeneral = new clsGeneral();
             objGeneral.formSettings(this);
             //MessageBox.Show(this.Size.Width.ToString());
+           
+            
             panelMain.Size = this.Size;
             panelBillDetails.Width = this.Size.Width;
             FlpanelProductGroup.Width = this.Size.Width - dgvProduct.Width;
-            flowLayoutPanel.Width = this.Size.Width - dgvProduct.Width;
+            flowLayoutPanel.Width = this.Size.Width - dgvProduct.Width - 20;
+         
             //panelMainButton.Width = this.Size.Width;
             //panelBarcode.Width = this.Size.Width;
-
             FormLoadFunction();
             ClearFunction();
         }

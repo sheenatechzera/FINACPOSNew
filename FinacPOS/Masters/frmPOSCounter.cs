@@ -475,6 +475,7 @@ namespace FinacPOS
             chkkotPrint.Checked = false;
             chkPreview.Checked = false;
             Chkdirectprint.Checked = false;
+            ChkShowProductWithImage.Checked = false;
             //  cmbSalesType.SelectedIndex = -1;
             FillDefaultPrinters();
             txtCounterId.Focus();
@@ -619,7 +620,7 @@ namespace FinacPOS
                     counterInfo.KOTPrint = chkkotPrint.Checked;
                     counterInfo.ShowPreview = chkPreview.Checked;
                     counterInfo.KOTPrinter = cmbKOTPrinter.Text.ToString();
-
+                    counterInfo.ShowProductWithImage = ChkShowProductWithImage.Checked; 
                 }
 
                 if (!isInEditMode)
@@ -828,6 +829,7 @@ namespace FinacPOS
                 chkkotPrint.Checked = InfoPOSCounter.KOTPrint;
                 chkPreview.Checked = InfoPOSCounter.ShowPreview;
                 cmbKOTPrinter.Text = InfoPOSCounter.KOTPrinter.ToString();
+                ChkShowProductWithImage.Checked = InfoPOSCounter.ShowProductWithImage;
                 dgvPosCounterPrinterDetails.Rows.Clear();
                 DataTable dt = counterSP.POSCounterDetailsViewByCounterId(strCounterIdToEdit);
                 if (dt.Rows.Count > 0)

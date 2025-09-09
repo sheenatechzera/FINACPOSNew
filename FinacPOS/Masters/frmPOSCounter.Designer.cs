@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.pnlPOSCounter = new System.Windows.Forms.Panel();
+            this.cmbKOTPrinter = new System.Windows.Forms.ComboBox();
+            this.lblKOTPrinter = new System.Windows.Forms.Label();
             this.chkPreview = new System.Windows.Forms.CheckBox();
             this.lnklblUnitRemove = new System.Windows.Forms.LinkLabel();
             this.chkkotPrint = new System.Windows.Forms.CheckBox();
@@ -80,8 +82,7 @@
             this.lblSystName = new System.Windows.Forms.Label();
             this.lblCounterName = new System.Windows.Forms.Label();
             this.lblCounterId = new System.Windows.Forms.Label();
-            this.cmbKOTPrinter = new System.Windows.Forms.ComboBox();
-            this.lblKOTPrinter = new System.Windows.Forms.Label();
+            this.ChkShowProductWithImage = new System.Windows.Forms.CheckBox();
             this.pnlPOSCounter.SuspendLayout();
             this.groupBoxCountrprinter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPosCounterPrinterDetails)).BeginInit();
@@ -90,6 +91,7 @@
             // pnlPOSCounter
             // 
             this.pnlPOSCounter.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.pnlPOSCounter.Controls.Add(this.ChkShowProductWithImage);
             this.pnlPOSCounter.Controls.Add(this.cmbKOTPrinter);
             this.pnlPOSCounter.Controls.Add(this.lblKOTPrinter);
             this.pnlPOSCounter.Controls.Add(this.chkPreview);
@@ -145,6 +147,29 @@
             this.pnlPOSCounter.Name = "pnlPOSCounter";
             this.pnlPOSCounter.Size = new System.Drawing.Size(884, 431);
             this.pnlPOSCounter.TabIndex = 0;
+            // 
+            // cmbKOTPrinter
+            // 
+            this.cmbKOTPrinter.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmbKOTPrinter.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cmbKOTPrinter.BackColor = System.Drawing.Color.White;
+            this.cmbKOTPrinter.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbKOTPrinter.FormattingEnabled = true;
+            this.cmbKOTPrinter.Location = new System.Drawing.Point(648, 169);
+            this.cmbKOTPrinter.Name = "cmbKOTPrinter";
+            this.cmbKOTPrinter.Size = new System.Drawing.Size(161, 22);
+            this.cmbKOTPrinter.TabIndex = 36456525;
+            this.cmbKOTPrinter.TabStop = false;
+            // 
+            // lblKOTPrinter
+            // 
+            this.lblKOTPrinter.AutoSize = true;
+            this.lblKOTPrinter.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblKOTPrinter.Location = new System.Drawing.Point(561, 173);
+            this.lblKOTPrinter.Name = "lblKOTPrinter";
+            this.lblKOTPrinter.Size = new System.Drawing.Size(78, 14);
+            this.lblKOTPrinter.TabIndex = 36456524;
+            this.lblKOTPrinter.Text = "KOT Printer";
             // 
             // chkPreview
             // 
@@ -237,7 +262,7 @@
             // ChkShowPrefixInBillNo
             // 
             this.ChkShowPrefixInBillNo.AutoSize = true;
-            this.ChkShowPrefixInBillNo.Location = new System.Drawing.Point(310, 214);
+            this.ChkShowPrefixInBillNo.Location = new System.Drawing.Point(133, 223);
             this.ChkShowPrefixInBillNo.Name = "ChkShowPrefixInBillNo";
             this.ChkShowPrefixInBillNo.Size = new System.Drawing.Size(155, 18);
             this.ChkShowPrefixInBillNo.TabIndex = 36456515;
@@ -247,7 +272,7 @@
             // ChkProductSearchWithImage
             // 
             this.ChkProductSearchWithImage.AutoSize = true;
-            this.ChkProductSearchWithImage.Location = new System.Drawing.Point(310, 187);
+            this.ChkProductSearchWithImage.Location = new System.Drawing.Point(310, 194);
             this.ChkProductSearchWithImage.Name = "ChkProductSearchWithImage";
             this.ChkProductSearchWithImage.Size = new System.Drawing.Size(198, 18);
             this.ChkProductSearchWithImage.TabIndex = 36456514;
@@ -283,7 +308,7 @@
             // 
             // TxtReturnprintcopy
             // 
-            this.TxtReturnprintcopy.Location = new System.Drawing.Point(505, 162);
+            this.TxtReturnprintcopy.Location = new System.Drawing.Point(505, 166);
             this.TxtReturnprintcopy.Name = "TxtReturnprintcopy";
             this.TxtReturnprintcopy.Size = new System.Drawing.Size(39, 22);
             this.TxtReturnprintcopy.TabIndex = 36456511;
@@ -306,7 +331,7 @@
             // lblSalesReturnPrintcopy
             // 
             this.lblSalesReturnPrintcopy.AutoSize = true;
-            this.lblSalesReturnPrintcopy.Location = new System.Drawing.Point(306, 163);
+            this.lblSalesReturnPrintcopy.Location = new System.Drawing.Point(306, 170);
             this.lblSalesReturnPrintcopy.Name = "lblSalesReturnPrintcopy";
             this.lblSalesReturnPrintcopy.Size = new System.Drawing.Size(193, 14);
             this.lblSalesReturnPrintcopy.TabIndex = 36456509;
@@ -430,7 +455,7 @@
             // txtFooterH
             // 
             this.txtFooterH.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtFooterH.Location = new System.Drawing.Point(60, 258);
+            this.txtFooterH.Location = new System.Drawing.Point(56, 263);
             this.txtFooterH.Name = "txtFooterH";
             this.txtFooterH.Size = new System.Drawing.Size(47, 22);
             this.txtFooterH.TabIndex = 36456497;
@@ -478,7 +503,7 @@
             this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDelete.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDelete.ForeColor = System.Drawing.Color.Black;
-            this.btnDelete.Location = new System.Drawing.Point(296, 339);
+            this.btnDelete.Location = new System.Drawing.Point(292, 344);
             this.btnDelete.Margin = new System.Windows.Forms.Padding(1);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(88, 28);
@@ -495,7 +520,7 @@
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSave.ForeColor = System.Drawing.Color.Black;
-            this.btnSave.Location = new System.Drawing.Point(116, 339);
+            this.btnSave.Location = new System.Drawing.Point(112, 344);
             this.btnSave.Margin = new System.Windows.Forms.Padding(1);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(88, 28);
@@ -514,7 +539,7 @@
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClose.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClose.ForeColor = System.Drawing.Color.Black;
-            this.btnClose.Location = new System.Drawing.Point(386, 339);
+            this.btnClose.Location = new System.Drawing.Point(382, 344);
             this.btnClose.Margin = new System.Windows.Forms.Padding(1);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(88, 28);
@@ -531,7 +556,7 @@
             this.btnClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClear.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClear.ForeColor = System.Drawing.Color.Black;
-            this.btnClear.Location = new System.Drawing.Point(206, 339);
+            this.btnClear.Location = new System.Drawing.Point(202, 344);
             this.btnClear.Margin = new System.Windows.Forms.Padding(1);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(88, 28);
@@ -654,7 +679,7 @@
             // txtFootrDetails
             // 
             this.txtFootrDetails.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtFootrDetails.Location = new System.Drawing.Point(118, 242);
+            this.txtFootrDetails.Location = new System.Drawing.Point(114, 247);
             this.txtFootrDetails.Multiline = true;
             this.txtFootrDetails.Name = "txtFootrDetails";
             this.txtFootrDetails.Size = new System.Drawing.Size(434, 76);
@@ -701,7 +726,7 @@
             // 
             this.lblFooterDetails.AutoSize = true;
             this.lblFooterDetails.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFooterDetails.Location = new System.Drawing.Point(13, 229);
+            this.lblFooterDetails.Location = new System.Drawing.Point(9, 234);
             this.lblFooterDetails.Name = "lblFooterDetails";
             this.lblFooterDetails.Size = new System.Drawing.Size(95, 14);
             this.lblFooterDetails.TabIndex = 9;
@@ -777,28 +802,15 @@
             this.lblCounterId.TabIndex = 0;
             this.lblCounterId.Text = "Counter Id";
             // 
-            // cmbKOTPrinter
+            // ChkShowProductWithImage
             // 
-            this.cmbKOTPrinter.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cmbKOTPrinter.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cmbKOTPrinter.BackColor = System.Drawing.Color.White;
-            this.cmbKOTPrinter.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmbKOTPrinter.FormattingEnabled = true;
-            this.cmbKOTPrinter.Location = new System.Drawing.Point(648, 169);
-            this.cmbKOTPrinter.Name = "cmbKOTPrinter";
-            this.cmbKOTPrinter.Size = new System.Drawing.Size(161, 22);
-            this.cmbKOTPrinter.TabIndex = 36456525;
-            this.cmbKOTPrinter.TabStop = false;
-            // 
-            // lblKOTPrinter
-            // 
-            this.lblKOTPrinter.AutoSize = true;
-            this.lblKOTPrinter.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblKOTPrinter.Location = new System.Drawing.Point(561, 173);
-            this.lblKOTPrinter.Name = "lblKOTPrinter";
-            this.lblKOTPrinter.Size = new System.Drawing.Size(78, 14);
-            this.lblKOTPrinter.TabIndex = 36456524;
-            this.lblKOTPrinter.Text = "KOT Printer";
+            this.ChkShowProductWithImage.AutoSize = true;
+            this.ChkShowProductWithImage.Location = new System.Drawing.Point(310, 222);
+            this.ChkShowProductWithImage.Name = "ChkShowProductWithImage";
+            this.ChkShowProductWithImage.Size = new System.Drawing.Size(188, 18);
+            this.ChkShowProductWithImage.TabIndex = 36456526;
+            this.ChkShowProductWithImage.Text = "Show Product with Image";
+            this.ChkShowProductWithImage.UseVisualStyleBackColor = true;
             // 
             // frmPOSCounter
             // 
@@ -876,5 +888,6 @@
         private System.Windows.Forms.CheckBox chkPreview;
         private System.Windows.Forms.ComboBox cmbKOTPrinter;
         private System.Windows.Forms.Label lblKOTPrinter;
+        private System.Windows.Forms.CheckBox ChkShowProductWithImage;
     }
 }

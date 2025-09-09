@@ -1094,10 +1094,10 @@
             this.flowLayoutPanel.AutoScroll = true;
             this.flowLayoutPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.flowLayoutPanel.Cursor = System.Windows.Forms.Cursors.Default;
-            this.flowLayoutPanel.Location = new System.Drawing.Point(475, 269);
+            this.flowLayoutPanel.Location = new System.Drawing.Point(473, 273);
             this.flowLayoutPanel.Name = "flowLayoutPanel";
             this.flowLayoutPanel.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.flowLayoutPanel.Size = new System.Drawing.Size(555, 378);
+            this.flowLayoutPanel.Size = new System.Drawing.Size(557, 371);
             this.flowLayoutPanel.TabIndex = 47;
             this.flowLayoutPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.flowLayoutPanel_Paint);
             // 
