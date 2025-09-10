@@ -148,13 +148,17 @@ namespace FinacPOS
         {
             //
             //MDIFinacPOS.MDIObj.sessionClose();   
+            bool holdExists = false;
 
-        
             SessionControlSp objsessioncontrol = new SessionControlSp();
             SessionManagementSP sessionSp = new SessionManagementSP();
 
             DataTable dtbl = sessionSp.GetActiveSession(PublicVariables._currentUserId, PublicVariables._counterId);
-            bool holdExists = objsessioncontrol.IsHoldBillStillActive(dtbl.Rows[0]["sessionNo"].ToString());
+            if ( dtbl.Rows.Count > 0)
+            {
+                 holdExists = objsessioncontrol.IsHoldBillStillActive(dtbl.Rows[0]["sessionNo"].ToString());
+
+            }
 
             if (holdExists)
             {
