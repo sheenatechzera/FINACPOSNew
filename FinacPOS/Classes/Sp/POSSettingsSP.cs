@@ -100,6 +100,8 @@ namespace FinacPOS
                 sprmparam.Value = counterinfo.ZeroQtyAlert;
                 sprmparam = sccmd.Parameters.Add("@DeleteMode", SqlDbType.VarChar);
                 sprmparam.Value = counterinfo.DeleteMode;
+                sprmparam = sccmd.Parameters.Add("@StartingTokenNo", SqlDbType.VarChar);
+                sprmparam.Value = counterinfo.StartingTokenNo;
                 id = sccmd.ExecuteScalar().ToString();
 
             }
@@ -165,6 +167,7 @@ namespace FinacPOS
                 settingsinfo.BlockZeroPriceInSales = bool.Parse(sdrreader["BlockZeroPriceInSales"].ToString());
                 settingsinfo.ZeroQtyAlert = (sdrreader["ZeroQtyAlertStatus"].ToString());
                 settingsinfo.DeleteMode = (sdrreader["DeleteMode"].ToString());
+                settingsinfo.StartingTokenNo = (sdrreader["StartingTokenNo"].ToString());
             }
             sdrreader.Close();
 

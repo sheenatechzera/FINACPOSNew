@@ -54,6 +54,7 @@ namespace FinacPOS
         string strHoldMasterIdToEdit = "";
         int dgvCurRow = 0;
         int dgvSlno = 0;
+        string TokenNo = "";
         string strFocusedControl = "";
         bool isSavefromButton = true;
         bool blTextBoxFocus;
@@ -82,6 +83,7 @@ namespace FinacPOS
 
         POSCounterInfo counterInfo = new POSCounterInfo();
         GeneralSP SPGeneral = new GeneralSP();
+        POSTokenSP SPPOSToken = new POSTokenSP();
         POSSalesMasterSP POSSalesMasterSP = new POSSalesMasterSP();
         POSSalesDetails1SP POSSalesDetails1SP = new POSSalesDetails1SP();
         ComboValidation objComboValidation = new ComboValidation();
@@ -744,7 +746,7 @@ namespace FinacPOS
         {
             lblBillNo.Text = POSBillNumberMax();
             POSSalesMasterInfo InfoPOSSalesMaster = new POSSalesMasterInfo();
-            InfoPOSSalesMaster.TokenNo = POSTokenNoMax();
+            //lblTokenNo.Text = POSTokenNoMax();
             btnCash.Enabled = true;
             btnCreditCard.Enabled = true;
             btnUPI.Enabled = true;
@@ -2227,7 +2229,7 @@ namespace FinacPOS
                         //-------------------------------------------------------------------------------------
                     }
                     SPGeneral.POSBillUpdate(PublicVariables._counterId, PublicVariables._currentUserId, "Sales");
-                    SPGeneral.POSTokenNoUpdate(PublicVariables._counterId.ToString(), strSessionNo, Convert.ToDateTime(strSessionDate));
+                    SPPOSToken.POSTokenNoUpdate(Convert.ToDateTime(strSessionDate), TokenNo);
                     ClearFunction();
                 }
             }
@@ -2453,18 +2455,9 @@ namespace FinacPOS
             InfoPOSSalesMaster.CustomerAddress = txtAdress.Text.ToString();
             InfoPOSSalesMaster.CustomerPhone = txtphone.Text.ToString();
             InfoPOSSalesMaster.CustomerVATNo = txtVatNo.Text.ToString();
-            InfoPOSSalesMaster.TokenNo = POSTokenNoMax();
-            try
-            {
-                InfoPOSSalesMaster.SalesManId = lblSalesMan.Tag.ToString();
-
-            }
-            catch
-            {
-                InfoPOSSalesMaster.SalesManId = "";
-
-            }
-
+            TokenNo = POSTokenNoMax();
+            InfoPOSSalesMaster.TokenNo = TokenNo;
+            InfoPOSSalesMaster.SalesManId = string.IsNullOrEmpty(lblSalesMan.Text) ? null : lblSalesMan.Text;
             strMasterId = POSSalesMasterSP.POSSalesMasterAdd(InfoPOSSalesMaster);
 
             if (strMasterId != "")
@@ -5504,12 +5497,11 @@ namespace FinacPOS
         public string POSTokenNoMax()
         {
             string TokenNo = "1";
-
             try
             {
-                DataTable dtbl = SPGeneral.GetPOSLastTokenNo(PublicVariables._counterId.ToString(), strSessionNo, Convert.ToDateTime(strSessionDate));
+                DataTable dtbl = SPPOSToken.GetPOSLastTokenNo(Convert.ToDateTime(strSessionDate));
 
-                if (dtbl.Rows.Count > 0 && !dtbl.Rows[0].IsNull("LastTokenNo"))
+                if (dtbl != null && dtbl.Rows.Count > 0)
                 {
                     TokenNo = dtbl.Rows[0]["LastTokenNo"].ToString();
                 }
@@ -5518,7 +5510,6 @@ namespace FinacPOS
             {
                 MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-
             return TokenNo;
         }
         private void btnSalesman_Click(object sender, EventArgs e)

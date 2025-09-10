@@ -43,6 +43,7 @@ namespace FinacPOS
         public static bool _BlockZeroPriceInSales;
         public static string _ZeroQtyAlert;
         public static string _DeleteMode;
+        public static string _StartingTokenNo;
         public string POSSettingsId
         {
             get { return _POSSettingsId; }
@@ -224,6 +225,11 @@ namespace FinacPOS
         {
             get { return _DeleteMode; }
             set { _DeleteMode = value; }
+        }
+        public string StartingTokenNo
+        {
+            get { return _StartingTokenNo; }
+            set { _StartingTokenNo = value; }
         }
     }
 }

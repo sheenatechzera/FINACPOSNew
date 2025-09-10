@@ -73,6 +73,7 @@ namespace FinacPOS
             infoPOS.BlockZeroPriceInSales = chkBlockZeroPrice.Checked;
             infoPOS.ZeroQtyAlert= cmbZeroQty.Text;
             infoPOS.DeleteMode = cmbDeleteMode.Text;
+            infoPOS.StartingTokenNo = txtStartingTokenNo.Text;
             spPOSSettings.POSSettingsEdit(infoPOS);
             MessageBox.Show("Settings saved successfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -126,6 +127,7 @@ namespace FinacPOS
                 chkBlockZeroPrice.Checked = infoPOS.BlockZeroPriceInSales;
                 cmbZeroQty.Text= infoPOS.ZeroQtyAlert;
                 cmbDeleteMode.Text= infoPOS.DeleteMode;
+                txtStartingTokenNo.Text = infoPOS.StartingTokenNo;
             }
         }
       
