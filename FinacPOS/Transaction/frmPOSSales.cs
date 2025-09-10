@@ -1493,7 +1493,7 @@ namespace FinacPOS
                     dRowDetails["CustomerAddress"] = txtAdress.Text;
                     dRowDetails["CustomerPhone"] = txtphone.Text;
                     dRowDetails["CustomerVatNo"] = txtVatNo.Text;
-                    dRowDetails["TokenNo"] = POSTokenNoMax();
+                    dRowDetails["TokenNo"] = TokenNo;
                     dRowDetails["isCredit"] = false;
                     dRowDetails["prevBalance"] = "";
                     dRowDetails["BillAmount"] = "";
