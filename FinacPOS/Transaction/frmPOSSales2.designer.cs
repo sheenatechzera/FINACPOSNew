@@ -679,6 +679,7 @@
             // panelMain
             // 
             this.panelMain.BackColor = System.Drawing.Color.White;
+            this.panelMain.Controls.Add(this.btnHold);
             this.panelMain.Controls.Add(this.lblSalesMan);
             this.panelMain.Controls.Add(this.btnSalesMan);
             this.panelMain.Controls.Add(this.lblTokenNo);
@@ -718,7 +719,6 @@
             this.panelMain.Controls.Add(this.lblTotalQty);
             this.panelMain.Controls.Add(this.btnCashBox);
             this.panelMain.Controls.Add(this.btnUnhold);
-            this.panelMain.Controls.Add(this.btnHold);
             this.panelMain.Location = new System.Drawing.Point(0, 0);
             this.panelMain.Name = "panelMain";
             this.panelMain.Size = new System.Drawing.Size(1049, 707);
@@ -782,9 +782,9 @@
             this.btnCreditCard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCreditCard.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCreditCard.ForeColor = System.Drawing.Color.White;
-            this.btnCreditCard.Location = new System.Drawing.Point(660, 653);
+            this.btnCreditCard.Location = new System.Drawing.Point(589, 654);
             this.btnCreditCard.Name = "btnCreditCard";
-            this.btnCreditCard.Size = new System.Drawing.Size(184, 49);
+            this.btnCreditCard.Size = new System.Drawing.Size(136, 49);
             this.btnCreditCard.TabIndex = 44;
             this.btnCreditCard.Text = "CREDIT CARD";
             this.btnCreditCard.UseVisualStyleBackColor = false;
@@ -1073,7 +1073,7 @@
             this.btnCredit.ForeColor = System.Drawing.Color.White;
             this.btnCredit.Location = new System.Drawing.Point(486, 653);
             this.btnCredit.Name = "btnCredit";
-            this.btnCredit.Size = new System.Drawing.Size(171, 49);
+            this.btnCredit.Size = new System.Drawing.Size(94, 49);
             this.btnCredit.TabIndex = 46;
             this.btnCredit.Text = "CREDIT";
             this.btnCredit.UseVisualStyleBackColor = false;
@@ -1123,9 +1123,9 @@
             this.btnCash.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCash.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCash.ForeColor = System.Drawing.Color.White;
-            this.btnCash.Location = new System.Drawing.Point(851, 653);
+            this.btnCash.Location = new System.Drawing.Point(731, 654);
             this.btnCash.Name = "btnCash";
-            this.btnCash.Size = new System.Drawing.Size(169, 49);
+            this.btnCash.Size = new System.Drawing.Size(94, 49);
             this.btnCash.TabIndex = 43;
             this.btnCash.Text = "CASH";
             this.btnCash.UseVisualStyleBackColor = false;
@@ -1811,9 +1811,9 @@
             this.btnUnhold.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnUnhold.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnUnhold.ForeColor = System.Drawing.Color.White;
-            this.btnUnhold.Location = new System.Drawing.Point(171, 340);
+            this.btnUnhold.Location = new System.Drawing.Point(934, 652);
             this.btnUnhold.Name = "btnUnhold";
-            this.btnUnhold.Size = new System.Drawing.Size(105, 70);
+            this.btnUnhold.Size = new System.Drawing.Size(94, 49);
             this.btnUnhold.TabIndex = 17;
             this.btnUnhold.Text = "UnHold\r\n(F8)";
             this.btnUnhold.UseVisualStyleBackColor = false;
@@ -1827,9 +1827,9 @@
             this.btnHold.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnHold.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnHold.ForeColor = System.Drawing.Color.White;
-            this.btnHold.Location = new System.Drawing.Point(61, 341);
+            this.btnHold.Location = new System.Drawing.Point(833, 653);
             this.btnHold.Name = "btnHold";
-            this.btnHold.Size = new System.Drawing.Size(105, 70);
+            this.btnHold.Size = new System.Drawing.Size(94, 49);
             this.btnHold.TabIndex = 16;
             this.btnHold.Text = "Hold\r\n(F11)";
             this.btnHold.UseVisualStyleBackColor = false;
@@ -1863,7 +1863,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1143, 678);
+            this.ClientSize = new System.Drawing.Size(1143, 714);
             this.Controls.Add(this.panelMain);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

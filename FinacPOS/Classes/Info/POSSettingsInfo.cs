@@ -231,5 +231,6 @@ namespace FinacPOS
             get { return _StartingTokenNo; }
             set { _StartingTokenNo = value; }
         }
+      
     }
 }

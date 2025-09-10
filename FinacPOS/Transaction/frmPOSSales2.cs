@@ -1313,7 +1313,14 @@ namespace FinacPOS
                         dr["Disc Amt"] = gridrow.Cells["DiscAmt"].Value.ToString();
                         dr["NETVALUE"] = gridrow.Cells["NetValue"].Value.ToString();
                         dr["Total Amt"] = gridrow.Cells["Total"].Value.ToString();
-                        dr["NameArabic"] = gridrow.Cells["ArabicName"].Value.ToString();
+                        try
+                        {
+                            dr["NameArabic"] = gridrow.Cells["ArabicName"].Value.ToString();
+                        }
+                        catch
+                        {
+                            dr["NameArabic"] = "";
+                        }
 
                         dr["AmountBeforeDisc"] = gridrow.Cells["amountBeforeDisc"].Value.ToString();
                         dr["rateDiscAmount"] = gridrow.Cells["rateDiscAmount"].Value.ToString();

@@ -432,7 +432,6 @@
     </Compile>
     <EmbeddedResource Include="Masters\frmCountersReport.resx">
       <DependentUpon>frmCountersReport.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Masters\frmPOSCounter.resx">
       <DependentUpon>frmPOSCounter.cs</DependentUpon>
@@ -467,15 +466,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Others\frmBillPrint.resx">
       <DependentUpon>frmBillPrint.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Others\FrmeasyAccess.resx">
       <DependentUpon>FrmeasyAccess.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Others\frmLookup.resx">
       <DependentUpon>frmLookup.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Others\frmPriceCheck.resx">
       <DependentUpon>frmPriceCheck.cs</DependentUpon>
@@ -502,7 +498,6 @@
     </Compile>
     <EmbeddedResource Include="Settings\frmPOSControlSettings.resx">
       <DependentUpon>frmPOSControlSettings.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings\frmPOSSettings.resx">
       <DependentUpon>frmPOSSettings.cs</DependentUpon>
