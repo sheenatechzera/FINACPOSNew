@@ -217,6 +217,7 @@
     <Compile Include="Classes\Info\POSSalesReturnMasterInfo.cs" />
     <Compile Include="Classes\Info\POSSettingsInfo.cs" />
     <Compile Include="Classes\Info\POSTableInfo.cs" />
+    <Compile Include="Classes\Info\POSTokenInfo.cs" />
     <Compile Include="Classes\Info\POSUserInfo.cs" />
     <Compile Include="Classes\Info\POSUserSettingsInfo.cs" />
     <Compile Include="Classes\Info\SessionManagementInfo.cs" />
@@ -243,10 +244,12 @@
     <Compile Include="Classes\Sp\POSSalesReturnMasterSP.cs" />
     <Compile Include="Classes\Sp\POSSettingsSP.cs" />
     <Compile Include="Classes\Sp\POSTableSp.cs" />
+    <Compile Include="Classes\Sp\POSTokenSP.cs" />
     <Compile Include="Classes\Sp\POSUserSettingsSP.cs" />
     <Compile Include="Classes\Sp\POSUserSP.cs" />
     <Compile Include="Classes\Sp\PrimaryDBSP.cs" />
     <Compile Include="Classes\Sp\ProductSP.cs" />
+    <Compile Include="Classes\Sp\SessionCloseReprintSP.cs" />
     <Compile Include="Classes\Sp\SessionControlSp.cs" />
     <Compile Include="Classes\Sp\SessionManagementSP.cs" />
     <Compile Include="Classes\Sp\SettingsSP.cs" />
@@ -280,6 +283,12 @@
     </Compile>
     <Compile Include="Masters\frmPOSUser.Designer.cs">
       <DependentUpon>frmPOSUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Masters\frmSessionCloseReprint.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Masters\frmSessionCloseReprint.Designer.cs">
+      <DependentUpon>frmSessionCloseReprint.cs</DependentUpon>
     </Compile>
     <Compile Include="Masters\frmSessionClosing.cs">
       <SubType>Form</SubType>
@@ -423,6 +432,7 @@
     </Compile>
     <EmbeddedResource Include="Masters\frmCountersReport.resx">
       <DependentUpon>frmCountersReport.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Masters\frmPOSCounter.resx">
       <DependentUpon>frmPOSCounter.cs</DependentUpon>
@@ -433,6 +443,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Masters\frmPOSUser.resx">
       <DependentUpon>frmPOSUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Masters\frmSessionCloseReprint.resx">
+      <DependentUpon>frmSessionCloseReprint.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Masters\frmSessionClosing.resx">
       <DependentUpon>frmSessionClosing.cs</DependentUpon>
@@ -454,12 +467,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Others\frmBillPrint.resx">
       <DependentUpon>frmBillPrint.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Others\FrmeasyAccess.resx">
       <DependentUpon>FrmeasyAccess.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Others\frmLookup.resx">
       <DependentUpon>frmLookup.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Others\frmPriceCheck.resx">
       <DependentUpon>frmPriceCheck.cs</DependentUpon>
@@ -486,6 +502,7 @@
     </Compile>
     <EmbeddedResource Include="Settings\frmPOSControlSettings.resx">
       <DependentUpon>frmPOSControlSettings.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings\frmPOSSettings.resx">
       <DependentUpon>frmPOSSettings.cs</DependentUpon>

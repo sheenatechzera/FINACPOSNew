@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.cmbDeleteMode = new System.Windows.Forms.ComboBox();
+            this.lblDeleteMode = new System.Windows.Forms.Label();
             this.cmbZeroQty = new System.Windows.Forms.ComboBox();
             this.lblZeroQty = new System.Windows.Forms.Label();
             this.chkBlockZeroPrice = new System.Windows.Forms.CheckBox();
@@ -74,14 +76,16 @@
             this.chkDiscountAuth = new System.Windows.Forms.CheckBox();
             this.chkBillClearAuth = new System.Windows.Forms.CheckBox();
             this.lblPOSSettingsId = new System.Windows.Forms.Label();
-            this.lblDeleteMode = new System.Windows.Forms.Label();
-            this.cmbDeleteMode = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtStartingTokenNo = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.grpPrint.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.txtStartingTokenNo);
+            this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.cmbDeleteMode);
             this.panel1.Controls.Add(this.lblDeleteMode);
             this.panel1.Controls.Add(this.cmbZeroQty);
@@ -118,6 +122,28 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(807, 441);
             this.panel1.TabIndex = 0;
+            // 
+            // cmbDeleteMode
+            // 
+            this.cmbDeleteMode.FormattingEnabled = true;
+            this.cmbDeleteMode.Items.AddRange(new object[] {
+            "Delete By Button Click",
+            "Delete By Keyboard Key",
+            "Delete By Barcode"});
+            this.cmbDeleteMode.Location = new System.Drawing.Point(528, 185);
+            this.cmbDeleteMode.Name = "cmbDeleteMode";
+            this.cmbDeleteMode.Size = new System.Drawing.Size(163, 22);
+            this.cmbDeleteMode.TabIndex = 47;
+            // 
+            // lblDeleteMode
+            // 
+            this.lblDeleteMode.AutoSize = true;
+            this.lblDeleteMode.Cursor = System.Windows.Forms.Cursors.AppStarting;
+            this.lblDeleteMode.Location = new System.Drawing.Point(436, 188);
+            this.lblDeleteMode.Name = "lblDeleteMode";
+            this.lblDeleteMode.Size = new System.Drawing.Size(86, 14);
+            this.lblDeleteMode.TabIndex = 46;
+            this.lblDeleteMode.Text = "Delete Mode";
             // 
             // cmbZeroQty
             // 
@@ -269,7 +295,7 @@
             this.grpPrint.Controls.Add(this.txtAddress);
             this.grpPrint.Controls.Add(this.txtCompanyArabic);
             this.grpPrint.Controls.Add(this.txtCompanyName);
-            this.grpPrint.Location = new System.Drawing.Point(37, 209);
+            this.grpPrint.Location = new System.Drawing.Point(37, 236);
             this.grpPrint.Name = "grpPrint";
             this.grpPrint.Size = new System.Drawing.Size(546, 190);
             this.grpPrint.TabIndex = 33;
@@ -446,7 +472,7 @@
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClose.ForeColor = System.Drawing.Color.Black;
-            this.btnClose.Location = new System.Drawing.Point(477, 403);
+            this.btnClose.Location = new System.Drawing.Point(694, 398);
             this.btnClose.Margin = new System.Windows.Forms.Padding(1);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(89, 28);
@@ -463,7 +489,7 @@
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSave.ForeColor = System.Drawing.Color.Black;
-            this.btnSave.Location = new System.Drawing.Point(387, 403);
+            this.btnSave.Location = new System.Drawing.Point(604, 398);
             this.btnSave.Margin = new System.Windows.Forms.Padding(1);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(88, 28);
@@ -585,33 +611,28 @@
             // lblPOSSettingsId
             // 
             this.lblPOSSettingsId.AutoSize = true;
-            this.lblPOSSettingsId.Location = new System.Drawing.Point(517, 410);
+            this.lblPOSSettingsId.Location = new System.Drawing.Point(734, 405);
             this.lblPOSSettingsId.Name = "lblPOSSettingsId";
             this.lblPOSSettingsId.Size = new System.Drawing.Size(15, 14);
             this.lblPOSSettingsId.TabIndex = 32;
             this.lblPOSSettingsId.Text = "0";
             // 
-            // lblDeleteMode
+            // label2
             // 
-            this.lblDeleteMode.AutoSize = true;
-            this.lblDeleteMode.Cursor = System.Windows.Forms.Cursors.AppStarting;
-            this.lblDeleteMode.Location = new System.Drawing.Point(436, 188);
-            this.lblDeleteMode.Name = "lblDeleteMode";
-            this.lblDeleteMode.Size = new System.Drawing.Size(86, 14);
-            this.lblDeleteMode.TabIndex = 46;
-            this.lblDeleteMode.Text = "Delete Mode";
+            this.label2.AutoSize = true;
+            this.label2.Cursor = System.Windows.Forms.Cursors.AppStarting;
+            this.label2.Location = new System.Drawing.Point(436, 219);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(115, 14);
+            this.label2.TabIndex = 48;
+            this.label2.Text = "Starting TokenNo";
             // 
-            // cmbDeleteMode
+            // txtStartingTokenNo
             // 
-            this.cmbDeleteMode.FormattingEnabled = true;
-            this.cmbDeleteMode.Items.AddRange(new object[] {
-            "Delete By Button Click",
-            "Delete By Keyboard Key",
-            "Delete By Barcode"});
-            this.cmbDeleteMode.Location = new System.Drawing.Point(528, 185);
-            this.cmbDeleteMode.Name = "cmbDeleteMode";
-            this.cmbDeleteMode.Size = new System.Drawing.Size(163, 22);
-            this.cmbDeleteMode.TabIndex = 47;
+            this.txtStartingTokenNo.Location = new System.Drawing.Point(557, 216);
+            this.txtStartingTokenNo.Name = "txtStartingTokenNo";
+            this.txtStartingTokenNo.Size = new System.Drawing.Size(135, 22);
+            this.txtStartingTokenNo.TabIndex = 49;
             // 
             // frmPOSSettings
             // 
@@ -682,5 +703,7 @@
         private System.Windows.Forms.Label lblZeroQty;
         private System.Windows.Forms.ComboBox cmbDeleteMode;
         private System.Windows.Forms.Label lblDeleteMode;
+        private System.Windows.Forms.TextBox txtStartingTokenNo;
+        private System.Windows.Forms.Label label2;
     }
 }

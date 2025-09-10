@@ -54,6 +54,7 @@ namespace FinacPOS
         string strHoldMasterIdToEdit = "";
         int dgvCurRow = 0;
         int dgvSlno = 0;
+        string TokenNo = "";
         string strFocusedControl = "";
         bool isSavefromButton = true;
         bool blTextBoxFocus;
@@ -78,6 +79,7 @@ namespace FinacPOS
 
         POSCounterInfo counterInfo = new POSCounterInfo();
         GeneralSP SPGeneral = new GeneralSP();
+        POSTokenSP SPPOSToken = new POSTokenSP();
         POSSalesMasterSP POSSalesMasterSP = new POSSalesMasterSP();
         POSSalesDetails1SP POSSalesDetails1SP = new POSSalesDetails1SP();
         POSSettingsInfo InfoPosSetting = new POSSettingsInfo();
@@ -91,12 +93,11 @@ namespace FinacPOS
         string strCCSalesLedgerId = "";
         string strUPISalesLedgerId = "";
         string strSalesLedgerId = "";
-        string nxtTokenNo = "";
         bool IsAuthenticationApproved = false;
 
         DataTable dtblProductWithImage;
         string strBarcode = "";
-       int strDeleteCurrentRowIndex = 0;
+        int strDeleteCurrentRowIndex = 0;
         #endregion
 
         #region FUNCTIONS
@@ -762,7 +763,7 @@ namespace FinacPOS
         {
             lblBillNo.Text = POSBillNumberMax();
             POSSalesMasterInfo InfoPOSSalesMaster = new POSSalesMasterInfo();
-            InfoPOSSalesMaster.TokenNo = POSTokenNoMax();
+            lblTokenNo.Text = POSTokenNoMax();
             btnCash.Enabled = true;
             btnCreditCard.Enabled = true;
             btnUPI.Enabled = true;
@@ -937,16 +938,14 @@ namespace FinacPOS
             return PartBillNo;
         }
 
-
         public string POSTokenNoMax()
         {
             string TokenNo = "1";
-
             try
             {
-                DataTable dtbl = SPGeneral.GetPOSLastTokenNo(PublicVariables._counterId.ToString(), strSessionNo, Convert.ToDateTime(strSessionDate));
+                DataTable dtbl = SPPOSToken.GetPOSLastTokenNo(Convert.ToDateTime(strSessionDate));
 
-                if (dtbl.Rows.Count > 0 && !dtbl.Rows[0].IsNull("LastTokenNo"))
+                if (dtbl != null && dtbl.Rows.Count > 0)
                 {
                     TokenNo = dtbl.Rows[0]["LastTokenNo"].ToString();
                 }
@@ -955,7 +954,6 @@ namespace FinacPOS
             {
                 MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-
             return TokenNo;
         }
         public void CallFromSessionManagement(frmSessionManagement frm)
@@ -2248,8 +2246,8 @@ namespace FinacPOS
                         //-------------------------------------------------------------------------------------
                     }
                     SPGeneral.POSBillUpdate(PublicVariables._counterId, PublicVariables._currentUserId, "Sales");
-                    SPGeneral.POSTokenNoUpdate(PublicVariables._counterId.ToString(), strSessionNo, Convert.ToDateTime(strSessionDate));
-                    ClearFunction();
+                    SPPOSToken.POSTokenNoUpdate(Convert.ToDateTime(strSessionDate), TokenNo);
+                    ClearFunction();    
                 }
             }
             
@@ -2494,14 +2492,9 @@ namespace FinacPOS
             InfoPOSSalesMaster.CustomerAddress = "";
             InfoPOSSalesMaster.CustomerPhone = "";
             InfoPOSSalesMaster.CustomerVATNo = "";
-            InfoPOSSalesMaster.TokenNo = POSTokenNoMax();
-            try { 
-                InfoPOSSalesMaster.SalesManId = lblSalesMan.Tag.ToString();
-            }
-            catch
-            {
-                InfoPOSSalesMaster.SalesManId = "";
-            }
+            TokenNo= POSTokenNoMax();
+            InfoPOSSalesMaster.TokenNo = TokenNo;
+            InfoPOSSalesMaster.SalesManId = string.IsNullOrEmpty(lblSalesMan.Text) ? null : lblSalesMan.Text;
             strMasterId = POSSalesMasterSP.POSSalesMasterAdd(InfoPOSSalesMaster);
 
             if (strMasterId != "")
@@ -2575,7 +2568,7 @@ namespace FinacPOS
                 InfoPOSSalesReturnMaster.UserId = PublicVariables._currentUserId;
                 POSSalesReturnMasterSP.POSCreditNoteMasterEdit(InfoPOSSalesReturnMaster);
             }
-            lblTokenNo.Text = (Convert.ToInt32(POSTokenNoMax()) + 1).ToString();
+            //lblTokenNo.Text = (Convert.ToInt32(POSTokenNoMax()) + 1).ToString();
             return strMasterId;
         }
         public string SaveDeletedSaleHistory()

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using FinacPOS.Classes.Info;
 
 
 
@@ -30,6 +31,7 @@ namespace FinacPOS
             //this.Controls.Clear();
         }
         SessionManagementSP sessionSp = new SessionManagementSP();
+        POSTokenSP tokenSp = new POSTokenSP();
         int sessionNo = 0;
         ComboValidation objComboValidation = new ComboValidation();
         private void btnClose_Click(object sender, EventArgs e)
@@ -171,6 +173,10 @@ namespace FinacPOS
             {
                 LoadSessionNo();
                 SessionManagementInfo sessionInfo = new SessionManagementInfo();
+                POSTokenInfo TokenInfo = new POSTokenInfo();
+                POSSettingsInfo InfoPOSSettings = new POSSettingsInfo();
+                POSSettingsSP SpPOSSettings = new POSSettingsSP();
+                InfoPOSSettings = SpPOSSettings.POSSettingsViewByBranchId(PublicVariables._branchId);
                 sessionInfo.SessionNo = sessionNo.ToString();
                 sessionInfo.SessionDate = Convert.ToDateTime(dtpSessionDate.Text);
                 sessionInfo.CounterId = PublicVariables._counterId;
@@ -182,7 +188,13 @@ namespace FinacPOS
                 sessionInfo.BranchId = PublicVariables._branchId;
                 sessionInfo.Extra1 = "";
                 sessionInfo.Extra2 = "";
-                sessionInfo.lastTokenNo= 0.ToString();
+                TokenInfo.SessionDate= Convert.ToDateTime(dtpSessionDate.Text);
+                TokenInfo.LastTokenNo = (Convert.ToInt32(InfoPOSSettings.StartingTokenNo) - 1).ToString();
+                TokenInfo.Active = true;
+                if (string.IsNullOrEmpty(tokenSp.POSTokenNoExist(sessionInfo.SessionDate)))
+                {
+                    tokenSp.POSTokenAdd(TokenInfo);
+                }
                 sessionSp.SessionManagementAdd(sessionInfo);
                 MessageBox.Show("Session created successfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtOpenBal.Text = "0";
