@@ -1510,7 +1510,7 @@ namespace FinacPOS
                     dRowDetails["CustomerAddress"] = "";
                     dRowDetails["CustomerPhone"] = "";
                     dRowDetails["CustomerVatNo"] = "";
-                    dRowDetails["TokenNo"] = POSTokenNoMax();
+                    dRowDetails["TokenNo"] = TokenNo;
                     dRowDetails["isCredit"] = false;
                     dRowDetails["prevBalance"] = "";
                     dRowDetails["BillAmount"] = "";
