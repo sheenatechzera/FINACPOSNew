@@ -496,7 +496,7 @@ namespace FinacPOS
             }
             else if (cmbLanguage.Text == "")
             {
-                MessageBox.Show("Select Group", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Select language", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 cmbLanguage.Focus();
             }
             else

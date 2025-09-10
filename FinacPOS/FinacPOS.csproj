@@ -247,6 +247,7 @@
     <Compile Include="Classes\Sp\POSUserSP.cs" />
     <Compile Include="Classes\Sp\PrimaryDBSP.cs" />
     <Compile Include="Classes\Sp\ProductSP.cs" />
+    <Compile Include="Classes\Sp\SessionCloseReprintSP.cs" />
     <Compile Include="Classes\Sp\SessionControlSp.cs" />
     <Compile Include="Classes\Sp\SessionManagementSP.cs" />
     <Compile Include="Classes\Sp\SettingsSP.cs" />
@@ -280,6 +281,12 @@
     </Compile>
     <Compile Include="Masters\frmPOSUser.Designer.cs">
       <DependentUpon>frmPOSUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Masters\frmSessionCloseReprint.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Masters\frmSessionCloseReprint.Designer.cs">
+      <DependentUpon>frmSessionCloseReprint.cs</DependentUpon>
     </Compile>
     <Compile Include="Masters\frmSessionClosing.cs">
       <SubType>Form</SubType>
@@ -433,6 +440,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Masters\frmPOSUser.resx">
       <DependentUpon>frmPOSUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Masters\frmSessionCloseReprint.resx">
+      <DependentUpon>frmSessionCloseReprint.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Masters\frmSessionClosing.resx">
       <DependentUpon>frmSessionClosing.cs</DependentUpon>
