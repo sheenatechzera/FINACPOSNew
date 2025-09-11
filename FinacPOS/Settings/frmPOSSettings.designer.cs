@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.chkIsHoldBillNeeded = new System.Windows.Forms.CheckBox();
+            this.txtStartingTokenNo = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.cmbDeleteMode = new System.Windows.Forms.ComboBox();
             this.lblDeleteMode = new System.Windows.Forms.Label();
             this.cmbZeroQty = new System.Windows.Forms.ComboBox();
@@ -76,14 +79,13 @@
             this.chkDiscountAuth = new System.Windows.Forms.CheckBox();
             this.chkBillClearAuth = new System.Windows.Forms.CheckBox();
             this.lblPOSSettingsId = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtStartingTokenNo = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.grpPrint.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.chkIsHoldBillNeeded);
             this.panel1.Controls.Add(this.txtStartingTokenNo);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.cmbDeleteMode);
@@ -122,6 +124,33 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(807, 441);
             this.panel1.TabIndex = 0;
+            // 
+            // chkIsHoldBillNeeded
+            // 
+            this.chkIsHoldBillNeeded.AutoSize = true;
+            this.chkIsHoldBillNeeded.Location = new System.Drawing.Point(227, 205);
+            this.chkIsHoldBillNeeded.Name = "chkIsHoldBillNeeded";
+            this.chkIsHoldBillNeeded.Size = new System.Drawing.Size(108, 18);
+            this.chkIsHoldBillNeeded.TabIndex = 50;
+            this.chkIsHoldBillNeeded.Text = "Hold Bill Print";
+            this.chkIsHoldBillNeeded.UseVisualStyleBackColor = true;
+            // 
+            // txtStartingTokenNo
+            // 
+            this.txtStartingTokenNo.Location = new System.Drawing.Point(557, 216);
+            this.txtStartingTokenNo.Name = "txtStartingTokenNo";
+            this.txtStartingTokenNo.Size = new System.Drawing.Size(135, 22);
+            this.txtStartingTokenNo.TabIndex = 49;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Cursor = System.Windows.Forms.Cursors.AppStarting;
+            this.label2.Location = new System.Drawing.Point(436, 219);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(115, 14);
+            this.label2.TabIndex = 48;
+            this.label2.Text = "Starting TokenNo";
             // 
             // cmbDeleteMode
             // 
@@ -617,23 +646,6 @@
             this.lblPOSSettingsId.TabIndex = 32;
             this.lblPOSSettingsId.Text = "0";
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Cursor = System.Windows.Forms.Cursors.AppStarting;
-            this.label2.Location = new System.Drawing.Point(436, 219);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(115, 14);
-            this.label2.TabIndex = 48;
-            this.label2.Text = "Starting TokenNo";
-            // 
-            // txtStartingTokenNo
-            // 
-            this.txtStartingTokenNo.Location = new System.Drawing.Point(557, 216);
-            this.txtStartingTokenNo.Name = "txtStartingTokenNo";
-            this.txtStartingTokenNo.Size = new System.Drawing.Size(135, 22);
-            this.txtStartingTokenNo.TabIndex = 49;
-            // 
             // frmPOSSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -705,5 +717,6 @@
         private System.Windows.Forms.Label lblDeleteMode;
         private System.Windows.Forms.TextBox txtStartingTokenNo;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox chkIsHoldBillNeeded;
     }
 }

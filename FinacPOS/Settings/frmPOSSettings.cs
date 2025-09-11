@@ -74,6 +74,7 @@ namespace FinacPOS
             infoPOS.ZeroQtyAlert= cmbZeroQty.Text;
             infoPOS.DeleteMode = cmbDeleteMode.Text;
             infoPOS.StartingTokenNo = txtStartingTokenNo.Text;
+            infoPOS.IsHoldBillPrint = chkIsHoldBillNeeded.Checked;
             spPOSSettings.POSSettingsEdit(infoPOS);
             MessageBox.Show("Settings saved successfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -128,6 +129,7 @@ namespace FinacPOS
                 cmbZeroQty.Text= infoPOS.ZeroQtyAlert;
                 cmbDeleteMode.Text= infoPOS.DeleteMode;
                 txtStartingTokenNo.Text = infoPOS.StartingTokenNo;
+                chkIsHoldBillNeeded.Checked = infoPOS.IsHoldBillPrint;
             }
         }
       
@@ -574,7 +576,7 @@ namespace FinacPOS
             }
         }
 
-        
+       
     }
 
 }    

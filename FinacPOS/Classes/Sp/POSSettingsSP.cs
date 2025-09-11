@@ -102,6 +102,8 @@ namespace FinacPOS
                 sprmparam.Value = counterinfo.DeleteMode;
                 sprmparam = sccmd.Parameters.Add("@StartingTokenNo", SqlDbType.VarChar);
                 sprmparam.Value = counterinfo.StartingTokenNo;
+                sprmparam = sccmd.Parameters.Add("@ShowHoldBillPrint", SqlDbType.Bit);
+                sprmparam.Value = counterinfo.IsHoldBillPrint;
                 id = sccmd.ExecuteScalar().ToString();
 
             }
@@ -168,6 +170,7 @@ namespace FinacPOS
                 settingsinfo.ZeroQtyAlert = (sdrreader["ZeroQtyAlertStatus"].ToString());
                 settingsinfo.DeleteMode = (sdrreader["DeleteMode"].ToString());
                 settingsinfo.StartingTokenNo = (sdrreader["StartingTokenNo"].ToString());
+                settingsinfo.IsHoldBillPrint = bool.Parse(sdrreader["ShowHoldBillPrint"].ToString());
             }
             sdrreader.Close();
 

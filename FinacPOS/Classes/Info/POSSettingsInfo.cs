@@ -44,6 +44,7 @@ namespace FinacPOS
         public static string _ZeroQtyAlert;
         public static string _DeleteMode;
         public static string _StartingTokenNo;
+        public static bool _IsHoldBillPrint;
         public string POSSettingsId
         {
             get { return _POSSettingsId; }
@@ -231,6 +232,11 @@ namespace FinacPOS
             get { return _StartingTokenNo; }
             set { _StartingTokenNo = value; }
         }
-      
+        public bool IsHoldBillPrint
+        {
+            get { return _IsHoldBillPrint; }
+            set { _IsHoldBillPrint = value; }
+        }
+
     }
 }
