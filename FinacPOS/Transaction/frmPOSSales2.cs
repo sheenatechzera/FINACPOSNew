@@ -59,6 +59,7 @@ namespace FinacPOS
         bool isSavefromButton = true;
         bool blTextBoxFocus;
         bool blGridFocus;
+        bool IsChecked;
         TextBox txtTouchTextBox = new TextBox();
         //DataGridViewCell txtTouchGridTextbox;
         string strGridValue = "";
@@ -73,6 +74,10 @@ namespace FinacPOS
         int PrintPageHight;
         public string selectedGroupId = "0";
         public string productName = "";
+        string strBarcode = "";
+        int strDeleteCurrentRowIndex = 0;
+        public bool isSalesMan = false;
+        public bool isUnHoldBill = false;
         //--------------------------
 
         bool isRateChanged = false;
@@ -96,8 +101,7 @@ namespace FinacPOS
         bool IsAuthenticationApproved = false;
 
         DataTable dtblProductWithImage;
-        string strBarcode = "";
-        int strDeleteCurrentRowIndex = 0;
+      
         #endregion
 
         #region FUNCTIONS
@@ -138,7 +142,13 @@ namespace FinacPOS
             productFill(); //Added on 10/Mar/2025 Varis
             showproductInload();
             ListTableInLoad();
-
+            if (InfoPosSetting.AlwaysEnableHoldBillView == true)
+            {
+                ChkHoldBilView.Visible = true;
+                ChkHoldBilView.Checked = InfoPosSetting.AlwaysEnableHoldBillView;
+            }
+            else
+            { ChkHoldBilView.Visible = false; }
 
         }
         public void ListTableInLoad() // added by Nishana on 24-04-2025
@@ -3107,8 +3117,8 @@ namespace FinacPOS
                         dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["rateDiscAmount"].Value = Convert.ToDecimal(drowDetails["rateDiscAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                         dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["DiscPerc"].Value = 0m;
                         dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["offerId"].Value = drowDetails["offerId"].ToString();
+                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["CategoryId"].Value = drowDetails["groupId"].ToString();
 
-                        
                     }
 
                     CalculateBillTotal();
@@ -3158,15 +3168,17 @@ namespace FinacPOS
                 lblTenderBalanceAmount.Text = "0";
             }
 
+         
             //Re Call Hold Bill Details
-            if (lblBarcodeScanningType.Visible == true && lblBarcodeScanningType.Text == "Scan Hold Bill No")
+            if (lblBarcodeScanningType.Visible == true && lblBarcodeScanningType.Text == "Scan Hold Bill No" || IsChecked == true)
             {
                 LoadHoldBillDetails();
                 lblBarcodeScanningType.Text = "";
-                lblBarcodeScanningType.Visible = false; 
+                lblBarcodeScanningType.Visible = false;
+                
+                IsChecked = false;
                 return;
             }
-
 
             // Delete Product from Grid when barcode is entered
             if (InfoPOSSettings.DeleteMode == "Delete By Barcode")
@@ -3891,19 +3903,19 @@ namespace FinacPOS
             clsGeneral objGeneral = new clsGeneral();
             objGeneral.formSettings(this);
             //MessageBox.Show(this.Size.Width.ToString());
-           
-            
+
+
             panelMain.Size = this.Size;
             panelBillDetails.Width = this.Size.Width;
             FlpanelProductGroup.Width = this.Size.Width - dgvProduct.Width;
             flowLayoutPanel.Width = this.Size.Width - dgvProduct.Width - 20;
-         
+
             //panelMainButton.Width = this.Size.Width;
             //panelBarcode.Width = this.Size.Width;
             FormLoadFunction();
             ClearFunction();
+            
         }
-
         private void timer1_Tick(object sender, EventArgs e)
         {
             lblBillDate.Text = DateTime.Today.ToString("dd-MMM-yyyy");
@@ -5150,8 +5162,17 @@ namespace FinacPOS
                                 dtblTaxSummery = GetTaxSum();
                                 dtblTaxDetailsThermal = dtblTaxSummery;
 
-                                //FillDatatatablesforPrint("", "", "", "", "", false, "", strHoldBillNo);
-                                FillDatatatablesforDevPrint("", "", "", "", "", false, "", strHoldBillNo,"");
+                                if (InfoPOSSettings.IsHoldBillPrint)
+                                {
+                                    if (MessageBox.Show("Do you want to Print HOLD Bill?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                                    {
+                                        //FillDatatatablesforPrint("", "", "", "", "", false, "", strHoldBillNo);
+                                        FillDatatatablesforDevPrint("", "", "", "", "", false, "", strHoldBillNo, "");
+                                    }
+
+                                }
+                                else
+                                    barcodeFocus();
                             }
 
                             ClearFunction();
@@ -5171,8 +5192,21 @@ namespace FinacPOS
                             dtblTaxSummery = GetTaxSum();
                             dtblTaxDetailsThermal = dtblTaxSummery;
 
-                            //FillDatatatablesforPrint("", "", "", "", "", false, "", strHoldBillNo);
-                            FillDatatatablesforDevPrint("", "", "", "", "", false, "", strHoldBillNo,"");
+                            if (InfoPOSSettings.IsHoldBillPrint)
+                            {
+                                if (MessageBox.Show("Do you want to Print HOLD Bill?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                                {
+                                    //FillDatatatablesforPrint("", "", "", "", "", false, "", strHoldBillNo);
+                                    FillDatatatablesforDevPrint("", "", "", "", "", false, "", strHoldBillNo, "");
+                                }
+
+                            }
+                            else
+                            {
+                                barcodeFocus();
+
+                            }
+                            
                         }
 
                         ClearFunction();
@@ -5193,26 +5227,65 @@ namespace FinacPOS
 
         private void btnUnhold_Click(object sender, EventArgs e)
         {
-            if (lblBarcodeScanningType.Text == "Scan Hold Bill No")
+            if (!ChkHoldBilView.Checked)
             {
-                lblBarcodeScanningType.Text = "";
-                lblBarcodeScanningType.Visible = false;
-            }
-            else
-            {
-                if (dgvProduct.Rows.Count > 1)
+                if (lblBarcodeScanningType.Text == "Scan Hold Bill No")
                 {
-                    MessageBox.Show("Please Clear Current Bill!");
+                    lblBarcodeScanningType.Text = "";
+                    lblBarcodeScanningType.Visible = false;
+
                 }
                 else
                 {
-                    lblBarcodeScanningType.Text = "Scan Hold Bill No";
-                    lblBarcodeScanningType.Visible = true;
+                    if (dgvProduct.Rows.Count > 1)
+                    {
+                        MessageBox.Show("Please Clear Current Bill!");
+                    }
+                    else
+                    {
+                        lblBarcodeScanningType.Text = "Scan Hold Bill No";
+                        lblBarcodeScanningType.Visible = true;
+                    }
                 }
-                
+                barcodeFocus();
             }
-            barcodeFocus(); 
+            else
+            {
+                try
+                {
+                    isSalesMan = false;
+                    IsChecked = true;
+                    isUnHoldBill = true;
+                    frmLookup frmlookup = new frmLookup();
+
+                    frmlookup.strSearchingName = "HoldBillNo";
+                    frmlookup.strFromFormName = "HoldBillDetails";
+                    frmlookup.strSearchColumn = "HoldBillNo";
+                    frmlookup.strSearchOrder = " BillDate DESC,HoldBillNo DESC ";
+                    frmlookup.strSearchQry = "HoldBillNumber,HoldBillNo,BillDate,Customer,TotalAmount";
+
+
+                    //frmlookup.strSearchTable = "(SELECT  POSHoldMasterId as HoldBillNumber,POSHoldMasterId as HoldBillNo,billDate as BillDate,ledgerName as Customer,totalAmount as TotalAmount FROM tbl_POSHoldMaster) A ";
+                    // frmlookup.strSearchTable = "(SELECT  POSHoldMasterId AS HoldBillNumber, POSHoldMasterId AS HoldBillNo, billDate AS BillDate, ledgerName AS Customer, totalAmount AS TotalAmount FROM tbl_POSHoldMaster WHERE counterId = PublicVariables._counterId AND sessionDate = strSessionNo AND HoldStatus = 'P') A ";
+                    string query = $@"(SELECT   POSHoldMasterId AS HoldBillNumber, POSHoldMasterId AS HoldBillNo, billDate AS BillDate, ledgerName AS Customer, totalAmount AS TotalAmount FROM tbl_POSHoldMaster WHERE counterId = '{PublicVariables._counterId}' AND sessionNo = '{lblSessionNO.Text}' AND HoldStatus = 'P') A";
+                    frmlookup.strSearchTable = query;
+
+
+                    frmlookup.strMasterIdColumnName = "HoldBillNumber";
+                    frmlookup.IntSearchFiledCount = 5;
+
+                    frmlookup.DoWhenComingFromPOSSale2Form(this);
+                }
+
+
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                // barcodeFocus();
+            }
         }
+        
         public void FillrowAfterPickingReciept(string BillNo)
         {
             lblLedgerId.Text = BillNo;
@@ -5681,7 +5754,8 @@ namespace FinacPOS
         {
             try
             {
-              
+                isSalesMan = true;
+                isUnHoldBill = false;
                 frmLookup frmlookup = new frmLookup();
                 frmlookup.strSearchingName = "SalesMan";
                 frmlookup.strFromFormName = "SalesMan";
@@ -5704,12 +5778,23 @@ namespace FinacPOS
                 MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        public void DowhenReturningFromSearchForm(string strSalesMan,string strId)
+        public void DowhenReturningFromSearchForm(string strHoldBillNo,string strSalesMan,string strId)
         {
 
-          lblSalesMan.Text = strSalesMan;
-          lblSalesMan.Tag = strId;
+            if (isSalesMan == true)
+            {
+                lblSalesMan.Text = strSalesMan;
+                lblSalesMan.Tag = strId;
 
+            }
+            if(isUnHoldBill == true)
+            {
+                txtBarcode.Text = strHoldBillNo;
+                barcodeScanning();
+            }
+               
+
+            
 
         }
     }

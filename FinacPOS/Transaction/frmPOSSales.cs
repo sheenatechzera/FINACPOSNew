@@ -75,7 +75,7 @@ namespace FinacPOS
 
         public string selectedGroupId = "0";
         public string selectedSalesMode = "";
-
+        public bool isUnHoldBill = false;
         //--------------------------
 
         bool isRateChanged = false;
@@ -135,12 +135,23 @@ namespace FinacPOS
             POSSettingsSP SpPOSSettings = new POSSettingsSP();
             InfoPOSSettings = SpPOSSettings.POSSettingsViewByBranchId(PublicVariables._branchId);
             DataTable dtbl = new DataTable();
-            ChkHoldBilView.Checked = InfoPosSetting.AlwaysEnableHoldBillView;
+            ChkHoldBilView.Checked = InfoPosSetting.AlwaysEnableHoldBillView; 
             chkKot.Visible=counterInfo.KOTPrint;
             productFill();
             showproductInload(dtbl);
+
+
+            if (InfoPosSetting.AlwaysEnableHoldBillView == true)
+            {
+                ChkHoldBilView.Visible = true;
+                ChkHoldBilView.Checked = InfoPosSetting.AlwaysEnableHoldBillView;
+            }
+            else
+            {
+                ChkHoldBilView.Visible = false;
+            }
             //Added on 10/Mar/2025 Varis
-            
+
             //DataGridViewButtonColumn deleteButtonColumn = new DataGridViewButtonColumn();
             //deleteButtonColumn.Name = "Delete";
             //deleteButtonColumn.HeaderText = "Action";
@@ -3066,6 +3077,7 @@ namespace FinacPOS
                         dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["rateDiscAmount"].Value = Convert.ToDecimal(drowDetails["rateDiscAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                         dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["DiscPerc"].Value = 0m;
                         dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["offerId"].Value = drowDetails["offerId"].ToString();
+                        dgvProduct.Rows[dgvProduct.Rows.Count - 2].Cells["CategoryId"].Value = drowDetails["groupId"].ToString();
 
 
                     }
@@ -3123,13 +3135,10 @@ namespace FinacPOS
             {
                 LoadHoldBillDetails();
                 lblBarcodeScanningType.Text = "";
-                lblBarcodeScanningType.Visible = false;
-                ChkHoldBilView.Checked = InfoPosSetting.AlwaysEnableHoldBillView;
+                lblBarcodeScanningType.Visible = false; 
                 IsChecked = false;
                 return;
             }
-
-
 
             // Delete Product from Grid when barcode is entered
             if (InfoPOSSettings.DeleteMode == "Delete By Barcode" )
@@ -3623,7 +3632,7 @@ namespace FinacPOS
 
             FormLoadFunction();
             ClearFunction();
-
+           
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -4907,6 +4916,7 @@ namespace FinacPOS
             {
                 if (MessageBox.Show("Do you want to HOLD this bill?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
+
                     if (POSSettingsInfo._HoldBillAuth == true)
                     {
                         IsAuthenticationApproved = false;
@@ -4923,8 +4933,22 @@ namespace FinacPOS
                                 dtblTaxSummery = GetTaxSum();
                                 dtblTaxDetailsThermal = dtblTaxSummery;
 
-                                //FillDatatatablesforPrint("", "", "", "", "", false, "", strHoldBillNo);
-                                FillDatatatablesforDevPrint("", "", "", "", "", false, "", strHoldBillNo, "");
+                                if (InfoPOSSettings.IsHoldBillPrint)
+                                {
+                                    if (MessageBox.Show("Do you want to   Print HOLD Bill?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                                    {
+                                        //FillDatatatablesforPrint("", "", "", "", "", false, "", strHoldBillNo);
+                                        FillDatatatablesforDevPrint("", "", "", "", "", false, "", strHoldBillNo, "");
+                                    }
+
+                                }
+                                else
+                                {
+                                    
+                                    barcodeFocus();
+                                }
+                                
+
                             }
 
                             ClearFunction();
@@ -4943,9 +4967,18 @@ namespace FinacPOS
                             DataTable dtblTaxSummery = new DataTable();
                             dtblTaxSummery = GetTaxSum();
                             dtblTaxDetailsThermal = dtblTaxSummery;
+                            if (InfoPOSSettings.IsHoldBillPrint)
+                            {
+                                if (MessageBox.Show("Do you want to Print HOLD Bill?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                                {
+                                    //FillDatatatablesforPrint("", "", "", "", "", false, "", strHoldBillNo);
+                                    FillDatatatablesforDevPrint("", "", "", "", "", false, "", strHoldBillNo, "");
+                                }
 
-                            //FillDatatatablesforPrint("", "", "", "", "", false, "", strHoldBillNo);
-                            FillDatatatablesforDevPrint("", "", "", "", "", false, "", strHoldBillNo, "");
+                            }
+                            else
+                                barcodeFocus();
+
                         }
 
                         ClearFunction();
@@ -4994,6 +5027,7 @@ namespace FinacPOS
                 {
                     isSalesMan = false;
                     IsChecked = true;
+                    isUnHoldBill = true;
                     frmLookup frmlookup = new frmLookup();
                    
                     frmlookup.strSearchingName = "HoldBillNo";
@@ -5025,21 +5059,18 @@ namespace FinacPOS
         }
         public void DowhenReturningFromSearchForm(string strHoldBillNo, string strSalesMan, string strId)
         {
-           
-          
+         
             if(isSalesMan == true)
             {
                 lblSalesMan.Text = strSalesMan;
                 lblSalesMan.Tag = strId;
 
             }
-            else
+            if (isUnHoldBill == true)
             {
                 txtBarcode.Text = strHoldBillNo;
                 barcodeScanning();
-
             }
-     
         }
         public void FillrowAfterPickingReciept(string BillNo)
         {
@@ -5519,6 +5550,7 @@ namespace FinacPOS
                 
                 frmLookup frmlookup = new frmLookup();
                 isSalesMan = true;
+                isUnHoldBill = false;
                 frmlookup.strSearchingName = "SalesMan";
                 frmlookup.strFromFormName = "SalesMan";
                 frmlookup.strSearchColumn = "SalesMan";

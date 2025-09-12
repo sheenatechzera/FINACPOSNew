@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using DevExpress.CodeParser;
 
 namespace FinacPOS
 {
@@ -368,16 +369,16 @@ namespace FinacPOS
         {
             try
             {
-              
+
                 if (dgvRegister.CurrentRow != null)
                 {
                     //inCurrenRowIndex = dgvRegister.CurrentRow.Index;
                     strMasterIdColumnValue = dgvRegister.Rows[inCurrenRowIndex].Cells[strMasterIdColumnName].Value.ToString();
-                   if(isReceiptPaymentBill)
-                    { 
+                    if (isReceiptPaymentBill)
+                    {
                         strBillNo = dgvRegister.Rows[inCurrenRowIndex].Cells["BillNo"].Value.ToString();
                     }
-               
+
                     if (isFrmBillPrint)
                     {
                         strcustomerName = dgvRegister.Rows[inCurrenRowIndex].Cells["CustomerName"].Value.ToString();
@@ -388,9 +389,9 @@ namespace FinacPOS
                     }
                     if (isFrmPossale)
                     {
-                        
-                        if(objfrmpossale.isSalesMan == true)
-                        { 
+
+                        if (objfrmpossale.isSalesMan == true)
+                        {
                             strSalesMan = dgvRegister.Rows[inCurrenRowIndex].Cells["SalesMan"].Value.ToString();
                         }
                         else
@@ -399,12 +400,21 @@ namespace FinacPOS
 
                     if (isFrmPossale2)
                     {
-                        strSalesMan = dgvRegister.Rows[inCurrenRowIndex].Cells["SalesMan"].Value.ToString();
+                        if (objfrmpossale2.isSalesMan == true)
+                        {
+                            strSalesMan = dgvRegister.Rows[inCurrenRowIndex].Cells["SalesMan"].Value.ToString();
+                        }
+
+                        if (objfrmpossale2.isUnHoldBill == true)
+                        {
+                            strHoldBillNo = dgvRegister.Rows[inCurrenRowIndex].Cells["HoldBillNo"].Value.ToString();
+                        }
+
                     }
 
                     this.Close();
 
-                }
+                } 
             }
             catch { }
            
@@ -451,7 +461,7 @@ namespace FinacPOS
             }
             if (isFrmPossale2)
             {
-                objfrmpossale2.DowhenReturningFromSearchForm(strSalesMan, strId);
+                objfrmpossale2.DowhenReturningFromSearchForm(strHoldBillNo,strSalesMan, strId);
             }
         }
 
