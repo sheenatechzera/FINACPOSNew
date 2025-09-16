@@ -79,12 +79,16 @@
             this.chkDiscountAuth = new System.Windows.Forms.CheckBox();
             this.chkBillClearAuth = new System.Windows.Forms.CheckBox();
             this.lblPOSSettingsId = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.cmbPricingAlertStatus = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             this.grpPrint.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.cmbPricingAlertStatus);
+            this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.chkIsHoldBillNeeded);
             this.panel1.Controls.Add(this.txtStartingTokenNo);
             this.panel1.Controls.Add(this.label2);
@@ -128,28 +132,28 @@
             // chkIsHoldBillNeeded
             // 
             this.chkIsHoldBillNeeded.AutoSize = true;
-            this.chkIsHoldBillNeeded.Location = new System.Drawing.Point(227, 205);
+            this.chkIsHoldBillNeeded.Location = new System.Drawing.Point(217, 168);
             this.chkIsHoldBillNeeded.Name = "chkIsHoldBillNeeded";
             this.chkIsHoldBillNeeded.Size = new System.Drawing.Size(108, 18);
-            this.chkIsHoldBillNeeded.TabIndex = 50;
+            this.chkIsHoldBillNeeded.TabIndex = 17;
             this.chkIsHoldBillNeeded.Text = "Hold Bill Print";
             this.chkIsHoldBillNeeded.UseVisualStyleBackColor = true;
             // 
             // txtStartingTokenNo
             // 
-            this.txtStartingTokenNo.Location = new System.Drawing.Point(557, 216);
+            this.txtStartingTokenNo.Location = new System.Drawing.Point(595, 175);
             this.txtStartingTokenNo.Name = "txtStartingTokenNo";
             this.txtStartingTokenNo.Size = new System.Drawing.Size(135, 22);
-            this.txtStartingTokenNo.TabIndex = 49;
+            this.txtStartingTokenNo.TabIndex = 29;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Cursor = System.Windows.Forms.Cursors.AppStarting;
-            this.label2.Location = new System.Drawing.Point(436, 219);
+            this.label2.Location = new System.Drawing.Point(474, 178);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(115, 14);
-            this.label2.TabIndex = 48;
+            this.label2.TabIndex = 28;
             this.label2.Text = "Starting TokenNo";
             // 
             // cmbDeleteMode
@@ -159,19 +163,19 @@
             "Delete By Button Click",
             "Delete By Keyboard Key",
             "Delete By Barcode"});
-            this.cmbDeleteMode.Location = new System.Drawing.Point(528, 185);
+            this.cmbDeleteMode.Location = new System.Drawing.Point(566, 149);
             this.cmbDeleteMode.Name = "cmbDeleteMode";
             this.cmbDeleteMode.Size = new System.Drawing.Size(163, 22);
-            this.cmbDeleteMode.TabIndex = 47;
+            this.cmbDeleteMode.TabIndex = 27;
             // 
             // lblDeleteMode
             // 
             this.lblDeleteMode.AutoSize = true;
             this.lblDeleteMode.Cursor = System.Windows.Forms.Cursors.AppStarting;
-            this.lblDeleteMode.Location = new System.Drawing.Point(436, 188);
+            this.lblDeleteMode.Location = new System.Drawing.Point(474, 152);
             this.lblDeleteMode.Name = "lblDeleteMode";
             this.lblDeleteMode.Size = new System.Drawing.Size(86, 14);
-            this.lblDeleteMode.TabIndex = 46;
+            this.lblDeleteMode.TabIndex = 26;
             this.lblDeleteMode.Text = "Delete Mode";
             // 
             // cmbZeroQty
@@ -181,27 +185,27 @@
             "Warn",
             "Block",
             "Ignore"});
-            this.cmbZeroQty.Location = new System.Drawing.Point(616, 156);
+            this.cmbZeroQty.Location = new System.Drawing.Point(654, 120);
             this.cmbZeroQty.Name = "cmbZeroQty";
             this.cmbZeroQty.Size = new System.Drawing.Size(75, 22);
-            this.cmbZeroQty.TabIndex = 45;
+            this.cmbZeroQty.TabIndex = 25;
             // 
             // lblZeroQty
             // 
             this.lblZeroQty.AutoSize = true;
-            this.lblZeroQty.Location = new System.Drawing.Point(437, 159);
+            this.lblZeroQty.Location = new System.Drawing.Point(473, 123);
             this.lblZeroQty.Name = "lblZeroQty";
             this.lblZeroQty.Size = new System.Drawing.Size(172, 14);
-            this.lblZeroQty.TabIndex = 44;
+            this.lblZeroQty.TabIndex = 24;
             this.lblZeroQty.Text = "Zero Quantity Alert Status";
             // 
             // chkBlockZeroPrice
             // 
             this.chkBlockZeroPrice.AutoSize = true;
-            this.chkBlockZeroPrice.Location = new System.Drawing.Point(433, 133);
+            this.chkBlockZeroPrice.Location = new System.Drawing.Point(471, 97);
             this.chkBlockZeroPrice.Name = "chkBlockZeroPrice";
             this.chkBlockZeroPrice.Size = new System.Drawing.Size(178, 18);
-            this.chkBlockZeroPrice.TabIndex = 43;
+            this.chkBlockZeroPrice.TabIndex = 23;
             this.chkBlockZeroPrice.Text = "Block Zero Price in Sales";
             this.chkBlockZeroPrice.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.chkBlockZeroPrice.UseVisualStyleBackColor = true;
@@ -209,10 +213,10 @@
             // chkAlwaysEnableHoldBillView
             // 
             this.chkAlwaysEnableHoldBillView.AutoSize = true;
-            this.chkAlwaysEnableHoldBillView.Location = new System.Drawing.Point(433, 108);
+            this.chkAlwaysEnableHoldBillView.Location = new System.Drawing.Point(471, 72);
             this.chkAlwaysEnableHoldBillView.Name = "chkAlwaysEnableHoldBillView";
             this.chkAlwaysEnableHoldBillView.Size = new System.Drawing.Size(200, 18);
-            this.chkAlwaysEnableHoldBillView.TabIndex = 42;
+            this.chkAlwaysEnableHoldBillView.TabIndex = 22;
             this.chkAlwaysEnableHoldBillView.Text = "Always Enable HoldBill View";
             this.chkAlwaysEnableHoldBillView.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.chkAlwaysEnableHoldBillView.UseVisualStyleBackColor = true;
@@ -220,10 +224,10 @@
             // chkSessionMngmnt
             // 
             this.chkSessionMngmnt.AutoSize = true;
-            this.chkSessionMngmnt.Location = new System.Drawing.Point(433, 83);
+            this.chkSessionMngmnt.Location = new System.Drawing.Point(471, 47);
             this.chkSessionMngmnt.Name = "chkSessionMngmnt";
             this.chkSessionMngmnt.Size = new System.Drawing.Size(214, 18);
-            this.chkSessionMngmnt.TabIndex = 41;
+            this.chkSessionMngmnt.TabIndex = 21;
             this.chkSessionMngmnt.Text = "Session Managment By Admin";
             this.chkSessionMngmnt.UseVisualStyleBackColor = true;
             // 
@@ -233,17 +237,17 @@
             this.ChkStockView.Location = new System.Drawing.Point(37, 168);
             this.ChkStockView.Name = "ChkStockView";
             this.ChkStockView.Size = new System.Drawing.Size(94, 18);
-            this.ChkStockView.TabIndex = 40;
+            this.ChkStockView.TabIndex = 6;
             this.ChkStockView.Text = "Stock View";
             this.ChkStockView.UseVisualStyleBackColor = true;
             // 
             // ChkActiveTable
             // 
             this.ChkActiveTable.AutoSize = true;
-            this.ChkActiveTable.Location = new System.Drawing.Point(227, 180);
+            this.ChkActiveTable.Location = new System.Drawing.Point(217, 144);
             this.ChkActiveTable.Name = "ChkActiveTable";
             this.ChkActiveTable.Size = new System.Drawing.Size(100, 18);
-            this.ChkActiveTable.TabIndex = 39;
+            this.ChkActiveTable.TabIndex = 16;
             this.ChkActiveTable.Text = "Active Table";
             this.ChkActiveTable.UseVisualStyleBackColor = true;
             this.ChkActiveTable.Enter += new System.EventHandler(this.ChkActiveTable_Enter);
@@ -253,10 +257,10 @@
             // ChkShowProdtSummryInSessionclose
             // 
             this.ChkShowProdtSummryInSessionclose.AutoSize = true;
-            this.ChkShowProdtSummryInSessionclose.Location = new System.Drawing.Point(433, 58);
+            this.ChkShowProdtSummryInSessionclose.Location = new System.Drawing.Point(471, 22);
             this.ChkShowProdtSummryInSessionclose.Name = "ChkShowProdtSummryInSessionclose";
             this.ChkShowProdtSummryInSessionclose.Size = new System.Drawing.Size(288, 18);
-            this.ChkShowProdtSummryInSessionclose.TabIndex = 38;
+            this.ChkShowProdtSummryInSessionclose.TabIndex = 20;
             this.ChkShowProdtSummryInSessionclose.Text = "Show Product  Summary In Session Close";
             this.ChkShowProdtSummryInSessionclose.UseVisualStyleBackColor = true;
             this.ChkShowProdtSummryInSessionclose.Enter += new System.EventHandler(this.ChkShowProdtSummryInSessionclose_Enter);
@@ -266,10 +270,10 @@
             // ChkAddqtyinsameBarcode
             // 
             this.ChkAddqtyinsameBarcode.AutoSize = true;
-            this.ChkAddqtyinsameBarcode.Location = new System.Drawing.Point(433, 33);
+            this.ChkAddqtyinsameBarcode.Location = new System.Drawing.Point(217, 216);
             this.ChkAddqtyinsameBarcode.Name = "ChkAddqtyinsameBarcode";
             this.ChkAddqtyinsameBarcode.Size = new System.Drawing.Size(234, 18);
-            this.ChkAddqtyinsameBarcode.TabIndex = 37;
+            this.ChkAddqtyinsameBarcode.TabIndex = 19;
             this.ChkAddqtyinsameBarcode.Text = "Add Qty In Same Barcode To Grid";
             this.ChkAddqtyinsameBarcode.UseVisualStyleBackColor = true;
             this.ChkAddqtyinsameBarcode.Enter += new System.EventHandler(this.ChkAddqtyinsameBarcode_Enter);
@@ -282,27 +286,27 @@
             this.cmbCustBill.Items.AddRange(new object[] {
             "Summary",
             "Full Bill"});
-            this.cmbCustBill.Location = new System.Drawing.Point(356, 156);
+            this.cmbCustBill.Location = new System.Drawing.Point(345, 120);
             this.cmbCustBill.Name = "cmbCustBill";
-            this.cmbCustBill.Size = new System.Drawing.Size(72, 22);
-            this.cmbCustBill.TabIndex = 36;
+            this.cmbCustBill.Size = new System.Drawing.Size(78, 22);
+            this.cmbCustBill.TabIndex = 15;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(226, 156);
+            this.label1.Location = new System.Drawing.Point(216, 120);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(125, 14);
-            this.label1.TabIndex = 35;
+            this.label1.TabIndex = 14;
             this.label1.Text = "Customer Bill Copy";
             // 
             // chkShowCustBill
             // 
             this.chkShowCustBill.AutoSize = true;
-            this.chkShowCustBill.Location = new System.Drawing.Point(433, 9);
+            this.chkShowCustBill.Location = new System.Drawing.Point(217, 192);
             this.chkShowCustBill.Name = "chkShowCustBill";
             this.chkShowCustBill.Size = new System.Drawing.Size(229, 18);
-            this.chkShowCustBill.TabIndex = 34;
+            this.chkShowCustBill.TabIndex = 18;
             this.chkShowCustBill.Text = "Show Customer Balance In Print";
             this.chkShowCustBill.UseVisualStyleBackColor = true;
             // 
@@ -324,10 +328,10 @@
             this.grpPrint.Controls.Add(this.txtAddress);
             this.grpPrint.Controls.Add(this.txtCompanyArabic);
             this.grpPrint.Controls.Add(this.txtCompanyName);
-            this.grpPrint.Location = new System.Drawing.Point(37, 236);
+            this.grpPrint.Location = new System.Drawing.Point(37, 241);
             this.grpPrint.Name = "grpPrint";
             this.grpPrint.Size = new System.Drawing.Size(546, 190);
-            this.grpPrint.TabIndex = 33;
+            this.grpPrint.TabIndex = 30;
             this.grpPrint.TabStop = false;
             this.grpPrint.Text = "POS Bill Details";
             // 
@@ -337,7 +341,7 @@
             this.chkCompanyArabic.Location = new System.Drawing.Point(474, 44);
             this.chkCompanyArabic.Name = "chkCompanyArabic";
             this.chkCompanyArabic.Size = new System.Drawing.Size(66, 18);
-            this.chkCompanyArabic.TabIndex = 46;
+            this.chkCompanyArabic.TabIndex = 11;
             this.chkCompanyArabic.Text = "Visible";
             this.chkCompanyArabic.UseVisualStyleBackColor = true;
             // 
@@ -347,7 +351,7 @@
             this.chkAddress.Location = new System.Drawing.Point(474, 76);
             this.chkAddress.Name = "chkAddress";
             this.chkAddress.Size = new System.Drawing.Size(66, 18);
-            this.chkAddress.TabIndex = 45;
+            this.chkAddress.TabIndex = 13;
             this.chkAddress.Text = "Visible";
             this.chkAddress.UseVisualStyleBackColor = true;
             // 
@@ -357,7 +361,7 @@
             this.chkPhone.Location = new System.Drawing.Point(474, 151);
             this.chkPhone.Name = "chkPhone";
             this.chkPhone.Size = new System.Drawing.Size(66, 18);
-            this.chkPhone.TabIndex = 44;
+            this.chkPhone.TabIndex = 15;
             this.chkPhone.Text = "Visible";
             this.chkPhone.UseVisualStyleBackColor = true;
             // 
@@ -367,7 +371,7 @@
             this.chkCompany.Location = new System.Drawing.Point(474, 20);
             this.chkCompany.Name = "chkCompany";
             this.chkCompany.Size = new System.Drawing.Size(66, 18);
-            this.chkCompany.TabIndex = 42;
+            this.chkCompany.TabIndex = 9;
             this.chkCompany.Text = "Visible";
             this.chkCompany.UseVisualStyleBackColor = true;
             // 
@@ -376,7 +380,7 @@
             this.txtPhoneH.Location = new System.Drawing.Point(431, 149);
             this.txtPhoneH.Name = "txtPhoneH";
             this.txtPhoneH.Size = new System.Drawing.Size(37, 22);
-            this.txtPhoneH.TabIndex = 41;
+            this.txtPhoneH.TabIndex = 14;
             this.txtPhoneH.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPhoneH_KeyPress);
             this.txtPhoneH.Leave += new System.EventHandler(this.txtPhoneH_Leave);
             // 
@@ -385,7 +389,7 @@
             this.txtAddressH.Location = new System.Drawing.Point(431, 72);
             this.txtAddressH.Name = "txtAddressH";
             this.txtAddressH.Size = new System.Drawing.Size(37, 22);
-            this.txtAddressH.TabIndex = 40;
+            this.txtAddressH.TabIndex = 12;
             this.txtAddressH.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtAddressH_KeyPress);
             this.txtAddressH.Leave += new System.EventHandler(this.txtAddressH_Leave);
             // 
@@ -394,7 +398,7 @@
             this.txtCompanyArabicH.Location = new System.Drawing.Point(431, 44);
             this.txtCompanyArabicH.Name = "txtCompanyArabicH";
             this.txtCompanyArabicH.Size = new System.Drawing.Size(37, 22);
-            this.txtCompanyArabicH.TabIndex = 39;
+            this.txtCompanyArabicH.TabIndex = 10;
             this.txtCompanyArabicH.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCompanyArabicH_KeyPress);
             this.txtCompanyArabicH.Leave += new System.EventHandler(this.txtCompanyArabicH_Leave);
             // 
@@ -403,7 +407,7 @@
             this.txtCompanyH.Location = new System.Drawing.Point(431, 18);
             this.txtCompanyH.Name = "txtCompanyH";
             this.txtCompanyH.Size = new System.Drawing.Size(37, 22);
-            this.txtCompanyH.TabIndex = 38;
+            this.txtCompanyH.TabIndex = 8;
             this.txtCompanyH.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCompanyH_KeyPress);
             this.txtCompanyH.Leave += new System.EventHandler(this.txtCompanyH_Leave);
             // 
@@ -413,7 +417,7 @@
             this.lblPhone.Location = new System.Drawing.Point(9, 157);
             this.lblPhone.Name = "lblPhone";
             this.lblPhone.Size = new System.Drawing.Size(47, 14);
-            this.lblPhone.TabIndex = 37;
+            this.lblPhone.TabIndex = 6;
             this.lblPhone.Text = "Phone";
             // 
             // lblAddress
@@ -422,7 +426,7 @@
             this.lblAddress.Location = new System.Drawing.Point(9, 72);
             this.lblAddress.Name = "lblAddress";
             this.lblAddress.Size = new System.Drawing.Size(58, 14);
-            this.lblAddress.TabIndex = 36;
+            this.lblAddress.TabIndex = 4;
             this.lblAddress.Text = "Address";
             // 
             // lblCompanyNameArabic
@@ -431,7 +435,7 @@
             this.lblCompanyNameArabic.Location = new System.Drawing.Point(9, 44);
             this.lblCompanyNameArabic.Name = "lblCompanyNameArabic";
             this.lblCompanyNameArabic.Size = new System.Drawing.Size(45, 14);
-            this.lblCompanyNameArabic.TabIndex = 35;
+            this.lblCompanyNameArabic.TabIndex = 2;
             this.lblCompanyNameArabic.Text = "Arabic";
             // 
             // lblCompanyName
@@ -440,7 +444,7 @@
             this.lblCompanyName.Location = new System.Drawing.Point(9, 21);
             this.lblCompanyName.Name = "lblCompanyName";
             this.lblCompanyName.Size = new System.Drawing.Size(106, 14);
-            this.lblCompanyName.TabIndex = 34;
+            this.lblCompanyName.TabIndex = 0;
             this.lblCompanyName.Text = "Company Name";
             // 
             // txtPhone
@@ -448,7 +452,7 @@
             this.txtPhone.Location = new System.Drawing.Point(121, 149);
             this.txtPhone.Name = "txtPhone";
             this.txtPhone.Size = new System.Drawing.Size(304, 22);
-            this.txtPhone.TabIndex = 3;
+            this.txtPhone.TabIndex = 7;
             // 
             // txtAddress
             // 
@@ -456,28 +460,28 @@
             this.txtAddress.Multiline = true;
             this.txtAddress.Name = "txtAddress";
             this.txtAddress.Size = new System.Drawing.Size(304, 71);
-            this.txtAddress.TabIndex = 2;
+            this.txtAddress.TabIndex = 5;
             // 
             // txtCompanyArabic
             // 
             this.txtCompanyArabic.Location = new System.Drawing.Point(121, 44);
             this.txtCompanyArabic.Name = "txtCompanyArabic";
             this.txtCompanyArabic.Size = new System.Drawing.Size(304, 22);
-            this.txtCompanyArabic.TabIndex = 1;
+            this.txtCompanyArabic.TabIndex = 3;
             // 
             // txtCompanyName
             // 
             this.txtCompanyName.Location = new System.Drawing.Point(121, 18);
             this.txtCompanyName.Name = "txtCompanyName";
             this.txtCompanyName.Size = new System.Drawing.Size(304, 22);
-            this.txtCompanyName.TabIndex = 0;
+            this.txtCompanyName.TabIndex = 1;
             // 
             // txtExpiry
             // 
-            this.txtExpiry.Location = new System.Drawing.Point(377, 130);
+            this.txtExpiry.Location = new System.Drawing.Point(373, 93);
             this.txtExpiry.Name = "txtExpiry";
             this.txtExpiry.Size = new System.Drawing.Size(50, 22);
-            this.txtExpiry.TabIndex = 12;
+            this.txtExpiry.TabIndex = 13;
             this.txtExpiry.Text = "0";
             this.txtExpiry.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtExpiry.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtExpiry_KeyDown);
@@ -486,10 +490,10 @@
             // lblExpiry
             // 
             this.lblExpiry.AutoSize = true;
-            this.lblExpiry.Location = new System.Drawing.Point(224, 133);
+            this.lblExpiry.Location = new System.Drawing.Point(215, 97);
             this.lblExpiry.Name = "lblExpiry";
             this.lblExpiry.Size = new System.Drawing.Size(155, 14);
-            this.lblExpiry.TabIndex = 31;
+            this.lblExpiry.TabIndex = 12;
             this.lblExpiry.Text = "Credit Note expiry days\n";
             // 
             // btnClose
@@ -505,7 +509,7 @@
             this.btnClose.Margin = new System.Windows.Forms.Padding(1);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(89, 28);
-            this.btnClose.TabIndex = 30;
+            this.btnClose.TabIndex = 32;
             this.btnClose.Text = "Close";
             this.btnClose.UseVisualStyleBackColor = false;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
@@ -522,7 +526,7 @@
             this.btnSave.Margin = new System.Windows.Forms.Padding(1);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(88, 28);
-            this.btnSave.TabIndex = 13;
+            this.btnSave.TabIndex = 31;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -533,57 +537,57 @@
             this.chkQtyChangeAuth.Location = new System.Drawing.Point(39, 144);
             this.chkQtyChangeAuth.Name = "chkQtyChangeAuth";
             this.chkQtyChangeAuth.Size = new System.Drawing.Size(134, 18);
-            this.chkQtyChangeAuth.TabIndex = 10;
+            this.chkQtyChangeAuth.TabIndex = 5;
             this.chkQtyChangeAuth.Text = "Qty Change Auth";
             this.chkQtyChangeAuth.UseVisualStyleBackColor = true;
             // 
             // chkCashBoxOpenAuth
             // 
             this.chkCashBoxOpenAuth.AutoSize = true;
-            this.chkCashBoxOpenAuth.Location = new System.Drawing.Point(228, 108);
+            this.chkCashBoxOpenAuth.Location = new System.Drawing.Point(218, 72);
             this.chkCashBoxOpenAuth.Name = "chkCashBoxOpenAuth";
             this.chkCashBoxOpenAuth.Size = new System.Drawing.Size(152, 18);
-            this.chkCashBoxOpenAuth.TabIndex = 9;
+            this.chkCashBoxOpenAuth.TabIndex = 11;
             this.chkCashBoxOpenAuth.Text = "CashBox Open Auth";
             this.chkCashBoxOpenAuth.UseVisualStyleBackColor = true;
             // 
             // chkExchangeItemAuth
             // 
             this.chkExchangeItemAuth.AutoSize = true;
-            this.chkExchangeItemAuth.Location = new System.Drawing.Point(228, 83);
+            this.chkExchangeItemAuth.Location = new System.Drawing.Point(218, 47);
             this.chkExchangeItemAuth.Name = "chkExchangeItemAuth";
             this.chkExchangeItemAuth.Size = new System.Drawing.Size(153, 18);
-            this.chkExchangeItemAuth.TabIndex = 8;
+            this.chkExchangeItemAuth.TabIndex = 10;
             this.chkExchangeItemAuth.Text = "Exchange Item Auth";
             this.chkExchangeItemAuth.UseVisualStyleBackColor = true;
             // 
             // chklastBillPrintAuth
             // 
             this.chklastBillPrintAuth.AutoSize = true;
-            this.chklastBillPrintAuth.Location = new System.Drawing.Point(228, 58);
+            this.chklastBillPrintAuth.Location = new System.Drawing.Point(218, 22);
             this.chklastBillPrintAuth.Name = "chklastBillPrintAuth";
             this.chklastBillPrintAuth.Size = new System.Drawing.Size(107, 18);
-            this.chklastBillPrintAuth.TabIndex = 7;
+            this.chklastBillPrintAuth.TabIndex = 9;
             this.chklastBillPrintAuth.Text = "Last Bill Print";
             this.chklastBillPrintAuth.UseVisualStyleBackColor = true;
             // 
             // chkItemGrouping
             // 
             this.chkItemGrouping.AutoSize = true;
-            this.chkItemGrouping.Location = new System.Drawing.Point(228, 33);
+            this.chkItemGrouping.Location = new System.Drawing.Point(39, 214);
             this.chkItemGrouping.Name = "chkItemGrouping";
             this.chkItemGrouping.Size = new System.Drawing.Size(120, 18);
-            this.chkItemGrouping.TabIndex = 6;
+            this.chkItemGrouping.TabIndex = 8;
             this.chkItemGrouping.Text = "Item Grouping ";
             this.chkItemGrouping.UseVisualStyleBackColor = true;
             // 
             // chkZeroStockAuth
             // 
             this.chkZeroStockAuth.AutoSize = true;
-            this.chkZeroStockAuth.Location = new System.Drawing.Point(228, 9);
+            this.chkZeroStockAuth.Location = new System.Drawing.Point(39, 191);
             this.chkZeroStockAuth.Name = "chkZeroStockAuth";
             this.chkZeroStockAuth.Size = new System.Drawing.Size(126, 18);
-            this.chkZeroStockAuth.TabIndex = 5;
+            this.chkZeroStockAuth.TabIndex = 7;
             this.chkZeroStockAuth.Text = "Zero Stock Auth";
             this.chkZeroStockAuth.UseVisualStyleBackColor = true;
             // 
@@ -643,8 +647,30 @@
             this.lblPOSSettingsId.Location = new System.Drawing.Point(734, 405);
             this.lblPOSSettingsId.Name = "lblPOSSettingsId";
             this.lblPOSSettingsId.Size = new System.Drawing.Size(15, 14);
-            this.lblPOSSettingsId.TabIndex = 32;
+            this.lblPOSSettingsId.TabIndex = 33;
             this.lblPOSSettingsId.Text = "0";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Cursor = System.Windows.Forms.Cursors.AppStarting;
+            this.label3.Location = new System.Drawing.Point(474, 203);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(126, 14);
+            this.label3.TabIndex = 34;
+            this.label3.Text = "Pricing Alert Status";
+            // 
+            // cmbPricingAlertStatus
+            // 
+            this.cmbPricingAlertStatus.FormattingEnabled = true;
+            this.cmbPricingAlertStatus.Items.AddRange(new object[] {
+            "Warn",
+            "Block",
+            "Ignore"});
+            this.cmbPricingAlertStatus.Location = new System.Drawing.Point(654, 203);
+            this.cmbPricingAlertStatus.Name = "cmbPricingAlertStatus";
+            this.cmbPricingAlertStatus.Size = new System.Drawing.Size(75, 22);
+            this.cmbPricingAlertStatus.TabIndex = 35;
             // 
             // frmPOSSettings
             // 
@@ -718,5 +744,7 @@
         private System.Windows.Forms.TextBox txtStartingTokenNo;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox chkIsHoldBillNeeded;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox cmbPricingAlertStatus;
     }
 }

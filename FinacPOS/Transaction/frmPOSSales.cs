@@ -4007,15 +4007,24 @@ namespace FinacPOS
 
                 if (purchaseRate > salesRate)
                 {
-                    MessageBox.Show("Purchase Rate exceeds theSales Rate. Please check the price.", "Pricing Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                   
+                    if (InfoPOSSettings.PricingAlertStatus == "Warn")
+                    {
+                        MessageBox.Show("Purchase Rate exceeds the Sales Rate on line " + (e.RowIndex + 1) + ". Please check the price.", "Pricing Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    else if (InfoPOSSettings.PricingAlertStatus == "Block")
+                    {
+                        MessageBox.Show("Cannot proceed! Purchase Rate exceeds the Sales Rate on line " + (e.RowIndex + 1) + " - " + dgvProduct.Rows[e.RowIndex].Cells["ItemName"].Value.ToString(), "Pricing Blocked", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                        barcodeFocus();
+                        return; 
+                    }
                 }
                 AssignExludeRate(e.RowIndex);
                 CalculateGridTotal(e.RowIndex);
                 SalesRate.ReadOnly = true;
             }
               
-        
-           
+       
             if (e.ColumnIndex == 13) //DiscAmt
             {
                 CalculateGridTotal(e.RowIndex);
