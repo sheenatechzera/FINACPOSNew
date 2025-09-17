@@ -4290,12 +4290,7 @@ namespace FinacPOS
                     {
                         MessageBox.Show("Purchase Rate exceeds the Sales Rate on line " + (e.RowIndex + 1) + ". Please check the price.", "Pricing Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
-                    else if (InfoPOSSettings.PricingAlertStatus == "Block")
-                    {
-                        MessageBox.Show("Cannot proceed! Purchase Rate exceeds the Sales Rate on line " + (e.RowIndex + 1) + " - " + dgvProduct.Rows[e.RowIndex].Cells["ItemName"].Value.ToString(), "Pricing Blocked", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                        barcodeFocus();
-                        return; // stop further processing
-                    }
+                   
 
                 }
 
@@ -4846,13 +4841,16 @@ namespace FinacPOS
                     bool isExchangebill = false;
                     for (int i = 0; i < dgvProduct.Rows.Count - 1; i++)
                     {
+                        decimal dcPurchaseRate = 0;
                         decimal dcQty = 0;
                         decimal dcSalesRate = 0;
                         try { dcQty = decimal.Parse(dgvProduct.Rows[i].Cells["Qty"].Value.ToString()); }
                         catch { }
                         try { dcSalesRate = decimal.Parse(dgvProduct.Rows[i].Cells["SalesRate"].Value.ToString()); }
                         catch { }
-
+                         try
+                        { dcPurchaseRate = decimal.Parse(dgvProduct.Rows[i].Cells["PurchaseRate"].Value.ToString());}
+                        catch { }
                         if (dcQty < 0)
                         {
                             isExchangebill = true;
@@ -4869,6 +4867,21 @@ namespace FinacPOS
                             {
                                 MessageBox.Show("Cannot proceed! ZERO QTY found on Line number " + (i + 1) + " - " + dgvProduct.Rows[i].Cells["ItemName"].Value.ToString(),
                                                 "Blocked", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                                barcodeFocus();
+                                return;
+                            }
+                        }
+                        //SalesPriceChecking
+
+                     
+                        if (dcPurchaseRate > dcSalesRate)
+                        {
+
+                            if (InfoPOSSettings.PricingAlertStatus == "Block")
+                            {
+                                MessageBox.Show("Cannot proceed! Purchase Rate exceeds Sales Rate on Line number " + (i + 1) +
+                                                " - " + dgvProduct.Rows[i].Cells["ItemName"].Value.ToString(),
+                                                "Pricing Blocked", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                                 barcodeFocus();
                                 return;
                             }
