@@ -552,7 +552,7 @@ namespace FinacPOS
 
                 System.Windows.Forms.Label lbl = new System.Windows.Forms.Label
                 {
-                    Text = productName + Environment.NewLine + row["unitName"].ToString(),
+                    Text = productName.ToString(),
                     Width = 120,
                     Height = 53,
                     TextAlign = ContentAlignment.MiddleCenter,
