@@ -157,5 +157,34 @@ namespace FinacPOS
             }
             return dtblAccountLedger;
         }
+        public DataTable AccountLedgerGetByLedgerCodeForZatcaSave(string ledgerCode)//
+        {
+            DataTable dtblAccountLedger = new DataTable();
+            try
+            {
+                if (sqlcon.State == ConnectionState.Closed)
+                {
+                    sqlcon.Open();
+                }
+                SqlDataAdapter sdaadapter = new SqlDataAdapter("AccountLedgerGetByLedgerCodeForZatcaSave", sqlcon);
+                sdaadapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+                SqlParameter prm = new SqlParameter();
+                prm = sdaadapter.SelectCommand.Parameters.Add("@ledgerCode", SqlDbType.VarChar);
+                prm.Value = ledgerCode;
+                prm = sdaadapter.SelectCommand.Parameters.Add("@branchId", SqlDbType.VarChar);
+                prm.Value = PublicVariables._branchId;
+                sdaadapter.Fill(dtblAccountLedger);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            finally
+            {
+                sqlcon.Close();
+            }
+            return dtblAccountLedger;
+        }
     }
 }

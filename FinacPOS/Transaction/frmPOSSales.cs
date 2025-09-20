@@ -2527,7 +2527,7 @@ namespace FinacPOS
             }
             if (FinanceSettingsInfo._ZatcaType == "Phase 2")
             {
-                var result = EinvoiceGenerator.EinvoiceReq(strMasterId, "Sales Invoice");
+                var result = EinvoiceGenerator.EinvoiceReq(strMasterId, "POS Sales Invoice");
             }
             //CreditNote Status Update
             if (InfoPOSSalesMaster.CreditNoteNo != "")
@@ -4546,6 +4546,7 @@ namespace FinacPOS
         private void btnCash_Click(object sender, EventArgs e)
         {
             bool isOk = true;
+            string validationMsg = "";
             if (((Button)sender).Name == "btnCredit")
             {
                 DataTable dtbl = new DataTable();
@@ -4580,134 +4581,214 @@ namespace FinacPOS
                 }
 
             }
-
-            if (isOk)
+            if (AccountLedgerValidationForZatcaSave(out validationMsg))
             {
-                if (dgvProduct.Rows.Count > 0)
+                if (isOk)
                 {
-                    decimal dcTotal = 0;
-
-                    try { dcTotal = decimal.Parse(txtTotal.Text.Trim().ToString()); }
-                    catch { }
-
-                    bool isExchangebill = false;
-                    for (int i = 0; i < dgvProduct.Rows.Count - 1; i++)
+                    if (dgvProduct.Rows.Count > 0)
                     {
-                        decimal dcPurchaseRate = 0;
-                        decimal dcQty = 0;
-                        decimal dcSalesRate = 0;
-                        try { dcQty = decimal.Parse(dgvProduct.Rows[i].Cells["Qty"].Value.ToString()); }
+                        decimal dcTotal = 0;
+
+                        try { dcTotal = decimal.Parse(txtTotal.Text.Trim().ToString()); }
                         catch { }
-                        try { dcSalesRate = decimal.Parse(dgvProduct.Rows[i].Cells["SalesRate"].Value.ToString()); }
-                        catch { }
-                        try
-                        { dcPurchaseRate = decimal.Parse(dgvProduct.Rows[i].Cells["PurchaseRate"].Value.ToString());
-                        }
-                        catch { }
-                        if (dcQty < 0)
-                        {
-                            isExchangebill = true;
-                        }
-                        if (dcQty < 0)
-                        {
-                            isExchangebill = true;
-                        }
 
-                        // Zero Quantity Check
-                        if (dcQty == 0)
+                        bool isExchangebill = false;
+                        for (int i = 0; i < dgvProduct.Rows.Count - 1; i++)
                         {
-                            if (POSSettingsInfo._ZeroQtyAlert == "Warn")
+                            decimal dcPurchaseRate = 0;
+                            decimal dcQty = 0;
+                            decimal dcSalesRate = 0;
+                            try { dcQty = decimal.Parse(dgvProduct.Rows[i].Cells["Qty"].Value.ToString()); }
+                            catch { }
+                            try { dcSalesRate = decimal.Parse(dgvProduct.Rows[i].Cells["SalesRate"].Value.ToString()); }
+                            catch { }
+                            try
                             {
-                                MessageBox.Show("Product with ZERO QTY on Line number " + (i + 1) +  " - " + dgvProduct.Rows[i].Cells["ItemName"].Value.ToString(),
-                                                "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                dcPurchaseRate = decimal.Parse(dgvProduct.Rows[i].Cells["PurchaseRate"].Value.ToString());
                             }
-                            else if (POSSettingsInfo._ZeroQtyAlert == "Block")
+                            catch { }
+                            if (dcQty < 0)
                             {
-                                MessageBox.Show("Cannot proceed! ZERO QTY found on Line number " + (i + 1) +  " - " + dgvProduct.Rows[i].Cells["ItemName"].Value.ToString(),
-                                                "Blocked", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                                barcodeFocus();
-                                return;
+                                isExchangebill = true;
                             }
-                        }
-                        //SalesPriceChecking
-                     
-                         if (dcPurchaseRate > dcSalesRate)
-                        {
-                           
-                            if(InfoPOSSettings.PricingAlertStatus == "Block")
-                              {
-                                MessageBox.Show("Cannot proceed! Purchase Rate exceeds Sales Rate on Line number " + (i + 1) +
-                                                " - " + dgvProduct.Rows[i].Cells["ItemName"].Value.ToString(),
-                                                "Pricing Blocked", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                                barcodeFocus();
-                                return; 
-                               }
-                        }
-                        if (POSSettingsInfo._BlockZeroPriceInSales)
-                        {
-                            if (dcSalesRate == 0 && dgvProduct.Rows[i].Cells["SalesRate"].Value.ToString() != "Barcode")
+                            if (dcQty < 0)
                             {
-                                MessageBox.Show("Product with ZERO PRICE on Line number " + (i + 1) + " - " + dgvProduct.Rows[i].Cells["ItemName"].Value.ToString());
-                                barcodeFocus();
-                                return;
+                                isExchangebill = true;
                             }
+
+                            // Zero Quantity Check
+                            if (dcQty == 0)
+                            {
+                                if (POSSettingsInfo._ZeroQtyAlert == "Warn")
+                                {
+                                    MessageBox.Show("Product with ZERO QTY on Line number " + (i + 1) + " - " + dgvProduct.Rows[i].Cells["ItemName"].Value.ToString(),
+                                                    "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                }
+                                else if (POSSettingsInfo._ZeroQtyAlert == "Block")
+                                {
+                                    MessageBox.Show("Cannot proceed! ZERO QTY found on Line number " + (i + 1) + " - " + dgvProduct.Rows[i].Cells["ItemName"].Value.ToString(),
+                                                    "Blocked", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                                    barcodeFocus();
+                                    return;
+                                }
+                            }
+                            //SalesPriceChecking
+
+                            if (dcPurchaseRate > dcSalesRate)
+                            {
+
+                                if (InfoPOSSettings.PricingAlertStatus == "Block")
+                                {
+                                    MessageBox.Show("Cannot proceed! Purchase Rate exceeds Sales Rate on Line number " + (i + 1) +
+                                                    " - " + dgvProduct.Rows[i].Cells["ItemName"].Value.ToString(),
+                                                    "Pricing Blocked", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                                    barcodeFocus();
+                                    return;
+                                }
+                            }
+                            if (POSSettingsInfo._BlockZeroPriceInSales)
+                            {
+                                if (dcSalesRate == 0 && dgvProduct.Rows[i].Cells["SalesRate"].Value.ToString() != "Barcode")
+                                {
+                                    MessageBox.Show("Product with ZERO PRICE on Line number " + (i + 1) + " - " + dgvProduct.Rows[i].Cells["ItemName"].Value.ToString());
+                                    barcodeFocus();
+                                    return;
+                                }
+                            }
+
+
+                        }
+
+                        if (dcTotal <= 0 && isExchangebill == false)
+                        {
+                            MessageBox.Show("Cannot make bill as Amount ZERO", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            barcodeFocus();
+                            return;
                         }
 
 
-                    }
-
-                    if (dcTotal <= 0 && isExchangebill == false)
-                    {
-                        MessageBox.Show("Cannot make bill as Amount ZERO", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        barcodeFocus();
-                        return;
-                    }
-
-
-                    string strButtonName = "";
-                    if (isSavefromButton == true)
-                    {
-                        if (((Button)sender).Name == "btnCash")
+                        string strButtonName = "";
+                        if (isSavefromButton == true)
+                        {
+                            if (((Button)sender).Name == "btnCash")
+                            {
+                                strButtonName = "Cash";
+                            }
+                            else if (((Button)sender).Name == "btnCreditCard")
+                            {
+                                strButtonName = "CreditCard";
+                            }
+                            else if (((Button)sender).Name == "btnUPI")
+                            {
+                                strButtonName = "UPI";
+                            }
+                            else if (((Button)sender).Name == "btnCredit")
+                            {
+                                strButtonName = "Credit";
+                            }
+                        }
+                        else
                         {
                             strButtonName = "Cash";
                         }
-                        else if (((Button)sender).Name == "btnCreditCard")
-                        {
-                            strButtonName = "CreditCard";
-                        }
-                        else if (((Button)sender).Name == "btnUPI")
-                        {
-                            strButtonName = "UPI";
-                        }
-                        else if (((Button)sender).Name == "btnCredit")
-                        {
-                            strButtonName = "Credit";
-                        }
-                    }
-                    else
-                    {
-                        strButtonName = "Cash";
-                    }
 
-                    if (counterInfo.DisplayStatus == true)
-                    {
-                        PoleDisplay("Total");
-                    }
+                        if (counterInfo.DisplayStatus == true)
+                        {
+                            PoleDisplay("Total");
+                        }
 
-                    frmPOSPayment frmObjPOSPayment = new frmPOSPayment();
-                    frmObjPOSPayment.DoWhenComingFromPOSSalesForm(this, txtTotal.Text.Trim(), strButtonName);
-                    this.Enabled = false;
+                        frmPOSPayment frmObjPOSPayment = new frmPOSPayment();
+                        frmObjPOSPayment.DoWhenComingFromPOSSalesForm(this, txtTotal.Text.Trim(), strButtonName);
+                        this.Enabled = false;
+                    }
+                }
+                else
+                {
+                    barcodeFocus();
                 }
             }
             else
             {
-                barcodeFocus();
+                MessageBox.Show(validationMsg, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-
         }
 
         #endregion
+        private bool AccountLedgerValidationForZatcaSave(out string message)
+        {
+            message = string.Empty;
 
+            if (FinanceSettingsInfo._ZatcaType == "Phase 2")
+            {
+                if (lblLedgerId.Text != "")
+                {
+                    DataTable dtLedger = new AccountLedgerSP().AccountLedgerGetByLedgerCodeForZatcaSave(lblLedgerId.Text);
+                    if (dtLedger.Rows.Count > 0)
+                    {
+                        DataRow row = dtLedger.Rows[0];
+
+                        // 1. Check mandatory fields
+                        if (string.IsNullOrWhiteSpace(row["ledgerName"].ToString()))
+                        {
+                            message = "Customer Ledger Name is missing.";
+                            return false;
+                        }
+                        if (string.IsNullOrWhiteSpace(row["StreetName"].ToString()))
+                        {
+                            message = "Customer Street Name is missing.";
+                            return false;
+                        }
+                        if (string.IsNullOrWhiteSpace(row["BuildingNo"].ToString()))
+                        {
+                            message = "Customer Building Number is missing.";
+                            return false;
+                        }
+                        if (string.IsNullOrWhiteSpace(row["PostboxNo"].ToString()))
+                        {
+                            message = "Customer Postbox Number is missing.";
+                            return false;
+                        }
+                        if (string.IsNullOrWhiteSpace(row["CityName"].ToString()))
+                        {
+                            message = "Customer City Name is missing.";
+                            return false;
+                        }
+                        if (string.IsNullOrWhiteSpace(row["District"].ToString()))
+                        {
+                            message = "Customer District is missing.";
+                            return false;
+                        }
+
+                        // 2. Check VAT number
+                        string tinNumber = row["tinNumber"]?.ToString().Trim();
+                        if (string.IsNullOrWhiteSpace(tinNumber))
+                        {
+                            message = "Customer VAT Number is missing.";
+                            return false;
+                        }
+                        if (!(tinNumber.StartsWith("3") && tinNumber.EndsWith("3")))
+                        {
+                            message = "Customer VAT Number must start and end with 3.";
+                            return false;
+                        }
+                        if (tinNumber.Length != 15 || !tinNumber.All(char.IsDigit))
+                        {
+                            message = "Customer VAT Number must be 15 digits.";
+                            return false;
+                        }
+
+                        return true; //  All good
+                    }
+                    else
+                    {
+                        message = "Ledger not found.";
+                        return false;
+                    }
+                }
+            }
+
+            return true; // Not Phase 2 or not Tax Invoice → skip checks
+        }
         private void dgvProduct_KeyDown(object sender, KeyEventArgs e)
         {
 

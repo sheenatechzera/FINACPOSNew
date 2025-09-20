@@ -1168,6 +1168,7 @@ namespace FinacPOS
         private void btnSave_Click(object sender, EventArgs e)
         {
             bool isOk = true;
+            string validationMsg = "";
             if (rbtCredit.Checked == true)
             {
                 if (txtCustomerId.Text.ToString() != "")
@@ -1200,130 +1201,211 @@ namespace FinacPOS
                 MessageBox.Show("Please Select Return method as Credit", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 isOk = false;
             }
-            if(isOk)
+            if (AccountLedgerValidationForZatcaSave(out validationMsg))
             {
-                if (dgvProduct.Rows.Count > 0)
+                if (isOk)
                 {
-                    decimal dcTotal = 0;
-
-                    try { dcTotal = decimal.Parse(txtTotal.Text.Trim().ToString()); }
-                    catch { }
-
-                    if (dcTotal != 0)
+                    if (dgvProduct.Rows.Count > 0)
                     {
-                        string strReturnMethod = "";
-                        string strReturnStatus = "";
-                        if (rbtCreditNote.Checked == true)
+                        decimal dcTotal = 0;
+
+                        try { dcTotal = decimal.Parse(txtTotal.Text.Trim().ToString()); }
+                        catch { }
+
+                        if (dcTotal != 0)
                         {
-                            strReturnMethod = "CreditNote";
-                            strReturnStatus = "P";
-                        }
-                        else if (rbtCash.Checked == true)
-                        {
-                            strReturnMethod = "Cash";
-                            strReturnStatus = "C";
-                        }
-                        else if (rbtCredit.Checked == true)
-                        {
-                            strReturnMethod = "Credit";
-                            strReturnStatus = "C";
+                            string strReturnMethod = "";
+                            string strReturnStatus = "";
+                            if (rbtCreditNote.Checked == true)
+                            {
+                                strReturnMethod = "CreditNote";
+                                strReturnStatus = "P";
+                            }
+                            else if (rbtCash.Checked == true)
+                            {
+                                strReturnMethod = "Cash";
+                                strReturnStatus = "C";
+                            }
+                            else if (rbtCredit.Checked == true)
+                            {
+                                strReturnMethod = "Credit";
+                                strReturnStatus = "C";
+                            }
+                            else
+                            {
+                                MessageBox.Show("Please Select any Return Method", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                barcodeFocus();
+                                return;
+                            }
+
+                            string strMasterId = SaveFunction(strReturnMethod, strReturnStatus).ToString();
+
+                            if (strMasterId != "")
+                            {
+                                DataTable dtblTaxSummery = new DataTable();
+                                dtblTaxSummery = GetTaxSum();
+                                //MessageBox.Show("Saved");
+                                bool isPrintSuccess = false;
+                                try
+                                {
+                                    dtblTaxDetailsThermal = dtblTaxSummery;
+                                    //FillDatatatablesforPrint();
+                                    FillDatatatablesforDevPrint();
+                                    isPrintSuccess = true;
+                                }
+                                catch (Exception ex)
+                                {
+                                    isPrintSuccess = false;
+
+                                }
+
+                                if (isPrintSuccess == true)
+                                {
+                                    if (rbtCreditNote.Checked == false)
+                                    {
+                                        SaveLedgerPosting(strMasterId, dtblTaxSummery);
+                                    }
+
+                                    SavetoStockPosting(strMasterId);
+                                    if (txtCustomerId.Text != "")
+                                    {
+                                        //party balance
+                                        PartyBalanceSP SPPartyBalance = new PartyBalanceSP();
+                                        AccountLedgerSP SpAccountLedger = new AccountLedgerSP();
+                                        AccountLedgerInfo InfoLedger = SpAccountLedger.AccountLedgerView(lblLedgerId.Text);
+                                        CurrencyConversionSP SPCurrencyConversion = new CurrencyConversionSP();
+                                        bool BillByBill = SPCurrencyConversion.SettingsViewByBranchId(PublicVariables._branchId);
+                                        if (InfoLedger.BillByBill && BillByBill)
+                                        {
+                                            PartyBalanceInfo InfoPartyBalance = new PartyBalanceInfo();
+                                            InfoPartyBalance.AgainstvoucherNo = "NA";
+                                            InfoPartyBalance.AgainstVoucherType = "NA";
+                                            InfoPartyBalance.BranchId = PublicVariables._branchId;
+                                            InfoPartyBalance.Credit = decimal.Parse(txtTotal.Text);
+                                            InfoPartyBalance.Debit = 0;
+                                            InfoPartyBalance.invoiceNo = lblBillNo.Text; //added on 24/03/2025  by  Nishana
+                                            InfoPartyBalance.referenceNo = "";  //24/03/2025
+                                            InfoPartyBalance.BillAmount = decimal.Parse(txtTotal.Text); //24/03/2025
+                                            InfoPartyBalance.invoiceDate = DateTime.Parse(lblSessionDate.Text); //24/03/2025
+                                            InfoPartyBalance.costCentreId = "1"; //24/03/2025
+                                            InfoPartyBalance.exchangeDate = PublicVariables._fromDate; //24/03/2025
+                                            InfoPartyBalance.exchangeRate = 1; //24/03/2025
+                                            InfoPartyBalance.CreditPeriod = 0;
+                                            SPCurrencyConversion.CurrencyConversionRateIdViewByCurrencyId(InfoLedger.CurrencyId, DateTime.Parse(lblBillDate.Text), PublicVariables._branchId);
+                                            InfoPartyBalance.CurrencyConversionId = SPCurrencyConversion.CurrencyConversionRateIdViewByCurrencyId(InfoLedger.CurrencyId, DateTime.Parse(lblBillDate.Text), PublicVariables._branchId);
+                                            InfoPartyBalance.Date = Convert.ToDateTime(lblBillDate.Text);
+                                            InfoPartyBalance.Extra1 = "";
+                                            InfoPartyBalance.Extra2 = "";
+                                            //InfoPartyBalance.LedgerId = cmbCashOrParty.SelectedValue.ToString();
+                                            InfoPartyBalance.LedgerId = lblLedgerId.Text;
+                                            InfoPartyBalance.Optional = false;
+                                            InfoPartyBalance.ReferenceType = "New";
+                                            InfoPartyBalance.VoucherNo = strMasterId;
+                                            InfoPartyBalance.VoucherType = "POS SalesReturn";
+
+                                            SPPartyBalance.PartyBalanceAdd(InfoPartyBalance);
+                                        }
+                                        //-------------------------------------------------------------------------------------
+                                    }
+                                }
+                                SPGeneral.POSBillUpdate(PublicVariables._counterId, PublicVariables._currentUserId, "SalesReturn");
+                                ClearFunction();
+                            }
                         }
                         else
                         {
-                            MessageBox.Show("Please Select any Return Method", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("Cannot make bill as Amount ZERO", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             barcodeFocus();
-                            return;
                         }
 
-                        string strMasterId = SaveFunction(strReturnMethod, strReturnStatus).ToString();
-
-                        if (strMasterId != "")
-                        {
-                            DataTable dtblTaxSummery = new DataTable();
-                            dtblTaxSummery = GetTaxSum();
-                            //MessageBox.Show("Saved");
-                            bool isPrintSuccess = false;
-                            try
-                            {
-                                dtblTaxDetailsThermal = dtblTaxSummery;
-                                //FillDatatatablesforPrint();
-                                FillDatatatablesforDevPrint();
-                                isPrintSuccess = true;
-                            }
-                            catch (Exception ex)
-                            {
-                                isPrintSuccess = false;
-
-                            }
-
-                            if (isPrintSuccess == true)
-                            {
-                                if (rbtCreditNote.Checked == false)
-                                {
-                                    SaveLedgerPosting(strMasterId, dtblTaxSummery);
-                                }
-
-                                SavetoStockPosting(strMasterId);
-                                if (txtCustomerId.Text != "")
-                                {
-                                    //party balance
-                                    PartyBalanceSP SPPartyBalance = new PartyBalanceSP();
-                                    AccountLedgerSP SpAccountLedger = new AccountLedgerSP();
-                                    AccountLedgerInfo InfoLedger = SpAccountLedger.AccountLedgerView(lblLedgerId.Text);
-                                    CurrencyConversionSP SPCurrencyConversion = new CurrencyConversionSP();
-                                    bool BillByBill = SPCurrencyConversion.SettingsViewByBranchId(PublicVariables._branchId);
-                                    if (InfoLedger.BillByBill && BillByBill)
-                                    {
-                                        PartyBalanceInfo InfoPartyBalance = new PartyBalanceInfo();
-                                        InfoPartyBalance.AgainstvoucherNo = "NA";
-                                        InfoPartyBalance.AgainstVoucherType = "NA";
-                                        InfoPartyBalance.BranchId = PublicVariables._branchId;
-                                        InfoPartyBalance.Credit = decimal.Parse(txtTotal.Text);
-                                        InfoPartyBalance.Debit = 0;
-                                        InfoPartyBalance.invoiceNo = lblBillNo.Text; //added on 24/03/2025  by  Nishana
-                                        InfoPartyBalance.referenceNo = "";  //24/03/2025
-                                        InfoPartyBalance.BillAmount = decimal.Parse(txtTotal.Text); //24/03/2025
-                                        InfoPartyBalance.invoiceDate = DateTime.Parse(lblSessionDate.Text); //24/03/2025
-                                        InfoPartyBalance.costCentreId = "1"; //24/03/2025
-                                        InfoPartyBalance.exchangeDate = PublicVariables._fromDate; //24/03/2025
-                                        InfoPartyBalance.exchangeRate = 1; //24/03/2025
-                                        InfoPartyBalance.CreditPeriod = 0;
-                                        SPCurrencyConversion.CurrencyConversionRateIdViewByCurrencyId(InfoLedger.CurrencyId, DateTime.Parse(lblBillDate.Text), PublicVariables._branchId);
-                                        InfoPartyBalance.CurrencyConversionId = SPCurrencyConversion.CurrencyConversionRateIdViewByCurrencyId(InfoLedger.CurrencyId, DateTime.Parse(lblBillDate.Text), PublicVariables._branchId);
-                                        InfoPartyBalance.Date = Convert.ToDateTime(lblBillDate.Text);
-                                        InfoPartyBalance.Extra1 = "";
-                                        InfoPartyBalance.Extra2 = "";
-                                        //InfoPartyBalance.LedgerId = cmbCashOrParty.SelectedValue.ToString();
-                                        InfoPartyBalance.LedgerId = lblLedgerId.Text;
-                                        InfoPartyBalance.Optional = false;
-                                        InfoPartyBalance.ReferenceType = "New";
-                                        InfoPartyBalance.VoucherNo = strMasterId;
-                                        InfoPartyBalance.VoucherType = "POS SalesReturn";
-                                       
-                                        SPPartyBalance.PartyBalanceAdd(InfoPartyBalance);
-                                    }
-                                    //-------------------------------------------------------------------------------------
-                                }
-                            }
-                            SPGeneral.POSBillUpdate(PublicVariables._counterId, PublicVariables._currentUserId, "SalesReturn");
-                            ClearFunction();
-                        }
                     }
-                    else
-                    {
-                        MessageBox.Show("Cannot make bill as Amount ZERO", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        barcodeFocus();
-                    }
-
+                }
+                else
+                {
+                    //MessageBox.Show("Please select other payment options", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    barcodeFocus();
                 }
             }
             else
             {
-                //MessageBox.Show("Please select other payment options", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                barcodeFocus();
+                MessageBox.Show(validationMsg, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+        private bool AccountLedgerValidationForZatcaSave(out string message)
+        {
+            message = string.Empty;
 
+            if (FinanceSettingsInfo._ZatcaType == "Phase 2")
+            {
+                if (lblLedgerId.Text != "")
+                {
+                    DataTable dtLedger = new AccountLedgerSP().AccountLedgerGetByLedgerCodeForZatcaSave(lblLedgerId.Text);
+                    if (dtLedger.Rows.Count > 0)
+                    {
+                        DataRow row = dtLedger.Rows[0];
+
+                        // 1. Check mandatory fields
+                        if (string.IsNullOrWhiteSpace(row["ledgerName"].ToString()))
+                        {
+                            message = "Customer Ledger Name is missing.";
+                            return false;
+                        }
+                        if (string.IsNullOrWhiteSpace(row["StreetName"].ToString()))
+                        {
+                            message = "Customer Street Name is missing.";
+                            return false;
+                        }
+                        if (string.IsNullOrWhiteSpace(row["BuildingNo"].ToString()))
+                        {
+                            message = "Customer Building Number is missing.";
+                            return false;
+                        }
+                        if (string.IsNullOrWhiteSpace(row["PostboxNo"].ToString()))
+                        {
+                            message = "Customer Postbox Number is missing.";
+                            return false;
+                        }
+                        if (string.IsNullOrWhiteSpace(row["CityName"].ToString()))
+                        {
+                            message = "Customer City Name is missing.";
+                            return false;
+                        }
+                        if (string.IsNullOrWhiteSpace(row["District"].ToString()))
+                        {
+                            message = "Customer District is missing.";
+                            return false;
+                        }
+
+                        // 2. Check VAT number
+                        string tinNumber = row["tinNumber"]?.ToString().Trim();
+                        if (string.IsNullOrWhiteSpace(tinNumber))
+                        {
+                            message = "Customer VAT Number is missing.";
+                            return false;
+                        }
+                        if (!(tinNumber.StartsWith("3") && tinNumber.EndsWith("3")))
+                        {
+                            message = "Customer VAT Number must start and end with 3.";
+                            return false;
+                        }
+                        if (tinNumber.Length != 15 || !tinNumber.All(char.IsDigit))
+                        {
+                            message = "Customer VAT Number must be 15 digits.";
+                            return false;
+                        }
+
+                        return true; //  All good
+                    }
+                    else
+                    {
+                        message = "Ledger not found.";
+                        return false;
+                    }
+                }
+            }
+
+            return true; // Not Phase 2 or not Tax Invoice → skip checks
+        }
         public void SaveLedgerPosting(string strMasterId, DataTable dtbltaxSummery)
         {
             
@@ -1769,32 +1851,47 @@ namespace FinacPOS
 
             //dRowDetails["qrCode"] = strQRvariable;
 
-            //------------------------ QR Code Generation ----------- by Navas --------------------
-            Zen.Barcode.CodeQrBarcodeDraw qrBarcode = Zen.Barcode.BarcodeDrawFactory.CodeQr;
-            string companyname = dtblCompanyDetails.Rows[0]["branchName"].ToString();
-            string vatno = dtblCompanyDetails.Rows[0]["tinNo"].ToString();
-            string invoicedate = DateTime.Parse(lblBillDate.Text.ToString()).ToString("yyyy-MM-dd");
-            string invoicetime = DateTime.Now.ToString("HH:mm:ss");
-            invoicedate = invoicedate + "T" + invoicetime;
-            string invoicetotal = "-" + Convert.ToDecimal(txtTotal.Text).ToString(FinanceSettingsInfo._roundDecimalPart);
-            string invoicevatamount = "-" + Convert.ToDecimal(txtTaxAmt.Text).ToString(FinanceSettingsInfo._roundDecimalPart);
+            if (FinanceSettingsInfo._ZatcaType == "Phase 2")
+            {
 
-            int lencompanyname = companyname.Length;
-            int lenvatno = vatno.Length;
-            int leninvoicedate = invoicedate.Length;
-            int leninvoicetime = invoicetime.Length;
-            int leninvoicetotal = invoicetotal.Length;
-            int leninvoicevatamount = invoicevatamount.Length;
+                DataTable dtbl = new DataTable();
 
-            string strQRvariable = Convert.ToChar(1).ToString() + Convert.ToChar(lencompanyname).ToString() + companyname
-                + Convert.ToChar(2).ToString() + Convert.ToChar(lenvatno).ToString() + vatno + Convert.ToChar(3).ToString() + Convert.ToChar(19).ToString()
-                + invoicedate + Convert.ToChar(4).ToString() + Convert.ToChar(leninvoicetotal).ToString() + invoicetotal + Convert.ToChar(5).ToString()
-                + Convert.ToChar(leninvoicevatamount).ToString() + invoicevatamount;
+                dtbl = POSSalesReturnMasterSP.GetPOSReturnLastBillProductsforLastBillPrint(lblBillNo.Text);
 
-            var utf8text = System.Text.Encoding.UTF8.GetBytes(strQRvariable);
-            string qrdata = System.Convert.ToBase64String(utf8text);
+                dRowDetails["qrCode"] = dtbl.Rows[0]["qr_link"].ToString();
+            }
+            else
+            {
+                //------------------------ QR Code Generation ----------- by Navas --------------------
+                Zen.Barcode.CodeQrBarcodeDraw qrBarcode = Zen.Barcode.BarcodeDrawFactory.CodeQr;
+                string companyname = dtblCompanyDetails.Rows[0]["branchName"].ToString();
+                string vatno = dtblCompanyDetails.Rows[0]["tinNo"].ToString();
+                string invoicedate = DateTime.Parse(lblBillDate.Text.ToString()).ToString("yyyy-MM-dd");
+                string invoicetime = DateTime.Now.ToString("HH:mm:ss");
+                invoicedate = invoicedate + "T" + invoicetime;
+                string invoicetotal = "-" + Convert.ToDecimal(txtTotal.Text).ToString(FinanceSettingsInfo._roundDecimalPart);
+                string invoicevatamount = "-" + Convert.ToDecimal(txtTaxAmt.Text).ToString(FinanceSettingsInfo._roundDecimalPart);
 
-            dRowDetails["qrCode"] = qrdata;
+                int lencompanyname = companyname.Length;
+                int lenvatno = vatno.Length;
+                int leninvoicedate = invoicedate.Length;
+                int leninvoicetime = invoicetime.Length;
+                int leninvoicetotal = invoicetotal.Length;
+                int leninvoicevatamount = invoicevatamount.Length;
+
+                string strQRvariable = Convert.ToChar(1).ToString() + Convert.ToChar(lencompanyname).ToString() + companyname
+                    + Convert.ToChar(2).ToString() + Convert.ToChar(lenvatno).ToString() + vatno + Convert.ToChar(3).ToString() + Convert.ToChar(19).ToString()
+                    + invoicedate + Convert.ToChar(4).ToString() + Convert.ToChar(leninvoicetotal).ToString() + invoicetotal + Convert.ToChar(5).ToString()
+                    + Convert.ToChar(leninvoicevatamount).ToString() + invoicevatamount;
+
+                var utf8text = System.Text.Encoding.UTF8.GetBytes(strQRvariable);
+                string qrdata = System.Convert.ToBase64String(utf8text);
+
+                dRowDetails["qrCode"] = qrdata;
+            }
+
+
+           
 
             //---------------------------------
 
@@ -1966,7 +2063,10 @@ namespace FinacPOS
                         strPOSSalesReturnDetails1Id = POSSalesReturnDetails1SP.POSSalesReturnDetails1Add(InfoPOSSalesReturnDetails1);
                     }
                 }
-
+                if (FinanceSettingsInfo._ZatcaType == "Phase 2")
+                {
+                    var result = EinvoiceGenerator.EinvoiceReq(strMasterId, "POS Sales Return");
+                }
                 //CreditNote insert
                 if (strReturnMethod == "CreditNote")
                 {

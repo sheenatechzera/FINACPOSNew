@@ -49,16 +49,20 @@ namespace FinacPOS
 
             BranchSP SpBranch = new BranchSP();
             POSSalesMasterSP SPSalesMaster = new POSSalesMasterSP();
-            
+            POSSalesReturnMasterSP SPSalesReturnMaster = new POSSalesReturnMasterSP();
+
             dtblCompanyDetails = SpBranch.BranchViewByBranchId(PublicVariables._branchId);
 
-            if (strVoucherType == "Sales Invoice")
+            if (strVoucherType == "POS Sales Invoice")
             {
                 DsDetails = SPSalesMaster.POSSalesReportFillByPOSSalesMasterId(strMasterId);
             }
-           
+            else if (strVoucherType == "POS Sales Return")
+            {
+                DsDetails = SPSalesReturnMaster.POSSalesReturnReportFillByPOSSalesReturnMasterId(strMasterId);
+            }
 
-              
+
             dtMaster = DsDetails.Tables[0];
             dtDetails = DsDetails.Tables[1];
 
@@ -125,32 +129,35 @@ namespace FinacPOS
 
                 string BillType = dtMaster.Rows[0]["BillType"].ToString();
                 //BillType = "Tax Invoice";// comment later. Hard coded For HOOKAH 
-                if (strVoucherType == "Sales Invoice")
+
+                if (strVoucherType == "Sales Invoice" || strVoucherType == "POS Sales Invoice")
                 {
-                    if (BillType == "Tax Invoice")
+                    if (dtMaster.Rows[0]["BillType"].ToString() == "Tax Invoice")
                     {
                         EinvoiceMode = "01";  // B2B
                         salestype = "388";    // Standard Invoice
                     }
-                    else if (BillType == "Retail Invoice")
+                    else if (dtMaster.Rows[0]["BillType"].ToString() == "Retail Invoice")
                     {
                         EinvoiceMode = "02";  // B2C
                         salestype = "388";    // Simplified Invoice
                     }
                 }
-                else if (strVoucherType == "Sales Return")
+                else if (strVoucherType == "Sales Return" || strVoucherType == "POS Sales Return")
                 {
-                    if (BillType == "Tax Invoice")
+                    if (dtMaster.Rows[0]["BillType"].ToString() == "Tax Invoice")
                     {
                         EinvoiceMode = "01";  // B2B
                         salestype = "381";    // Standard Debit Note
                     }
-                    else if (BillType == "Retail Invoice")
+                    else if (dtMaster.Rows[0]["BillType"].ToString() == "Retail Invoice")
                     {
                         EinvoiceMode = "02";  // B2C
                         salestype = "381";    // Simplified Debit Note
                     }
                 }
+
+             
 
 
                 foreach (DataRow Dv in dtDetails.Rows)
@@ -245,9 +252,19 @@ namespace FinacPOS
                         dtZatcaMaster.Rows.Add(Drn);
                     }
                 }
-              
+
+                if (strVoucherType == "POS Sales Invoice")
+                {
+                    strVoucherType = "POS";
+
+                }
+                else if (strVoucherType == "POS Sales Return")
+                {
+                    strVoucherType = "POS Return";
+
+                }
                 // Uncomment and implement the invoice submission logic if needed
-                string Result = objZatca.signAndSubmitInvoice(entrynoWithPrefix1, dtZatcaMaster, strMasterId, false, false, PublicVariables._companyId, strPrimaryDbName, "Local", "POS");
+                string Result = objZatca.signAndSubmitInvoice(entrynoWithPrefix1, dtZatcaMaster, strMasterId, false, false, PublicVariables._companyId, strPrimaryDbName, "Local", strVoucherType);
 
                 // Return success
                 return (true, Result);

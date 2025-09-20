@@ -164,5 +164,59 @@ namespace FinacPOS
             }
             return dtbl;
         }
+        public DataSet POSSalesReturnReportFillByPOSSalesReturnMasterId(string strPOSreturnMasterId)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                if (sqlcon.State == ConnectionState.Closed)
+                {
+                    sqlcon.Open();
+                }
+                SqlDataAdapter sdaadapter = new SqlDataAdapter("POSSalesReturnReportFillByPOSSalesReturnMasterId", sqlcon);
+                sdaadapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+                SqlParameter sqlparameter = new SqlParameter();
+                sqlparameter = sdaadapter.SelectCommand.Parameters.Add("@POSsalesReturnMasterId", SqlDbType.VarChar);
+                sqlparameter.Value = strPOSreturnMasterId;
+                sqlparameter = sdaadapter.SelectCommand.Parameters.Add("@branchId", SqlDbType.VarChar);
+                sqlparameter.Value = PublicVariables._branchId;
+                sdaadapter.Fill(ds);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            finally
+            {
+                sqlcon.Close();
+            }
+            return ds;
+        }
+        public DataTable GetPOSReturnLastBillProductsforLastBillPrint(string strBillNo)
+        {
+            DataTable dtbl = new DataTable();
+            try
+            {
+                if (sqlcon.State == ConnectionState.Closed)
+                {
+                    sqlcon.Open();
+                }
+                SqlDataAdapter sdaadapter = new SqlDataAdapter("GetPOSReturnLastBillProductsforLastBillPrint", sqlcon);
+                sdaadapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+                SqlParameter sqlparameter = new SqlParameter();
+                sqlparameter = sdaadapter.SelectCommand.Parameters.Add("@invoiceNo", SqlDbType.VarChar);
+                sqlparameter.Value = strBillNo;
+                sdaadapter.Fill(dtbl);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            finally
+            {
+                sqlcon.Close();
+            }
+            return dtbl;
+        }
     }
 }
