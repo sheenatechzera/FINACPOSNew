@@ -4298,7 +4298,7 @@ namespace FinacPOS
                 CalculateGridTotal(e.RowIndex);
                 SalesRate.ReadOnly = true;
             }
-            if (e.ColumnIndex == 13) //DiscAmt
+            if (e.ColumnIndex == 15) //DiscAmt
             {
                 CalculateGridTotal(e.RowIndex);
                 DiscAmt.ReadOnly = true;

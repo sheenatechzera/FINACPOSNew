@@ -122,7 +122,8 @@ namespace FinacPOS
             // POSSalesPostingAccount(); //blocked on 29/Mar/2025
 
             POSCounterSP counterSP = new POSCounterSP();
-            counterInfo = counterSP.POSCounterViewbyCounterId(PublicVariables._counterId);
+         
+           counterInfo = counterSP.POSCounterViewbyCounterId(PublicVariables._counterId);
 
             //29/Mar/2025
             strCashSalesLedgerId = counterInfo.CashAccountLedgerId;
@@ -351,16 +352,17 @@ namespace FinacPOS
                 flowLayoutPanel.Location = new Point(1061, 108);
                 FlpanelProductGroup.Size = new Size(308, 99);
                 FlpanelProductGroup.Location = new Point(1061, 8);
-            }
-          
-            LoadProductGroup();
-            LoadProducts(dtbl);
-            if (FlpanelProductGroup.Controls.Count > 0)
-            {
-                Button firstGroupButton = FlpanelProductGroup.Controls[0] as Button;
-                if (firstGroupButton != null)
+
+
+                LoadProductGroup();
+                LoadProducts(dtbl);
+                if (FlpanelProductGroup.Controls.Count > 0)
                 {
-                    firstGroupButton.PerformClick(); // trigger ProductGroupButton_Click
+                    Button firstGroupButton = FlpanelProductGroup.Controls[0] as Button;
+                    if (firstGroupButton != null)
+                    {
+                        firstGroupButton.PerformClick(); // trigger ProductGroupButton_Click
+                    }
                 }
             }
         }
@@ -4020,7 +4022,7 @@ namespace FinacPOS
             }
               
        
-            if (e.ColumnIndex == 13) //DiscAmt
+            if (e.ColumnIndex == 14) //DiscAmt
             {
                 CalculateGridTotal(e.RowIndex);
                 DiscAmt.ReadOnly = true;

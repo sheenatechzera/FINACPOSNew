@@ -173,7 +173,7 @@ namespace FinacPOS
                 settingsinfo.DeleteMode = (sdrreader["DeleteMode"].ToString());
                 settingsinfo.StartingTokenNo = (sdrreader["StartingTokenNo"].ToString());
                 settingsinfo.IsHoldBillPrint = bool.Parse(sdrreader["ShowHoldBillPrint"].ToString());
-                settingsinfo.PricingAlertStatus = (sdrreader["PricingAlertStatus"].ToString());
+             settingsinfo.PricingAlertStatus = (sdrreader["PricingAlertStatus"].ToString());
             }
             sdrreader.Close();
 
