@@ -87,8 +87,9 @@
             this.btnNewSale = new System.Windows.Forms.Button();
             this.btnFindCustomer = new System.Windows.Forms.Button();
             this.panelMain = new System.Windows.Forms.Panel();
+            this.btnWithoutBarcode = new System.Windows.Forms.Button();
+            this.withoutBarcodePanel = new System.Windows.Forms.FlowLayoutPanel();
             this.lblSalesMan = new System.Windows.Forms.Label();
-            this.btnSalesman = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtAdress = new System.Windows.Forms.TextBox();
             this.txtVatNo = new System.Windows.Forms.TextBox();
@@ -108,12 +109,11 @@
             this.lblTenderBalance = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.lblTenderTotal = new System.Windows.Forms.Label();
-            this.lblTenderBalanceAmount = new System.Windows.Forms.Label();
             this.btnClosePOS = new System.Windows.Forms.Button();
+            this.lblTenderBalanceAmount = new System.Windows.Forms.Label();
             this.lblTenderTotalAmount = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.lblTotalQty = new System.Windows.Forms.Label();
-            this.btnBillDiscAmt = new System.Windows.Forms.Button();
             this.label19 = new System.Windows.Forms.Label();
             this.txtTotal = new System.Windows.Forms.TextBox();
             this.txtTaxAmt = new System.Windows.Forms.TextBox();
@@ -121,11 +121,11 @@
             this.txtDiscAmt = new System.Windows.Forms.TextBox();
             this.txtDiscPer = new System.Windows.Forms.TextBox();
             this.txtSubTotal = new System.Windows.Forms.TextBox();
-            this.btnBillDiscPer = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnCredit = new System.Windows.Forms.Button();
             this.btnUPI = new System.Windows.Forms.Button();
             this.btnCreditCard = new System.Windows.Forms.Button();
+            this.btnSalesman = new System.Windows.Forms.Button();
             this.btnCash = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnLineDisc = new System.Windows.Forms.Button();
@@ -140,15 +140,18 @@
             this.btnTwo = new System.Windows.Forms.Button();
             this.btnZero = new System.Windows.Forms.Button();
             this.btnThree = new System.Windows.Forms.Button();
+            this.btnBillDiscAmt = new System.Windows.Forms.Button();
             this.btnNine = new System.Windows.Forms.Button();
             this.btnFour = new System.Windows.Forms.Button();
             this.btnEight = new System.Windows.Forms.Button();
             this.btnFive = new System.Windows.Forms.Button();
             this.btnSix = new System.Windows.Forms.Button();
+            this.btnBillDiscPer = new System.Windows.Forms.Button();
             this.panelBarcode = new System.Windows.Forms.Panel();
             this.panelBillDetails = new System.Windows.Forms.Panel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.panelMainButton = new System.Windows.Forms.Panel();
+            this.chkKot = new System.Windows.Forms.CheckBox();
             this.ChkHoldBilView = new System.Windows.Forms.CheckBox();
             this.btnExchange = new System.Windows.Forms.Button();
             this.btnCashBox = new System.Windows.Forms.Button();
@@ -170,7 +173,6 @@
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
             this.timerSessionDate = new System.Windows.Forms.Timer(this.components);
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
-            this.chkKot = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProduct)).BeginInit();
             this.panelMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -633,8 +635,9 @@
             // panelMain
             // 
             this.panelMain.BackColor = System.Drawing.Color.White;
+            this.panelMain.Controls.Add(this.btnWithoutBarcode);
+            this.panelMain.Controls.Add(this.withoutBarcodePanel);
             this.panelMain.Controls.Add(this.lblSalesMan);
-            this.panelMain.Controls.Add(this.btnSalesman);
             this.panelMain.Controls.Add(this.groupBox1);
             this.panelMain.Controls.Add(this.FlpanelProductGroup);
             this.panelMain.Controls.Add(this.flowLayoutPanel);
@@ -644,12 +647,11 @@
             this.panelMain.Controls.Add(this.label15);
             this.panelMain.Controls.Add(this.lblTenderTotal);
             this.panelMain.Controls.Add(this.txtBarcode);
-            this.panelMain.Controls.Add(this.lblTenderBalanceAmount);
             this.panelMain.Controls.Add(this.btnClosePOS);
+            this.panelMain.Controls.Add(this.lblTenderBalanceAmount);
             this.panelMain.Controls.Add(this.lblTenderTotalAmount);
             this.panelMain.Controls.Add(this.label1);
             this.panelMain.Controls.Add(this.lblTotalQty);
-            this.panelMain.Controls.Add(this.btnBillDiscAmt);
             this.panelMain.Controls.Add(this.label19);
             this.panelMain.Controls.Add(this.txtTotal);
             this.panelMain.Controls.Add(this.txtTaxAmt);
@@ -658,7 +660,6 @@
             this.panelMain.Controls.Add(this.txtDiscAmt);
             this.panelMain.Controls.Add(this.txtDiscPer);
             this.panelMain.Controls.Add(this.txtSubTotal);
-            this.panelMain.Controls.Add(this.btnBillDiscPer);
             this.panelMain.Controls.Add(this.panel1);
             this.panelMain.Controls.Add(this.panelBarcode);
             this.panelMain.Controls.Add(this.panelBillDetails);
@@ -674,6 +675,34 @@
             this.panelMain.Size = new System.Drawing.Size(1364, 740);
             this.panelMain.TabIndex = 17;
             // 
+            // btnWithoutBarcode
+            // 
+            this.btnWithoutBarcode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(45)))), ((int)(((byte)(55)))));
+            this.btnWithoutBarcode.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnWithoutBarcode.FlatAppearance.BorderSize = 0;
+            this.btnWithoutBarcode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnWithoutBarcode.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnWithoutBarcode.ForeColor = System.Drawing.Color.White;
+            this.btnWithoutBarcode.Location = new System.Drawing.Point(9, 660);
+            this.btnWithoutBarcode.Name = "btnWithoutBarcode";
+            this.btnWithoutBarcode.Size = new System.Drawing.Size(157, 33);
+            this.btnWithoutBarcode.TabIndex = 54;
+            this.btnWithoutBarcode.Text = "Without Barcode";
+            this.btnWithoutBarcode.UseVisualStyleBackColor = false;
+            this.btnWithoutBarcode.Click += new System.EventHandler(this.btnWithoutBarcode_Click);
+            // 
+            // withoutBarcodePanel
+            // 
+            this.withoutBarcodePanel.AutoScroll = true;
+            this.withoutBarcodePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.withoutBarcodePanel.Cursor = System.Windows.Forms.Cursors.Default;
+            this.withoutBarcodePanel.Location = new System.Drawing.Point(525, 144);
+            this.withoutBarcodePanel.Name = "withoutBarcodePanel";
+            this.withoutBarcodePanel.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.withoutBarcodePanel.Size = new System.Drawing.Size(253, 200);
+            this.withoutBarcodePanel.TabIndex = 53;
+            this.withoutBarcodePanel.Visible = false;
+            // 
             // lblSalesMan
             // 
             this.lblSalesMan.AutoSize = true;
@@ -683,22 +712,6 @@
             this.lblSalesMan.Name = "lblSalesMan";
             this.lblSalesMan.Size = new System.Drawing.Size(0, 24);
             this.lblSalesMan.TabIndex = 51;
-            // 
-            // btnSalesman
-            // 
-            this.btnSalesman.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(45)))), ((int)(((byte)(55)))));
-            this.btnSalesman.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btnSalesman.FlatAppearance.BorderSize = 0;
-            this.btnSalesman.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSalesman.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSalesman.ForeColor = System.Drawing.Color.White;
-            this.btnSalesman.Location = new System.Drawing.Point(328, 663);
-            this.btnSalesman.Name = "btnSalesman";
-            this.btnSalesman.Size = new System.Drawing.Size(94, 37);
-            this.btnSalesman.TabIndex = 50;
-            this.btnSalesman.Text = "SalesMan";
-            this.btnSalesman.UseVisualStyleBackColor = false;
-            this.btnSalesman.Click += new System.EventHandler(this.btnSalesman_Click);
             // 
             // groupBox1
             // 
@@ -913,6 +926,22 @@
             this.lblTenderTotal.Visible = false;
             this.lblTenderTotal.Click += new System.EventHandler(this.lblTenderTotal_Click);
             // 
+            // btnClosePOS
+            // 
+            this.btnClosePOS.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(45)))), ((int)(((byte)(55)))));
+            this.btnClosePOS.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnClosePOS.FlatAppearance.BorderSize = 0;
+            this.btnClosePOS.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClosePOS.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClosePOS.ForeColor = System.Drawing.Color.White;
+            this.btnClosePOS.Location = new System.Drawing.Point(172, 660);
+            this.btnClosePOS.Name = "btnClosePOS";
+            this.btnClosePOS.Size = new System.Drawing.Size(95, 33);
+            this.btnClosePOS.TabIndex = 42;
+            this.btnClosePOS.Text = "Close POS";
+            this.btnClosePOS.UseVisualStyleBackColor = false;
+            this.btnClosePOS.Click += new System.EventHandler(this.btnClosePOS_Click);
+            // 
             // lblTenderBalanceAmount
             // 
             this.lblTenderBalanceAmount.AutoSize = true;
@@ -925,22 +954,6 @@
             this.lblTenderBalanceAmount.Text = "0";
             this.lblTenderBalanceAmount.Visible = false;
             this.lblTenderBalanceAmount.Click += new System.EventHandler(this.lblTenderBalanceAmount_Click);
-            // 
-            // btnClosePOS
-            // 
-            this.btnClosePOS.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(45)))), ((int)(((byte)(55)))));
-            this.btnClosePOS.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btnClosePOS.FlatAppearance.BorderSize = 0;
-            this.btnClosePOS.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnClosePOS.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClosePOS.ForeColor = System.Drawing.Color.White;
-            this.btnClosePOS.Location = new System.Drawing.Point(225, 663);
-            this.btnClosePOS.Name = "btnClosePOS";
-            this.btnClosePOS.Size = new System.Drawing.Size(96, 37);
-            this.btnClosePOS.TabIndex = 42;
-            this.btnClosePOS.Text = "Close POS";
-            this.btnClosePOS.UseVisualStyleBackColor = false;
-            this.btnClosePOS.Click += new System.EventHandler(this.btnClosePOS_Click);
             // 
             // lblTenderTotalAmount
             // 
@@ -977,22 +990,6 @@
             this.lblTotalQty.TabIndex = 40;
             this.lblTotalQty.Text = "0";
             this.lblTotalQty.Click += new System.EventHandler(this.lblTotalQty_Click);
-            // 
-            // btnBillDiscAmt
-            // 
-            this.btnBillDiscAmt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(45)))), ((int)(((byte)(55)))));
-            this.btnBillDiscAmt.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btnBillDiscAmt.FlatAppearance.BorderSize = 0;
-            this.btnBillDiscAmt.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBillDiscAmt.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBillDiscAmt.ForeColor = System.Drawing.Color.White;
-            this.btnBillDiscAmt.Location = new System.Drawing.Point(103, 663);
-            this.btnBillDiscAmt.Name = "btnBillDiscAmt";
-            this.btnBillDiscAmt.Size = new System.Drawing.Size(114, 37);
-            this.btnBillDiscAmt.TabIndex = 39;
-            this.btnBillDiscAmt.Text = "Disc Amt (F9)";
-            this.btnBillDiscAmt.UseVisualStyleBackColor = false;
-            this.btnBillDiscAmt.Click += new System.EventHandler(this.btnBillDiscAmt_Click);
             // 
             // label19
             // 
@@ -1085,22 +1082,6 @@
             this.txtSubTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtSubTotal.TextChanged += new System.EventHandler(this.txtSubTotal_TextChanged);
             // 
-            // btnBillDiscPer
-            // 
-            this.btnBillDiscPer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(45)))), ((int)(((byte)(55)))));
-            this.btnBillDiscPer.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btnBillDiscPer.FlatAppearance.BorderSize = 0;
-            this.btnBillDiscPer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBillDiscPer.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBillDiscPer.ForeColor = System.Drawing.Color.White;
-            this.btnBillDiscPer.Location = new System.Drawing.Point(8, 662);
-            this.btnBillDiscPer.Name = "btnBillDiscPer";
-            this.btnBillDiscPer.Size = new System.Drawing.Size(89, 37);
-            this.btnBillDiscPer.TabIndex = 26;
-            this.btnBillDiscPer.Text = "Bill Disc %";
-            this.btnBillDiscPer.UseVisualStyleBackColor = false;
-            this.btnBillDiscPer.Click += new System.EventHandler(this.btnBillDiscPer_Click);
-            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
@@ -1108,6 +1089,7 @@
             this.panel1.Controls.Add(this.btnCredit);
             this.panel1.Controls.Add(this.btnUPI);
             this.panel1.Controls.Add(this.btnCreditCard);
+            this.panel1.Controls.Add(this.btnSalesman);
             this.panel1.Controls.Add(this.btnCash);
             this.panel1.Controls.Add(this.btnDelete);
             this.panel1.Controls.Add(this.btnLineDisc);
@@ -1122,11 +1104,13 @@
             this.panel1.Controls.Add(this.btnTwo);
             this.panel1.Controls.Add(this.btnZero);
             this.panel1.Controls.Add(this.btnThree);
+            this.panel1.Controls.Add(this.btnBillDiscAmt);
             this.panel1.Controls.Add(this.btnNine);
             this.panel1.Controls.Add(this.btnFour);
             this.panel1.Controls.Add(this.btnEight);
             this.panel1.Controls.Add(this.btnFive);
             this.panel1.Controls.Add(this.btnSix);
+            this.panel1.Controls.Add(this.btnBillDiscPer);
             this.panel1.Location = new System.Drawing.Point(774, 103);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(252, 601);
@@ -1141,7 +1125,7 @@
             this.btnCredit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCredit.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCredit.ForeColor = System.Drawing.Color.White;
-            this.btnCredit.Location = new System.Drawing.Point(128, 507);
+            this.btnCredit.Location = new System.Drawing.Point(128, 515);
             this.btnCredit.Name = "btnCredit";
             this.btnCredit.Size = new System.Drawing.Size(110, 75);
             this.btnCredit.TabIndex = 46;
@@ -1157,7 +1141,7 @@
             this.btnUPI.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnUPI.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnUPI.ForeColor = System.Drawing.Color.White;
-            this.btnUPI.Location = new System.Drawing.Point(4, 507);
+            this.btnUPI.Location = new System.Drawing.Point(4, 515);
             this.btnUPI.Name = "btnUPI";
             this.btnUPI.Size = new System.Drawing.Size(110, 75);
             this.btnUPI.TabIndex = 45;
@@ -1173,13 +1157,29 @@
             this.btnCreditCard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCreditCard.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCreditCard.ForeColor = System.Drawing.Color.White;
-            this.btnCreditCard.Location = new System.Drawing.Point(128, 419);
+            this.btnCreditCard.Location = new System.Drawing.Point(128, 437);
             this.btnCreditCard.Name = "btnCreditCard";
             this.btnCreditCard.Size = new System.Drawing.Size(110, 75);
             this.btnCreditCard.TabIndex = 44;
             this.btnCreditCard.Text = "    CREDIT           CARD       (F6)";
             this.btnCreditCard.UseVisualStyleBackColor = false;
             this.btnCreditCard.Click += new System.EventHandler(this.btnCash_Click);
+            // 
+            // btnSalesman
+            // 
+            this.btnSalesman.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(45)))), ((int)(((byte)(55)))));
+            this.btnSalesman.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnSalesman.FlatAppearance.BorderSize = 0;
+            this.btnSalesman.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSalesman.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSalesman.ForeColor = System.Drawing.Color.White;
+            this.btnSalesman.Location = new System.Drawing.Point(167, 361);
+            this.btnSalesman.Name = "btnSalesman";
+            this.btnSalesman.Size = new System.Drawing.Size(75, 65);
+            this.btnSalesman.TabIndex = 50;
+            this.btnSalesman.Text = "Sales Man";
+            this.btnSalesman.UseVisualStyleBackColor = false;
+            this.btnSalesman.Click += new System.EventHandler(this.btnSalesman_Click);
             // 
             // btnCash
             // 
@@ -1189,7 +1189,7 @@
             this.btnCash.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCash.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCash.ForeColor = System.Drawing.Color.White;
-            this.btnCash.Location = new System.Drawing.Point(4, 419);
+            this.btnCash.Location = new System.Drawing.Point(4, 437);
             this.btnCash.Name = "btnCash";
             this.btnCash.Size = new System.Drawing.Size(110, 75);
             this.btnCash.TabIndex = 43;
@@ -1205,7 +1205,7 @@
             this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDelete.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDelete.ForeColor = System.Drawing.Color.White;
-            this.btnDelete.Location = new System.Drawing.Point(167, 328);
+            this.btnDelete.Location = new System.Drawing.Point(167, 293);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 65);
             this.btnDelete.TabIndex = 42;
@@ -1221,7 +1221,7 @@
             this.btnLineDisc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLineDisc.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLineDisc.ForeColor = System.Drawing.Color.White;
-            this.btnLineDisc.Location = new System.Drawing.Point(86, 328);
+            this.btnLineDisc.Location = new System.Drawing.Point(86, 293);
             this.btnLineDisc.Name = "btnLineDisc";
             this.btnLineDisc.Size = new System.Drawing.Size(75, 65);
             this.btnLineDisc.TabIndex = 41;
@@ -1237,7 +1237,7 @@
             this.btnPriceChange.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPriceChange.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPriceChange.ForeColor = System.Drawing.Color.White;
-            this.btnPriceChange.Location = new System.Drawing.Point(3, 328);
+            this.btnPriceChange.Location = new System.Drawing.Point(3, 293);
             this.btnPriceChange.Name = "btnPriceChange";
             this.btnPriceChange.Size = new System.Drawing.Size(75, 65);
             this.btnPriceChange.TabIndex = 40;
@@ -1253,7 +1253,7 @@
             this.btnBarcode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBarcode.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBarcode.ForeColor = System.Drawing.Color.White;
-            this.btnBarcode.Location = new System.Drawing.Point(167, 257);
+            this.btnBarcode.Location = new System.Drawing.Point(167, 224);
             this.btnBarcode.Name = "btnBarcode";
             this.btnBarcode.Size = new System.Drawing.Size(75, 65);
             this.btnBarcode.TabIndex = 39;
@@ -1269,7 +1269,7 @@
             this.btnEnter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEnter.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEnter.ForeColor = System.Drawing.Color.White;
-            this.btnEnter.Location = new System.Drawing.Point(86, 257);
+            this.btnEnter.Location = new System.Drawing.Point(86, 224);
             this.btnEnter.Name = "btnEnter";
             this.btnEnter.Size = new System.Drawing.Size(75, 65);
             this.btnEnter.TabIndex = 38;
@@ -1285,7 +1285,7 @@
             this.btnQty.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnQty.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnQty.ForeColor = System.Drawing.Color.White;
-            this.btnQty.Location = new System.Drawing.Point(3, 257);
+            this.btnQty.Location = new System.Drawing.Point(3, 224);
             this.btnQty.Name = "btnQty";
             this.btnQty.Size = new System.Drawing.Size(75, 65);
             this.btnQty.TabIndex = 27;
@@ -1301,7 +1301,7 @@
             this.btnSeven.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSeven.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSeven.ForeColor = System.Drawing.Color.White;
-            this.btnSeven.Location = new System.Drawing.Point(4, 127);
+            this.btnSeven.Location = new System.Drawing.Point(4, 112);
             this.btnSeven.Name = "btnSeven";
             this.btnSeven.Size = new System.Drawing.Size(70, 50);
             this.btnSeven.TabIndex = 32;
@@ -1317,7 +1317,7 @@
             this.btnClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClear.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClear.ForeColor = System.Drawing.Color.White;
-            this.btnClear.Location = new System.Drawing.Point(168, 188);
+            this.btnClear.Location = new System.Drawing.Point(168, 166);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(70, 50);
             this.btnClear.TabIndex = 37;
@@ -1349,7 +1349,7 @@
             this.btnDot.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDot.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDot.ForeColor = System.Drawing.Color.White;
-            this.btnDot.Location = new System.Drawing.Point(86, 188);
+            this.btnDot.Location = new System.Drawing.Point(86, 166);
             this.btnDot.Name = "btnDot";
             this.btnDot.Size = new System.Drawing.Size(70, 50);
             this.btnDot.TabIndex = 36;
@@ -1381,7 +1381,7 @@
             this.btnZero.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnZero.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnZero.ForeColor = System.Drawing.Color.White;
-            this.btnZero.Location = new System.Drawing.Point(4, 188);
+            this.btnZero.Location = new System.Drawing.Point(4, 166);
             this.btnZero.Name = "btnZero";
             this.btnZero.Size = new System.Drawing.Size(70, 50);
             this.btnZero.TabIndex = 35;
@@ -1405,6 +1405,22 @@
             this.btnThree.UseVisualStyleBackColor = false;
             this.btnThree.Click += new System.EventHandler(this.btnThree_Click);
             // 
+            // btnBillDiscAmt
+            // 
+            this.btnBillDiscAmt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(45)))), ((int)(((byte)(55)))));
+            this.btnBillDiscAmt.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnBillDiscAmt.FlatAppearance.BorderSize = 0;
+            this.btnBillDiscAmt.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBillDiscAmt.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBillDiscAmt.ForeColor = System.Drawing.Color.White;
+            this.btnBillDiscAmt.Location = new System.Drawing.Point(86, 362);
+            this.btnBillDiscAmt.Name = "btnBillDiscAmt";
+            this.btnBillDiscAmt.Size = new System.Drawing.Size(75, 65);
+            this.btnBillDiscAmt.TabIndex = 39;
+            this.btnBillDiscAmt.Text = "Disc Amt (F9)";
+            this.btnBillDiscAmt.UseVisualStyleBackColor = false;
+            this.btnBillDiscAmt.Click += new System.EventHandler(this.btnBillDiscAmt_Click);
+            // 
             // btnNine
             // 
             this.btnNine.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(115)))), ((int)(((byte)(178)))));
@@ -1413,7 +1429,7 @@
             this.btnNine.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnNine.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNine.ForeColor = System.Drawing.Color.White;
-            this.btnNine.Location = new System.Drawing.Point(168, 127);
+            this.btnNine.Location = new System.Drawing.Point(168, 112);
             this.btnNine.Name = "btnNine";
             this.btnNine.Size = new System.Drawing.Size(70, 50);
             this.btnNine.TabIndex = 34;
@@ -1429,7 +1445,7 @@
             this.btnFour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnFour.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnFour.ForeColor = System.Drawing.Color.White;
-            this.btnFour.Location = new System.Drawing.Point(4, 66);
+            this.btnFour.Location = new System.Drawing.Point(4, 58);
             this.btnFour.Name = "btnFour";
             this.btnFour.Size = new System.Drawing.Size(70, 50);
             this.btnFour.TabIndex = 29;
@@ -1445,7 +1461,7 @@
             this.btnEight.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEight.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEight.ForeColor = System.Drawing.Color.White;
-            this.btnEight.Location = new System.Drawing.Point(86, 127);
+            this.btnEight.Location = new System.Drawing.Point(86, 112);
             this.btnEight.Name = "btnEight";
             this.btnEight.Size = new System.Drawing.Size(70, 50);
             this.btnEight.TabIndex = 33;
@@ -1461,7 +1477,7 @@
             this.btnFive.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnFive.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnFive.ForeColor = System.Drawing.Color.White;
-            this.btnFive.Location = new System.Drawing.Point(86, 66);
+            this.btnFive.Location = new System.Drawing.Point(86, 58);
             this.btnFive.Name = "btnFive";
             this.btnFive.Size = new System.Drawing.Size(70, 50);
             this.btnFive.TabIndex = 30;
@@ -1477,13 +1493,29 @@
             this.btnSix.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSix.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSix.ForeColor = System.Drawing.Color.White;
-            this.btnSix.Location = new System.Drawing.Point(168, 66);
+            this.btnSix.Location = new System.Drawing.Point(168, 58);
             this.btnSix.Name = "btnSix";
             this.btnSix.Size = new System.Drawing.Size(70, 50);
             this.btnSix.TabIndex = 31;
             this.btnSix.Text = "6";
             this.btnSix.UseVisualStyleBackColor = false;
             this.btnSix.Click += new System.EventHandler(this.btnSix_Click);
+            // 
+            // btnBillDiscPer
+            // 
+            this.btnBillDiscPer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(45)))), ((int)(((byte)(55)))));
+            this.btnBillDiscPer.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnBillDiscPer.FlatAppearance.BorderSize = 0;
+            this.btnBillDiscPer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBillDiscPer.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBillDiscPer.ForeColor = System.Drawing.Color.White;
+            this.btnBillDiscPer.Location = new System.Drawing.Point(4, 361);
+            this.btnBillDiscPer.Name = "btnBillDiscPer";
+            this.btnBillDiscPer.Size = new System.Drawing.Size(75, 65);
+            this.btnBillDiscPer.TabIndex = 26;
+            this.btnBillDiscPer.Text = "Bill Disc %";
+            this.btnBillDiscPer.UseVisualStyleBackColor = false;
+            this.btnBillDiscPer.Click += new System.EventHandler(this.btnBillDiscPer_Click);
             // 
             // panelBarcode
             // 
@@ -1546,6 +1578,18 @@
             this.panelMainButton.Size = new System.Drawing.Size(1027, 78);
             this.panelMainButton.TabIndex = 18;
             this.panelMainButton.Paint += new System.Windows.Forms.PaintEventHandler(this.panelMainButton_Paint);
+            // 
+            // chkKot
+            // 
+            this.chkKot.AutoSize = true;
+            this.chkKot.Font = new System.Drawing.Font("Century Gothic", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkKot.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.chkKot.Location = new System.Drawing.Point(842, 4);
+            this.chkKot.Name = "chkKot";
+            this.chkKot.Size = new System.Drawing.Size(44, 17);
+            this.chkKot.TabIndex = 28;
+            this.chkKot.Text = "KOT";
+            this.chkKot.UseVisualStyleBackColor = true;
             // 
             // ChkHoldBilView
             // 
@@ -1776,18 +1820,6 @@
             this.timerSessionDate.Interval = 500;
             this.timerSessionDate.Tick += new System.EventHandler(this.timerSessionDate_Tick);
             // 
-            // chkKot
-            // 
-            this.chkKot.AutoSize = true;
-            this.chkKot.Font = new System.Drawing.Font("Century Gothic", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkKot.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.chkKot.Location = new System.Drawing.Point(842, 4);
-            this.chkKot.Name = "chkKot";
-            this.chkKot.Size = new System.Drawing.Size(44, 17);
-            this.chkKot.TabIndex = 28;
-            this.chkKot.Text = "KOT";
-            this.chkKot.UseVisualStyleBackColor = true;
-            // 
             // frmPOSSales
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1802,6 +1834,7 @@
             this.Text = "Sales Invoice";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmPOSSales_FormClosing);
             this.Load += new System.EventHandler(this.frmPOSSales_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmPOSSales_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.dgvProduct)).EndInit();
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
@@ -1946,5 +1979,7 @@
         private System.Windows.Forms.Button btnSalesman;
         private System.Windows.Forms.Label lblSalesMan;
         private System.Windows.Forms.CheckBox chkKot;
+        private System.Windows.Forms.FlowLayoutPanel withoutBarcodePanel;
+        private System.Windows.Forms.Button btnWithoutBarcode;
     }
 }

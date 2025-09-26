@@ -244,9 +244,12 @@ namespace FinacPOS
                         // Add item details
                         Drn["ItemName"] = productname;
                         //Drn["Rate"] = Dv["rate"];
-                        Drn["Rate"] = Dv["excludeRate"];
-                        Drn["Qty"] = Dv["qty"];
+                        decimal rate = (Convert.ToDecimal(Dv["Amount"].ToString()) - Convert.ToDecimal(Dv["taxAmount"].ToString())) / Convert.ToDecimal(Dv["qty"].ToString());
+                        Drn["Rate"] = rate;
                         Drn["Discount"] = 0;
+
+                       // Drn["Rate"] = Dv["excludeRate"];
+                        Drn["Qty"] = Dv["qty"];                        
                         Drn["billDatetime"] = Dv["billDatetime"];//17-Sep-2025 sheena
                         // Add the new row to dtZatcaMaster
                         dtZatcaMaster.Rows.Add(Drn);

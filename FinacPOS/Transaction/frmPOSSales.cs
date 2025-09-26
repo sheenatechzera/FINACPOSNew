@@ -27,8 +27,8 @@ namespace FinacPOS
             setLanguage(PublicVariables._ModuleLanguage);
 
         }
-     
-      
+
+
         public void setLanguage(String language)
         {
             //Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(language);
@@ -66,8 +66,8 @@ namespace FinacPOS
         int CurEditRowIndex = 0;
         string strBarcode = "";
         bool IsChecked;
-       //varis form thermal print
-       DataTable dtblCompanyDetailsThermal;
+        //varis form thermal print
+        DataTable dtblCompanyDetailsThermal;
         DataTable dtblGridDetailsThermal;
         DataTable dtblOtherDetailsThermal;
         DataTable dtblTaxDetailsThermal;
@@ -101,6 +101,7 @@ namespace FinacPOS
         bool IsAuthenticationApproved = false;
 
         DataTable dtblProductWithImage;
+        DataTable dtblProductWithoutBarcode;
         #endregion
 
         #region FUNCTIONS
@@ -122,8 +123,8 @@ namespace FinacPOS
             // POSSalesPostingAccount(); //blocked on 29/Mar/2025
 
             POSCounterSP counterSP = new POSCounterSP();
-         
-           counterInfo = counterSP.POSCounterViewbyCounterId(PublicVariables._counterId);
+
+            counterInfo = counterSP.POSCounterViewbyCounterId(PublicVariables._counterId);
 
             //29/Mar/2025
             strCashSalesLedgerId = counterInfo.CashAccountLedgerId;
@@ -136,8 +137,8 @@ namespace FinacPOS
             POSSettingsSP SpPOSSettings = new POSSettingsSP();
             InfoPOSSettings = SpPOSSettings.POSSettingsViewByBranchId(PublicVariables._branchId);
             DataTable dtbl = new DataTable();
-            ChkHoldBilView.Checked = InfoPosSetting.AlwaysEnableHoldBillView; 
-            chkKot.Visible=counterInfo.KOTPrint;
+            ChkHoldBilView.Checked = InfoPosSetting.AlwaysEnableHoldBillView;
+            chkKot.Visible = counterInfo.KOTPrint;
             productFill();
             showproductInload(dtbl);
 
@@ -380,7 +381,7 @@ namespace FinacPOS
             if (dtbl.Rows.Count > 0)       // added  by nishana on 23-08-2025
             {
 
-                selectedGroupId = dtbl.Rows[0]["groupId"].ToString(); 
+                selectedGroupId = dtbl.Rows[0]["groupId"].ToString();
                 string searchvalue = "groupId='" + selectedGroupId + "'";
 
                 if (dtblProductWithImage != null && dtblProductWithImage.Rows.Count > 0)
@@ -390,10 +391,10 @@ namespace FinacPOS
                     dtblProductFiltered = dv.ToTable();
                     LoadProducts(dtblProductFiltered);
                 }
-             
+
             }
         }
-      
+
 
         private void AddProductGroupButton(DataRow row)
         {
@@ -522,17 +523,17 @@ namespace FinacPOS
                 pictureBox.Controls.Add(lblPrice);
 
                 // Add panel to FlowLayoutPanel
-               
+
                 pictureBox.Click += ProductImage_Click;
                 lbl.Click += ProductLabel_Click;
                 lblPrice.Click += ProductLabel_Click;
-           
+
             }
             else
             {
                 panel.Width = 140;
                 panel.Height = 70;
-                  
+
                 // add salesprice
                 System.Windows.Forms.Label lblPrice = new System.Windows.Forms.Label
                 {
@@ -786,12 +787,13 @@ namespace FinacPOS
             lblBarcodeScanningType.Text = "";
             lblBarcodeScanningType.Visible = false;
             lblSalesMan.Text = "";
+            blWithoutBarcode = false;
 
             if (counterInfo.DisplayStatus == true)
             {
                 PoleDisplay("New");
             }
-         
+
             barcodeFocus();
         }
         private void PoleDisplay(string strFunction)
@@ -900,13 +902,13 @@ namespace FinacPOS
         //    }
 
         //}
-       
+
 
         public string POSBillNumberMax()
         {
             string PartBillNo = "";
             int billNumber = 1;
-            int lastBillNo = 0; 
+            int lastBillNo = 0;
 
             try
             {
@@ -927,7 +929,7 @@ namespace FinacPOS
                 }
                 else
                 {
-                    
+
                     PartBillNo = PublicVariables._counterId + DateTime.Now.ToString("yy") + lastBillNo.ToString().PadLeft(7, '0');
                 }
             }
@@ -1056,7 +1058,7 @@ namespace FinacPOS
             dtblOtherDetails.Columns.Add("TenderCC");
             dtblOtherDetails.Columns.Add("TenderUPI");
             dtblOtherDetails.Columns.Add("qrCode", typeof(byte[]));
-          
+
 
             if (isDuplicatePrint == false)
             {
@@ -2278,8 +2280,8 @@ namespace FinacPOS
                         }
                     }
                 }
-                dTaxableTotal = Math.Round(dTaxableTotal,FinanceSettingsInfo._roundDecimal);
-                dTotal = Math.Round(dTotal,FinanceSettingsInfo._roundDecimal);
+                dTaxableTotal = Math.Round(dTaxableTotal, FinanceSettingsInfo._roundDecimal);
+                dTotal = Math.Round(dTotal, FinanceSettingsInfo._roundDecimal);
                 dtbl.Rows[i]["amt"] = dTotal.ToString();
                 dtbl.Rows[i]["taxableAmt"] = dTaxableTotal.ToString();
             }
@@ -2310,8 +2312,8 @@ namespace FinacPOS
                         dTaxableTotal = dTaxableTotal + (decimal.Parse(dtblProductDetails.Rows[p]["netAmount"].ToString()) - dcItemBillDisc);
                     }
                 }
-                dTaxableTotal = Math.Round(dTaxableTotal,FinanceSettingsInfo._roundDecimal);
-                dTotal = Math.Round(dTotal,FinanceSettingsInfo._roundDecimal);
+                dTaxableTotal = Math.Round(dTaxableTotal, FinanceSettingsInfo._roundDecimal);
+                dTotal = Math.Round(dTotal, FinanceSettingsInfo._roundDecimal);
                 dtbl.Rows[i]["amt"] = dTotal.ToString();
                 dtbl.Rows[i]["taxableAmt"] = dTaxableTotal.ToString();
             }
@@ -2426,7 +2428,7 @@ namespace FinacPOS
                 MessageBox.Show("POS34:" + ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-        public string SaveFunction(string strCreditCardNo, decimal decCreditCardAmt, decimal decUPIAmt, decimal decCreditAmt, decimal decCashAmt, string strCreditNoteNo, decimal decCreditNoteAmt, decimal decTotalTenderAmt, decimal decBalanceAmt,string strTenderType)
+        public string SaveFunction(string strCreditCardNo, decimal decCreditCardAmt, decimal decUPIAmt, decimal decCreditAmt, decimal decCashAmt, string strCreditNoteNo, decimal decCreditNoteAmt, decimal decTotalTenderAmt, decimal decBalanceAmt, string strTenderType)
         {
             string strMasterId = "";
 
@@ -2629,7 +2631,7 @@ namespace FinacPOS
 
                         strPOSSalesDetails1Id = POSSalesDetails1SP.POSDeletedSalesDetails1HistoryAdd(InfoPOSSalesDetails1);
                     }
-                }    
+                }
             }
             return strMasterId;
         }
@@ -2637,21 +2639,21 @@ namespace FinacPOS
         {
 
             string strPOSSalesDetails1Id = "";
-           
-            
-                POSSalesDetails1Info InfoPOSSalesDetails1 = new POSSalesDetails1Info();
-
-                InfoPOSSalesDetails1.POSSalesMasterId = "";
-                InfoPOSSalesDetails1.InvoiceNo = lblBillNo.Text;
-                InfoPOSSalesDetails1.BillDate = Convert.ToDateTime(lblBillDate.Text);
-                InfoPOSSalesDetails1.BillTime = lblBillTime.Text;
-                InfoPOSSalesDetails1.SessionDate = Convert.ToDateTime(lblSessionDate.Text);
-                InfoPOSSalesDetails1.CounterId = PublicVariables._counterId;
-                InfoPOSSalesDetails1.SessionNo = lblSessionNO.Text;
-                InfoPOSSalesDetails1.UserId = PublicVariables._currentUserId;
 
 
-          if (rowIndex >= 0 && rowIndex < dgvProduct.Rows.Count && !dgvProduct.Rows[rowIndex].IsNewRow)
+            POSSalesDetails1Info InfoPOSSalesDetails1 = new POSSalesDetails1Info();
+
+            InfoPOSSalesDetails1.POSSalesMasterId = "";
+            InfoPOSSalesDetails1.InvoiceNo = lblBillNo.Text;
+            InfoPOSSalesDetails1.BillDate = Convert.ToDateTime(lblBillDate.Text);
+            InfoPOSSalesDetails1.BillTime = lblBillTime.Text;
+            InfoPOSSalesDetails1.SessionDate = Convert.ToDateTime(lblSessionDate.Text);
+            InfoPOSSalesDetails1.CounterId = PublicVariables._counterId;
+            InfoPOSSalesDetails1.SessionNo = lblSessionNO.Text;
+            InfoPOSSalesDetails1.UserId = PublicVariables._currentUserId;
+
+
+            if (rowIndex >= 0 && rowIndex < dgvProduct.Rows.Count && !dgvProduct.Rows[rowIndex].IsNewRow)
             {
                 DataGridViewRow selectedRow = dgvProduct.Rows[rowIndex];
 
@@ -2679,9 +2681,9 @@ namespace FinacPOS
                 InfoPOSSalesDetails1.OfferId = selectedRow.Cells["offerId"].Value.ToString();
             }
 
-                strPOSSalesDetails1Id = POSSalesDetails1SP.POSGridDeletedItemHistoryAdd(InfoPOSSalesDetails1);
-          
-            
+            strPOSSalesDetails1Id = POSSalesDetails1SP.POSGridDeletedItemHistoryAdd(InfoPOSSalesDetails1);
+
+
             return strPOSSalesDetails1Id;
         }
         public string HoldBillSaveFunction()
@@ -2907,11 +2909,11 @@ namespace FinacPOS
                     }
                 }
 
-                lblTotalQty.Text = Math.Round(dcQtyTotal,FinanceSettingsInfo._roundDecimal).ToString();
-                txtSubTotal.Text = Math.Round(dcSubTotal,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
-                txtTaxable.Text = Math.Round(dcTaxable,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
-                txtTaxAmt.Text = Math.Round(dcTaxAmt,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
-                txtTotal.Text = Math.Round(dcTotal,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                lblTotalQty.Text = Math.Round(dcQtyTotal, FinanceSettingsInfo._roundDecimal).ToString();
+                txtSubTotal.Text = Math.Round(dcSubTotal, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                txtTaxable.Text = Math.Round(dcTaxable, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                txtTaxAmt.Text = Math.Round(dcTaxAmt, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                txtTotal.Text = Math.Round(dcTotal, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
             }
         }
@@ -2940,7 +2942,7 @@ namespace FinacPOS
             try { dTaxPerc = decimal.Parse(dgvProduct.Rows[inIndex].Cells["TaxPerc"].Value.ToString()); }
             catch { }
 
-            dgvProduct.Rows[inIndex].Cells["DiscAmt"].Value = Math.Round(dDiscAmt,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+            dgvProduct.Rows[inIndex].Cells["DiscAmt"].Value = Math.Round(dDiscAmt, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
 
             dGrossValue = dQty * dRate;
@@ -2951,7 +2953,7 @@ namespace FinacPOS
 
             if (dTaxPerc != 0)
             {
-                dTaxAmt = Math.Round((((dNetValue - dBillItemDisc) * dTaxPerc) / (100)),FinanceSettingsInfo._roundDecimal);
+                dTaxAmt = Math.Round((((dNetValue - dBillItemDisc) * dTaxPerc) / (100)), FinanceSettingsInfo._roundDecimal);
 
                 dgvProduct.Rows[inIndex].Cells["TaxAmt"].Value = dTaxAmt.ToString(FinanceSettingsInfo._roundDecimalPart);
             }
@@ -2974,8 +2976,8 @@ namespace FinacPOS
             }
             //
 
-            dgvProduct.Rows[inIndex].Cells["GrossValue"].Value = Math.Round(dGrossValue,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
-            dgvProduct.Rows[inIndex].Cells["NetValue"].Value = Math.Round(dNetValue,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+            dgvProduct.Rows[inIndex].Cells["GrossValue"].Value = Math.Round(dGrossValue, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+            dgvProduct.Rows[inIndex].Cells["NetValue"].Value = Math.Round(dNetValue, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
             dgvProduct.Rows[inIndex].Cells["Total"].Value = ((dNetValue - dBillItemDisc) + dTaxAmt).ToString(FinanceSettingsInfo._roundDecimalPart);
 
@@ -3003,7 +3005,7 @@ namespace FinacPOS
                         decimal.TryParse(dgvProduct.Rows[inIndex].Cells["SalesRate"].Value.ToString(), out dcRate);
                     }
 
-                    dgvProduct.Rows[inIndex].Cells["SalesRate"].Value = Math.Round(dcRate,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[inIndex].Cells["SalesRate"].Value = Math.Round(dcRate, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
 
                     if (SettingsInfo._taxType == "Applicable to product" && dcRate != 0)
@@ -3021,7 +3023,7 @@ namespace FinacPOS
                                 dTaxAmt = ((dcRate * dTaxPerc) / (dTaxPerc + 100));
 
                                 dcTaxExcludedRate = dcRate - dTaxAmt;
-                                dcTaxExcludedRate = Math.Round(dcTaxExcludedRate,FinanceSettingsInfo._roundDecimal);
+                                dcTaxExcludedRate = Math.Round(dcTaxExcludedRate, FinanceSettingsInfo._roundDecimal);
                             }
 
                         }
@@ -3100,7 +3102,7 @@ namespace FinacPOS
                 barcodeFocus();
             }
         }
-        public void barcodeScanning()
+        public void barcodeScanning(string withoutBarcodeProductCode)
         {
             string strBarcode = "";
             string strItemCode = "";
@@ -3137,13 +3139,13 @@ namespace FinacPOS
             {
                 LoadHoldBillDetails();
                 lblBarcodeScanningType.Text = "";
-                lblBarcodeScanningType.Visible = false; 
+                lblBarcodeScanningType.Visible = false;
                 IsChecked = false;
                 return;
             }
 
             // Delete Product from Grid when barcode is entered
-            if (InfoPOSSettings.DeleteMode == "Delete By Barcode" )
+            if (InfoPOSSettings.DeleteMode == "Delete By Barcode")
             {
                 bool IsBarcodeExist = false; // added on 12-04-2025 by Nishana
                 int RoWnO = -1;
@@ -3215,12 +3217,13 @@ namespace FinacPOS
                     return;
                 }
             }
-               
+
 
             POSSettingsInfo settingsinfo = new POSSettingsInfo();
 
             DataTable dtbl = new DataTable();
-            dtbl = SPGeneral.GetProductDetailsByBarcode(txtBarcode.Text.Trim());
+            if (!blWithoutBarcode)
+                dtbl = SPGeneral.GetProductDetailsByBarcode(txtBarcode.Text.Trim());
             if (dtbl.Rows.Count > 0) //load details by Barcode
             {
                 strBarcode = txtBarcode.Text.Trim();
@@ -3250,7 +3253,13 @@ namespace FinacPOS
             }
             else
             {
-                dtbl = SPGeneral.GetProductDetailsByProductCode(txtBarcode.Text.Trim());
+                if (blWithoutBarcode)
+                {
+                    dtbl = SPGeneral.GetProductDetailsByProductCode(withoutBarcodeProductCode);
+                    strItemCode = withoutBarcodeProductCode;
+                }
+                else
+                    dtbl = SPGeneral.GetProductDetailsByProductCode(txtBarcode.Text.Trim());
                 if (dtbl.Rows.Count > 0) //load details by ProductCode
                 {
                     strBarcode = txtBarcode.Text.Trim();
@@ -3270,7 +3279,9 @@ namespace FinacPOS
                     rateDiscAmount = Convert.ToDecimal(dtblSalesRate.Rows[0]["rateDiscAmount"].ToString());
                     DiscPerc = Convert.ToDecimal(dtblSalesRate.Rows[0]["DiscPerc"].ToString());
                     offerId = dtblSalesRate.Rows[0]["offerId"].ToString();
-                    
+                    if (blWithoutBarcode)
+                        decSalesPrice = Convert.ToDecimal(txtBarcode.Text);
+
                     if (decSalesPrice == 0)
                     {
                         Console.Beep(500, 500);
@@ -3281,39 +3292,49 @@ namespace FinacPOS
                 }
                 else
                 {
-                    //for Scale Items Loading
-                    if (txtBarcode.Text.Length == 13)
+                    if (!blWithoutBarcode)
                     {
-                        string strScaleProductCode = "";
-                        decimal decScalePrice;
-
-                        strScaleProductCode = txtBarcode.Text.Substring(0, 7).Trim();
-                        decScalePrice = Convert.ToDecimal(txtBarcode.Text.Substring(7, 5).Trim());
-
-                        dtbl = SPGeneral.GetScaleProductDetailsByProductCode(strScaleProductCode);
-                        if (dtbl.Rows.Count > 0) //load scale product details by ProductCode
+                        //for Scale Items Loading
+                        if (txtBarcode.Text.Length == 13)
                         {
-                            strBarcode = txtBarcode.Text.Trim();
-                            strItemCode = dtbl.Rows[0]["productCode"].ToString();
-                            strItemName = dtbl.Rows[0]["productName"].ToString();
-                            strItemNameArabic = dtbl.Rows[0]["ArabicName"].ToString();
-                            strUnitId = dtbl.Rows[0]["unitId"].ToString();
-                            strUnitName = dtbl.Rows[0]["unitName"].ToString();
-                            strBaseUnitId = dtbl.Rows[0]["unitId"].ToString();
+                            string strScaleProductCode = "";
+                            decimal decScalePrice;
 
-                            decSalesPrice = decScalePrice / 1000;
-                            strScaleItemType = dtbl.Rows[0]["category"].ToString();
-                            if (strScaleItemType == "Inventory")
+                            strScaleProductCode = txtBarcode.Text.Substring(0, 7).Trim();
+                            decScalePrice = Convert.ToDecimal(txtBarcode.Text.Substring(7, 5).Trim());
+
+                            dtbl = SPGeneral.GetScaleProductDetailsByProductCode(strScaleProductCode);
+                            if (dtbl.Rows.Count > 0) //load scale product details by ProductCode
                             {
-                                if (strUnitName.ToUpper().Trim() != "PCS")
+                                strBarcode = txtBarcode.Text.Trim();
+                                strItemCode = dtbl.Rows[0]["productCode"].ToString();
+                                strItemName = dtbl.Rows[0]["productName"].ToString();
+                                strItemNameArabic = dtbl.Rows[0]["ArabicName"].ToString();
+                                strUnitId = dtbl.Rows[0]["unitId"].ToString();
+                                strUnitName = dtbl.Rows[0]["unitName"].ToString();
+                                strBaseUnitId = dtbl.Rows[0]["unitId"].ToString();
+
+                                decSalesPrice = decScalePrice / 1000;
+                                strScaleItemType = dtbl.Rows[0]["category"].ToString();
+                                if (strScaleItemType == "Inventory")
                                 {
-                                    strScaleQtyPart = (decScalePrice / 1000).ToString();
+                                    if (strUnitName.ToUpper().Trim() != "PCS")
+                                    {
+                                        strScaleQtyPart = (decScalePrice / 1000).ToString();
+                                    }
+                                    else if (strUnitName.ToUpper().Trim() == "PCS")
+                                    {
+                                        strScaleQtyPart = decScalePrice.ToString();
+                                    }
+                                    decSalesPrice = Convert.ToDecimal(dtbl.Rows[0]["salesPrice"].ToString());
                                 }
-                                else if (strUnitName.ToUpper().Trim() == "PCS")
-                                {
-                                    strScaleQtyPart = decScalePrice.ToString();
-                                }
-                                decSalesPrice = Convert.ToDecimal(dtbl.Rows[0]["salesPrice"].ToString());
+                            }
+                            else
+                            {
+                                Console.Beep(500, 500);
+                                MessageBox.Show("Barcode not Found", "WARNING");
+                                barcodeFocus();
+                                return;
                             }
                         }
                         else
@@ -3324,13 +3345,6 @@ namespace FinacPOS
                             return;
                         }
                     }
-                    else
-                    {
-                        Console.Beep(500, 500);
-                        MessageBox.Show("Barcode not Found", "WARNING");
-                        barcodeFocus();
-                        return;
-                    }
                 }
             }
             bool IsExist = false;   //added by Nishana for adding qty  of same barcode to grid
@@ -3338,29 +3352,32 @@ namespace FinacPOS
             if (strItemCode != "")
             {
                 int Rownumber = 0;
-                if (settingsinfo.AddQtyInSameBarcodeToGrid == true)
+                if (!blWithoutBarcode)
                 {
-                    string barcode = txtBarcode.Text.Trim();
-                    if (String.IsNullOrEmpty(barcode))
-                    {
-                        MessageBox.Show("Please enter a valid barcode.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
 
-                    for (int i = 0; i < dgvProduct.RowCount; i++)
+                    if (settingsinfo.AddQtyInSameBarcodeToGrid == true)
                     {
-
-                        if (dgvProduct.Rows[i].Cells["Barcode"].Value != null &&
-                            dgvProduct.Rows[i].Cells["Barcode"].Value.ToString() == barcode)
+                        string barcode = txtBarcode.Text.Trim();
+                        if (String.IsNullOrEmpty(barcode))
                         {
-                            IsExist = true;
-                            Rownumber = i;
-                            break;
+                            MessageBox.Show("Please enter a valid barcode.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
 
+                        for (int i = 0; i < dgvProduct.RowCount; i++)
+                        {
+
+                            if (dgvProduct.Rows[i].Cells["Barcode"].Value != null &&
+                                dgvProduct.Rows[i].Cells["Barcode"].Value.ToString() == barcode)
+                            {
+                                IsExist = true;
+                                Rownumber = i;
+                                break;
+
+                            }
                         }
                     }
                 }
-
                 if (IsExist)
                 {
                     int currentQty = Convert.ToInt32(dgvProduct.Rows[Rownumber].Cells["Qty"].Value);
@@ -3388,7 +3405,7 @@ namespace FinacPOS
 
                     if (dTaxPerc != 0)
                     {
-                        dTaxAmt = Math.Round(((dGrossValue * dTaxPerc) / (100)),FinanceSettingsInfo._roundDecimal);
+                        dTaxAmt = Math.Round(((dGrossValue * dTaxPerc) / (100)), FinanceSettingsInfo._roundDecimal);
 
                         dgvProduct.Rows[Rownumber].Cells["TaxAmt"].Value = dTaxAmt.ToString(FinanceSettingsInfo._roundDecimalPart);
                     }
@@ -3410,10 +3427,10 @@ namespace FinacPOS
                     }
                     //
 
-                    dgvProduct.Rows[Rownumber].Cells["GrossValue"].Value = Math.Round(dGrossValue,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
-                    dgvProduct.Rows[Rownumber].Cells["DiscAmt"].Value = Math.Round(0m,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[Rownumber].Cells["GrossValue"].Value = Math.Round(dGrossValue, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[Rownumber].Cells["DiscAmt"].Value = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
-                    dgvProduct.Rows[Rownumber].Cells["NetValue"].Value = Math.Round(dGrossValue,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[Rownumber].Cells["NetValue"].Value = Math.Round(dGrossValue, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
 
                     dgvProduct.Rows[Rownumber].Cells["Total"].Value = (dGrossValue + dTaxAmt).ToString(FinanceSettingsInfo._roundDecimalPart);
@@ -3435,7 +3452,7 @@ namespace FinacPOS
                     decSalesPrice = 0;
                     strScaleItemType = "";
                     strScaleQtyPart = "";
-                   
+
 
                     if (lblBarcodeScanningType.Visible == true)
                     {
@@ -3448,7 +3465,10 @@ namespace FinacPOS
                     dgvProduct.RowCount = dgvCurRow + 2;
                     dgvProduct.Rows[dgvCurRow].Cells["SLNo"].Value = dgvSlno;
                     dgvProduct.Rows[dgvCurRow].Cells["ProductCode"].Value = strItemCode;
-                    dgvProduct.Rows[dgvCurRow].Cells["Barcode"].Value = strBarcode;
+                    if (blWithoutBarcode)
+                        dgvProduct.Rows[dgvCurRow].Cells["Barcode"].Value = strItemCode;
+                    else
+                        dgvProduct.Rows[dgvCurRow].Cells["Barcode"].Value = strBarcode;
                     dgvProduct.Rows[dgvCurRow].Cells["ItemName"].Value = strItemName;
                     dgvProduct.Rows[dgvCurRow].Cells["ArabicName"].Value = strItemNameArabic;
                     if (strScaleItemType == "Inventory")
@@ -3481,23 +3501,47 @@ namespace FinacPOS
                     decimal dRt = 0;
 
                     dtblRate = SPGeneral.ProductPurchaseRate(dgvProduct.Rows[dgvCurRow].Cells["ProductCode"].Value.ToString());
-            
+
                     if (dtblRate.Rows.Count > 0)
                     {
                         dRt = Convert.ToDecimal(dtblRate.Rows[0]["rate"]);
                         dgvProduct.Rows[dgvCurRow].Cells["PurchaseRate"].Value = (dRt * decUnitConversion).ToString(FinanceSettingsInfo._roundDecimalPart);
-                    
+
                     }
                     else
                     {
                         dRt = 0;
                         dgvProduct.Rows[dgvCurRow].Cells["PurchaseRate"].Value = "0";
                     }
-
-
-                    dgvProduct.Rows[dgvCurRow].Cells["SalesRate"].Value = Math.Round(decSalesPrice,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
-                    dgvProduct.Rows[dgvCurRow].Cells["amountBeforeDisc"].Value = Math.Round(amountBeforeDisc,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
-                    dgvProduct.Rows[dgvCurRow].Cells["rateDiscAmount"].Value = Math.Round(rateDiscAmount,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    // for without barcode items salesprice will be taken from txtBarcode-- 24-09-2025 Sheena
+                    if (blWithoutBarcode)
+                    {
+                        if (!string.IsNullOrWhiteSpace(txtBarcode.Text))
+                        {
+                            if (decimal.TryParse(txtBarcode.Text, out decimal barcodeRate))
+                            {
+                                dgvProduct.Rows[dgvCurRow].Cells["SalesRate"].Value = Math.Round(barcodeRate, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                            }
+                            else
+                            {
+                                // Optional: handle invalid input
+                                dgvProduct.Rows[dgvCurRow].Cells["SalesRate"].Value = "0";
+                            }
+                        }
+                        else
+                        {
+                            // Optional: handle empty barcode
+                            dgvProduct.Rows[dgvCurRow].Cells["SalesRate"].Value = "0";
+                        }
+                    }
+                    else
+                    {
+                        dgvProduct.Rows[dgvCurRow].Cells["SalesRate"].Value =
+                            Math.Round(decSalesPrice, FinanceSettingsInfo._roundDecimal)
+                                .ToString(FinanceSettingsInfo._roundDecimalPart);
+                    }
+                    dgvProduct.Rows[dgvCurRow].Cells["amountBeforeDisc"].Value = Math.Round(amountBeforeDisc, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[dgvCurRow].Cells["rateDiscAmount"].Value = Math.Round(rateDiscAmount, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
                     dgvProduct.Rows[dgvCurRow].Cells["DiscPerc"].Value = Math.Round(DiscPerc, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
                     dgvProduct.Rows[dgvCurRow].Cells["offerId"].Value = offerId;
@@ -3540,7 +3584,7 @@ namespace FinacPOS
 
                     if (dTaxPerc != 0)
                     {
-                        dTaxAmt = Math.Round(((dGrossValue * dTaxPerc) / (100)),FinanceSettingsInfo._roundDecimal);
+                        dTaxAmt = Math.Round(((dGrossValue * dTaxPerc) / (100)), FinanceSettingsInfo._roundDecimal);
 
                         dgvProduct.Rows[dgvCurRow].Cells["TaxAmt"].Value = dTaxAmt.ToString(FinanceSettingsInfo._roundDecimalPart);
                     }
@@ -3562,15 +3606,15 @@ namespace FinacPOS
                     }
                     //
 
-                    dgvProduct.Rows[dgvCurRow].Cells["GrossValue"].Value = Math.Round(dGrossValue,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
-                    dgvProduct.Rows[dgvCurRow].Cells["DiscAmt"].Value = Math.Round(0m,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[dgvCurRow].Cells["GrossValue"].Value = Math.Round(dGrossValue, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[dgvCurRow].Cells["DiscAmt"].Value = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
-                    dgvProduct.Rows[dgvCurRow].Cells["NetValue"].Value = Math.Round(dGrossValue,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    dgvProduct.Rows[dgvCurRow].Cells["NetValue"].Value = Math.Round(dGrossValue, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
 
                     dgvProduct.Rows[dgvCurRow].Cells["Total"].Value = (dGrossValue + dTaxAmt).ToString(FinanceSettingsInfo._roundDecimalPart);
-                    
-                    
+
+
                     CalculateBillTotal();
 
                     dgvSlno = dgvSlno + 1;
@@ -3634,7 +3678,9 @@ namespace FinacPOS
 
             FormLoadFunction();
             ClearFunction();
-           
+            this.KeyPreview = true;
+            this.KeyDown += frmPOSSales_KeyDown;
+
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -3645,7 +3691,7 @@ namespace FinacPOS
 
         private void btnNewSale_Click(object sender, EventArgs e)
         {
-   
+
 
             if (POSSettingsInfo._BillClearAuth == true)
             {
@@ -3671,7 +3717,7 @@ namespace FinacPOS
 
         }
 
-        
+
         private void btnBarcode_Click(object sender, EventArgs e)
         {
             barcodeFocus();
@@ -3682,9 +3728,45 @@ namespace FinacPOS
         {
             if (e.KeyChar == Convert.ToChar(13))
             {
-                barcodeScanning();
+
+                if (blWithoutBarcode)
+                {
+                    if (!string.IsNullOrEmpty(selectedProductCode))//without productcode
+                    {
+                        if (!string.IsNullOrEmpty(txtBarcode.Text))//without salesprice
+                        {
+                            decimal salesPrice;
+                            if (decimal.TryParse(txtBarcode.Text.Trim(), out salesPrice))
+                            {
+                                int qty = 1;
+
+                                // Add data to dgvProduct
+                                //dgvProduct.Rows.Add(selectedProductCode, salesPrice, qty);
+                                barcodeScanning(selectedProductCode);
+                                //AddProductWithoutBarcodeToGrid(selectedProductCode, salesPrice);
+                                // Clear textbox for next input
+                                txtBarcode.Clear();
+                                selectedProductCode = string.Empty; // reset
+                                selectedProductName = string.Empty; // reset
+                                blWithoutBarcode = false;
+                                lblBarcodeScanningType.Text = "";
+                                lblBarcodeScanningType.Visible = false;
+                            }
+                            else
+                            {
+                                MessageBox.Show("Invalid sales price. Please enter a valid number.");
+                            }
+                        }
+
+                    }
+                    else
+                        MessageBox.Show("Please Select Product. ");
+                }
+                else
+                    barcodeScanning("");
             }
         }
+
 
         private void txtDiscPer_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -3721,7 +3803,7 @@ namespace FinacPOS
                 {
                     dcDiscAmt = dcDiscAmt * 100 / Convert.ToDecimal(txtSubTotal.Text.ToString());
                 }
-                dcDiscAmt = Math.Round(dcDiscAmt,FinanceSettingsInfo._roundDecimal);
+                dcDiscAmt = Math.Round(dcDiscAmt, FinanceSettingsInfo._roundDecimal);
                 txtDiscPer.Text = dcDiscAmt.ToString("0.00");
 
             }
@@ -3730,7 +3812,7 @@ namespace FinacPOS
                 if (strFocusedControl != "txtDiscAmt" && strFocusedControl != "txtDiscPer")
                 {
                     txtDiscPer.Text = dcDiscAmt.ToString("0.00");
-                    txtDiscAmt.Text = Math.Round(0m,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    txtDiscAmt.Text = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
                 }
 
             }
@@ -3752,7 +3834,7 @@ namespace FinacPOS
                 {
                     dcDiscPer = Convert.ToDecimal(txtSubTotal.Text.ToString()) * dcDiscPer / 100;
                 }
-                dcDiscPer = Math.Round(dcDiscPer,FinanceSettingsInfo._roundDecimal);
+                dcDiscPer = Math.Round(dcDiscPer, FinanceSettingsInfo._roundDecimal);
                 txtDiscAmt.Text = dcDiscPer.ToString(FinanceSettingsInfo._roundDecimalPart);
             }
             else
@@ -3760,7 +3842,7 @@ namespace FinacPOS
                 if (strFocusedControl != "txtDiscAmt" && strFocusedControl != "txtDiscPer")
                 {
                     txtDiscPer.Text = dcDiscPer.ToString("0.00");
-                    txtDiscAmt.Text = Math.Round(0m,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                    txtDiscAmt.Text = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
                 }
 
             }
@@ -3923,6 +4005,13 @@ namespace FinacPOS
                 //btnCash_Click(e, e);
                 btnCreditCard.PerformClick();
             }
+            // Check if Ctrl + W is pressed - click at without barcode button
+           else if (e.Control && e.KeyCode == Keys.W)
+            {
+                e.SuppressKeyPress = true; // prevent "W" from appearing in textbox
+                btnWithoutBarcode.PerformClick(); // trigger button click
+            }
+
         }
         private void txtQty_KeyDown(object sender, KeyEventArgs e)
         {
@@ -3960,7 +4049,7 @@ namespace FinacPOS
                         catch { dSalesRate = 0; }
 
 
-                        dgvProduct.Rows[CurEditRowIndex].Cells[CurColIndex].Value = Math.Round(dSalesRate,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[CurEditRowIndex].Cells[CurColIndex].Value = Math.Round(dSalesRate, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
 
                         DataGridViewCellEventArgs x = new DataGridViewCellEventArgs(CurColIndex, CurEditRowIndex);
@@ -3977,7 +4066,7 @@ namespace FinacPOS
                         catch { dLineDisc = 0; }
 
 
-                        dgvProduct.Rows[CurEditRowIndex].Cells[CurColIndex].Value = Math.Round(dLineDisc,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[CurEditRowIndex].Cells[CurColIndex].Value = Math.Round(dLineDisc, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
 
                         DataGridViewCellEventArgs x = new DataGridViewCellEventArgs(CurColIndex, CurEditRowIndex);
@@ -4009,19 +4098,19 @@ namespace FinacPOS
 
                 if (purchaseRate > salesRate)
                 {
-                   
+
                     if (InfoPOSSettings.PricingAlertStatus == "Warn")
                     {
                         MessageBox.Show("Purchase Rate exceeds the Sales Rate on line " + (e.RowIndex + 1) + ". Please check the price.", "Pricing Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
-                    
+
                 }
                 AssignExludeRate(e.RowIndex);
                 CalculateGridTotal(e.RowIndex);
                 SalesRate.ReadOnly = true;
             }
-              
-       
+
+
             if (e.ColumnIndex == 14) //DiscAmt
             {
                 CalculateGridTotal(e.RowIndex);
@@ -4288,7 +4377,7 @@ namespace FinacPOS
         }
         private void UpdateSerialNumbers()
         {
-            for (int i = 0; i < dgvProduct.Rows.Count-1; i++)
+            for (int i = 0; i < dgvProduct.Rows.Count - 1; i++)
             {
                 dgvProduct.Rows[i].Cells["SlNo"].Value = i + 1;
                 dgvSlno = i + 2;
@@ -4389,7 +4478,7 @@ namespace FinacPOS
                 }
                 else if (txtTouchTextBox.Name == "txtBarcode")
                 {
-                    barcodeScanning();
+                    barcodeScanning("");
                 }
             }
             else if (blTextBoxFocus == false && blGridFocus == true)
@@ -4427,7 +4516,7 @@ namespace FinacPOS
                         catch { dSalesRate = 0; }
 
 
-                        dgvProduct.Rows[CurEditRowIndex].Cells[CurColIndex].Value = Math.Round(dSalesRate,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[CurEditRowIndex].Cells[CurColIndex].Value = Math.Round(dSalesRate, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
 
                         DataGridViewCellEventArgs x = new DataGridViewCellEventArgs(CurColIndex, CurEditRowIndex);
@@ -4445,7 +4534,7 @@ namespace FinacPOS
                         catch { dLineDisc = 0; }
 
 
-                        dgvProduct.Rows[CurEditRowIndex].Cells[CurColIndex].Value = Math.Round(dLineDisc,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        dgvProduct.Rows[CurEditRowIndex].Cells[CurColIndex].Value = Math.Round(dLineDisc, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
 
 
                         DataGridViewCellEventArgs x = new DataGridViewCellEventArgs(CurColIndex, CurEditRowIndex);
@@ -4494,7 +4583,7 @@ namespace FinacPOS
                 lblBarcodeScanningType.Visible = true;
             }
             barcodeFocus();
-          
+
             if (InfoPOSSettings.DeleteMode == "Delete By Button Click")
             {
 
@@ -4531,7 +4620,7 @@ namespace FinacPOS
             }
         }
 
-        
+
         private void ResetSerialNumbers()
         {
             int slno = 1;
@@ -4560,7 +4649,7 @@ namespace FinacPOS
                     txtCustomerName.Text = dtbl.Rows[0]["ledgerName"].ToString();
                 }
                 else
-              {
+                {
                     MessageBox.Show("Customer Code not found", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     barcodeFocus();
                     return;
@@ -4925,7 +5014,7 @@ namespace FinacPOS
 
         private void btnPriceCheck_Click(object sender, EventArgs e)
         {
-          
+
             frmPriceCheck _isOpen = Application.OpenForms["frmPriceCheck"] as frmPriceCheck;
             if (_isOpen == null)
             {
@@ -4935,7 +5024,7 @@ namespace FinacPOS
                 frmObj.WindowState = FormWindowState.Normal;
                 //frmObj.MdiParent = MDIFinacPOS.MDIObj;
                 frmObj.ShowDialog();
-               
+
             }
             else
             {
@@ -5050,10 +5139,10 @@ namespace FinacPOS
                                 }
                                 else
                                 {
-                                    
+
                                     barcodeFocus();
                                 }
-                                
+
 
                             }
 
@@ -5135,7 +5224,7 @@ namespace FinacPOS
                     IsChecked = true;
                     isUnHoldBill = true;
                     frmLookup frmlookup = new frmLookup();
-                   
+
                     frmlookup.strSearchingName = "HoldBillNo";
                     frmlookup.strFromFormName = "HoldBillDetails";
                     frmlookup.strSearchColumn = "HoldBillNo";
@@ -5160,13 +5249,13 @@ namespace FinacPOS
                 {
                     MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-              // barcodeFocus();
+                // barcodeFocus();
             }
         }
         public void DowhenReturningFromSearchForm(string strHoldBillNo, string strSalesMan, string strId)
         {
-         
-            if(isSalesMan == true)
+
+            if (isSalesMan == true)
             {
                 lblSalesMan.Text = strSalesMan;
                 lblSalesMan.Tag = strId;
@@ -5175,7 +5264,7 @@ namespace FinacPOS
             if (isUnHoldBill == true)
             {
                 txtBarcode.Text = strHoldBillNo;
-                barcodeScanning();
+                barcodeScanning("");
             }
         }
         public void FillrowAfterPickingReciept(string BillNo)
@@ -5195,7 +5284,7 @@ namespace FinacPOS
             txtBarcode.Text = strBarcode;
             if (strBarcode != "")
             {
-                barcodeScanning();
+                barcodeScanning("");
             }
             else
             {
@@ -5261,8 +5350,8 @@ namespace FinacPOS
 
                 btnFindCustomer.Text = "Find Customer";
             }
-                barcodeFocus();
-            
+            barcodeFocus();
+
         }
         private void txtCustomerId_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -5571,7 +5660,7 @@ namespace FinacPOS
             decimal dcVatAmount = 0;
             if (taxPerc != 0)
             {
-                dcVatAmount = Math.Round(((ExcludedRate * taxPerc) / (100)),FinanceSettingsInfo._roundDecimal);
+                dcVatAmount = Math.Round(((ExcludedRate * taxPerc) / (100)), FinanceSettingsInfo._roundDecimal);
             }
             else
             {
@@ -5596,11 +5685,11 @@ namespace FinacPOS
                     strItemCode = dgvProduct.Rows[e.RowIndex].Cells["ProductCode"].Value.ToString();
                 }
                 catch { }
-               
+
                 decimal purchaseRate = Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells["PurchaseRate"].Value);
                 decimal Stock = Convert.ToDecimal(dgvProduct.Rows[e.RowIndex].Cells["Stock"].Value);
-              
-               
+
+
                 DataTable dtbltx = new DataTable();
                 dtbltx = SPProduct.GetProductTaxDetails(strItemCode);
                 if (dtbltx.Rows.Count > 0) //load tax details details by ProductCode
@@ -5608,28 +5697,28 @@ namespace FinacPOS
                     taxperc = decimal.Parse(dtbltx.Rows[0]["rate"].ToString());
                 }
                 IncludeRate = CalculateIncludeRateForgrid(purchaseRate, taxperc);
-                IncludeRate =Convert.ToDecimal(Math.Round(IncludeRate,FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart));
-              //  decimal decInculedTaxPurchaseRate = purchaseRate + IncludeRate;
-                dgvProduct.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText ="PR: " + purchaseRate.ToString() + " (Excl. Tax), " + IncludeRate.ToString() + " (Incl. Tax), Stock: " + Stock.ToString();
+                IncludeRate = Convert.ToDecimal(Math.Round(IncludeRate, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart));
+                //  decimal decInculedTaxPurchaseRate = purchaseRate + IncludeRate;
+                dgvProduct.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "PR: " + purchaseRate.ToString() + " (Excl. Tax), " + IncludeRate.ToString() + " (Incl. Tax), Stock: " + Stock.ToString();
 
 
             }
         }
         int strDeleteCurrentRowIndex = 0;
-       private void dgvProduct_CellClick(object sender, DataGridViewCellEventArgs e)
-       {
-          
-           if (e.RowIndex >= 0) 
-           {
+        private void dgvProduct_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+            if (e.RowIndex >= 0)
+            {
                 try
                 {
                     strBarcode = dgvProduct.Rows[e.RowIndex].Cells["Barcode"].Value.ToString();
                     strDeleteCurrentRowIndex = e.RowIndex;
                 }
                 catch { }
-           }
+            }
 
-       }
+        }
 
         public string POSTokenNoMax()
         {
@@ -5653,7 +5742,7 @@ namespace FinacPOS
         {
             try
             {
-                
+
                 frmLookup frmlookup = new frmLookup();
                 isSalesMan = true;
                 isUnHoldBill = false;
@@ -5678,8 +5767,196 @@ namespace FinacPOS
                 MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        bool blWithoutBarcode = false;
+        private int insertRowIndex = -1;
+        private void btnWithoutBarcode_Click(object sender, EventArgs e)
+        {
+            if (dgvProduct.CurrentCell != null)
+                insertRowIndex = dgvProduct.CurrentCell.RowIndex;
+            else
+                insertRowIndex = dgvProduct.Rows.Count - 1;
+            blWithoutBarcode = true;
+            productFillWithoutBarcode();
+            if (dtblProductWithoutBarcode.Rows.Count > 0)
+            {
+                showproductWithoutBarcodeInload(dtblProductWithoutBarcode);
+                withoutBarcodePanel.Focus();
+            }
+            else
+                MessageBox.Show("Products Not Found", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        public void showproductWithoutBarcodeInload(DataTable dtbl)   //added on 23/09/2025 By SHEENA
+        {
 
-      
+
+            withoutBarcodePanel.Visible = true;
+            withoutBarcodePanel.Size = new Size(368,260);
+
+            // Center the panel on the form
+            withoutBarcodePanel.Location = new Point(
+                (this.ClientSize.Width - withoutBarcodePanel.Width) / 2,
+                (this.ClientSize.Height - withoutBarcodePanel.Height) / 2
+            );
+
+            LoadProductsWithoutBarcode(dtbl);
+
+
+        }
+
+
+        private string selectedProductCode = string.Empty;
+        private string selectedProductName = string.Empty;
+        private Dictionary<int, Button> shortcutButtons = new Dictionary<int, Button>();
+
+        private void LoadProductsWithoutBarcode(DataTable dt)
+        {
+            withoutBarcodePanel.Controls.Clear();
+            shortcutButtons.Clear();
+
+            int x = 10; // starting X position
+            int y = 10; // starting Y position
+            int btnWidth = 115;
+            int btnHeight = 80;
+            int spacingX = 10;
+            int spacingY = 10;
+            int itemsPerRow = 4; // max items per row
+            int count = 0;
+            int shortcutNumber = 1; // start shortcuts from 1
+
+            foreach (DataRow row in dt.Rows)
+            {
+                if (shortcutNumber <= 9)
+                {
+                    string productName = row["productName"].ToString();
+                    string productCode = row["productCode"].ToString();
+
+                    Button btn = new Button();
+                    btn.Size = new Size(btnWidth, btnHeight);
+                    btn.Location = new Point(x, y);
+                    btn.Tag = row; // store row for later use
+                    btn.Text = ""; // We'll draw text ourselves
+                    btn.FlatStyle = FlatStyle.Flat;
+                    btn.FlatAppearance.BorderSize = 1;
+                    btn.BackColor = Color.FromArgb(173, 216, 230);
+
+                    int currentShortcut = shortcutNumber;
+
+                    // Owner draw to have bold name, code, and shortcut number
+                    btn.Paint += (s, e) =>
+                    {
+                        e.Graphics.Clear(btn.BackColor);
+                        e.Graphics.DrawRectangle(Pens.Black, 0, 0, btn.Width - 1, btn.Height - 1);
+
+                        using (Font nameFont = new Font("Segoe UI", 10, FontStyle.Bold))
+                        using (Font codeFont = new Font("Segoe UI", 8))
+                        using (Font shortcutFont = new Font("Segoe UI", 9, FontStyle.Bold))
+                        using (StringFormat sf = new StringFormat() { Alignment = StringAlignment.Center })
+                        {
+                            // Product name + code
+                            e.Graphics.DrawString($"{productName} ({productCode})", nameFont, Brushes.Black,
+                                new RectangleF(0, 18, btn.Width, btnHeight - 20), sf);
+
+                            // Shortcut number (top-left corner)
+                            e.Graphics.DrawString($"({currentShortcut.ToString()})", shortcutFont, Brushes.Red,
+                                new PointF(50, 5));
+                        }
+                    };
+
+                    btn.Click += ProductWithoutBarcodeButton_Click;
+                    withoutBarcodePanel.Controls.Add(btn);
+
+                    // Map number key to this button (only 1–9)
+                    if (shortcutNumber <= 9)
+                    {
+                        shortcutButtons[shortcutNumber] = btn;
+                    }
+
+                    count++;
+                    shortcutNumber++;
+
+                    if (count % itemsPerRow == 0)
+                    {
+                        x = 10; // reset X for new row
+                        y += btnHeight + spacingY; // move to next row
+                    }
+                    else
+                    {
+                        x += btnWidth + spacingX; // next column
+                    }
+                }
+            }
+        }
+
+        private void ProductWithoutBarcodeButton_Click(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+            if (btn != null && btn.Tag is DataRow row)
+            {
+                selectedProductCode = row["productCode"].ToString();
+                selectedProductName = row["productName"].ToString();
+
+                // Delay hiding panel and focusing barcode to let click visually register
+                this.BeginInvoke((MethodInvoker)(() =>
+                {
+                    withoutBarcodePanel.Visible = false;
+                    //blWithoutBarcode = false;
+
+                    lblBarcodeScanningType.Visible = true;
+                    lblBarcodeScanningType.Text = "Enter Sales price";
+
+                    txtBarcode.Enabled = true;
+                    txtBarcode.ReadOnly = false;
+                    txtBarcode.Visible = true;
+                    txtBarcode.BringToFront();
+
+                    txtBarcode.Focus();
+                    txtBarcode.Select();
+                }));
+            }
+        }
+
+
+
+        public void productFillWithoutBarcode()
+        {
+
+            clsGeneral objGeneral = new clsGeneral();
+            ProductSP SpProduct = new ProductSP();
+            dtblProductWithoutBarcode = SpProduct.POSProductSearchWithoutBarcodeItems(PublicVariables._branchId);
+
+        }
+
+        private void frmPOSSales_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Only handle shortcuts if the "without barcode" panel is visible
+            if (blWithoutBarcode && withoutBarcodePanel.Visible && !txtBarcode.Focused)
+            {
+                int number = 0;
+
+                // Top row keys
+                if (e.KeyCode >= Keys.D1 && e.KeyCode <= Keys.D9)
+                    number = e.KeyCode - Keys.D0;
+
+                // Numpad keys
+                else if (e.KeyCode >= Keys.NumPad1 && e.KeyCode <= Keys.NumPad9)
+                    number = e.KeyCode - Keys.NumPad0;
+
+                if (number > 0 && shortcutButtons.ContainsKey(number))
+                {
+                    Button btn = shortcutButtons[number];
+
+                    // --- Add this for visual feedback ---
+                    Color originalColor = btn.BackColor;
+                    btn.BackColor = Color.LightBlue;
+                    btn.PerformClick();
+                    btn.BackColor = originalColor;
+                    // -----------------------------------
+
+                    e.SuppressKeyPress = true; // prevent typing the number
+                }
+            }
+        }
+
 
     }
 }

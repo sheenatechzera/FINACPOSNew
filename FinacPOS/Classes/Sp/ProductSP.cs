@@ -1981,5 +1981,31 @@ namespace FinacPOS
             }
             return dtbl;
         }
+        public DataTable POSProductSearchWithoutBarcodeItems(string branchId)
+        {
+            DataTable dtbl = new DataTable();
+            try
+            {
+                if (sqlcon.State == ConnectionState.Closed)
+                {
+                    sqlcon.Open();
+                }
+                SqlDataAdapter sdaadapter = new SqlDataAdapter("POSProductSearchWithoutBarcodeItems", sqlcon);
+                sdaadapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+                SqlParameter prm = new SqlParameter();
+                prm = sdaadapter.SelectCommand.Parameters.Add("@branchId", SqlDbType.VarChar);
+                prm.Value = branchId;
+                sdaadapter.Fill(dtbl);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            finally
+            {
+                sqlcon.Close();
+            }
+            return dtbl;
+        }
     }
 }
