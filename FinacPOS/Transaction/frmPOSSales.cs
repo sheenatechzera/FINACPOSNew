@@ -1388,6 +1388,7 @@ namespace FinacPOS
             dtblOtherDetails.Columns.Add("CustomerVatNo");
             dtblOtherDetails.Columns.Add("TokenNo");
             dtblOtherDetails.Columns.Add("SalesMode");
+            dtblOtherDetails.Columns.Add("CustContact");
             if (isDuplicatePrint == false)
             {
                 DataRow dRowDetails = dtblOtherDetails.NewRow();
@@ -1445,7 +1446,7 @@ namespace FinacPOS
                     dRowDetails["CustomerAddress"] = txtAdress.Text;
                     dRowDetails["CustomerPhone"] = txtphone.Text;
                     dRowDetails["CustomerVatNo"] = txtVatNo.Text;
-
+                    dRowDetails["CustContact"] = "";
                     DataTable dtblBalance = salesmaster.GetCustomerCurrentBalance(lblLedgerId.Text.ToString(), PublicVariables._branchId);
                     if (dtblBalance.Rows.Count > 0)
                     {
@@ -1513,6 +1514,7 @@ namespace FinacPOS
                     dRowDetails["totalBalance"] = "";
                     dRowDetails["showCustBalance"] = false;
                     dRowDetails["SalesMode"] = "";
+                    dRowDetails["CustContact"] = "";
                 }
 
                 //////------------------------ QR Code Generation ----------- by Navas --------------------
@@ -1709,6 +1711,8 @@ namespace FinacPOS
 
                     dRowDetails["BillAmount"] = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                     dRowDetails["SalesMode"] = "";
+                    dRowDetails["CustContact"] = "";
+
                     //////------------------------ QR Code Generation ----------- by Navas --------------------
                     ////Zen.Barcode.CodeQrBarcodeDraw qrBarcode = Zen.Barcode.BarcodeDrawFactory.CodeQr;
                     ////string companyname = dtblCompanyDetails.Rows[0][2].ToString();
@@ -2471,7 +2475,7 @@ namespace FinacPOS
             TokenNo = POSTokenNoMax();
             InfoPOSSalesMaster.TokenNo = TokenNo;
             InfoPOSSalesMaster.SalesManId = string.IsNullOrEmpty(lblSalesMan.Text) ? null : lblSalesMan.Text;
-            InfoPOSSalesMaster.SalesManId = " ";
+            InfoPOSSalesMaster. CustContact  = " ";
             strMasterId = POSSalesMasterSP.POSSalesMasterAdd(InfoPOSSalesMaster);
 
             if (strMasterId != "")
