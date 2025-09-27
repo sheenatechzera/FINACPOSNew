@@ -119,6 +119,8 @@ namespace FinacPOS
             //addede on 28/08/2025
 
             report.Parameters["SalesMode"].Value = dtblOtherDetails.Rows[0]["SalesMode"].ToString();
+           report.Parameters["CustContact"].Value = dtblOtherDetails.Rows[0]["CustContact"].ToString();
+            
             //Tax Details
             if (dtblTaxDetails.Rows.Count > 0)
             {

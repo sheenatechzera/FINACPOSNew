@@ -2471,6 +2471,7 @@ namespace FinacPOS
             TokenNo = POSTokenNoMax();
             InfoPOSSalesMaster.TokenNo = TokenNo;
             InfoPOSSalesMaster.SalesManId = string.IsNullOrEmpty(lblSalesMan.Text) ? null : lblSalesMan.Text;
+            InfoPOSSalesMaster.SalesManId = " ";
             strMasterId = POSSalesMasterSP.POSSalesMasterAdd(InfoPOSSalesMaster);
 
             if (strMasterId != "")
