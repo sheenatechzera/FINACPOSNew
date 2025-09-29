@@ -1,4 +1,5 @@
 ﻿using DevExpress.CodeParser;
+using DevExpress.XtraDiagram.Bars;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraReports.UI;
 using DevExpress.XtraRichEdit.Model;
@@ -372,7 +373,7 @@ namespace FinacPOS
                 return ms.ToArray();
             }
         }
-
+      
         // Optional: Convert back to image if needed later
         public Image ByteArrayToImage1(byte[] byteArray)
         {
@@ -380,6 +381,7 @@ namespace FinacPOS
             {
                 return Image.FromStream(ms);
             }
+
         }
 
         //private static byte[] ConvertImageToByteArray(string imagePath)
@@ -394,14 +396,15 @@ namespace FinacPOS
         {
             LoadProductGroup();
             LoadProducts(dtblProductWithImage);
-            if (FlpanelProductGroup.Controls.Count > 0)
-            {
-                Button firstGroupButton = FlpanelProductGroup.Controls[0] as Button;
-                if (firstGroupButton != null)
-                {
-                    firstGroupButton.PerformClick(); // trigger ProductGroupButton_Click
-                }
-            }
+
+            //if (FlpanelProductGroup.Controls.Count > 0)
+            //{
+            //    Button firstGroupButton = FlpanelProductGroup.Controls[0] as Button;
+            //    if (firstGroupButton != null)
+            //    {
+            //        firstGroupButton.PerformClick(); // trigger ProductGroupButton_Click
+            //    }
+            //}
         }
         private void LoadProductGroup()
         {
@@ -414,16 +417,18 @@ namespace FinacPOS
             {
                 AddProductGroupButton(row);
             }
-            if (dtbl.Rows.Count > 0)       // added  by nishana on 23-08-2025
-            {
+            //  Load all products
+            LoadProducts(dtblProductWithImage);
+            //if (dtbl.Rows.Count > 0)       // added  by nishana on 23-08-2025
+            //{
 
-                selectedGroupId = dtbl.Rows[0]["groupId"].ToString();
-                string searchvalue = "groupId='" + selectedGroupId + "'";
-                DataView dv = dtblProductWithImage.DefaultView;
-                dv.RowFilter = searchvalue;
-                dtblProductFiltered = dv.ToTable();
-                LoadProducts(dtblProductFiltered);
-            }
+            //    selectedGroupId = dtbl.Rows[0]["groupId"].ToString();
+            //    string searchvalue = "groupId='" + selectedGroupId + "'";
+            //    DataView dv = dtblProductWithImage.DefaultView;
+            //    dv.RowFilter = searchvalue;
+            //    dtblProductFiltered = dv.ToTable();
+            //    LoadProducts(dtblProductFiltered);
+            //}
         }
         private void AddProductGroupButton(DataRow row)
         {
@@ -442,7 +447,7 @@ namespace FinacPOS
             };
             btn.Click += (sender, e) =>
             {
-                // Iterate through all buttons in the FlowLayoutPanel
+                // Iterate through all buttons in FlowLayoutPanel
                 foreach (Control control in FlpanelProductGroup.Controls)
                 {
                     if (control is Button)
@@ -507,7 +512,11 @@ namespace FinacPOS
                 Width = 120,
                 Height = 83,
                 BackColor = Color.FromArgb(245, 245, 245),
-                Tag = row["barcode"]
+                Tag = new
+                {
+                    Barcode = row["barcode"].ToString(),
+                    GroupID = row["groupid"].ToString()
+                }
             };
 
             // Add Image
@@ -632,41 +641,78 @@ namespace FinacPOS
 
         private Image ByteArrayToImage(byte[] byteArray)
         {
+            //if (byteArray == null || byteArray.Length == 0)
+            //    return null;
+
+            //using (MemoryStream ms = new MemoryStream(byteArray))
+            //{
+            //    return Image.FromStream(ms);
+            //}
             if (byteArray == null || byteArray.Length == 0)
                 return null;
 
             using (MemoryStream ms = new MemoryStream(byteArray))
+            using (Image original = Image.FromStream(ms))
             {
-                return Image.FromStream(ms);
+                // Resize to fit your PictureBox size (120x53)
+                return new Bitmap(original, new Size(120, 53));
             }
         }
+      // private void ProductGroupButton_Click(object sender, EventArgs e)
+        //{
+            //    Button clickedButton = sender as Button;
+            //    Button clickedButton = sender as Button;
+            //    string groupid = clickedButton.Tag.ToString();
+
+
+            //    MessageBox.Show("Selected Group:" + productName, "Product Selected", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //    strGroupId = groupid;
+            //    MessageBox.Show("a");
+            //    if (strGroupId == "All")
+            //    {
+            //        LoadProducts(dtblProductWithImage);
+            //    }
+            //    else
+            //    {
+            //        string searchvalue = "groupid='" + strGroupId + "'";
+
+            //        DataView dv = dtblProductWithImage.DefaultView;
+            //        dv.RowFilter = "LedgerName LIKE '%" + searchvalue + "%' OR ledgerCode LIKE '%" + searchvalue + "%'";
+            //        dv.RowFilter = searchvalue;
+
+            //        dtblProductFiltered = dv.ToTable();
+            //        LoadProducts(dtblProductFiltered);
+            //    }
+            //    MessageBox.Show("b");
+            //    txtSearch.Focus();
+      
+       // }
         private void ProductGroupButton_Click(object sender, EventArgs e)
         {
-            //Button clickedButton = sender as Button;
-            Button clickedButton = sender as Button;
-            string groupid = clickedButton.Tag.ToString();
+            Button btn = sender as Button;
+            if (btn == null) return;
 
-
-            //MessageBox.Show("Selected Group:" + productName, "Product Selected", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            strGroupId = groupid;
-            //MessageBox.Show("a");
-            if (strGroupId == "All")
+            string selectedGroupId = btn.Tag.ToString(); // Button.Tag should hold GroupId (or "ALL")
+            flowLayoutPanel.SuspendLayout();
+            foreach (Control ctrl in flowLayoutPanel.Controls)
             {
-                LoadProducts(dtblProductWithImage);
-            }
-            else
-            {
-                string searchvalue = "groupid='" + strGroupId + "'";
+                if (ctrl is Panel panel && panel.Tag != null)
+                {
+                    var tag = (dynamic)panel.Tag;
+                    string panelGroupId = tag.GroupID;
 
-                DataView dv = dtblProductWithImage.DefaultView;
-                //dv.RowFilter = "LedgerName LIKE '%" + searchvalue + "%' OR ledgerCode LIKE '%" + searchvalue + "%'";
-                dv.RowFilter = searchvalue;
-
-                dtblProductFiltered = dv.ToTable();
-                LoadProducts(dtblProductFiltered);
+                    // If "ALL" is selected, show everything
+                    if (selectedGroupId == "All")
+                    {
+                        panel.Visible = true;
+                    }
+                    else
+                    {
+                        panel.Visible = (panelGroupId == selectedGroupId);
+                    }
+                }
             }
-            //MessageBox.Show("b");
-            txtSearch.Focus();
+            flowLayoutPanel.ResumeLayout();
         }
         private void ProductButton_Click(object sender, EventArgs e)
         {
@@ -801,7 +847,7 @@ namespace FinacPOS
             {
                 PoleDisplay("New");
             }
-
+            txtCustContact.Text = "";
             barcodeFocus();
         }
         private void PoleDisplay(string strFunction)
@@ -1417,6 +1463,7 @@ namespace FinacPOS
             dtblOtherDetails.Columns.Add("CustomerVatNo");
             dtblOtherDetails.Columns.Add("TokenNo");
             dtblOtherDetails.Columns.Add("SalesMode");
+            dtblOtherDetails.Columns.Add("CustContact");
 
             if (isDuplicatePrint == false)
             {
@@ -1463,6 +1510,7 @@ namespace FinacPOS
 
                     dRowDetails["customerCode"] = txtCustomerId.Text;
                     dRowDetails["customerName"] = txtCustName.Text;
+                    dRowDetails["CustContact"] = txtCustContact.Text;
                     dRowDetails["isCredit"] = true;
 
                     DataTable dtblBalance = salesmaster.GetCustomerCurrentBalance(lblLedgerId.Text.ToString(), PublicVariables._branchId);
@@ -1534,6 +1582,7 @@ namespace FinacPOS
                     dRowDetails["totalBalance"] = "";
                     dRowDetails["showCustBalance"] = false;
                     dRowDetails["SalesMode"] = selectedSalesMode;
+                    dRowDetails["CustContact"] = txtCustContact.Text;
                 }
 
                 //////------------------------ QR Code Generation ----------- by Navas --------------------
@@ -1728,6 +1777,7 @@ namespace FinacPOS
 
                     dRowDetails["BillAmount"] = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
                     dRowDetails["SalesMode"] = dtbl.Rows[0]["SalesMode"].ToString();
+                    dRowDetails["CustContact"] = dtbl.Rows[0]["CustContact"].ToString();
 
                     //////------------------------ QR Code Generation ----------- by Navas --------------------
                     ////Zen.Barcode.CodeQrBarcodeDraw qrBarcode = Zen.Barcode.BarcodeDrawFactory.CodeQr;
@@ -1840,7 +1890,7 @@ namespace FinacPOS
                     else if (POSSettingsInfo._custBillCopy == "Full Bill")
                     {
                         spPrint.PrintSalesInvoicePOS(dtblCompanyDetails, dtblGridDetails, dtblOtherDetails, dtblTaxDetailsThermal, counterInfo.DefaultPrinter, counterInfo.Directprint, counterInfo.SalesPrintCopy);
-                        spPrint.PrintSalesInvoicePOS(dtblCompanyDetails, dtblGridDetails, dtblOtherDetails, dtblTaxDetailsThermal, counterInfo.DefaultPrinter, counterInfo.Directprint, counterInfo.SalesPrintCopy);
+                        //spPrint.PrintSalesInvoicePOS(dtblCompanyDetails, dtblGridDetails, dtblOtherDetails, dtblTaxDetailsThermal, counterInfo.DefaultPrinter, counterInfo.Directprint, counterInfo.SalesPrintCopy);
                     }
                 }
                 else
@@ -2512,6 +2562,7 @@ namespace FinacPOS
             TokenNo = POSTokenNoMax();
             InfoPOSSalesMaster.TokenNo = TokenNo;
             InfoPOSSalesMaster.SalesManId = string.IsNullOrEmpty(lblSalesMan.Text) ? null : lblSalesMan.Text;
+            InfoPOSSalesMaster.CustContact = txtCustContact.Text;
             strMasterId = POSSalesMasterSP.POSSalesMasterAdd(InfoPOSSalesMaster);
 
             if (strMasterId != "")
@@ -4620,6 +4671,7 @@ namespace FinacPOS
 
         private void btnEnter_Click(object sender, EventArgs e)
         {
+
             if (blTextBoxFocus == true && blGridFocus == false)
             {
                 if (txtTouchTextBox.Name == "txtDiscPer")
@@ -4631,7 +4683,7 @@ namespace FinacPOS
 
                     txtDiscPer_Validated(null, null);
                     txtDiscAmt.ReadOnly = true;
-                    txtDiscPer.ReadOnly = true; 
+                    txtDiscPer.ReadOnly = true;
                     barcodeFocus();
                 }
                 else if (txtTouchTextBox.Name == "txtDiscAmt")
@@ -4643,7 +4695,7 @@ namespace FinacPOS
 
                     txtDiscAmt_Validated(null, null);
                     txtDiscAmt.ReadOnly = true;
-                    txtDiscPer.ReadOnly = true; 
+                    txtDiscPer.ReadOnly = true;
                     barcodeFocus();
                 }
                 else if (txtTouchTextBox.Name == "txtBarcode")
@@ -5523,7 +5575,7 @@ namespace FinacPOS
             if (txtDiscAmt.Text.ToString() == "")
             {
                 txtDiscAmt.Text = "0";
-                txtDiscPer.Text = "0"; 
+                txtDiscPer.Text = "0";
             }
         }
 
@@ -5903,6 +5955,73 @@ namespace FinacPOS
 
             
 
+        }
+
+        private void txtDiscAmt_Validated_1(object sender, EventArgs e)
+        {
+            decimal dcDiscAmt = 0;
+
+            try { dcDiscAmt = decimal.Parse(txtDiscAmt.Text.ToString()); }
+            catch { }
+
+            if (dcDiscAmt != 0)
+            {
+                txtDiscAmt.Text = dcDiscAmt.ToString(FinanceSettingsInfo._roundDecimalPart);
+                if (dcDiscAmt != 0 && Convert.ToDecimal(txtSubTotal.Text.ToString()) != 0)
+                {
+                    dcDiscAmt = dcDiscAmt * 100 / Convert.ToDecimal(txtSubTotal.Text.ToString());
+                }
+                dcDiscAmt = Math.Round(dcDiscAmt, FinanceSettingsInfo._roundDecimal);
+                txtDiscPer.Text = dcDiscAmt.ToString("0.00");
+
+            }
+            else
+            {
+                if (strFocusedControl != "txtDiscAmt" && strFocusedControl != "txtDiscPer")
+                {
+                    txtDiscPer.Text = dcDiscAmt.ToString("0.00");
+                    txtDiscAmt.Text = Math.Round(0m, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+                }
+
+            }
+
+            CalculateBillDiscforIndivProduct();
+        }
+
+        private void txtDiscAmt_KeyPress_1(object sender, KeyPressEventArgs e)
+        {
+            objComboValidation.DecimalValidation(sender, e, false);
+            if (e.KeyChar == Convert.ToChar(13))
+            {
+                barcodeFocus();
+                txtDiscAmt.ReadOnly = true;
+                txtDiscPer.ReadOnly = true;
+            }
+        }
+
+        private void txtDiscAmt_Leave_1(object sender, EventArgs e)
+        {
+            if (txtDiscAmt.Text.ToString() == "")
+            {
+                txtDiscAmt.Text = "0";
+                txtDiscPer.Text = "0";
+            }
+
+        }
+
+      
+
+       
+        private void txtCustContact_Click(object sender, EventArgs e)
+        {
+            txtTouchTextBox = txtCustContact;
+            //  only digits
+            if (!string.IsNullOrEmpty(txtCustContact.Text) && !txtCustContact.Text.All(char.IsDigit))
+            {
+                MessageBox.Show("Only numbers are allowed.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCustContact.Text = ""; 
+                txtCustContact.Focus();   
+            }
         }
     }
 }
