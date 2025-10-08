@@ -120,6 +120,7 @@ namespace FinacPOS
                 dtZatcaMaster.Columns.Add("Qty", typeof(decimal));
                 dtZatcaMaster.Columns.Add("Discount", typeof(decimal));
                 dtZatcaMaster.Columns.Add("billDateTime", typeof(DateTime));
+                dtZatcaMaster.Columns.Add("billType", typeof(string));
 
                 string entrynoWithPrefix1 = dtMaster.Rows[0]["invoiceNo"].ToString();
                 string EinvoiceMode = "";
@@ -251,6 +252,7 @@ namespace FinacPOS
                        // Drn["Rate"] = Dv["excludeRate"];
                         Drn["Qty"] = Dv["qty"];                        
                         Drn["billDatetime"] = Dv["billDatetime"];//17-Sep-2025 sheena
+                        Drn["billType"] = dtMaster.Rows[0]["BillType"].ToString();//01-Oct-2025 sheena
                         // Add the new row to dtZatcaMaster
                         dtZatcaMaster.Rows.Add(Drn);
                     }
