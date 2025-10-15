@@ -26,6 +26,7 @@ namespace FinacPOS
         public static DateTime _fromDate;
         public static DateTime _toDate;
         public static string _SalesScreenType = ""; //Added on 01/Apr/2025
-       
+        public static bool IsFormUserLoginOpen = false;
+
     }
 }

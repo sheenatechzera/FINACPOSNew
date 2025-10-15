@@ -138,7 +138,16 @@ namespace FinacPOS
             lblUser.Text = PublicVariables._EmpName;
             if (DateTime.Compare(Convert.ToDateTime(DateTime.Today), Convert.ToDateTime(strSessionDate)) > 0)
             {
-                MessageBox.Show("Opened Session Date is not Today's Date");
+                if (PublicVariables._ModuleLanguage == "ENG")
+
+                {
+                    MessageBox.Show("Opened Session Date is not Today's Date", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("تاريخ الجلسة المفتوحة ليس تاريخ اليوم", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
             }
             // Set the custom format of the DateTimePicker
             txtChequeDate.Format = DateTimePickerFormat.Custom;
@@ -209,7 +218,7 @@ namespace FinacPOS
             {
                 if (!isInEditMode)
                 {
-                    if (MessageBox.Show("Do you want to save?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                    if (MessageBox.Show(clsGeneral.MessageFunction("Save"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                     {
                         FindTotal();
                         SaveFunction();
@@ -217,7 +226,7 @@ namespace FinacPOS
                 }
                 else
                 {
-                    if (MessageBox.Show("Do you want to update?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                    if (MessageBox.Show(clsGeneral.MessageFunction("Update"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                     {
                         FindTotal();
                         SaveFunction();
@@ -236,8 +245,19 @@ namespace FinacPOS
                 if (txtCustomerId.Text == "")
                 {
                     isOk = false;
-                    MessageBox.Show("Select Ledger", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (PublicVariables._ModuleLanguage == "ENG")
+                    {
+                        MessageBox.Show("Select Ledger", "Information",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else if (PublicVariables._ModuleLanguage == "ARB")
+                    {
+                        MessageBox.Show("اختر الحساب", "معلومة",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
                     txtCustomerId.Focus();
+
                 }
 
                 //else if (cmbCashOrBank.SelectedValue == null) //blocked on 29/mar/2025 for ledger load from counter master
@@ -249,8 +269,19 @@ namespace FinacPOS
                 else if (txtTotalAmount.Text == "0" || txtTotalAmount.Text == "0.00" || txtTotalAmount.Text == "")
                 {
                     isOk = false;
-                    MessageBox.Show("Amount should not be zero", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (PublicVariables._ModuleLanguage == "ENG")
+                    {
+                        MessageBox.Show("Amount should not be zero", "Information",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else if (PublicVariables._ModuleLanguage == "ARB")
+                    {
+                        MessageBox.Show("يجب ألا يكون المبلغ صفرًا", "معلومة",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
                     txtTotalAmount.Focus();
+
                 }
                 else
                 {
@@ -347,7 +378,17 @@ namespace FinacPOS
                         }
                         else
                         {
-                            MessageBox.Show("Can't save party balance without atleast row with complete details", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            if (PublicVariables._ModuleLanguage == "ENG")
+                            {
+                                MessageBox.Show("Can't save party balance without at least one row with complete details", "Information",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                            else if (PublicVariables._ModuleLanguage == "ARB")
+                            {
+                                MessageBox.Show("لا يمكن حفظ رصيد الطرف إلا بوجود صف واحد على الأقل مكتمل التفاصيل", "معلومة",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+
                             isOk = false;
                             dgvPartyBalance.Focus();
                             dgvPartyBalance.Rows[0].Cells["VoucherType"].Selected = true;
@@ -378,7 +419,17 @@ namespace FinacPOS
                                                             if (decimal.Parse(dgvRow.Cells["amount"].Value.ToString()) < decimal.Parse(strAmountToPay[0]))
                                                             {
                                                                 isOk = false;
-                                                                MessageBox.Show("Amount exceeds the amount to pay", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                                if (PublicVariables._ModuleLanguage == "ENG")
+                                                                {
+                                                                    MessageBox.Show("Amount exceeds the amount to pay", "Information",
+                                                                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                                }
+                                                                else if (PublicVariables._ModuleLanguage == "ARB")
+                                                                {
+                                                                    MessageBox.Show("المبلغ يتجاوز المبلغ المطلوب سداده", "معلومة",
+                                                                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                                }
+
                                                                 dgvPartyBalance.Focus();
                                                                 dgvRow.Cells["amount"].Selected = true;
                                                                 break;
@@ -389,7 +440,17 @@ namespace FinacPOS
                                                             if (decimal.Parse(dgvRow.Cells["amount"].Value.ToString()) > decimal.Parse(strAmountToPay[0]))
                                                             {
                                                                 isOk = false;
-                                                                MessageBox.Show("Amount exceeds the amount to pay", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                                if (PublicVariables._ModuleLanguage == "ENG")
+                                                                {
+                                                                    MessageBox.Show("Amount exceeds the amount to pay", "Information",
+                                                                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                                }
+                                                                else if (PublicVariables._ModuleLanguage == "ARB")
+                                                                {
+                                                                    MessageBox.Show("المبلغ يتجاوز المبلغ المطلوب سداده", "معلومة",
+                                                                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                                }
+
                                                                 dgvPartyBalance.Focus();
                                                                 dgvRow.Cells["amount"].Selected = true;
                                                                 break;
@@ -550,7 +611,7 @@ namespace FinacPOS
                     //    txtVoucherNo.Text = dtblMaster.Rows[0].ItemArray[1].ToString();
                     //}
                    
-                        MessageBox.Show("Saved Successfully");
+                        MessageBox.Show(clsGeneral.MessageFunction("Saved"));
                         SPGeneral.POSBillUpdate(PublicVariables._counterId, PublicVariables._currentUserId, "Payment");
                     FillDatatatablesforDevPrint(false, "");
 
@@ -560,7 +621,7 @@ namespace FinacPOS
                 else
                 {
                     spGeneral.UserActivityAdd("POSPayment", "Edit", InfoPOSPaymentDetails1.POSPaymentMasterId, lblBillNo.Text, Convert.ToDateTime(lblBillDate.Text), decOldAmount, decimal.Parse(txtTotalAmount.Text));
-                    MessageBox.Show("Updated successfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(clsGeneral.MessageFunction("Updated"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     FillDatatatablesforDevPrint(false, "");
 
                     ClearFunction();
@@ -1639,10 +1700,26 @@ namespace FinacPOS
                     if (dtblParty.Rows.Count > 0)
                         FillGrid(true);
                     else
-                        MessageBox.Show("No Pending Documents Found", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (PublicVariables._ModuleLanguage == "ENG")
+                    {
+                        MessageBox.Show("No Pending Documents Found", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else if (PublicVariables._ModuleLanguage == "ARB")
+                    {
+                        MessageBox.Show("لم يتم العثور على مستندات معلقة", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
                 }
                 else
-                    MessageBox.Show("Please select a ledger", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                   if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Please select a ledger", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("يرجى اختيار دفتر الأستاذ", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
             }
             catch (Exception ex) { MessageBox.Show("PB75:" + ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information); }
         }
@@ -1676,7 +1753,7 @@ namespace FinacPOS
                     POSPaymentMasterSP SpMaster = new POSPaymentMasterSP();
                     if (strMasterIdForEdit != "")
                     {
-                        if (MessageBox.Show("Do you want to delete?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                        if (MessageBox.Show(clsGeneral.MessageFunction("ConfirmDelete"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                         {
                             //CheckUserPrivilege checkuserprivilege = new CheckUserPrivilege();
                             //if (checkuserprivilege.CheckPrivilage("Receipt Voucher", "Delete") == true)
@@ -1709,7 +1786,7 @@ namespace FinacPOS
                                 // Delete receipt voucher if no reference exist
                                 SpMaster.POSPaymentVoucherDeleteDetails(strMasterIdForEdit);
                                 spGeneral.UserActivityAdd("POSPayment", "Delete", strMasterIdForEdit, lblBillNo.Text, Convert.ToDateTime(lblBillDate.Text), decimal.Parse(txtTotalAmount.Text), decimal.Parse(txtTotalAmount.Text));
-                                MessageBox.Show("Deleted successfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                MessageBox.Show(clsGeneral.MessageFunction("Deleted"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 //if (isInEditMode)                                           
                                 ClearFunction();
 
@@ -1717,7 +1794,15 @@ namespace FinacPOS
                             }
                             else
                             {
-                                MessageBox.Show("Can't delete, reference exist", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                if (PublicVariables._ModuleLanguage == "ENG")
+                                {
+                                    MessageBox.Show("Can't delete, reference exist", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+                                else if (PublicVariables._ModuleLanguage == "ARB")
+                                {
+                                    MessageBox.Show("لا يمكن الحذف، المرجع موجود", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+
                             }
                         }
                         //    }
@@ -1729,9 +1814,17 @@ namespace FinacPOS
 
                     }
                     else
-                        MessageBox.Show("Please select a document", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                      if (PublicVariables._ModuleLanguage == "ENG")
+                    {
+                        MessageBox.Show("Please select a document", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else if (PublicVariables._ModuleLanguage == "ARB")
+                    {
+                        MessageBox.Show("يرجى اختيار مستند", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
                 }
-               
+
             }
             catch (Exception ex)
             {
@@ -1751,10 +1844,23 @@ namespace FinacPOS
                     {
                         if (SettingsInfo._messageBoxRowRemove)
                         {
-                            if (MessageBox.Show("Do you want to remove current row?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                            if (PublicVariables._ModuleLanguage == "ENG")
                             {
-                                RemoveRow();
+                                if (MessageBox.Show("Do you want to remove current row?", "Confirmation",
+                                    MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                                {
+                                    RemoveRow();
+                                }
                             }
+                            else if (PublicVariables._ModuleLanguage == "ARB")
+                            {
+                                if (MessageBox.Show("هل تريد إزالة الصف الحالي؟", "تأكيد",
+                                    MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                                {
+                                    RemoveRow();
+                                }
+                            }
+
                         }
                         else
                         {
@@ -1767,10 +1873,24 @@ namespace FinacPOS
                         {
                             if (SettingsInfo._messageBoxRowRemove)
                             {
-                                if (MessageBox.Show("Do you want to remove current row?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                                
+                                if (PublicVariables._ModuleLanguage == "ENG")
                                 {
-                                    dgvPartyBalance.Rows.Clear();
+                                    if (MessageBox.Show("Do you want to remove current row?", "Confirmation",
+                                        MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                                    {
+                                        dgvPartyBalance.Rows.Clear();
+                                    }
                                 }
+                                else if (PublicVariables._ModuleLanguage == "ARB")
+                                {
+                                    if (MessageBox.Show("هل تريد إزالة الصف الحالي؟", "تأكيد",
+                                        MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                                    {
+                                        dgvPartyBalance.Rows.Clear();
+                                    }
+                                }
+
                             }
                             else
                             {

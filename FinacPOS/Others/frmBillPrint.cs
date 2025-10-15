@@ -289,8 +289,11 @@ namespace FinacPOS
                 dtblOtherDetails.Columns.Add("CustomerAddress");
                 dtblOtherDetails.Columns.Add("CustomerPhone");
                 dtblOtherDetails.Columns.Add("CustomerVatNo");
+            dtblOtherDetails.Columns.Add("TokenNo");
+            dtblOtherDetails.Columns.Add("SalesMode");
+            dtblOtherDetails.Columns.Add("CustContact");
 
-                dtbl = new DataTable();
+            dtbl = new DataTable();
                 dtbl = POSSalesMasterSP.GetPOSBillDetailsforBillPrint(strDuplicateBillNo);
 
             if (dtbl.Rows.Count > 0)
@@ -391,6 +394,9 @@ namespace FinacPOS
                 }
 
                 dRowDetails["BillAmount"] = Convert.ToDecimal(dtbl.Rows[0]["totalAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart);
+                dRowDetails["TokenNo"] = dtbl.Rows[0]["TokenNo"].ToString();
+                dRowDetails["SalesMode"] = "" ;
+                dRowDetails["CustContact"] = "";
 
                 //////------------------------ QR Code Generation ----------- by Navas --------------------
                 ////Zen.Barcode.CodeQrBarcodeDraw qrBarcode = Zen.Barcode.BarcodeDrawFactory.CodeQr;
@@ -1029,6 +1035,8 @@ namespace FinacPOS
                 btnCustomerSearch.Visible = true;
             }
         }
+
+       
     }
 
  }

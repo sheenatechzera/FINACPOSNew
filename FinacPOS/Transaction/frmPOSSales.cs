@@ -117,8 +117,17 @@ namespace FinacPOS
 
             if (DateTime.Compare(Convert.ToDateTime(DateTime.Today), Convert.ToDateTime(strSessionDate)) > 0)
             {
-                MessageBox.Show("Opened Session Date is not Today's Date");
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Opened Session Date is not Today's Date", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("تاريخ الجلسة المفتوحة ليس تاريخ اليوم", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
+           
 
             // POSSalesPostingAccount(); //blocked on 29/Mar/2025
 
@@ -636,7 +645,15 @@ namespace FinacPOS
             string strBarcode = clickedButton.Tag as string;
             if (string.IsNullOrEmpty(strBarcode))
             {
-                MessageBox.Show("This product does not have a barcode assigned.", "No Barcode", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("This product does not have a barcode assigned.", "No Barcode", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("هذا المنتج لا يحتوي على رمز شريطي مخصص.", "لا يوجد باركود", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
                 return;
             }
             //MessageBox.Show("Selected Product:" + productName, "Product Selected", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -650,7 +667,15 @@ namespace FinacPOS
             string strBarcode = clickedButton.Tag.ToString();
             if (string.IsNullOrEmpty(strBarcode))
             {
-                MessageBox.Show("This product does not have a barcode assigned.", "No Barcode", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("This product does not have a barcode assigned.", "No Barcode", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("هذا المنتج لا يحتوي على رمز شريطي مخصص.", "لا يوجد باركود", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
                 return;
             }
 
@@ -664,7 +689,14 @@ namespace FinacPOS
             String strBarcode = clickedButton.Tag.ToString();
             if (string.IsNullOrEmpty(strBarcode))
             {
-                MessageBox.Show("This product does not have a barcode assigned.", "No Barcode", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("This product does not have a barcode assigned.", "No Barcode", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("هذا المنتج لا يحتوي على رمز شريطي مخصص.", "لا يوجد باركود", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
                 return;
             }
             //MessageBox.Show("Selected Product:" + productName, "Product Selected", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1343,7 +1375,15 @@ namespace FinacPOS
                 }
                 else
                 {
-                    MessageBox.Show("No last bill details found for the given bill number.", "Last Bill Not Found", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (PublicVariables._ModuleLanguage == "ENG")
+                    {
+                        MessageBox.Show("No last bill details found for the given bill number.", "Last Bill Not Found", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else if (PublicVariables._ModuleLanguage == "ARB")
+                    {
+                        MessageBox.Show("لا توجد تفاصيل الفاتورة الأخيرة للرقم المدخل.", "الفاتورة الأخيرة غير موجودة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
                 }
             }
 
@@ -1655,6 +1695,7 @@ namespace FinacPOS
                     else
                     {
                         dRowDetails["TenderCashText"] = "";
+
                         dRowDetails["TenderCash"] = "";
                     }
                     if (Convert.ToDecimal(dtbl.Rows[0]["creditCardAmount"]).ToString(FinanceSettingsInfo._roundDecimalPart) != "0.00")
@@ -2184,7 +2225,7 @@ namespace FinacPOS
                         dtblTaxDetailsThermal = dtblTaxSummery;
                         if (counterInfo.Directprint == false)
                         {
-                            if (MessageBox.Show("Do you want to print?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                            if (MessageBox.Show(clsGeneral.MessageFunction("Print"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                             {
                                 //FillDatatatablesforPrint(decTotalTenderAmt.ToString(SettingsInfo._roundDecimalPart), decBalanceAmt.ToString(SettingsInfo._roundDecimalPart), decCashAmt.ToString(SettingsInfo._roundDecimalPart), decCreditCardAmt.ToString(SettingsInfo._roundDecimalPart), decUPIAmt.ToString(SettingsInfo._roundDecimalPart), false, "", "");
                                 FillDatatatablesforDevPrint(decTotalTenderAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decBalanceAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decCashAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decCreditCardAmt.ToString(FinanceSettingsInfo._roundDecimalPart), decUPIAmt.ToString(FinanceSettingsInfo._roundDecimalPart), false, "", "", strTenderType);
@@ -3103,7 +3144,14 @@ namespace FinacPOS
             }
             else
             {
-                MessageBox.Show("Record not found in this Bill No", "WARNING");
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Record not found in this Bill No", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("لم يتم العثور على سجل في هذا الرقم", "تحذير", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
                 barcodeFocus();
             }
         }
@@ -3251,7 +3299,15 @@ namespace FinacPOS
                 if (decSalesPrice == 0)
                 {
                     Console.Beep(500, 500);
-                    MessageBox.Show("Sales Price is ZERO", "WARNING");
+                    if (PublicVariables._ModuleLanguage == "ENG")
+                    {
+                        MessageBox.Show("Sales Price is ZERO", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    else if (PublicVariables._ModuleLanguage == "ARB")
+                    {
+                        MessageBox.Show("سعر البيع صفر", "تحذير", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+
                     barcodeFocus();
                     return;
                 }
@@ -3290,7 +3346,15 @@ namespace FinacPOS
                     if (decSalesPrice == 0)
                     {
                         Console.Beep(500, 500);
-                        MessageBox.Show("Sales Price is ZERO", "WARNING");
+                        if (PublicVariables._ModuleLanguage == "ENG")
+                        {
+                            MessageBox.Show("Sales Price is ZERO", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                        else if (PublicVariables._ModuleLanguage == "ARB")
+                        {
+                            MessageBox.Show("سعر البيع صفر", "تحذير", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+
                         barcodeFocus();
                         return;
                     }
@@ -3337,7 +3401,7 @@ namespace FinacPOS
                             else
                             {
                                 Console.Beep(500, 500);
-                                MessageBox.Show("Barcode not Found", "WARNING");
+                                MessageBox.Show(clsGeneral.MessageFunction("BarcodeNotFound"), "WARNING");
                                 barcodeFocus();
                                 return;
                             }
@@ -3345,7 +3409,7 @@ namespace FinacPOS
                         else
                         {
                             Console.Beep(500, 500);
-                            MessageBox.Show("Barcode not Found", "WARNING");
+                            MessageBox.Show(clsGeneral.MessageFunction("BarcodeNotFound"), "WARNING");
                             barcodeFocus();
                             return;
                         }
@@ -3365,7 +3429,7 @@ namespace FinacPOS
                         string barcode = txtBarcode.Text.Trim();
                         if (String.IsNullOrEmpty(barcode))
                         {
-                            MessageBox.Show("Please enter a valid barcode.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show(clsGeneral.MessageFunction("InvalidBarcode."), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
                         }
 
@@ -3657,7 +3721,7 @@ namespace FinacPOS
             else
             {
                 Console.Beep(500, 500);
-                MessageBox.Show("Barcode not Found", "WARNING");
+                MessageBox.Show(clsGeneral.MessageFunction("BarcodeNotFound"), "WARNING");
                 barcodeFocus();
                 return;
             }
@@ -3759,13 +3823,29 @@ namespace FinacPOS
                             }
                             else
                             {
-                                MessageBox.Show("Invalid sales price. Please enter a valid number.");
+                                if (PublicVariables._ModuleLanguage == "ENG")
+                                {
+                                    MessageBox.Show("Invalid sales price. Please enter a valid number.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+                                else if (PublicVariables._ModuleLanguage == "ARB")
+                                {
+                                    MessageBox.Show("سعر البيع غير صالح. الرجاء إدخال رقم صالح.", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+
                             }
                         }
 
                     }
                     else
-                        MessageBox.Show("Please Select Product. ");
+                       if (PublicVariables._ModuleLanguage == "ENG")
+                    {
+                        MessageBox.Show("Please Select Product.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else if (PublicVariables._ModuleLanguage == "ARB")
+                    {
+                        MessageBox.Show("الرجاء اختيار المنتج.", "معلومات", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
                 }
                 else
                     barcodeScanning("");
@@ -4106,7 +4186,17 @@ namespace FinacPOS
 
                     if (InfoPOSSettings.PricingAlertStatus == "Warn")
                     {
-                        MessageBox.Show("Purchase Rate exceeds the Sales Rate on line " + (e.RowIndex + 1) + ". Please check the price.", "Pricing Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        int rowNumber = e.RowIndex + 1;
+
+                        if (PublicVariables._ModuleLanguage == "ENG")
+                        {
+                            MessageBox.Show( "Purchase Rate exceeds the Sales Rate on line " + rowNumber + ". Please check the price.",  "Pricing Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+                        }
+                        else if (PublicVariables._ModuleLanguage == "ARB")
+                        {
+                            MessageBox.Show( "سعر الشراء يتجاوز سعر البيع في السطر " + rowNumber + ". الرجاء التحقق من السعر.", "تحذير التسعير", MessageBoxButtons.OK,MessageBoxIcon.Warning );
+                        }
+                       
                     }
 
                 }
@@ -4655,7 +4745,15 @@ namespace FinacPOS
                 }
                 else
                 {
-                    MessageBox.Show("Customer Code not found", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (PublicVariables._ModuleLanguage == "ENG")
+                    {
+                        MessageBox.Show("Customer Code not found", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else if (PublicVariables._ModuleLanguage == "ARB")
+                    {
+                        MessageBox.Show("رمز العميل غير موجود", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
                     barcodeFocus();
                     return;
                 }
@@ -4694,6 +4792,8 @@ namespace FinacPOS
                             decimal dcPurchaseRate = 0;
                             decimal dcQty = 0;
                             decimal dcSalesRate = 0;
+                            int rowNumber = i + 1;
+                            string productName = dgvProduct.Rows[i].Cells["ItemName"].Value.ToString();
                             try { dcQty = decimal.Parse(dgvProduct.Rows[i].Cells["Qty"].Value.ToString()); }
                             catch { }
                             try { dcSalesRate = decimal.Parse(dgvProduct.Rows[i].Cells["SalesRate"].Value.ToString()); }
@@ -4717,13 +4817,34 @@ namespace FinacPOS
                             {
                                 if (POSSettingsInfo._ZeroQtyAlert == "Warn")
                                 {
-                                    MessageBox.Show("Product with ZERO QTY on Line number " + (i + 1) + " - " + dgvProduct.Rows[i].Cells["ItemName"].Value.ToString(),
-                                                    "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                   
+                                    if (PublicVariables._ModuleLanguage == "ENG")
+                                    {
+                                        MessageBox.Show("Product with ZERO QTY on Line number " + rowNumber + " - " + productName, "Warning",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                                    }
+                                    else if (PublicVariables._ModuleLanguage == "ARB")
+                                    {
+                                        MessageBox.Show( "المنتج بكميه صفر في السطر رقم " + rowNumber + " - " + productName, "تحذير",
+                                            MessageBoxButtons.OK,  MessageBoxIcon.Warning );
+                                    }
+
                                 }
                                 else if (POSSettingsInfo._ZeroQtyAlert == "Block")
                                 {
-                                    MessageBox.Show("Cannot proceed! ZERO QTY found on Line number " + (i + 1) + " - " + dgvProduct.Rows[i].Cells["ItemName"].Value.ToString(),
-                                                    "Blocked", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                                 
+
+                                    if (PublicVariables._ModuleLanguage == "ENG")
+                                    {
+                                        MessageBox.Show( "Cannot proceed! ZERO QTY found on Line number " + rowNumber + " - " + productName,"Blocked", MessageBoxButtons.OK,  MessageBoxIcon.Stop  );
+                                    }
+                                    else if (PublicVariables._ModuleLanguage == "ARB")
+                                    {
+                                        MessageBox.Show( "لا يمكن المتابعة! تم العثور على كمية صفر في السطر رقم " + rowNumber + " - " + productName, "محظور",
+                                            MessageBoxButtons.OK,
+                                            MessageBoxIcon.Stop
+                                        );
+                                    }
+
                                     barcodeFocus();
                                     return;
                                 }
@@ -4735,9 +4856,18 @@ namespace FinacPOS
 
                                 if (InfoPOSSettings.PricingAlertStatus == "Block")
                                 {
-                                    MessageBox.Show("Cannot proceed! Purchase Rate exceeds Sales Rate on Line number " + (i + 1) +
-                                                    " - " + dgvProduct.Rows[i].Cells["ItemName"].Value.ToString(),
-                                                    "Pricing Blocked", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+
+                                    if (PublicVariables._ModuleLanguage == "ENG")
+                                    {
+                                        MessageBox.Show(
+                                            "Cannot proceed! Purchase Rate exceeds Sales Rate on Line number " + rowNumber + " - " + productName,  "Pricing Blocked", MessageBoxButtons.OK, MessageBoxIcon.Stop );
+                                    }
+                                    else if (PublicVariables._ModuleLanguage == "ARB")
+                                    {
+                                        MessageBox.Show(
+                                            "لا يمكن المتابعة! سعر الشراء يتجاوز سعر البيع في السطر رقم " + rowNumber + " - " + productName, "تم حظر التسعير", MessageBoxButtons.OK,  MessageBoxIcon.Stop );
+                                    }
+
                                     barcodeFocus();
                                     return;
                                 }
@@ -4746,7 +4876,39 @@ namespace FinacPOS
                             {
                                 if (dcSalesRate == 0 && dgvProduct.Rows[i].Cells["SalesRate"].Value.ToString() != "Barcode")
                                 {
-                                    MessageBox.Show("Product with ZERO PRICE on Line number " + (i + 1) + " - " + dgvProduct.Rows[i].Cells["ItemName"].Value.ToString());
+                                   
+
+                                    if (PublicVariables._ModuleLanguage == "ENG")
+                                    {
+                                        MessageBox.Show(
+                                            "Product with ZERO PRICE on Line number " + rowNumber + " - " + productName,
+                                            "Warning",
+                                            MessageBoxButtons.OK,
+                                            MessageBoxIcon.Warning
+                                        );
+                                    }
+                                    else if (PublicVariables._ModuleLanguage == "ARB")
+                                    {
+                                        MessageBox.Show(
+                                            "المنتج بسعر صفر في السطر رقم " + rowNumber + " - " + productName,
+                                            "تحذير",
+                                            MessageBoxButtons.OK,
+                                            MessageBoxIcon.Warning
+                                        );
+                                    }
+                             
+
+                                    if (PublicVariables._ModuleLanguage == "ENG")
+                                    {
+                                        MessageBox.Show(
+                                            "Product with ZERO PRICE on Line number " + rowNumber + " - " + productName, "Warning",  MessageBoxButtons.OK,MessageBoxIcon.Warning
+                                        );
+                                    }
+                                    else if (PublicVariables._ModuleLanguage == "ARB")
+                                    {
+                                        MessageBox.Show("المنتج بسعر صفر في السطر رقم " + rowNumber + " - " + productName, "تحذير",  MessageBoxButtons.OK, MessageBoxIcon.Warning  );
+                                    }
+
                                     barcodeFocus();
                                     return;
                                 }
@@ -4757,7 +4919,15 @@ namespace FinacPOS
 
                         if (dcTotal <= 0 && isExchangebill == false)
                         {
-                            MessageBox.Show("Cannot make bill as Amount ZERO", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            if (PublicVariables._ModuleLanguage == "ENG")
+                            {
+                                MessageBox.Show("Cannot make bill as Amount ZERO", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                            else if (PublicVariables._ModuleLanguage == "ARB")
+                            {
+                                MessageBox.Show("لا يمكن إنشاء الفاتورة لأن المبلغ صفر", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+
                             barcodeFocus();
                             return;
                         }
@@ -4940,7 +5110,15 @@ namespace FinacPOS
         {
             if (dgvProduct.Rows.Count > 1)
             {
-                MessageBox.Show("Sorry, Cannot Print Last Bill Now");
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Sorry, Cannot Print Last Bill Now", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("عذراً، لا يمكن طباعة الفاتورة الأخيرة الآن", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
                 return;
             }
             string strLastBillNo = "";
@@ -5002,7 +5180,15 @@ namespace FinacPOS
         {
             if (dgvProduct.Rows.Count > 1)
             {
-                MessageBox.Show("Cannot Close POS!! bill not Clear!");
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Cannot Close POS!! bill not Clear!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("لا يمكن إغلاق نقطة البيع!! الفاتورة غير مسددة!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
                 e.Cancel = true;
                 return;
             }
@@ -5112,43 +5298,59 @@ namespace FinacPOS
 
         private void btnHold_Click(object sender, EventArgs e)
         {
+            DialogResult result;
+            DialogResult printResult;
+
             if (dgvProduct.Rows.Count > 1)
             {
-                if (MessageBox.Show("Do you want to HOLD this bill?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
 
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    result = MessageBox.Show("Do you want to HOLD this bill?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                }
+                else
+                {
+                    result = MessageBox.Show("هل تريد تعليق هذه الفاتورة؟", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                }
+
+                if (result == DialogResult.Yes)
+                {
                     if (POSSettingsInfo._HoldBillAuth == true)
                     {
                         IsAuthenticationApproved = false;
                         string condition = "_HoldBillAuth";
                         frmUserAuthentication frm = new frmUserAuthentication();
                         frm.CallFromPOSSales(this, condition);
+
                         if (IsAuthenticationApproved)
                         {
-                            string strHoldBillNo = "";
-                            strHoldBillNo = HoldBillSaveFunction();
+                            string strHoldBillNo = HoldBillSaveFunction();
                             if (strHoldBillNo != "")
                             {
-                                DataTable dtblTaxSummery = new DataTable();
-                                dtblTaxSummery = GetTaxSum();
+                                DataTable dtblTaxSummery = GetTaxSum();
                                 dtblTaxDetailsThermal = dtblTaxSummery;
 
                                 if (InfoPOSSettings.IsHoldBillPrint)
                                 {
-                                    if (MessageBox.Show("Do you want to   Print HOLD Bill?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                                    if (PublicVariables._ModuleLanguage == "ENG")
                                     {
-                                        //FillDatatatablesforPrint("", "", "", "", "", false, "", strHoldBillNo);
-                                        FillDatatatablesforDevPrint("", "", "", "", "", false, "", strHoldBillNo, "");
+                                        printResult = MessageBox.Show("Do you want to Print HOLD Bill?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                    }
+                                    else
+                                    {
+                                        printResult = MessageBox.Show("هل تريد طباعة الفاتورة المعلقة؟", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                                     }
 
+                                    if (printResult == DialogResult.Yes)
+                                    {
+                                        //FillDatatablesforPrint("", "", "", "", "", false, "", strHoldBillNo);
+                                        FillDatatatablesforDevPrint("", "", "", "", "", false, "", strHoldBillNo, "");
+                                    }
                                 }
                                 else
                                 {
-
                                     barcodeFocus();
                                 }
-
-
                             }
 
                             ClearFunction();
@@ -5160,30 +5362,37 @@ namespace FinacPOS
                     }
                     else
                     {
-                        string strHoldBillNo = "";
-                        strHoldBillNo = HoldBillSaveFunction();
+                        string strHoldBillNo = HoldBillSaveFunction();
                         if (strHoldBillNo != "")
                         {
-                            DataTable dtblTaxSummery = new DataTable();
-                            dtblTaxSummery = GetTaxSum();
+                            DataTable dtblTaxSummery = GetTaxSum();
                             dtblTaxDetailsThermal = dtblTaxSummery;
+
                             if (InfoPOSSettings.IsHoldBillPrint)
                             {
-                                if (MessageBox.Show("Do you want to Print HOLD Bill?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                                if (PublicVariables._ModuleLanguage == "ENG")
                                 {
-                                    //FillDatatatablesforPrint("", "", "", "", "", false, "", strHoldBillNo);
-                                    FillDatatatablesforDevPrint("", "", "", "", "", false, "", strHoldBillNo, "");
+                                    printResult = MessageBox.Show("Do you want to Print HOLD Bill?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                }
+                                else
+                                {
+                                    printResult = MessageBox.Show("هل تريد طباعة الفاتورة المعلقة؟", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                                 }
 
+                                if (printResult == DialogResult.Yes)
+                                {
+                                    //FillDatatablesforPrint("", "", "", "", "", false, "", strHoldBillNo);
+                                    FillDatatatablesforDevPrint("", "", "", "", "", false, "", strHoldBillNo, "");
+                                }
                             }
                             else
+                            {
                                 barcodeFocus();
-
+                            }
                         }
 
                         ClearFunction();
                     }
-
                 }
                 else
                 {
@@ -5194,8 +5403,9 @@ namespace FinacPOS
             {
                 barcodeFocus();
             }
-
         }
+     
+      
 
         private void btnUnhold_Click(object sender, EventArgs e)
         {
@@ -5211,7 +5421,15 @@ namespace FinacPOS
                 {
                     if (dgvProduct.Rows.Count > 1)
                     {
-                        MessageBox.Show("Please Clear Current Bill!");
+                        if (PublicVariables._ModuleLanguage == "ENG")
+                        {
+                            MessageBox.Show("Please Clear Current Bill!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else if (PublicVariables._ModuleLanguage == "ARB")
+                        {
+                            MessageBox.Show("الرجاء مسح الفاتورة الحالية!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+
                     }
                     else
                     {
@@ -5267,11 +5485,24 @@ namespace FinacPOS
 
             }
             if (isUnHoldBill == true)
-            {
-                txtBarcode.Text = strHoldBillNo;
-                barcodeScanning("");
+            { 
+                if (!String.IsNullOrWhiteSpace(strHoldBillNo))
+                {
+                    txtBarcode.Text = strHoldBillNo;
+                    DataTable dtblhold = new DataTable();
+
+                    dtblhold = POSSalesMasterSP.POSHoldMasterViewByPOSHoldMasterId(strHoldBillNo);
+                    if (dtblhold.Rows.Count > 0)
+                    {
+                        txtCustCode.Text = dtblhold.Rows[0]["ledgerId"].ToString();
+                        txtCustomerName.Text = dtblhold.Rows[0]["ledgerName"].ToString();
+                    }
+                }
+            
+                    barcodeScanning("");
             }
         }
+      
         public void FillrowAfterPickingReciept(string BillNo)
         {
             lblLedgerId.Text = BillNo;
@@ -5305,7 +5536,15 @@ namespace FinacPOS
             {
                 if (IsAuthenticationApproved == false)
                 {
-                    MessageBox.Show("You are not an authenticated user!!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    if (PublicVariables._ModuleLanguage == "ENG")
+                    {
+                        MessageBox.Show("You are not an authenticated user!!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    else if (PublicVariables._ModuleLanguage == "ARB")
+                    {
+                        MessageBox.Show("أنت لست مستخدمًا مصادقًا!!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+
                 }
             }
             else
@@ -5377,7 +5616,15 @@ namespace FinacPOS
                 }
                 else
                 {
-                    MessageBox.Show("Customer Code not found", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (PublicVariables._ModuleLanguage == "ENG")
+                    {
+                        MessageBox.Show("Customer Code not found", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else if (PublicVariables._ModuleLanguage == "ARB")
+                    {
+                        MessageBox.Show("رمز العميل غير موجود", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
 
                     lblLedgerId.Text = "";
                     txtCustomerName.Text = "";
@@ -5788,7 +6035,15 @@ namespace FinacPOS
                 withoutBarcodePanel.Focus();
             }
             else
+               if (PublicVariables._ModuleLanguage == "ENG")
+            {
                 MessageBox.Show("Products Not Found", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else if (PublicVariables._ModuleLanguage == "ARB")
+            {
+                MessageBox.Show("المنتجات غير موجودة", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
         }
         public void showproductWithoutBarcodeInload(DataTable dtbl)   //added on 23/09/2025 By SHEENA
         {

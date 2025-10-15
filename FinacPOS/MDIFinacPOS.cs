@@ -1,4 +1,5 @@
-﻿using FinacPOS.Masters;
+﻿using DevExpress.CodeParser;
+using FinacPOS.Masters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,7 +27,7 @@ namespace FinacPOS
         {
             InitializeComponent();
         }
-
+        frmUserLogin frmuserloginobj = new frmUserLogin();
         private void ShowNewForm(object sender, EventArgs e)
         {
             Form childForm = new Form();
@@ -126,6 +127,7 @@ namespace FinacPOS
                     frm.MdiParent = this;
                     frm.Show();
                 }
+            
             }
             catch (Exception ex)
             {
@@ -282,7 +284,21 @@ namespace FinacPOS
         {
             try
             {
+               
                 MenuStrip MainMenu1 = new MenuStrip();
+                if (this.MainMenuStrip != null)
+                {
+                    MainMenu1 = this.MainMenuStrip;
+                    MainMenu1.Items.Clear();
+                }
+                else
+                {
+                    MainMenu1 = new MenuStrip();
+                    this.MainMenuStrip = MainMenu1;
+                    Controls.Add(MainMenu1);
+                }
+
+
                 ToolStripMenuItem item = new ToolStripMenuItem();// 'Master
                 ToolStripMenuItem innerItem = new ToolStripMenuItem();// 'User Creation
                 ToolStripMenuItem innerItem1 = new ToolStripMenuItem();
@@ -295,13 +311,26 @@ namespace FinacPOS
                 {
                     for (int iDtDisplay = 0; iDtDisplay < DtDisplay.Rows.Count; iDtDisplay++)
                     {
-                        item = new ToolStripMenuItem(String.Format(DtDisplay.Rows[iDtDisplay]["Menu"].ToString(), DtDisplay.Rows[iDtDisplay]["Menu"].ToString()));
+                        // item = new ToolStripMenuItem(String.Format(DtDisplay.Rows[iDtDisplay]["Menu"].ToString(), DtDisplay.Rows[iDtDisplay]["Menu"].ToString()));
+                        string menuText = (PublicVariables._ModuleLanguage == "ARB")
+                        ? DtDisplay.Rows[iDtDisplay]["MenuArabic"].ToString()
+                        : DtDisplay.Rows[iDtDisplay]["menu"].ToString();
+
+                        item = new ToolStripMenuItem(menuText);
+                        item.Tag = DtDisplay.Rows[iDtDisplay]["menu"].ToString();
                         DataTable dtSubMenu = new DataTable();
                         dtSubMenu = spUserSettings.POSUserSettingsGetByMenuAndUserGroup(DtDisplay.Rows[iDtDisplay]["Menu"].ToString(), PublicVariables._userGroup);
                         for (int isubMenu = 0; isubMenu < dtSubMenu.Rows.Count; isubMenu++)
                         {
+                            // Arabic or English submenus
+                            string subMenuText = (PublicVariables._ModuleLanguage == "ARB")
+                                ? dtSubMenu.Rows[isubMenu]["menuStripNameArabic"].ToString()
+                                : dtSubMenu.Rows[isubMenu]["menuStripName"].ToString();
 
-                            innerItem = new ToolStripMenuItem(String.Format(dtSubMenu.Rows[isubMenu]["menuStripName"].ToString(), dtSubMenu.Rows[isubMenu]["menuStripName"].ToString()));
+
+                            // innerItem = new ToolStripMenuItem(String.Format(dtSubMenu.Rows[isubMenu]["menuStripName"].ToString(), dtSubMenu.Rows[isubMenu]["menuStripName"].ToString()));
+                            innerItem = new ToolStripMenuItem(subMenuText);
+                            innerItem.Tag = dtSubMenu.Rows[isubMenu]["menuStripName"].ToString();
                             innerItem.Click += new EventHandler(MenuClick);
                             innerItem.BackColor = Color.FromArgb(0, 92, 187);
                             innerItem.ForeColor = Color.White;
@@ -321,6 +350,37 @@ namespace FinacPOS
                 this.MainMenuStrip = MainMenu1;
                 Controls.Add(MainMenu1);
 
+                if (PublicVariables._ModuleLanguage == "ARB") // added by Nishana 1-10-2025
+                {
+                    MainMenu1.RightToLeft = RightToLeft.Yes;
+
+                    foreach (ToolStripMenuItem menuItem in MainMenu1.Items)
+                    {
+                        menuItem.RightToLeft = RightToLeft.Yes;
+
+                        foreach (ToolStripMenuItem subItem in menuItem.DropDownItems)
+                        {
+                            subItem.RightToLeft = RightToLeft.Yes;
+                        }
+                    }
+
+
+                }
+                else
+                {
+                    MainMenu1.RightToLeft = RightToLeft.No;
+
+                    foreach (ToolStripMenuItem menuItem in MainMenu1.Items)
+                    {
+                        menuItem.RightToLeft = RightToLeft.No;
+
+                        foreach (ToolStripMenuItem subItem in menuItem.DropDownItems)
+                        {
+                            subItem.RightToLeft = RightToLeft.No;
+                        }
+                    }
+                }
+
                 //----------------------------------------------------------------------
                 ComboBox comboBox = new ComboBox
                 {
@@ -330,8 +390,13 @@ namespace FinacPOS
 
                 //comboBox.Items.AddRange(new string[] { "English", "Arabic" });
 
+
                 DataTable dt = new DataTable();
-                dt.Columns.AddRange(new DataColumn[] { new DataColumn("Id", typeof(string)), new DataColumn("Font", typeof(string)) });
+                dt.Columns.AddRange(new DataColumn[]
+                {
+           new DataColumn("Id", typeof(string)),
+           new DataColumn("Font", typeof(string))
+                });
                 dt.Rows.Add("ENG", "ENG");
                 dt.Rows.Add("ARB", "ARB");
 
@@ -339,8 +404,66 @@ namespace FinacPOS
                 comboBox.DisplayMember = "Font";
                 comboBox.ValueMember = "Id";
 
-                ToolStripControlHost comboBoxHost = new ToolStripControlHost(comboBox);
-                comboBoxHost.Alignment = ToolStripItemAlignment.Right;
+                ToolStripControlHost comboBoxHost = new ToolStripControlHost(comboBox)
+                {
+                    Alignment = ToolStripItemAlignment.Right
+                };
+                MainMenuStrip.Items.Add(comboBoxHost);
+                if (!string.IsNullOrEmpty(PublicVariables._ModuleLanguage))
+                {
+                    comboBox.SelectedValue = PublicVariables._ModuleLanguage;
+                }
+                else
+                {
+                    comboBox.SelectedValue = "ENG";
+                }
+
+                strcmbLastFontValue = Convert.ToString(comboBox.SelectedValue);
+
+
+
+                comboBox.SelectionChangeCommitted += (sender, e) =>
+                {
+                    if (PublicVariables.IsFormUserLoginOpen)
+                        return;
+                    bool isOpenForms = false;
+                    if (Application.OpenForms.Count > 2)
+                    {
+                        // Two forms are already opened ,MDI, this form so need to ask message box only if any other forms opened
+                        isOpenForms = true;
+                    }
+                    if (isOpenForms == true)
+                    {
+                        if (PublicVariables._ModuleLanguage == "ENG")
+                        {
+                            MessageBox.Show("Please close all opened windows before changing Language!");
+                        }
+                        else if (PublicVariables._ModuleLanguage == "ARB")
+                        {
+                            MessageBox.Show("يرجى إغلاق جميع النوافذ المفتوحة قبل تغيير اللغة!");
+                        }
+
+                        comboBox.SelectedValue = strcmbLastFontValue;
+                    }
+                    else
+                    {
+                        strcmbLastFontValue = Convert.ToString(comboBox.SelectedValue);
+                        PublicVariables._ModuleLanguage = Convert.ToString(comboBox.SelectedValue);
+
+                        CreateMenus();
+
+
+                        foreach (Form frm in Application.OpenForms)
+                        {
+                            if (frm is FrmeasyAccess easyAccessForm)
+                            {
+                                easyAccessForm.AppyiconBasedOnLanaguage();
+                            }
+                        }
+                    }
+
+                };
+
 
                 //comboBox.SelectionChangeCommitted += (sender, e) =>
                 //    {
@@ -373,55 +496,11 @@ namespace FinacPOS
                 //    };
 
 
-
-
-                //if (Convert.ToString(comboBox.SelectedValue) == "")
-                //{
-                //comboBox.SelectedValue = PublicVariables._ModuleLanguage;
-                comboBox.Text = PublicVariables._ModuleLanguage;
-                //}
-
-                strcmbLastFontValue = Convert.ToString(comboBox.Text);
-                comboBox.SelectionChangeCommitted += (sender, e) =>
-                {
-
-                    bool isOpenForms = false;
-                    if (Application.OpenForms.Count > 2)
-                    {
-                        // Two forms are already opened ,MDI, this form so need to ask message box only if any other forms opened
-                        isOpenForms = true;
-                    }
-                    if (isOpenForms == true)
-                    {
-                        MessageBox.Show("Please close all opened windows before changing Language!");
-                        comboBox.SelectedValue = strcmbLastFontValue;
-                    }
-                    else
-                    {
-                        strcmbLastFontValue = Convert.ToString(comboBox.SelectedValue);
-                        PublicVariables._ModuleLanguage = Convert.ToString(comboBox.SelectedValue);
-                    }
-
-                    ////DialogResult result = MessageBox.Show("Changing the language will close all opened forms, Do you want to continue?", "Confirmation", MessageBoxButtons.YesNo);
-
-                    ////if (result == DialogResult.Yes)
-                    ////{
-                    //    strcmbLastFontValue = Convert.ToString(comboBox.SelectedValue);
-                    ////    CloseAllFormsExceptMainForm();
-                    //    PublicVariables._ModuleLanguage = Convert.ToString(comboBox.SelectedValue);
-                    ////}
-                    ////else
-                    ////{
-                    //    comboBox.SelectedValue = strcmbLastFontValue;
-                    ////}
-
-                };
-                MainMenuStrip.Items.Add(comboBoxHost);
-
-                //----------------------------------------------------------------------
             }
-            catch{ }
+            catch { }
+
         }
+
         private void CloseAllFormsExceptMainForm()
         {
             // Close all forms except this one (MainForm)
@@ -464,7 +543,15 @@ namespace FinacPOS
         {
             if (PublicVariables._counterId == "")
             {
-                MessageBox.Show("This System is not configure as Counter!");
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("This System is not configured as Counter!");
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("هذا النظام غير مهيأ ليعمل كـ كاونتر!");
+                }
+
             }
             else
             {
@@ -504,7 +591,15 @@ namespace FinacPOS
                 }
                 else
                 {
-                    MessageBox.Show("Session not Opened! Please Open session");
+                    if (PublicVariables._ModuleLanguage == "ENG")
+                    {
+                        MessageBox.Show("Session not opened! Please open session.");
+                    }
+                    else if (PublicVariables._ModuleLanguage == "ARB")
+                    {
+                        MessageBox.Show("الجلسة غير مفتوحة! الرجاء فتح الجلسة.");
+                    }
+
                 }
             }
         }
@@ -512,7 +607,15 @@ namespace FinacPOS
         {
             if (PublicVariables._counterId == "")
             {
-                MessageBox.Show("This System is not configure as Counter!");
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("This system is not configured as a Counter!");
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("هذا النظام غير مهيأ ككاشير!");
+                }
+
             }
             else
             {
@@ -560,7 +663,15 @@ namespace FinacPOS
         {
             if (PublicVariables._counterId == "")
             {
-                MessageBox.Show("This System is not configure as Counter!");
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("This system is not configured as Counter!");
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("هذا النظام غير مُهيأ كـ كاونتر!");
+                }
+
             }
             else
             {
@@ -600,7 +711,15 @@ namespace FinacPOS
                 }
                 else
                 {
-                    MessageBox.Show("Session not Opened! Please Open session");
+                    if (PublicVariables._ModuleLanguage == "ENG")
+                    {
+                        MessageBox.Show("Session not opened! Please open session.");
+                    }
+                    else if (PublicVariables._ModuleLanguage == "ARB")
+                    {
+                        MessageBox.Show("الجلسة غير مفتوحة! الرجاء فتح الجلسة.");
+                    }
+
                 }
             }
         }
@@ -608,7 +727,15 @@ namespace FinacPOS
         {
             if (PublicVariables._counterId == "")
             {
-                MessageBox.Show("This System is not configure as Counter!");
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("This system is not configured as Counter!");
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("هذا النظام غير مُهيأ كـ كاونتر!");
+                }
+
             }
             else
             {
@@ -686,7 +813,15 @@ namespace FinacPOS
                     string strOpenedUserId = sessionSp.CheckAnySessionIsOpenedInCounter(PublicVariables._counterId);
                     if (strOpenedUserId != "")
                     {
-                        MessageBox.Show(strOpenedUserId + " session is kept Open, Please Close it first");
+                        if (PublicVariables._ModuleLanguage == "ENG")
+                        {
+                            MessageBox.Show(strOpenedUserId + " session is kept open, please close it first.");
+                        }
+                        else if (PublicVariables._ModuleLanguage == "ARB")
+                        {
+                            MessageBox.Show("جلسة " + strOpenedUserId + " ما زالت مفتوحة، يرجى إغلاقها أولاً.");
+                        }
+
                         Application.Exit(); 
                     }
 
@@ -725,14 +860,30 @@ namespace FinacPOS
             frmPOSSales _isOpen = Application.OpenForms["frmPOSSales"] as frmPOSSales;
             if (_isOpen != null)
             {
-                MessageBox.Show("Please Close Sales Screen!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Please close Sales Screen!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("يرجى إغلاق شاشة المبيعات!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
                 return;
+
             }
             frmPOSSalesReturn _isOpen1 = Application.OpenForms["frmPOSSalesReturn"] as frmPOSSalesReturn;
             if (_isOpen1 != null)
             {
-                MessageBox.Show("Please Close Sales Return Screen!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Please close Sales Return Screen!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("يرجى إغلاق شاشة مرتجع المبيعات!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
                 return;
+
             }
             //
 
@@ -755,7 +906,15 @@ namespace FinacPOS
             }
             else
             {
-                MessageBox.Show("Session is Already Closed!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Session is Already Closed!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else // ARB
+                {
+                    MessageBox.Show("تم إغلاق الجلسة مسبقاً!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
             }
         }
         private void salesInvoiceToolStripMenuItem_Click(object sender, EventArgs e)
@@ -827,10 +986,36 @@ namespace FinacPOS
         }
         private void MenuClick(object sender , EventArgs e)
         {
-           // var menuItem = sender as MenuItem;
+            // var menuItem = sender as MenuItem;
             ////var menuText = menuItem.Text;
-           // MessageBox.Show("You selected the command - "+sender+" - of the File menu");
-            LoadingFormByLabel(sender.ToString());
+            // MessageBox.Show("You selected the command - "+sender+" - of the File menu");
+            var menuItem = sender as ToolStripMenuItem;
+            string strowner = "";
+            //menuItem.ForeColor = Color.Black;   
+            try
+            {
+                var varownerItem = menuItem.OwnerItem.OwnerItem.OwnerItem;//get main owner of level3
+                if (varownerItem == null)
+                {
+                    varownerItem = menuItem.OwnerItem.OwnerItem;//get main owner of level2
+                }
+                strowner = varownerItem.Tag.ToString();
+            }
+            catch
+            {
+                try
+                {
+                    strowner = menuItem.OwnerItem.Tag.ToString();//get main owner of level1
+                }
+                catch
+                {
+                    strowner = "";//main menu
+                }
+            }
+            //MessageBox.Show("You selected the command - "+sender+" - of the File menu");
+            
+            menuItem.Tag.ToString();
+            LoadingFormByLabel(menuItem.Tag.ToString());
         }
         public void LoadingFormByLabel(string NameFrm)
         {
@@ -1112,5 +1297,7 @@ namespace FinacPOS
             }
             catch { }
         }
+
+        
     }
 }

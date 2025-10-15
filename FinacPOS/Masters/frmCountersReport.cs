@@ -76,10 +76,22 @@ namespace FinacPOS
         {
             try
             {
-                if (MessageBox.Show("Do you want to close?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                if (PublicVariables._ModuleLanguage == "ENG")
                 {
-                    this.Close();
+                    if (MessageBox.Show("Do you want to close?", "Confirmation",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                    {
+                        this.Close();
+                    }
                 }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    if (MessageBox.Show("هل تريد الإغلاق؟", "تأكيد", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                    {
+                        this.Close();
+                    }
+                }
+
 
             }
             catch (Exception ex)
@@ -105,7 +117,15 @@ namespace FinacPOS
                 if (e.KeyCode == Keys.Escape)
                 {
 
-                    if (MessageBox.Show("Do you want to close?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                    if (MessageBox.Show("Do you want to close?", "Confirmation",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                    {
+                        this.Close();
+                    }
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    if (MessageBox.Show("هل تريد الإغلاق؟", "تأكيد", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                     {
                         this.Close();
                     }
@@ -124,6 +144,11 @@ namespace FinacPOS
             {
                 ObjfrmPOScounter.Enabled = true;
             }
+        }
+
+        private void frmCountersReport_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -380,7 +380,7 @@ namespace FinacPOS
         {
             try
             {
-                if (MessageBox.Show("Do you want to close?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                if (MessageBox.Show(clsGeneral.MessageFunction("Close"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                 {
                     this.Close();
                 }
@@ -453,7 +453,7 @@ namespace FinacPOS
         {
             if (isInEditMode)
             {
-                if (MessageBox.Show("Do you want to delete?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                if (MessageBox.Show(clsGeneral.MessageFunction("ConfirmDelete"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                 {
                     DeleteUser();
                 }
@@ -467,36 +467,101 @@ namespace FinacPOS
         public void SaveOrEdit()
         {
             // Doing Save Or Edit
+            //if eng=eng msg else arb msg
+
+            //save
+            //if save
+            //eng
+            //return eng msg
+            //arb
             txtUserId.Text = txtUserId.Text.Trim();
             txtName.Text = txtName.Text.Trim();
             if (txtUserId.Text == "")
             {
-                MessageBox.Show("Enter User Id", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Enter User Id", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("ادخل رقم المستخدم", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                 
+                }
                 txtUserId.Focus();
             }
             else if (txtName.Text == "")
             {
-                MessageBox.Show("Enter Employee Name", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Enter Employee Name", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("ادخل اسم الموظف", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                 
+                }
                 txtName.Focus();
             }
             else if (txtUsername.Text == "")
             {
-                MessageBox.Show("Enter Username", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Enter Username", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+              
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("ادخل اسم المستخدم", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
+
+                }
                 txtUsername.Focus();
             }
             else if (txtPassword.Text == "")
             {
-                MessageBox.Show("Enter Password", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Enter Password", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("ادخل كلمة المرور", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                  
+                }
                 txtPassword.Focus();
             }
             else if (cmbGroupId.Text == "")
             {
-                MessageBox.Show("Select Group", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Select Group", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+               
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("اختر المجموعة", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                  
+                   
+                }
                 cmbGroupId.Focus();
             }
             else if (cmbLanguage.Text == "")
             {
-                MessageBox.Show("Select language", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Select language", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("اختر اللغة", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                  
+                    
+                }
                 cmbLanguage.Focus();
             }
             else
@@ -507,14 +572,14 @@ namespace FinacPOS
                 //{
                 if (isInEditMode)
                 {
-                    if (MessageBox.Show("Do you want to update?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                    if (MessageBox.Show(clsGeneral.MessageFunction("Update"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                     {
                         isSave = false;
                     }
                 }
                 else
                 {
-                    if (MessageBox.Show("Do you want to save?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                    if (MessageBox.Show("", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                     {
                         isSave = false;
                     }
@@ -540,24 +605,50 @@ namespace FinacPOS
                     {
                         if (userSP.CheckExistanceOfUserID(txtUserId.Text))
                         {
-                            MessageBox.Show("UserID already exist", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            if (PublicVariables._ModuleLanguage == "ENG")
+                            {
+                                MessageBox.Show("UserID already exists", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                               
+                            }
+                            else if (PublicVariables._ModuleLanguage == "ARB")
+                            {
+                                MessageBox.Show("معرّف المستخدم موجود بالفعل", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                              
+                            }
                             txtUserId.Focus();
                             txtUserId.SelectAll();
-
                         }
                         else
                         {
                             if (userSP.CheckExistanceOfUserName(txtUsername.Text))
                             {
-                                MessageBox.Show("Username already exist", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                txtUsername.Focus();
-                                txtUsername.SelectAll();
+                                if (PublicVariables._ModuleLanguage == "ENG")
+                                {
+                                    MessageBox.Show("Username already exists", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                              
+                                }
+                                else if (PublicVariables._ModuleLanguage == "ARB")
+                                {
+                                    MessageBox.Show("اسم المستخدم موجود بالفعل", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                
+                                }
+                                    txtUsername.Focus();
+                                    txtUsername.SelectAll();
                             }
                             else
                             {
                                 // Save 
                                 userSP.POSUserAdd(UserInfo);
-                                MessageBox.Show("User created successfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                if (PublicVariables._ModuleLanguage == "ENG")
+                                {
+                                    MessageBox.Show("User created successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+                                else if (PublicVariables._ModuleLanguage == "ARB")
+                                {
+                                    MessageBox.Show("تم إنشاء المستخدم بنجاح", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                              
+                                }
+
                                 Clear();
                             }
 
@@ -568,7 +659,16 @@ namespace FinacPOS
                     {
                         if (userSP.CheckExistanceOfUserNamebyuserid(txtUsername.Text, txtUserId.Text))
                         {
-                            MessageBox.Show("Username already exist", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            if (PublicVariables._ModuleLanguage == "ENG")
+                            {
+                                MessageBox.Show("Username already exists", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                            else if (PublicVariables._ModuleLanguage == "ARB")
+                            {
+                                MessageBox.Show("اسم المستخدم موجود بالفعل", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                             
+                            }
+
                             txtUsername.Focus();
                             txtUsername.SelectAll();
                         }
@@ -577,7 +677,7 @@ namespace FinacPOS
                             if (isInEditMode)
                             {
                                 userSP.POSUserEdit(UserInfo);
-                                MessageBox.Show("Updated successfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                MessageBox.Show(clsGeneral.MessageFunction("Updated"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 Clear();
                             }
 
@@ -651,7 +751,7 @@ namespace FinacPOS
             try
             {
                 userSP.POSUserDelete(txtUserId.Text);
-                MessageBox.Show("Deleted successfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(clsGeneral.MessageFunction("Deleted"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 if (objfrmUsers != null)
                 {

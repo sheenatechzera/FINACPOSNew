@@ -113,16 +113,6 @@ namespace FinacPOS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap POS_RECIEPT {
-            get {
-                object obj = ResourceManager.GetObject("POS RECIEPT", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap posClose {
             get {
                 object obj = ResourceManager.GetObject("posClose", resourceCulture);

@@ -396,7 +396,15 @@ namespace FinacPOS
             }
             else
             {
-                MessageBox.Show("Credit Note already used");
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Credit Note already used", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("تم استخدام إشعار الدائن بالفعل", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
                 txtCreditNoteNo.Clear(); 
             }
   
@@ -654,7 +662,15 @@ namespace FinacPOS
                 {
                     if ((dcCreditCard + dcUPI) > dcTotalAmount)
                     {
-                        MessageBox.Show("Cannot exceed Total Amount");
+                        if (PublicVariables._ModuleLanguage == "ENG")
+                        {
+                            MessageBox.Show("Cannot exceed Total Amount", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else if (PublicVariables._ModuleLanguage == "ARB")
+                        {
+                            MessageBox.Show("لا يمكن تجاوز المبلغ الإجمالي", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+
 
                         //txtCreditCard.Text = (dcTotalAmount - (dcUPI)).ToString(SettingsInfo._roundDecimalPart);
                         //try { dcCreditCard = decimal.Parse(txtCreditCard.Text.ToString()); }
@@ -696,7 +712,15 @@ namespace FinacPOS
                 {
                     if ((dcCreditCard + dcUPI) > dcTotalAmount)
                     {
-                         MessageBox.Show("Cannot exceed Total Amount");
+                        if (PublicVariables._ModuleLanguage == "ENG")
+                        {
+                            MessageBox.Show("Cannot exceed Total Amount", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else if (PublicVariables._ModuleLanguage == "ARB")
+                        {
+                            MessageBox.Show("لا يمكن تجاوز المبلغ الإجمالي", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+
 
                         //txtUPI.Text = (dcTotalAmount - (dcCreditCard)).ToString(SettingsInfo._roundDecimalPart);
                         //try { dcUPI = decimal.Parse(txtUPI.Text.ToString()); }
@@ -881,10 +905,18 @@ namespace FinacPOS
             }
             else
             {
-                MessageBox.Show("Cannot exceed Total Amount");
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Cannot exceed Total Amount", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("لا يمكن تجاوز المبلغ الإجمالي", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
             }
-            
-            
+
+
         }
 
         private void txtCreditNoteNo_KeyDown(object sender, KeyEventArgs e)

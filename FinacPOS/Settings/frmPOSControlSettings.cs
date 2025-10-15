@@ -69,7 +69,17 @@ namespace FinacPOS
 
 
 
-            MessageBox.Show("Settings saved successfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (PublicVariables._ModuleLanguage == "ENG")
+            {
+                MessageBox.Show("Settings saved successfully", "Information",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else if (PublicVariables._ModuleLanguage == "ARB")
+            {
+                MessageBox.Show("تم حفظ الإعدادات بنجاح", "معلومة",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
         }
 
         private void frmLanguageEntry_Load(object sender, EventArgs e)
@@ -487,6 +497,8 @@ namespace FinacPOS
                             //System.Text.Encoding encoding = encoding.UTF8;
                             string arabicText = Encoding.UTF8.GetString(arabicBytes);
                             dgvLabels.Rows[intRwNum].Cells[GRD_WORD_ARABIC].Value = arabicText;
+
+                            ctrl.Text = arabicText;
 
                         }
                         else

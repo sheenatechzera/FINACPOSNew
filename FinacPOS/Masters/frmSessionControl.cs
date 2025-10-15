@@ -184,18 +184,51 @@ namespace FinacPOS.Masters
             bool isSave = true;
             if (dtpSessionDate.Text == "")
             {
-                MessageBox.Show("Select Session date", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Select Session date", "Information",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("اختر تاريخ الجلسة", "معلومة",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
                 dtpSessionDate.Focus();
+
             }
             else if (cmbCounter.SelectedValue == null || string.IsNullOrEmpty(cmbCounter.SelectedValue.ToString()))
             {
-                MessageBox.Show("Select Counter", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Select Counter", "Information",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("اختر الكاونتر", "معلومة",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
                 cmbCounter.Focus();
+
             }
             else if (cmbUser.SelectedValue == null || string.IsNullOrEmpty(cmbUser.SelectedValue.ToString()))
             {
-                MessageBox.Show("Select User", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Select User", "Information",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("اختر المستخدم", "معلومة",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
                 cmbUser.Focus();
+
             }
             else if (rbSessionOpening.Checked)
             {
@@ -204,7 +237,7 @@ namespace FinacPOS.Masters
                 {
                     txtOpenBal.Text = "0";
                 }
-                if (MessageBox.Show("Do you want to save?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                if (MessageBox.Show(clsGeneral.MessageFunction("Save"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                 {
                     isSave = false;
                 }
@@ -227,7 +260,7 @@ namespace FinacPOS.Masters
                     sessionInfo.Extra1 = "";
                     sessionInfo.Extra2 = "";
                     sessionSp.SessionManagementAdd(sessionInfo);
-                    MessageBox.Show("Session created successfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(clsGeneral.MessageFunction("SessionCreated"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     txtOpenBal.Text = "0";
                     dtpSessionDate.ResetText();
 
@@ -254,7 +287,17 @@ namespace FinacPOS.Masters
             {
                 LoadSessionNo();
                 SPSessionManagement.UpdateSessionClose(selectedCounter);
-                MessageBox.Show("Session Closed", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Session Closed", "Information",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("تم إغلاق الجلسة", "معلومة",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
                 objsessionClosing.loadSessionClosingData(sessionNo.ToString(), Convert.ToDateTime(dtpSessionDate.Text), selectedCounter, userid);
                 objsessionClosing.FillDatatatablesforDevPrint();
             }
@@ -309,7 +352,7 @@ namespace FinacPOS.Masters
 
             try
             {
-                if (MessageBox.Show("Do you want to close?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                if (MessageBox.Show(clsGeneral.MessageFunction("Close"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                 {
                     this.Close();
                 }
@@ -370,9 +413,6 @@ namespace FinacPOS.Masters
         }
      
        bool IsValueChanged = false;
-        private void cmbCounter_SelectedValueChanged(object sender, EventArgs e)
-        {
-
-        }
+       
     }
 }

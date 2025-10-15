@@ -102,7 +102,8 @@ namespace FinacPOS
                     cmbCriteria.Items.Add("Customer Name");
                     cmbCriteria.Items.Add("Total Amount");
                     cmbCriteria.Items.Add("Barcode");
-                   
+                    
+
                 }
             }
             catch { }

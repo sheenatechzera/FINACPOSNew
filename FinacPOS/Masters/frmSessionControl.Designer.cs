@@ -168,7 +168,7 @@
             this.cmbCounter.Size = new System.Drawing.Size(174, 21);
             this.cmbCounter.TabIndex = 36456509;
             this.cmbCounter.SelectedIndexChanged += new System.EventHandler(this.cmbCounter_SelectedIndexChanged);
-            this.cmbCounter.SelectedValueChanged += new System.EventHandler(this.cmbCounter_SelectedValueChanged);
+     //       this.cmbCounter.SelectedValueChanged += new System.EventHandler(this.cmbCounter_SelectedValueChanged);
             // 
             // lblCounter
             // 

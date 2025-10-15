@@ -48,6 +48,8 @@ namespace FinacPOS
         public string strHoldBillNo;
 
         public string strSalesMan = "";
+        public String strCustName = "";
+        public String StrCustCode = "";
         
         int inCurrenRowIndex = 0;// To keep row index
 

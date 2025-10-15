@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using System.Globalization;
+using FinacPOS;
 
 
 namespace FinacPOS
@@ -19,7 +21,7 @@ namespace FinacPOS
         }
 
         POSCounterSP counterSP = new POSCounterSP();
-       
+        
         private void btnLogin_KeyDown(object sender, KeyEventArgs e)
         {
             try
@@ -76,10 +78,13 @@ namespace FinacPOS
         
         {
             try
+            
             {
+                
+                
                 POSCounterInfo counterInfo = new POSCounterInfo();
                 txtUserName.Text = txtUserName.Text.Trim();
-                
+
                 txtPassword.Text = txtPassword.Text.Trim();
 
                 //if username and password matches then menu form will be loaded
@@ -87,13 +92,32 @@ namespace FinacPOS
                 POSUserSP userloginsp = new POSUserSP();
                 if (txtUserName.Text == "")
                 {
-                    MessageBox.Show("Enter user name","", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    txtUserName.Focus();
+                    if (rbtnEnglish.Checked) 
+                    {
+                        MessageBox.Show("Enter user name", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtUserName.Focus();
+                    }
+                    else if (rbtnArabic.Checked) 
+                    {
+                        MessageBox.Show("أدخل اسم المستخدم", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtUserName.Focus();
+                    }
+
                 }
+
                 else if (txtPassword.Text == "")
                 {
-                    MessageBox.Show("Enter password","", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    txtPassword.Focus();
+                    if (rbtnEnglish.Checked) 
+                    {
+                        MessageBox.Show("Enter password", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtPassword.Focus();
+                    }
+                    else if (rbtnArabic.Checked) 
+                    {
+                        MessageBox.Show("أدخل كلمة المرور", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtPassword.Focus();
+                    }
+
                 }
                 else
                 {
@@ -104,13 +128,14 @@ namespace FinacPOS
                         {
                             if (userinfo.Password == txtPassword.Text)
                             {
-                                
+                                PublicVariables.IsFormUserLoginOpen = true;
+
                                 counterInfo = counterSP.POSCounterViewBySystemName();
                                 if (counterInfo.CounterId != null)
                                 {
                                     PublicVariables._counterId = counterInfo.CounterId;
                                     PublicVariables._counterName = counterInfo.CounterName;
-                                    PublicVariables._SalesScreenType = counterInfo.SalesType;  
+                                    PublicVariables._SalesScreenType = counterInfo.SalesType;
 
                                 }
 
@@ -142,56 +167,92 @@ namespace FinacPOS
                                 dtbl = SpFinance.FinancialYearViewallActingYear(true);
                                 PublicVariables._fromDate = DateTime.Parse(dtbl.Rows[0]["fromDate"].ToString());
                                 PublicVariables._toDate = DateTime.Parse(dtbl.Rows[0]["toDate"].ToString());
-                             
+
                                 MDIFinacPOS.MDIObj.EnableMenuItems();
                                 // MDIFinacPOS.MDIObj.Activate();
 
-                                MDIFinacPOS.MDIObj.LoadEasyAccess();  
+                                MDIFinacPOS.MDIObj.LoadEasyAccess();
 
+                                PublicVariables.IsFormUserLoginOpen = false;
                                 //MDIFinacPOS.MDIObj.ShowReminderIfAny(false);
                                 //objFrom.CallFromFinancialYear("Login");
                                 //objFrom.Activate();
                             }
                             else
-                            {
-                                MessageBox.Show("Invalid password", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                txtPassword.Clear();
-                                txtPassword.Focus();
+                             {
+                                if (rbtnEnglish.Checked)
+                                {
+                                    MessageBox.Show("Invalid password", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    txtPassword.Clear();
+                                    txtPassword.Focus();
+                                }
+                                else 
+                                {
+                                    MessageBox.Show("كلمة المرور غير صحيحة", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    txtPassword.Clear();
+                                    txtPassword.Focus();
+                                }
+
+
+
                             }
                         }
                         else
                         {
-                            MessageBox.Show("Blocked user","", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            txtUserName.SelectAll();
-                            txtUserName.Focus();
+                            if (rbtnEnglish.Checked)
+                            {
+                                MessageBox.Show("Blocked user", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                txtUserName.SelectAll();
+                                txtUserName.Focus();
+                            }
+                            else 
+                            {
+                                MessageBox.Show("مستخدم محظور", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                txtUserName.SelectAll();
+                                txtUserName.Focus();
+                            }
+
+
                         }
                     }
                     else
                     {
-                        MessageBox.Show("Invalid user name","", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        txtUserName.SelectAll();
-                        txtUserName.Focus();
+                        if (rbtnEnglish.Checked) 
+                        {
+                            MessageBox.Show("Invalid user name", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            txtUserName.SelectAll();
+                            txtUserName.Focus();
+                        }
+                        else 
+                        {
+                            MessageBox.Show("اسم المستخدم غير صالح", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            txtUserName.SelectAll();
+                            txtUserName.Focus();
+                        }
+
+
                     }
                 }
 
             }
+            
             catch (Exception ex)
             {
-                 MessageBox.Show("UL4:" + ex.Message,"", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("UL4:" + ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-        
+
         private void frmUserLogin_Load(object sender, EventArgs e)
         {
-            
+
             try
-            {              
+            {
                 txtUserName.Focus();
-                rbtnEnglish.Checked = true; 
+                 rbtnEnglish.Checked = true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("UL5:" + ex.Message,"", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("UL5:" + ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -199,7 +260,7 @@ namespace FinacPOS
         {
             try
             {              
-                    if (MessageBox.Show("Do you want to close?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                    if (MessageBox.Show(clsGeneral.MessageFunction("Close"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                     {
                         this.Close();
                     }
@@ -231,21 +292,43 @@ namespace FinacPOS
                 MessageBox.Show("UL7:" + ex.Message,"", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-
-        private void rbtnEnglish_CheckedChanged(object sender, EventArgs e)
+        private void rbtnArabic_CheckedChanged_1(object sender, EventArgs e)
         {
-            if (rbtnEnglish.Checked == true)
-            {
-                PublicVariables._ModuleLanguage = "ENG";
-            }
-        }
 
-        private void rbtnArabic_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rbtnArabic.Checked == true)
+            if (rbtnArabic.Checked)
             {
                 PublicVariables._ModuleLanguage = "ARB";
+                setLanguage(PublicVariables._ModuleLanguage);
+                clsGeneral objGeneral = new clsGeneral();
+                objGeneral.formSettings(this);
+            }
+        }
+        public void setLanguage(String language)
+        {
+            //Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(language);
+            if (language == "ARB")
+            {
+                this.RightToLeft = RightToLeft.Yes;
+                this.RightToLeftLayout = true;
+            }
+            else // English
+            {
+                this.RightToLeft = RightToLeft.No;
+                this.RightToLeftLayout = false;
+            }
+            //this.Controls.Clear();
+        }
+
+        private void rbtnEnglish_CheckedChanged_1(object sender, EventArgs e)
+        {
+            if (rbtnEnglish.Checked)
+            {
+                PublicVariables._ModuleLanguage = "ENG";
+              
             }
         }
     }
-}
+
+
+
+    }

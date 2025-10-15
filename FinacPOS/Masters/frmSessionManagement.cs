@@ -38,7 +38,7 @@ namespace FinacPOS
         {
             try
             {
-                if (MessageBox.Show("Do you want to close?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                if (MessageBox.Show(clsGeneral.MessageFunction("Close"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                 {
                     this.Close();
                 }
@@ -52,6 +52,8 @@ namespace FinacPOS
 
         private void frmSessionManagement_Load(object sender, EventArgs e)
         {
+            clsGeneral objGeneral = new clsGeneral();
+            objGeneral.formSettings(this);
             lblSessionDate.ForeColor = System.Drawing.Color.Red;
             Clear();
         }
@@ -158,14 +160,14 @@ namespace FinacPOS
             bool isSave = true;
             if (dtpSessionDate.Text == "")
             {
-                MessageBox.Show("Select Session date", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(clsGeneral.MessageFunction("SelectSessionDate"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 dtpSessionDate.Focus();
             }
             else if (txtOpenBal.Text == "")
             {
                 txtOpenBal.Text = "0";
             }
-            if (MessageBox.Show("Do you want to save?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            if (MessageBox.Show(clsGeneral.MessageFunction("Save"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
             {
                 isSave = false;
             }
@@ -196,7 +198,7 @@ namespace FinacPOS
                     tokenSp.POSTokenAdd(TokenInfo);
                 }
                 sessionSp.SessionManagementAdd(sessionInfo);
-                MessageBox.Show("Session created successfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(clsGeneral.MessageFunction("SessionCreated"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtOpenBal.Text = "0";
                 dtpSessionDate.ResetText();
 

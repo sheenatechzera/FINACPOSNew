@@ -20,10 +20,39 @@ namespace FinacPOS
         frmPOSSettings objSettingsForm = new frmPOSSettings();
         private void FrmeasyAccess_Load(object sender, EventArgs e)
         {
-            //this.Location = new Point(10, 10);
-           
+            AppyiconBasedOnLanaguage();
         }
+        public  void AppyiconBasedOnLanaguage()
+        {
+            // Counter Master
+            panelCounterMaster.BackgroundImage = GetPanelIcon("counterMaster.png", "CounterMasterArabic.png"); // added by Nishana on 1-10-2025
 
+            // Sales Invoice
+            panelSalesInvoice.BackgroundImage = GetPanelIcon("salesInvoice.png", "SalesInvoiceArabic.png");
+
+            // Sales Return
+            panelSalesReturn.BackgroundImage = GetPanelIcon("salesReturn.png", "SalesReturnArabic.png");
+
+            // Payment
+            panelPOSPayment.BackgroundImage = GetPanelIcon("POS PAYMENT.png", "POSPaymentArabic.png");
+
+            // Receipt
+            panelPOSReceipt.BackgroundImage = GetPanelIcon("POSRECIEPT.png", "POSReceiptArabic.png");
+
+            // Session Close
+            panelSessionClose.BackgroundImage = GetPanelIcon("sessionClose.png", "SessionCloseArabic.png");
+
+            // POS Close
+            panelPOSClose.BackgroundImage = GetPanelIcon("posClose.png", "POSCloseArabic.png");
+
+        }
+        private Image GetPanelIcon(string englishFile, string arabicFile)
+        {
+            string basePath = Application.StartupPath + "\\Resources\\";
+            return PublicVariables._ModuleLanguage == "ARB"
+                ? Image.FromFile(basePath + arabicFile)
+                : Image.FromFile(basePath + englishFile);
+        }
         private void panel1_Click(object sender, EventArgs e)
         {
             if (PublicVariables._userGroup != "Admin")

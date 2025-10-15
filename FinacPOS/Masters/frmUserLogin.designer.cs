@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.panel2 = new System.Windows.Forms.Panel();
-            this.rbtnEnglish = new System.Windows.Forms.RadioButton();
             this.rbtnArabic = new System.Windows.Forms.RadioButton();
+            this.rbtnEnglish = new System.Windows.Forms.RadioButton();
             this.btnLogin = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
@@ -51,48 +51,47 @@
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(236)))), ((int)(((byte)(236)))));
             this.panel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel2.Controls.Add(this.rbtnEnglish);
             this.panel2.Controls.Add(this.rbtnArabic);
+            this.panel2.Controls.Add(this.rbtnEnglish);
             this.panel2.Controls.Add(this.btnLogin);
             this.panel2.Controls.Add(this.btnClear);
             this.panel2.Controls.Add(this.btnClose);
             this.panel2.Controls.Add(this.panel7);
             this.panel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(111)))), ((int)(((byte)(188)))));
-            this.panel2.Location = new System.Drawing.Point(-2, 2);
+            this.panel2.Location = new System.Drawing.Point(-2, 1);
             this.panel2.Name = "panel2";
-            this.panel2.Padding = new System.Windows.Forms.Padding(15, 15, 15, 15);
-            this.panel2.Size = new System.Drawing.Size(354, 169);
+            this.panel2.Padding = new System.Windows.Forms.Padding(15);
+            this.panel2.Size = new System.Drawing.Size(354, 173);
             this.panel2.TabIndex = 11;
+            // 
+            // rbtnArabic
+            // 
+            this.rbtnArabic.AutoSize = true;
+            this.rbtnArabic.BackColor = System.Drawing.Color.Transparent;
+            this.rbtnArabic.Location = new System.Drawing.Point(245, 1);
+            this.rbtnArabic.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.rbtnArabic.Name = "rbtnArabic";
+            this.rbtnArabic.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.rbtnArabic.Size = new System.Drawing.Size(56, 20);
+            this.rbtnArabic.TabIndex = 114;
+            this.rbtnArabic.TabStop = true;
+            this.rbtnArabic.Text = "العربية";
+            this.rbtnArabic.UseVisualStyleBackColor = false;
+            this.rbtnArabic.CheckedChanged += new System.EventHandler(this.rbtnArabic_CheckedChanged_1);
             // 
             // rbtnEnglish
             // 
             this.rbtnEnglish.AutoSize = true;
             this.rbtnEnglish.BackColor = System.Drawing.Color.Transparent;
             this.rbtnEnglish.Location = new System.Drawing.Point(46, 2);
-            this.rbtnEnglish.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.rbtnEnglish.Name = "rbtnEnglish";
-            this.rbtnEnglish.Size = new System.Drawing.Size(69, 20);
-            this.rbtnEnglish.TabIndex = 114;
+            this.rbtnEnglish.Size = new System.Drawing.Size(49, 20);
+            this.rbtnEnglish.TabIndex = 113;
             this.rbtnEnglish.TabStop = true;
-            this.rbtnEnglish.Text = "English";
+            this.rbtnEnglish.Text = "Eng";
             this.rbtnEnglish.UseVisualStyleBackColor = false;
-            this.rbtnEnglish.CheckedChanged += new System.EventHandler(this.rbtnEnglish_CheckedChanged);
-            // 
-            // rbtnArabic
-            // 
-            this.rbtnArabic.AutoSize = true;
-            this.rbtnArabic.BackColor = System.Drawing.Color.Transparent;
-            this.rbtnArabic.Location = new System.Drawing.Point(234, 2);
-            this.rbtnArabic.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.rbtnArabic.Name = "rbtnArabic";
-            this.rbtnArabic.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.rbtnArabic.Size = new System.Drawing.Size(52, 20);
-            this.rbtnArabic.TabIndex = 113;
-            this.rbtnArabic.TabStop = true;
-            this.rbtnArabic.Text = "عربي";
-            this.rbtnArabic.UseVisualStyleBackColor = false;
-            this.rbtnArabic.CheckedChanged += new System.EventHandler(this.rbtnArabic_CheckedChanged);
+            this.rbtnEnglish.CheckedChanged += new System.EventHandler(this.rbtnEnglish_CheckedChanged_1);
             // 
             // btnLogin
             // 
@@ -103,7 +102,7 @@
             this.btnLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLogin.ForeColor = System.Drawing.Color.Black;
-            this.btnLogin.Location = new System.Drawing.Point(42, 123);
+            this.btnLogin.Location = new System.Drawing.Point(42, 110);
             this.btnLogin.Margin = new System.Windows.Forms.Padding(1);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(78, 31);
@@ -121,7 +120,7 @@
             this.btnClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClear.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClear.ForeColor = System.Drawing.Color.Black;
-            this.btnClear.Location = new System.Drawing.Point(131, 123);
+            this.btnClear.Location = new System.Drawing.Point(131, 110);
             this.btnClear.Margin = new System.Windows.Forms.Padding(1);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(78, 31);
@@ -140,7 +139,7 @@
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClose.ForeColor = System.Drawing.Color.Black;
-            this.btnClose.Location = new System.Drawing.Point(221, 123);
+            this.btnClose.Location = new System.Drawing.Point(221, 110);
             this.btnClose.Margin = new System.Windows.Forms.Padding(1);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(78, 31);
@@ -162,7 +161,7 @@
             this.panel7.Controls.Add(this.panel9);
             this.panel7.Controls.Add(this.panel12);
             this.panel7.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel7.Location = new System.Drawing.Point(2, 27);
+            this.panel7.Location = new System.Drawing.Point(2, 23);
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(340, 76);
             this.panel7.TabIndex = 112;
@@ -254,7 +253,7 @@
             this.BackColor = System.Drawing.SystemColors.Control;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(350, 166);
+            this.ClientSize = new System.Drawing.Size(350, 149);
             this.Controls.Add(this.panel2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -286,7 +285,7 @@
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Panel panel7;
-        private System.Windows.Forms.RadioButton rbtnEnglish;
         private System.Windows.Forms.RadioButton rbtnArabic;
+        private System.Windows.Forms.RadioButton rbtnEnglish;
     }
 }

@@ -238,5 +238,151 @@ namespace FinacPOS
             return data;
         }
 
+        public static string MessageFunction(string strProcessType)
+        {
+            string strmsg = "";
+
+            if (strProcessType == "Save")
+            {
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    strmsg = "Do you want to save?";
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    strmsg = "هل تريد الحفظ؟";
+                }
+            }
+            else if (strProcessType == "Update")
+            {
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    strmsg = "Do you want to update?";
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    strmsg = "هل تريد التحديث؟";
+                }
+            }
+            else if (strProcessType == "Deleted")
+            {
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    strmsg = "Deleted successfully";
+                }
+                  
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    strmsg = "تم الحذف بنجاح";
+                }
+                  
+            }
+
+            else if (strProcessType == "Close")
+            {
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    strmsg = "Do you want to close?";
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    strmsg = "هل تريد الإغلاق؟";
+                }
+            }
+            else if (strProcessType == "SelectSessionDate")
+            {
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    strmsg = "Select Session date";
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    strmsg = "اختر تاريخ الجلسة";
+                }
+            }
+            else if (strProcessType == "SessionCreated")
+            {
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    strmsg = "Session created successfully";
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    strmsg = "تم إنشاء الجلسة بنجاح";
+                }
+            }
+            else if (strProcessType == "Print")
+            {
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    strmsg = "Do you want to print?";
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    strmsg = "هل تريد الطباعة؟";
+                }
+            }
+            else if (strProcessType == "BarcodeNotFound")
+            {
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    strmsg = "Barcode not Found";
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    strmsg = "لم يتم العثور على الباركود";
+                }
+            }
+            else if (strProcessType == "InvalidBarcode")
+            {
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    strmsg = "Please enter a valid barcode.";
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    strmsg = "الرجاء إدخال باركود صالح.";
+                }
+            }
+            else if (strProcessType == "ConfirmDelete")
+            {
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    strmsg = "Do you want to delete?";
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    strmsg = "هل تريد الحذف؟";
+                }
+            }
+            else if (strProcessType == "Updated")
+            {
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    strmsg = "Updated successfully";
+                }
+                    
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    strmsg = "تم التحديث بنجاح"; 
+                }
+                    
+            }
+            else if (strProcessType == "Saved")
+            {
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    strmsg = "Saved Successfully";
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    strmsg = "تم الحفظ بنجاح";
+                }
+            }
+
+            return strmsg;
+        }
+
+
     }
 }

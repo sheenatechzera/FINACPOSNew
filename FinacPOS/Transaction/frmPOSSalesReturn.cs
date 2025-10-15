@@ -277,7 +277,17 @@ namespace FinacPOS
                     if (decSalesPrice == 0)
                     {
                         Console.Beep(500, 500);
-                        MessageBox.Show("Sales Price is ZERO", "WARNING");
+                        if (PublicVariables._ModuleLanguage == "ENG")
+                        {
+                            MessageBox.Show( "Sales Price is ZERO","WARNING",  MessageBoxButtons.OK,  MessageBoxIcon.Warning);
+                        }
+                        else if (PublicVariables._ModuleLanguage == "ARB")
+                        {
+                            MessageBox.Show("سعر البيع يساوي صفر", "تحذير", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                
+                      
+                        }
+
                         barcodeFocus();
                         return;
                     }
@@ -307,7 +317,16 @@ namespace FinacPOS
                         if (decSalesPrice == 0)
                         {
                             Console.Beep(500, 500);
-                            MessageBox.Show("Sales Price is ZERO", "WARNING");
+                            if (PublicVariables._ModuleLanguage == "ENG")
+                            {
+                                MessageBox.Show("Sales Price is ZERO", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
+                            else if (PublicVariables._ModuleLanguage == "ARB")
+                            {
+                                MessageBox.Show("سعر البيع يساوي صفر", "تحذير", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+
+                            }
                             barcodeFocus();
                             return;
                         }
@@ -354,7 +373,7 @@ namespace FinacPOS
                         else
                         {
                             Console.Beep(500, 500);
-                            MessageBox.Show("Barcode not Found", "WARNING");
+                            MessageBox.Show(clsGeneral.MessageFunction("BarcodeNotFound"), "WARNING");
                             barcodeFocus();
                             return;
                         }
@@ -362,7 +381,7 @@ namespace FinacPOS
                     else
                     {
                         Console.Beep(500, 500);
-                        MessageBox.Show("Barcode not Found", "WARNING");
+                        MessageBox.Show(clsGeneral.MessageFunction("BarcodeNotFound"), "WARNING");
                         barcodeFocus();
                         return;
                     }
@@ -486,7 +505,7 @@ namespace FinacPOS
             else
             {
                 Console.Beep(500, 500);
-                MessageBox.Show("Barcode not Found", "WARNING");
+                MessageBox.Show(clsGeneral.MessageFunction("BarcodeNotFound"), "WARNING");
                 barcodeFocus();
                 return;
             }
@@ -625,7 +644,15 @@ namespace FinacPOS
             }
             else
             {
-                MessageBox.Show("Record not found in this Bill No", "WARNING");
+                if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("لم يتم العثور على سجل بهذا الرقم", "تحذير", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    MessageBox.Show("Record not found in this Bill No", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
                 barcodeFocus();
             }
         }
@@ -1184,13 +1211,30 @@ namespace FinacPOS
                     }
                     else
                     {
-                        MessageBox.Show("Customer Code not found", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        isOk = false;
+                        if(PublicVariables._ModuleLanguage == "ENG")
+                        {
+                            MessageBox.Show("Customer Code not found", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else if (PublicVariables._ModuleLanguage == "ARB")
+                        {
+                            MessageBox.Show("رمز العميل غير موجود", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                     isOk = false;
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Please Select Customer for Credit Return", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (PublicVariables._ModuleLanguage == "ENG")
+                    {
+                        MessageBox.Show("Please Select Customer for Credit Return", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else if (PublicVariables._ModuleLanguage == "ARB")
+                    {
+                        MessageBox.Show("يرجى تحديد العميل للإرجاع الائتماني", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
+                    isOk = false;
+
                     isOk = false;
                 }
                 
@@ -1198,7 +1242,15 @@ namespace FinacPOS
             }
             if (txtCustomerId.Text != "" && rbtCredit.Checked == false)
             {
-                MessageBox.Show("Please Select Return method as Credit", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Please Select Return method as Credit", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("يرجى تحديد طريقة الإرجاع كائتمان", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
                 isOk = false;
             }
             if (AccountLedgerValidationForZatcaSave(out validationMsg))
@@ -1233,7 +1285,15 @@ namespace FinacPOS
                             }
                             else
                             {
-                                MessageBox.Show("Please Select any Return Method", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                if (PublicVariables._ModuleLanguage == "ENG")
+                                {
+                                    MessageBox.Show("Please Select any Return Method", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+                                else if (PublicVariables._ModuleLanguage == "ARB")
+                                {
+                                    MessageBox.Show("يرجى اختيار أي طريقة للإرجاع", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+
                                 barcodeFocus();
                                 return;
                             }
@@ -1314,7 +1374,15 @@ namespace FinacPOS
                         }
                         else
                         {
-                            MessageBox.Show("Cannot make bill as Amount ZERO", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            if (PublicVariables._ModuleLanguage == "ENG")
+                            {
+                                MessageBox.Show("Cannot make bill as Amount ZERO", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                            else if (PublicVariables._ModuleLanguage == "ARB")
+                            {
+                                MessageBox.Show("لا يمكن عمل الفاتورة بمبلغ صفر", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+
                             barcodeFocus();
                         }
 
@@ -1347,58 +1415,146 @@ namespace FinacPOS
                         // 1. Check mandatory fields
                         if (string.IsNullOrWhiteSpace(row["ledgerName"].ToString()))
                         {
-                            message = "Customer Ledger Name is missing.";
+                            if (PublicVariables._ModuleLanguage == "ENG")
+                            {
+                                message = "Customer Ledger Name is missing.";
+                            }
+                            else if (PublicVariables._ModuleLanguage == "ARB")
+                            {
+                                message = "اسم سجل العميل مفقود.";
+                            }
+
                             return false;
+
                         }
                         if (string.IsNullOrWhiteSpace(row["StreetName"].ToString()))
                         {
-                            message = "Customer Street Name is missing.";
+                            if (PublicVariables._ModuleLanguage == "ENG")
+                            {
+                                message = "Customer Street Name is missing.";
+                            }
+                            else if (PublicVariables._ModuleLanguage == "ARB")
+                            {
+                                message = "اسم شارع العميل مفقود.";
+                            }
+
                             return false;
+
                         }
                         if (string.IsNullOrWhiteSpace(row["BuildingNo"].ToString()))
                         {
-                            message = "Customer Building Number is missing.";
+                            if (PublicVariables._ModuleLanguage == "ENG")
+                            {
+                                message = "Customer Building Number is missing.";
+                            }
+                            else if (PublicVariables._ModuleLanguage == "ARB")
+                            {
+                                message = "رقم مبنى العميل مفقود.";
+                            }
+
                             return false;
+
                         }
                         if (string.IsNullOrWhiteSpace(row["PostboxNo"].ToString()))
                         {
-                            message = "Customer Postbox Number is missing.";
+                            if (PublicVariables._ModuleLanguage == "ENG")
+                            {
+                                message = "Customer Postbox Number is missing.";
+                            }
+                            else if (PublicVariables._ModuleLanguage == "ARB")
+                            {
+                                message = "صندوق بريد العميل مفقود.";
+                            }
+
                             return false;
+
                         }
                         if (string.IsNullOrWhiteSpace(row["CityName"].ToString()))
                         {
-                            message = "Customer City Name is missing.";
+                            if (PublicVariables._ModuleLanguage == "ENG")
+                            {
+                                message = "Customer City Name is missing.";
+                            }
+                            else if (PublicVariables._ModuleLanguage == "ARB")
+                            {
+                                message = "اسم مدينة العميل مفقود.";
+                            }
+
                             return false;
+
                         }
                         if (string.IsNullOrWhiteSpace(row["District"].ToString()))
                         {
-                            message = "Customer District is missing.";
+                            if (PublicVariables._ModuleLanguage == "ENG")
+                            {
+                                message = "Customer District is missing.";
+                            }
+                            else if (PublicVariables._ModuleLanguage == "ARB")
+                            {
+                                message = "منطقة العميل مفقودة.";
+                            }
+
                             return false;
+
                         }
 
                         // 2. Check VAT number
                         string tinNumber = row["tinNumber"]?.ToString().Trim();
                         if (string.IsNullOrWhiteSpace(tinNumber))
                         {
-                            message = "Customer VAT Number is missing.";
+                            if (PublicVariables._ModuleLanguage == "ENG")
+                            {
+                                message = "Customer VAT Number is missing.";
+                            }
+                            else if (PublicVariables._ModuleLanguage == "ARB")
+                            {
+                                message = "رقم ضريبة القيمة المضافة للعميل مفقود.";
+                            }
+
                             return false;
+
                         }
                         if (!(tinNumber.StartsWith("3") && tinNumber.EndsWith("3")))
                         {
-                            message = "Customer VAT Number must start and end with 3.";
+                            if (PublicVariables._ModuleLanguage == "ENG")
+                            {
+                                message = "Customer VAT Number must start and end with 3.";
+                            }
+                            else if (PublicVariables._ModuleLanguage == "ARB")
+                            {
+                                message = "يجب أن يبدأ رقم ضريبة القيمة المضافة للعميل وينتهي بالرقم 3.";
+                            }
+
                             return false;
+
                         }
                         if (tinNumber.Length != 15 || !tinNumber.All(char.IsDigit))
                         {
-                            message = "Customer VAT Number must be 15 digits.";
+                            if (PublicVariables._ModuleLanguage == "ENG")
+                            {
+                                message = "Customer VAT Number must be 15 digits.";
+                            }
+                            else if (PublicVariables._ModuleLanguage == "ARB")
+                            {
+                                message = "يجب أن يتكون رقم ضريبة القيمة المضافة للعميل من 15 رقماً.";
+                            }
                             return false;
                         }
+
 
                         return true; //  All good
                     }
                     else
                     {
-                        message = "Ledger not found.";
+                        if (PublicVariables._ModuleLanguage == "ENG")
+                        {
+                            message = "Ledger not found.";
+                        }
+                        else if (PublicVariables._ModuleLanguage == "ARB")
+                        {
+                            message = "دفتر الأستاذ غير موجود.";
+                        }
+
                         return false;
                     }
                 }
@@ -2336,7 +2492,15 @@ namespace FinacPOS
         {
             if (dgvProduct.Rows.Count > 1)
             {
-                MessageBox.Show("Cannot Close POS Return!! bill not Clear!");
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Cannot Close POS Return!! Bill not clear!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("لا يمكن إغلاق مرتجع نقاط البيع!! الفاتورة غير مسددة", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
                 e.Cancel = true;
                 return;
             }
@@ -2401,7 +2565,15 @@ namespace FinacPOS
                 }
                 else
                 {
-                    MessageBox.Show("Customer Code not found", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (PublicVariables._ModuleLanguage == "ENG")
+                    {
+                        MessageBox.Show("Customer Code not found", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else if (PublicVariables._ModuleLanguage == "ARB")
+                    {
+                        MessageBox.Show("رمز العميل غير موجود", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
 
                     lblLedgerId.Text = "";
                     txtCustomerId.Text = "";

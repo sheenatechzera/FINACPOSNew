@@ -532,38 +532,109 @@ namespace FinacPOS
             txtCounterName.Text = txtCounterName.Text.Trim();
             if (txtCounterId.Text == "")
             {
-                MessageBox.Show("Enter Counter Id", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtCounterId.Focus();
+               
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Enter Counter Id", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtCounterId.Focus();
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("ادخل رقم العداد", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtCounterId.Focus();
+                }
+
+              
             }
             else if (txtCounterName.Text == "")
             {
-                MessageBox.Show("Enter Counter Name", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Enter Counter Name", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                  
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("ادخل اسم العداد", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                 
+
+                }
                 txtCounterName.Focus();
             }
             else if (cmbSalesAccount.SelectedValue == null)
             {
-                MessageBox.Show(" Select Sales Account", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Select Sales Account", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                 
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("اختر حساب المبيعات", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                       
+
+                }
                 cmbSalesAccount.Focus();
             }
             else if (cmbCashAccount.SelectedValue == null)
             {
-                MessageBox.Show("Select Cash Account", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Select Cash Account", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                   
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("اختر الحساب النقدي", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    
+
+                }
                 cmbCashAccount.Focus();
             }
             else if (cmbBankAccount.SelectedValue == null)
             {
-                MessageBox.Show("Select Bank Account", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Select Bank Account", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("اختر الحساب البنكي", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                 
+
+                }
                 cmbBankAccount.Focus();
             }
             else if (cmbUpiAccount.SelectedValue == null)
             {
-                MessageBox.Show("Select Upi Account", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                cmbUpiAccount.Focus();
-            }
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Select UPI Account", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    cmbUpiAccount.Focus();
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("اختر حساب UPI", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    cmbUpiAccount.Focus();
 
+                }
+
+            }
+            
             else if (txtSalesPrintcopy.Text == "")
             {
-                MessageBox.Show("Select Counter Id", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Select Sales Print Copy", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("اختر نسخة طباعة المبيعات", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                   
+
+                }
                 txtCounterId.Focus();
             }
             else
@@ -574,7 +645,7 @@ namespace FinacPOS
                 //{
                 if (isInEditMode)
                 {
-                    if (MessageBox.Show("Do you want to update?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                    if (MessageBox.Show(clsGeneral.MessageFunction("Update"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                         
                     {
                         return;
@@ -584,7 +655,7 @@ namespace FinacPOS
                 }
                 else
                 {
-                    if (MessageBox.Show("Do you want to save?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                    if (MessageBox.Show(clsGeneral.MessageFunction("Save"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                     {
                         isSave = false;
                     }
@@ -627,9 +698,19 @@ namespace FinacPOS
                 {
                     if (counterSP.CheckExistanceOfCounterID(txtCounterId.Text))
                     {
-                        MessageBox.Show("Counter Id already exist", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (PublicVariables._ModuleLanguage == "ENG")
+                        {
+                            MessageBox.Show("Counter Id already exists", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                       
+                        }
+                        else if (PublicVariables._ModuleLanguage == "ARB")
+                        {
+                            MessageBox.Show("رقم العداد موجود بالفعل", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                          
+                        }
                         txtCounterId.Focus();
                         txtCounterId.SelectAll();
+
                     }
                     else
                     {
@@ -658,8 +739,17 @@ namespace FinacPOS
 
                             }
                         }
-                       
-                        MessageBox.Show("Counter created successfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        if (PublicVariables._ModuleLanguage == "ENG")
+                        {
+                            MessageBox.Show("Counter created successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else if (PublicVariables._ModuleLanguage == "ARB")
+                        {
+                            MessageBox.Show("تم إنشاء العداد بنجاح", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                          
+                        }
+
                         //Added on 04/May/2025
                         POSCounterInfo Info = new POSCounterInfo();
                         Info = counterSP.POSCounterViewBySystemName();
@@ -699,7 +789,16 @@ namespace FinacPOS
                         counterSP.POSCounterPrinterDetailsAdd(counterprinterDetailsInfo);
 
                     }
-                    MessageBox.Show("Updated successfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (PublicVariables._ModuleLanguage == "ENG")
+                    {
+                        MessageBox.Show("Updated successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else if (PublicVariables._ModuleLanguage == "ARB")
+                    {
+                        MessageBox.Show("تم التحديث بنجاح", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    
+                    }
+
                     //Added on 04/May/2025
                     POSCounterInfo Info = new POSCounterInfo();
                     Info = counterSP.POSCounterViewBySystemName();
@@ -901,7 +1000,7 @@ namespace FinacPOS
                 counterSP.POSCounterPrinterDetailsDelete(strCounterIdToEdit);
                 counterSP.POSCounterDelete(txtCounterId.Text);
 
-                MessageBox.Show("Deleted successfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(clsGeneral.MessageFunction("Deleted"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 if (objfrmcounter != null)
                 {
@@ -924,7 +1023,7 @@ namespace FinacPOS
         {
             if (isInEditMode)
             {
-                if (MessageBox.Show("Do you want to delete?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                if (MessageBox.Show(clsGeneral.MessageFunction("ConfirmDelete"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                 {
                     DeleteCounter();
 
@@ -942,7 +1041,7 @@ namespace FinacPOS
         {
             try
             {
-                if (MessageBox.Show("Do you want to close?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                if (MessageBox.Show(clsGeneral.MessageFunction("Close"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                 {
                     this.Close();
                 }
@@ -1338,10 +1437,18 @@ namespace FinacPOS
 
                         if (string.Equals(existingValue, newValue, StringComparison.OrdinalIgnoreCase))
                         {
-                            MessageBox.Show("This Product Category is already selected in another row.",
-                                            "Duplicate Entry",
-                                            MessageBoxButtons.OK,
-                                            MessageBoxIcon.Warning);
+                            if (PublicVariables._ModuleLanguage == "ENG")
+                            {
+                                MessageBox.Show("This Product Category is already selected in another row.",
+                                                "Duplicate Entry",  MessageBoxButtons.OK,  MessageBoxIcon.Warning);
+                            }
+                            else if (PublicVariables._ModuleLanguage == "ARB")
+                            {
+                                MessageBox.Show("تم اختيار فئة المنتج هذه بالفعل في صف آخر.",
+                                                "إدخال مكرر",
+                                                MessageBoxButtons.OK, MessageBoxIcon.Warning,MessageBoxDefaultButton.Button1,  MessageBoxOptions.RightAlign | MessageBoxOptions.RtlReading);
+                            }
+
 
                             // Clear the cell
                             dgvPosCounterPrinterDetails.Rows[e.RowIndex].Cells["ProductCategory"].Value = null;
@@ -1365,8 +1472,19 @@ namespace FinacPOS
 
                     if (!selectedRow.IsNewRow)
                     {
-                        DialogResult result = MessageBox.Show(
-                            "Do you want to remove the selected row?",  "Remove Row", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        DialogResult result;
+
+                        if (PublicVariables._ModuleLanguage == "ENG")
+                        {
+                            result = MessageBox.Show(
+                                "Do you want to remove the selected row?", "Remove Row", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        }
+                        else 
+                        {
+                            result = MessageBox.Show("هل تريد إزالة الصف المحدد؟", "إزالة الصف",
+                                MessageBoxButtons.YesNo,  MessageBoxIcon.Question,  MessageBoxDefaultButton.Button1,  MessageBoxOptions.RightAlign | MessageBoxOptions.RtlReading);
+                        }
+
 
                         if (result == DialogResult.Yes)
                         {
@@ -1377,7 +1495,15 @@ namespace FinacPOS
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error removing row: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (PublicVariables._ModuleLanguage == "ENG")
+                {
+                    MessageBox.Show("Error removing row: " + ex.Message, "Error",  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    MessageBox.Show("خطأ في إزالة الصف: " + ex.Message, "خطأ",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
             }
         }
 

@@ -267,6 +267,7 @@ namespace FinacPOS
             this.txtVATNo.Name = "txtVATNo";
             this.txtVATNo.Size = new System.Drawing.Size(262, 22);
             this.txtVATNo.TabIndex = 36456504;
+          //  this.txtVATNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtVATNo_KeyDown);
             // 
             // lblCustomerVATNo
             // 

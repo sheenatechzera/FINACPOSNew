@@ -39,7 +39,7 @@
             // 
             // panelCounterMaster
             // 
-            this.panelCounterMaster.BackgroundImage = global::FinacPOS.Properties.Resources.counterMaster;
+         //   this.panelCounterMaster.BackgroundImage = global::FinacPOS.Properties.Resources.counterMaster;
             this.panelCounterMaster.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.panelCounterMaster.Cursor = System.Windows.Forms.Cursors.Hand;
             this.panelCounterMaster.Location = new System.Drawing.Point(110, 208);
@@ -51,7 +51,7 @@
             // 
             // panelPOSReceipt
             // 
-            this.panelPOSReceipt.BackgroundImage = global::FinacPOS.Properties.Resources.POS_RECIEPT;
+           // this.panelPOSReceipt.BackgroundImage = global::FinacPOS.Properties.Resources.POS_RECIEPT;
             this.panelPOSReceipt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.panelPOSReceipt.Cursor = System.Windows.Forms.Cursors.Hand;
             this.panelPOSReceipt.Location = new System.Drawing.Point(427, 15);
@@ -63,7 +63,7 @@
             // 
             // panelPOSPayment
             // 
-            this.panelPOSPayment.BackgroundImage = global::FinacPOS.Properties.Resources.POS_PAYMENT;
+          //  this.panelPOSPayment.BackgroundImage = global::FinacPOS.Properties.Resources.POS_PAYMENT;
             this.panelPOSPayment.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.panelPOSPayment.Cursor = System.Windows.Forms.Cursors.Hand;
             this.panelPOSPayment.Location = new System.Drawing.Point(632, 15);
@@ -75,7 +75,7 @@
             // 
             // panelSalesInvoice
             // 
-            this.panelSalesInvoice.BackgroundImage = global::FinacPOS.Properties.Resources.salesInvoice;
+          //  this.panelSalesInvoice.BackgroundImage = global::FinacPOS.Properties.Resources.salesInvoice;
             this.panelSalesInvoice.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.panelSalesInvoice.Cursor = System.Windows.Forms.Cursors.Hand;
             this.panelSalesInvoice.Location = new System.Drawing.Point(14, 14);
@@ -87,7 +87,7 @@
             // 
             // panelSalesReturn
             // 
-            this.panelSalesReturn.BackgroundImage = global::FinacPOS.Properties.Resources.salesReturn;
+          //  this.panelSalesReturn.BackgroundImage = global::FinacPOS.Properties.Resources.salesReturn;
             this.panelSalesReturn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.panelSalesReturn.Cursor = System.Windows.Forms.Cursors.Hand;
             this.panelSalesReturn.Location = new System.Drawing.Point(220, 15);
@@ -99,7 +99,7 @@
             // 
             // panelSessionClose
             // 
-            this.panelSessionClose.BackgroundImage = global::FinacPOS.Properties.Resources.sessionClose;
+           // this.panelSessionClose.BackgroundImage = global::FinacPOS.Properties.Resources.sessionClose;
             this.panelSessionClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.panelSessionClose.Cursor = System.Windows.Forms.Cursors.Hand;
             this.panelSessionClose.Location = new System.Drawing.Point(314, 207);
@@ -111,7 +111,7 @@
             // 
             // panelPOSClose
             // 
-            this.panelPOSClose.BackgroundImage = global::FinacPOS.Properties.Resources.posClose;
+            //this.panelPOSClose.BackgroundImage = global::FinacPOS.Properties.Resources.posClose;
             this.panelPOSClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.panelPOSClose.Cursor = System.Windows.Forms.Cursors.Hand;
             this.panelPOSClose.Location = new System.Drawing.Point(518, 207);

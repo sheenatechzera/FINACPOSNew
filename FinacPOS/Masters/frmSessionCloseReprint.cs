@@ -16,6 +16,17 @@ namespace FinacPOS.Masters
         public frmSessionCloseReprint()
         {
             InitializeComponent();
+            setLanguage(PublicVariables._ModuleLanguage);
+        }
+        public void setLanguage(String language)
+        {
+            //Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(language);
+            if (language == "ARB")
+            {
+                this.RightToLeft = RightToLeft.Yes;
+                this.RightToLeftLayout = true;
+            }
+            //this.Controls.Clear();
         }
         DateTime selectedDate;
         string selectedCounter = "";
@@ -25,6 +36,8 @@ namespace FinacPOS.Masters
         private void frmSessionCloseReprint_Load(object sender, EventArgs e)
         {
             LoadCounters();
+            clsGeneral objGeneral = new clsGeneral();
+            objGeneral.formSettings(this);
         }
        
         public void LoadCounters()

@@ -130,6 +130,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Counter Register";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmCountersReport_FormClosing);
+            this.Load += new System.EventHandler(this.frmCountersReport_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmCountersReport_KeyDown);
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvCounter)).EndInit();

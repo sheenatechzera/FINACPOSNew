@@ -322,7 +322,16 @@ namespace FinacPOS
         {
             SessionManagementSP SPSessionManagement = new SessionManagementSP();
             SPSessionManagement.UpdateSessionClose(PublicVariables._counterId);
-            MessageBox.Show("Session Closed Successfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (PublicVariables._ModuleLanguage == "ENG")
+            {
+                MessageBox.Show("Session Closed Successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else if (PublicVariables._ModuleLanguage == "ARB")
+            {
+                MessageBox.Show("تم إغلاق الجلسة بنجاح", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                              
+            }
+
         }
         public  void FillDatatatablesforDevPrint()
         {
