@@ -5024,7 +5024,21 @@ namespace FinacPOS
                             message = "Customer District is missing.";
                             return false;
                         }
-
+                        if (string.IsNullOrWhiteSpace(row["cstNumber"].ToString()))
+                        {
+                            message = "CR Number is missing.";
+                            return false;
+                        }
+                        if (string.IsNullOrWhiteSpace(row["AdditionalNo"].ToString()))
+                        {
+                            message = "Additional No is missing.";
+                            return false;
+                        }
+                        if (string.IsNullOrWhiteSpace(row["Country"].ToString()))
+                        {
+                            message = "Country is missing.";
+                            return false;
+                        }
                         // 2. Check VAT number
                         string tinNumber = row["tinNumber"]?.ToString().Trim();
                         if (string.IsNullOrWhiteSpace(tinNumber))
