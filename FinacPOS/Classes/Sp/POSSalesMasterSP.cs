@@ -594,6 +594,9 @@ namespace FinacPOS
             }
             return dtbl;
         }
+
+
+
         public DataSet POSSalesReportFillByPOSSalesMasterId(string strPOSMasterId)
         {
             DataSet ds = new DataSet();
