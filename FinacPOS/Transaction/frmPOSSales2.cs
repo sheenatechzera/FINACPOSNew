@@ -2829,8 +2829,8 @@ namespace FinacPOS
             InfoPOSSalesMaster.SessionDate = Convert.ToDateTime(lblSessionDate.Text);
             InfoPOSSalesMaster.CounterId = PublicVariables._counterId;
             InfoPOSSalesMaster.SessionNo = lblSessionNO.Text;
-            InfoPOSSalesMaster.LedgerId = "";
-            InfoPOSSalesMaster.LedgerName = "";
+            InfoPOSSalesMaster.LedgerId = txtCustomerId.Text;
+            InfoPOSSalesMaster.LedgerName = txtCustName.Text;
             InfoPOSSalesMaster.SubTotalAmount = Convert.ToDecimal(txtSubTotal.Text);
             InfoPOSSalesMaster.BillDiscPer = Convert.ToDecimal(txtDiscPer.Text);
             InfoPOSSalesMaster.BillDiscAmount = Convert.ToDecimal(txtDiscAmt.Text);
@@ -2850,6 +2850,12 @@ namespace FinacPOS
             InfoPOSSalesMaster.CreditNoteAmount = 0m;
             InfoPOSSalesMaster.TokenNo = POSTokenNoMax();
             InfoPOSSalesMaster.UserId = PublicVariables._currentUserId;
+            InfoPOSSalesMaster.CustomerAddress =  " ";
+            InfoPOSSalesMaster.CustomerPhone =  " ";
+            InfoPOSSalesMaster.CustomerVATNo = " ";
+             InfoPOSSalesMaster.SalesMode = " ";
+            InfoPOSSalesMaster.SalesManId = lblSalesMan.Text;
+            InfoPOSSalesMaster.CustContact = txtCustContact.Text;
 
             if (strHoldMasterIdToEdit == "")
             {
@@ -6134,6 +6140,16 @@ namespace FinacPOS
             if(isUnHoldBill == true)
             {
                 txtBarcode.Text = strHoldBillNo;
+                DataTable dtblhold = new DataTable();
+
+                dtblhold = POSSalesMasterSP.POSHoldMasterViewByPOSHoldMasterId(strHoldBillNo);
+                if (dtblhold.Rows.Count > 0)
+                {
+                    txtCustomerId.Text = dtblhold.Rows[0]["ledgerId"].ToString();
+                    txtCustName.Text = dtblhold.Rows[0]["ledgerName"].ToString();
+                    txtCustContact.Text = dtblhold.Rows[0]["CustContact"].ToString();
+                  
+                }
                 barcodeScanning();
             }
                

@@ -2766,6 +2766,13 @@ namespace FinacPOS
             InfoPOSSalesMaster.CreditNoteAmount = 0m;
             InfoPOSSalesMaster.UserId = PublicVariables._currentUserId;
             InfoPOSSalesMaster.TokenNo = POSTokenNoMax();
+            InfoPOSSalesMaster.CustomerAddress = txtAdress.Text;
+            InfoPOSSalesMaster.CustomerPhone = txtphone.Text;
+            InfoPOSSalesMaster.CustomerVATNo = txtVatNo.Text;
+            InfoPOSSalesMaster.SalesMode = "Take Way";
+            InfoPOSSalesMaster.SalesManId = lblSalesMan.Text;
+            InfoPOSSalesMaster.CustContact = " ";
+
 
             if (strHoldMasterIdToEdit == "")
             {
@@ -5510,6 +5517,10 @@ namespace FinacPOS
                     {
                         txtCustCode.Text = dtblhold.Rows[0]["ledgerId"].ToString();
                         txtCustomerName.Text = dtblhold.Rows[0]["ledgerName"].ToString();
+                        txtVatNo .Text = dtblhold.Rows[0]["CustomerVATNo"].ToString();
+                        txtAdress.Text = dtblhold.Rows[0]["CustomerAddress"].ToString();
+                        txtphone.Text= dtblhold.Rows[0]["CustomerPhone"].ToString();
+
                     }
                 }
             

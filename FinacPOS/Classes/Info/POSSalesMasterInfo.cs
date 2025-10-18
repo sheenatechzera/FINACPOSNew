@@ -41,7 +41,7 @@ namespace FinacPOS
         private string _TokenNo;
         private string _SalesManId;
         private string _CustContact;
-
+      
         public string POSSalesMasterId
         {
             get { return _POSSalesMasterId; }

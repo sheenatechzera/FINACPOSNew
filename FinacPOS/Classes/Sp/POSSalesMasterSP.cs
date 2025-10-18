@@ -251,6 +251,21 @@ namespace FinacPOS
                 sprmparam.Value = infoPOSSalesMaster.UserId;
                 sprmparam = sccmd.Parameters.Add("@HoldStatus", SqlDbType.VarChar);
                 sprmparam.Value = "P";
+                sprmparam = sccmd.Parameters.Add("@CustomerAddress", SqlDbType.VarChar);
+                sprmparam.Value = infoPOSSalesMaster.CustomerAddress;
+                sprmparam = sccmd.Parameters.Add("@CustomerPhone", SqlDbType.VarChar);
+                sprmparam.Value = infoPOSSalesMaster.CustomerPhone;
+                sprmparam = sccmd.Parameters.Add("@CustomerVATNo", SqlDbType.VarChar);
+                sprmparam.Value = infoPOSSalesMaster.CustomerVATNo;
+                sprmparam = sccmd.Parameters.Add("@SalesMode", SqlDbType.VarChar);
+                sprmparam.Value = infoPOSSalesMaster.SalesMode;
+                sprmparam = sccmd.Parameters.Add("@TokenNo", SqlDbType.VarChar);
+                sprmparam.Value = infoPOSSalesMaster.TokenNo;
+                sprmparam = sccmd.Parameters.Add("@SalesManId", SqlDbType.VarChar);
+                sprmparam.Value = infoPOSSalesMaster.SalesManId;
+                sprmparam = sccmd.Parameters.Add("@CustContact", SqlDbType.VarChar);
+                sprmparam.Value = infoPOSSalesMaster.CustContact;
+
                 id = sccmd.ExecuteScalar().ToString();
 
             }
@@ -330,6 +345,21 @@ namespace FinacPOS
                 sprmparam.Value = infoPOSSalesMaster.CreditNoteAmount;
                 sprmparam = sccmd.Parameters.Add("@userId", SqlDbType.VarChar);
                 sprmparam.Value = infoPOSSalesMaster.UserId;
+                sprmparam = sccmd.Parameters.Add("@CustomerAddress", SqlDbType.VarChar);
+                sprmparam.Value = infoPOSSalesMaster.CustomerAddress;
+                sprmparam = sccmd.Parameters.Add("@CustomerPhone", SqlDbType.VarChar);
+                sprmparam.Value = infoPOSSalesMaster.CustomerPhone;
+                sprmparam = sccmd.Parameters.Add("@CustomerVATNo", SqlDbType.VarChar);
+                sprmparam.Value = infoPOSSalesMaster.CustomerVATNo;
+                sprmparam = sccmd.Parameters.Add("@SalesMode", SqlDbType.VarChar);
+                sprmparam.Value = infoPOSSalesMaster.SalesMode;
+                sprmparam = sccmd.Parameters.Add("@TokenNo", SqlDbType.VarChar);
+                sprmparam.Value = infoPOSSalesMaster.TokenNo;
+                sprmparam = sccmd.Parameters.Add("@SalesManId", SqlDbType.VarChar);
+                sprmparam.Value = infoPOSSalesMaster.SalesManId;
+                sprmparam = sccmd.Parameters.Add("@CustContact", SqlDbType.VarChar);
+                sprmparam.Value = infoPOSSalesMaster.CustContact;
+
                 id = sccmd.ExecuteScalar().ToString();
 
             }
