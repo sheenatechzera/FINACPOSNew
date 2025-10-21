@@ -291,87 +291,90 @@ namespace FinacPOS
                 {
                     dtblProductWithImage.Columns.Add("picImage", typeof(Image));
                 }
-                if (isCloud)
+                if (counterInfo.ShowProductWithImage == true)
                 {
-                    using (WebClient client = new WebClient())
+
+                    if (isCloud)
                     {
+                        using (WebClient client = new WebClient())
+                        {
+                            for (int i = 0; i < dtblProductWithImage.Rows.Count; ++i)
+                            {
+                                Image img = null;
+
+                                try
+                                {
+                                    string productCode = dtblProductWithImage.Rows[i]["productCode"].ToString();
+                                    string uploadUrl = $"http://{strServer}:666/api/ProductImage/GetProductImage?dbName={strDBName}&productCode={productCode}";
+
+                                    byte[] imgBytes = client.DownloadData(uploadUrl);
+
+                                    using (MemoryStream ms = new MemoryStream(imgBytes))
+                                    {
+                                        img = new Bitmap(ms);
+                                    }
+                                }
+                                catch
+                                {
+                                    img = Image.FromFile(Path.Combine(Application.StartupPath, "logo.JPG"));
+                                }
+
+                                if (img != null)
+                                {
+                                    // Save Image to temp column (for dynamic display)
+                                    dtblProductWithImage.Rows[i]["picImage"] = img;
+
+                                    // Convert to byte array and save to main 'pic' column
+                                    dtblProductWithImage.Rows[i]["pic"] = ConvertImageToByteArray(img);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Image fallback = Image.FromFile(Path.Combine(Application.StartupPath, "logo.JPG"));
                         for (int i = 0; i < dtblProductWithImage.Rows.Count; ++i)
                         {
-                            Image img = null;
-
                             try
                             {
-                                string productCode = dtblProductWithImage.Rows[i]["productCode"].ToString();
-                                string uploadUrl = $"http://{strServer}:666/api/ProductImage/GetProductImage?dbName={strDBName}&productCode={productCode}";
+                                byte[] tempLogo;
+                                object imgPathObj = dtblProductWithImage.Rows[i]["productImage"];
 
-                                byte[] imgBytes = client.DownloadData(uploadUrl);
-
-                                using (MemoryStream ms = new MemoryStream(imgBytes))
+                                if (
+                                    imgPathObj != DBNull.Value &&
+                                    File.Exists(imgPathObj.ToString()))
                                 {
-                                    img = new Bitmap(ms);
+                                    tempLogo = objGeneral.ReadFile(imgPathObj.ToString());
+                                }
+                                else
+                                {
+                                    tempLogo = objGeneral.ReadFile(Path.Combine(Application.StartupPath, "logo.JPG"));
+                                }
+
+                                using (MemoryStream ms = new MemoryStream(tempLogo))
+                                {
+                                    Image newImage = Image.FromStream(ms);
+                                    dtblProductWithImage.Rows[i]["picImage"] = newImage;
+                                    dtblProductWithImage.Rows[i]["pic"] = ConvertImageToByteArray(newImage);
                                 }
                             }
                             catch
                             {
-                                img = Image.FromFile(Path.Combine(Application.StartupPath, "logo.JPG"));
-                            }
-
-                            if (img != null)
-                            {
-                                // Save Image to temp column (for dynamic display)
-                                dtblProductWithImage.Rows[i]["picImage"] = img;
-
-                                // Convert to byte array and save to main 'pic' column
-                                dtblProductWithImage.Rows[i]["pic"] = ConvertImageToByteArray(img);
+                                dtblProductWithImage.Rows[i]["picImage"] = fallback;
+                                dtblProductWithImage.Rows[i]["pic"] = ConvertImageToByteArray(fallback);
                             }
                         }
                     }
+
+
+                    //for (int i = 0; i < dtblProductWithImage.Rows.Count; i++)
+                    //{
+                    //    dtblProductWithImage.Rows[i]["pic"] = ConvertImageToByteArray(dtblProductWithImage.Rows[i]["pic"].ToString());
+                    //}
+
                 }
-                else
-                {
-                    Image fallback = Image.FromFile(Path.Combine(Application.StartupPath, "logo.JPG"));
-                    for (int i = 0; i < dtblProductWithImage.Rows.Count; ++i)
-                    {
-                        try
-                        {
-                            byte[] tempLogo;
-                            object imgPathObj = dtblProductWithImage.Rows[i]["productImage"];
-
-                            if (
-                                imgPathObj != DBNull.Value &&
-                                File.Exists(imgPathObj.ToString()))
-                            {
-                                tempLogo = objGeneral.ReadFile(imgPathObj.ToString());
-                            }
-                            else
-                            {
-                                tempLogo = objGeneral.ReadFile(Path.Combine(Application.StartupPath, "logo.JPG"));
-                            }
-
-                            using (MemoryStream ms = new MemoryStream(tempLogo))
-                            {
-                                Image newImage = Image.FromStream(ms);
-                                dtblProductWithImage.Rows[i]["picImage"] = newImage;
-                                dtblProductWithImage.Rows[i]["pic"] = ConvertImageToByteArray(newImage);
-                            }
-                        }
-                        catch
-                        {
-                            dtblProductWithImage.Rows[i]["picImage"] = fallback;
-                            dtblProductWithImage.Rows[i]["pic"] = ConvertImageToByteArray(fallback);
-                        }
-                    }
-                }
-
-
-                //for (int i = 0; i < dtblProductWithImage.Rows.Count; i++)
-                //{
-                //    dtblProductWithImage.Rows[i]["pic"] = ConvertImageToByteArray(dtblProductWithImage.Rows[i]["pic"].ToString());
-                //}
-
             }
         }
-
         public byte[] ConvertImageToByteArray(Image image)
         {
             using (MemoryStream ms = new MemoryStream())
