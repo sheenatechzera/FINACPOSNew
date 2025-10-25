@@ -51,6 +51,7 @@ namespace FinacPOS
                 }
                 else if (ctrl.GetType() == typeof(Button))
                 {
+                    
                     Button objbtn = (Button)ctrl;
 
                     SetLabelText(formName, objbtn);
@@ -74,84 +75,141 @@ namespace FinacPOS
 
         }
 
+        //private void SetLabelText(string formname, Control objControl)
+        //{
+        //    LanguageEntrySP LanguageEntry = new LanguageEntrySP();
+        //    DataTable dtLang = LanguageEntry.GetWord();
+
+        //    DataTable dtFont = LanguageEntry.GetFontName();
+        //    string strfontname = "";
+        //    if (dtFont.Rows.Count > 0)
+        //    {
+        //        if (dtFont.Rows[0]["ArabicFont"].ToString() != "")
+        //        {
+        //            strfontname = Convert.ToString(dtFont.Rows[0]["ArabicFont"]);
+        //        }
+        //        else
+        //            strfontname = "Andalus Regular";
+        //    }
+        //    else
+        //        strfontname = "Andalus Regular";
+
+        //    if (objControl is DataGridView)
+        //    {
+        //        DataGridView objDGV = (DataGridView)objControl;
+        //        for (int i = 0; i <= objDGV.Columns.Count - 1; i++)
+        //        {
+        //            if (dtLang.Rows.Count > 0)
+        //            {
+        //                DataRow[] dtFIlterRow;
+        //                dtFIlterRow = dtLang.Select("ControlName='" + objDGV.Columns[i].Name + "' and FormName='" + formname + "'");
+        //                if (dtFIlterRow.Length > 0)
+        //                {
+        //                    if (dtFIlterRow[0]["Arabic"].ToString() != "")
+        //                    {
+        //                        Font newFont = new Font(strfontname, 10, FontStyle.Regular);
+        //                        objDGV.Columns[i].HeaderCell.Style.Font = newFont;
+        //                        objDGV.Columns[i].HeaderText = getArabicText(dtFIlterRow, objControl);
+        //                        objDGV.Columns[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
+
+
+        //                        //objControl.Font = new Font("Andalus Regular", 10, FontStyle.Regular);
+        //                        //objControl.Text = getArabicText(dtFIlterRow, objControl);
+        //                        //objControl.RightToLeft = RightToLeft.Yes;
+        //                    }
+        //                }
+        //            }
+        //        }
+
+        //    }
+        //    else
+        //    {
+        //        if (dtLang.Rows.Count > 0)
+        //        {
+        //            DataRow[] dtFIlterRow;
+        //            dtFIlterRow = dtLang.Select("ControlName='" + objControl.Name + "' and FormName='" + formname + "'");
+        //            if (dtFIlterRow.Length > 0)
+        //            {
+        //                if (PublicVariables._ModuleLanguage == "ARB")
+        //                {
+        //                    if (dtFIlterRow[0]["Arabic"].ToString() != "")
+        //                    {
+        //                        objControl.Font = new Font(strfontname, 10, FontStyle.Regular);
+        //                        objControl.Text = getArabicText(dtFIlterRow, objControl);
+        //                        objControl.RightToLeft = RightToLeft.Yes;
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    if (dtFIlterRow[0]["English"].ToString() != "")
+        //                    {
+        //                        objControl.Font = new Font(strfontname, 10, FontStyle.Regular);
+        //                        objControl.Text = getEnglishText(dtFIlterRow, objControl);
+        //                        objControl.RightToLeft = RightToLeft.No;
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+
+
+        //}
         private void SetLabelText(string formname, Control objControl)
         {
             LanguageEntrySP LanguageEntry = new LanguageEntrySP();
             DataTable dtLang = LanguageEntry.GetWord();
-
             DataTable dtFont = LanguageEntry.GetFontName();
-            string strfontname = "";
-            if (dtFont.Rows.Count > 0)
-            {
-                if (dtFont.Rows[0]["ArabicFont"].ToString() != "")
-                {
-                    strfontname = Convert.ToString(dtFont.Rows[0]["ArabicFont"]);
-                }
-                else
-                    strfontname = "Andalus Regular";
-            }
-            else
-                strfontname = "Andalus Regular";
 
-            if (objControl is DataGridView)
+            string strfontname = dtFont.Rows.Count > 0 && !string.IsNullOrEmpty(dtFont.Rows[0]["ArabicFont"].ToString())
+                ? dtFont.Rows[0]["ArabicFont"].ToString()
+                : "Arial Unicode MS";
+
+            if (objControl is DataGridView dgv)
             {
-                DataGridView objDGV = (DataGridView)objControl;
-                for (int i = 0; i <= objDGV.Columns.Count - 1; i++)
+                foreach (DataGridViewColumn col in dgv.Columns)
                 {
-                    if (dtLang.Rows.Count > 0)
+                    DataRow[] rows = dtLang.Select($"(ControlName='{col.Name}' OR ControlName='{col.HeaderText}') AND FormName='{formname}'");
+                    if (rows.Length > 0)
                     {
-                        DataRow[] dtFIlterRow;
-                        dtFIlterRow = dtLang.Select("ControlName='" + objDGV.Columns[i].Name + "' and FormName='" + formname + "'");
-                        if (dtFIlterRow.Length > 0)
+                        DataRow row = rows[0];
+                        if (PublicVariables._ModuleLanguage == "ARB" && !string.IsNullOrEmpty(row["Arabic"].ToString()))
                         {
-                            if (dtFIlterRow[0]["Arabic"].ToString() != "")
-                            {
-                                Font newFont = new Font(strfontname, 10, FontStyle.Regular);
-                                objDGV.Columns[i].HeaderCell.Style.Font = newFont;
-                                objDGV.Columns[i].HeaderText = getArabicText(dtFIlterRow, objControl);
-                                objDGV.Columns[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
-
-
-                                //objControl.Font = new Font("Andalus Regular", 10, FontStyle.Regular);
-                                //objControl.Text = getArabicText(dtFIlterRow, objControl);
-                                //objControl.RightToLeft = RightToLeft.Yes;
-                            }
+                            col.HeaderCell.Style.Font = new Font(strfontname, 10, FontStyle.Regular);
+                            col.HeaderText = getArabicText(rows, objControl);
+                            col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
                         }
-                    }
-                }
-
-            }
-            else
-            {
-                if (dtLang.Rows.Count > 0)
-                {
-                    DataRow[] dtFIlterRow;
-                    dtFIlterRow = dtLang.Select("ControlName='" + objControl.Name + "' and FormName='" + formname + "'");
-                    if (dtFIlterRow.Length > 0)
-                    {
-                        if (PublicVariables._ModuleLanguage == "ARB")
+                        else if (!string.IsNullOrEmpty(row["English"].ToString()))
                         {
-                            if (dtFIlterRow[0]["Arabic"].ToString() != "")
-                            {
-                                objControl.Font = new Font(strfontname, 10, FontStyle.Regular);
-                                objControl.Text = getArabicText(dtFIlterRow, objControl);
-                                objControl.RightToLeft = RightToLeft.Yes;
-                            }
-                        }
-                        else
-                        {
-                            if (dtFIlterRow[0]["English"].ToString() != "")
-                            {
-                                objControl.Font = new Font(strfontname, 10, FontStyle.Regular);
-                                objControl.Text = getEnglishText(dtFIlterRow, objControl);
-                                objControl.RightToLeft = RightToLeft.No;
-                            }
+                            col.HeaderCell.Style.Font = new Font(strfontname, 10, FontStyle.Regular);
+                            col.HeaderText = getEnglishText(rows, objControl);
+                            col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
                         }
                     }
                 }
             }
+            else
+            {
+                DataRow[] rows = dtLang.Select($"ControlName='{objControl.Name}' AND FormName='{formname}'");
+                if (rows.Length > 0)
+                {
+                    DataRow row = rows[0];
+                    string langField = PublicVariables._ModuleLanguage == "ARB" ? "Arabic" : "English";
+                    if (!string.IsNullOrEmpty(row[langField].ToString()) && objControl.GetType().GetProperty("Text") != null)
+                    {
+                        objControl.Font = new Font(strfontname, 10, FontStyle.Regular);
+                        objControl.Text = PublicVariables._ModuleLanguage == "ARB"
+                            ? getArabicText(rows, objControl)
+                            : getEnglishText(rows, objControl);
+                        objControl.RightToLeft = PublicVariables._ModuleLanguage == "ARB" ? RightToLeft.Yes : RightToLeft.No;
+                    }
+                }
+            }
 
-
+            // Recurse for nested controls
+            foreach (Control child in objControl.Controls)
+            {
+                SetLabelText(formname, child);
+            }
         }
 
         private string getArabicText(DataRow[] drFilter, Control objControl)

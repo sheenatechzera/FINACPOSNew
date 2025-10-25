@@ -101,8 +101,16 @@ namespace FinacPOS
             btnDelete.Enabled = false;
             strDetailsIdForEdit = "";
             strMasterIdForEdit = "";
-            btnSave.Text = "Save";
-            btnCancel.Text = "Cancel";
+            if (PublicVariables._ModuleLanguage == "ARB")
+            {
+                btnSave.Text = "حفظ";
+                btnCancel.Text = "يلغي";
+            }
+            else
+            {
+                btnSave.Text = "Save";
+                btnCancel.Text = "Cancel";
+            }
             txtNarration.Clear();
             txtCustName.Clear();
             txtCustomerId.Clear();
@@ -2082,15 +2090,17 @@ namespace FinacPOS
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            if (btnCancel.Text == "Cancel")
+            if (btnCancel.Text == "Cancel" || btnCancel.Text == "يلغي")
             {
                 formCancel = true;
                 this.Close();
-            }else if(btnCancel.Text=="New")
+            }
+            else if (btnCancel.Text == "New")
             {
                 ClearFunction();
             }
         }
+
 
         private void btnClear_Click_1(object sender, EventArgs e)
         {

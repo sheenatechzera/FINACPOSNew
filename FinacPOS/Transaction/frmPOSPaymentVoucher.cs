@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using DevExpress.CodeParser;
 using Org.BouncyCastle.Asn1.Cmp;
 
 namespace FinacPOS
@@ -101,8 +102,17 @@ namespace FinacPOS
             btnDelete.Enabled = false;
             strDetailsIdForEdit = "";
             strMasterIdForEdit = "";
-            btnSave.Text = "Save";
-            btnCancel.Text = "Cancel";
+            if(PublicVariables._ModuleLanguage == "ARB")
+            {
+                btnSave.Text = "حفظ";
+                btnCancel.Text = "يلغي";
+            }
+            else
+            {
+                btnSave.Text = "Save";
+                btnCancel.Text = "Cancel";
+            }
+           
             txtNarration.Clear();
             txtCustName.Clear();
             txtCustomerId.Clear();
@@ -118,14 +128,46 @@ namespace FinacPOS
             rbtnGeneral.Checked = true;
             RbtnCash.Checked = true;
 
-            btnFindCustomer.Text = "Find Ledger";
+            if (PublicVariables._ModuleLanguage == "ARB")
+            {
+                btnFindCustomer.Text = "ابحث عن دفتر الأستاذ";
+            }
+            else
+            {
+                btnFindCustomer.Text = "Find Ledger";
+            }
             dgvPartyBalance.Enabled = false;
             btnLoadPending.Enabled = false;
             txtTotalAmount.Enabled = true;
-            lblCustomerCode.Text = "Ledger Code";
-            lblCustomerName.Text = "Ledger Name";
+            if (PublicVariables._ModuleLanguage == "ARB")
+                lblCustomerCode.Text = "رمز دفتر الأستاذ";
+            else
+                lblCustomerCode.Text = "Ledger Code";
 
+          
+            if (PublicVariables._ModuleLanguage == "ARB")
+                lblCustomerCode.Text = "اسم دفتر الأستاذ";
+            else
+                lblCustomerName.Text = "Ledger Name";
             txtCustomerId.Focus();
+
+
+            if (PublicVariables._ModuleLanguage == "ARB")
+            {
+                rbtnGeneral.Text = "عام";
+            }
+            else
+            {
+                rbtnGeneral.Text = "General";
+            }
+            if (PublicVariables._ModuleLanguage == "ARB")
+            {
+                rbtnVendor.Text = "بائع";
+            }
+            else
+            {
+                rbtnVendor.Text = "Vendor";
+            }
         }
 
         public void FormLoadFunction()
@@ -758,7 +800,7 @@ namespace FinacPOS
             try
             {
                 frmProductPopUpGrid frm = new frmProductPopUpGrid();
-                if (btnFindCustomer.Text == "Find Vendor")
+                if (btnFindCustomer.Text == "Find Vendor" || btnFindCustomer.Text == "ابحث عن البائع")
                     frm.CallFromPaymentVoucher(this, "party");
                 else
                     frm.CallFromPaymentVoucher(this, "general");
@@ -2082,11 +2124,12 @@ namespace FinacPOS
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            if (btnCancel.Text == "Cancel")
+         
+            if (btnCancel.Text == "Cancel"|| btnCancel.Text == "يلغي")
             {
                 formCancel = true;
                 this.Close();
-            }else if(btnCancel.Text=="New")
+            } else if (btnCancel.Text == "New")
             {
                 ClearFunction();
             }
@@ -2213,12 +2256,29 @@ namespace FinacPOS
         {
             if(rbtnGeneral.Checked)
             {
-                btnFindCustomer.Text = "Find Ledger";
+                if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    btnFindCustomer.Text = "ابحث عن دفتر الأستاذ";
+                }
+                else
+                {
+                    btnFindCustomer.Text = "Find Ledger";
+                }
+                   
                 dgvPartyBalance.Enabled = false;
                 btnLoadPending.Enabled = false;
                 txtTotalAmount.Enabled = true;
-                lblCustomerCode.Text = "Ledger Code";
-                lblCustomerName.Text = "Ledger Name";
+                if(PublicVariables._ModuleLanguage == "ARB")
+                {
+                    lblCustomerCode.Text = "رمز دفتر الأستاذ";
+                    lblCustomerName.Text = "اسم دفتر الأستاذ";
+                }
+                else
+                {
+                    lblCustomerCode.Text = "Ledger Code";
+                    lblCustomerName.Text = "Ledger Name";
+                }
+              
                 txtCustomerId.Text = "";
                 txtCustName.Text = "";
                 lblLedgerId.Text = "";
@@ -2229,12 +2289,30 @@ namespace FinacPOS
         {
             if (rbtnVendor.Checked)
             {
-                btnFindCustomer.Text = "Find Vendor";
+                if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    btnFindCustomer.Text = "ابحث عن البائع";
+                }
+            
+                else
+                {
+                    btnFindCustomer.Text = "Find Vendor";
+                }
+                   
                 dgvPartyBalance.Enabled = true;
                 btnLoadPending.Enabled = true;
                 txtTotalAmount.Enabled = false;
-                lblCustomerCode.Text = "Vendor Code";
-                lblCustomerName.Text = "Vendor Name";
+                if (PublicVariables._ModuleLanguage == "ARB")
+                {
+                    lblCustomerCode.Text = "رمز البائع";
+                    lblCustomerName.Text = "اسم البائع";
+                }
+                else
+                {
+                    lblCustomerCode.Text = "Vendor Code";
+                    lblCustomerName.Text = "Vendor Name";
+                }
+             
                 txtCustomerId.Text = "";
                 txtCustName.Text = "";
                 lblLedgerId.Text = "";
