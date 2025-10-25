@@ -16,10 +16,14 @@ namespace FinacPOS
 
         public void formSettings(Control objCFrom)
         {
-            if (PublicVariables._ModuleLanguage == "ARB")
-            {
+        //if (PublicVariables._ModuleLanguage == "ARB")
+        //{
                 SetAllControlsInForm(objCFrom);
-            }
+            //}
+            //else
+            //{
+
+            //}
         }
 
 
@@ -125,11 +129,23 @@ namespace FinacPOS
                     dtFIlterRow = dtLang.Select("ControlName='" + objControl.Name + "' and FormName='" + formname + "'");
                     if (dtFIlterRow.Length > 0)
                     {
-                        if (dtFIlterRow[0]["Arabic"].ToString() != "")
+                        if (PublicVariables._ModuleLanguage == "ARB")
                         {
-                            objControl.Font = new Font(strfontname, 10, FontStyle.Regular);
-                            objControl.Text = getArabicText(dtFIlterRow, objControl);
-                            objControl.RightToLeft = RightToLeft.Yes;
+                            if (dtFIlterRow[0]["Arabic"].ToString() != "")
+                            {
+                                objControl.Font = new Font(strfontname, 10, FontStyle.Regular);
+                                objControl.Text = getArabicText(dtFIlterRow, objControl);
+                                objControl.RightToLeft = RightToLeft.Yes;
+                            }
+                        }
+                        else
+                        {
+                            if (dtFIlterRow[0]["English"].ToString() != "")
+                            {
+                                objControl.Font = new Font(strfontname, 10, FontStyle.Regular);
+                                objControl.Text = getEnglishText(dtFIlterRow, objControl);
+                                objControl.RightToLeft = RightToLeft.No;
+                            }
                         }
                     }
                 }
@@ -164,6 +180,33 @@ namespace FinacPOS
                 MessageBox.Show(ex.Message);
             }
             return arabicText;
+        }
+        private string getEnglishText(DataRow[] drFilter, Control objControl)
+        {
+            string ENGText = "";
+            try
+            {
+                if (drFilter.Length > 0)
+                {
+                    if (drFilter[0]["English"].ToString() != "")
+                    {
+                        ENGText = drFilter[0]["English"].ToString();
+                        //ENGText = System.Text.Encoding.UTF8.GetString(ENGLISHBytes);
+                        return ENGText;
+                    }
+                    else
+                    {
+                        return ENGText;
+                    }
+                }
+                else
+                    return ENGText;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            return ENGText;
         }
 
         public void UserActivityAdd(string voucherType, string activityType, string masterId, string voucherNo, DateTime voucherdate, decimal oldAmount, decimal newAmount)

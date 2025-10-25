@@ -324,7 +324,10 @@ namespace FinacPOS
             if (rbtnEnglish.Checked)
             {
                 PublicVariables._ModuleLanguage = "ENG";
-              
+                setLanguage(PublicVariables._ModuleLanguage);
+                clsGeneral objGeneral = new clsGeneral();
+                objGeneral.formSettings(this);
+
             }
         }
     }

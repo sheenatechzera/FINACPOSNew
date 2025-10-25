@@ -20,39 +20,132 @@ namespace FinacPOS
         frmPOSSettings objSettingsForm = new frmPOSSettings();
         private void FrmeasyAccess_Load(object sender, EventArgs e)
         {
+            LoadIcons();             
+            EnableDoubleBuffering();
             AppyiconBasedOnLanaguage();
         }
-        public  void AppyiconBasedOnLanaguage()
-        {
-            // Counter Master
-            panelCounterMaster.BackgroundImage = GetPanelIcon("counterMaster.png", "CounterMasterArabic.png"); // added by Nishana on 1-10-2025
+           // AppyiconBasedOnLanaguage();
+        
+        //public  void AppyiconBasedOnLanaguage()
+        //{
+        //    // Counter Master
+        //    panelCounterMaster.BackgroundImage = GetPanelIcon("counterMaster.png", "CounterMasterArabic.png"); // added by Nishana on 1-10-2025
 
-            // Sales Invoice
-            panelSalesInvoice.BackgroundImage = GetPanelIcon("salesInvoice.png", "SalesInvoiceArabic.png");
+        //    // Sales Invoice
+        //    panelSalesInvoice.BackgroundImage = GetPanelIcon("salesInvoice.png", "SalesInvoiceArabic.png");
 
-            // Sales Return
-            panelSalesReturn.BackgroundImage = GetPanelIcon("salesReturn.png", "SalesReturnArabic.png");
+        //    // Sales Return
+        //    panelSalesReturn.BackgroundImage = GetPanelIcon("salesReturn.png", "SalesReturnArabic.png");
 
-            // Payment
-            panelPOSPayment.BackgroundImage = GetPanelIcon("POS PAYMENT.png", "POSPaymentArabic.png");
+        //    // Payment
+        //    panelPOSPayment.BackgroundImage = GetPanelIcon("POS PAYMENT.png", "POSPaymentArabic.png");
 
-            // Receipt
-            panelPOSReceipt.BackgroundImage = GetPanelIcon("POSRECIEPT.png", "POSReceiptArabic.png");
+        //    // Receipt
+        //    panelPOSReceipt.BackgroundImage = GetPanelIcon("POSRECIEPT.png", "POSReceiptArabic.png");
 
-            // Session Close
-            panelSessionClose.BackgroundImage = GetPanelIcon("sessionClose.png", "SessionCloseArabic.png");
+        //    // Session Close
+        //    panelSessionClose.BackgroundImage = GetPanelIcon("sessionClose.png", "SessionCloseArabic.png");
 
-            // POS Close
-            panelPOSClose.BackgroundImage = GetPanelIcon("posClose.png", "POSCloseArabic.png");
+        //    // POS Close
+        //    panelPOSClose.BackgroundImage = GetPanelIcon("posClose.png", "POSCloseArabic.png");
 
-        }
-        private Image GetPanelIcon(string englishFile, string arabicFile)
+       // }
+        //private Image GetPanelIcon(string englishFile, string arabicFile)
+        //{
+        //    string basePath = Application.StartupPath + "\\Resources\\";
+        //    return PublicVariables._ModuleLanguage == "ARB"
+        //        ? Image.FromFile(basePath + arabicFile)
+        //        : Image.FromFile(basePath + englishFile);
+        //}
+        private Dictionary<string, Image> _icons = new Dictionary<string, Image>();
+
+        private void LoadIcons()
         {
             string basePath = Application.StartupPath + "\\Resources\\";
-            return PublicVariables._ModuleLanguage == "ARB"
-                ? Image.FromFile(basePath + arabicFile)
-                : Image.FromFile(basePath + englishFile);
+
+            _icons["CounterMaster"] = Image.FromFile(basePath + "counterMaster.png");
+            _icons["CounterMasterARB"] = Image.FromFile(basePath + "CounterMasterArabic.png");
+
+            _icons["SalesInvoice"] = Image.FromFile(basePath + "salesInvoice.png");
+            _icons["SalesInvoiceARB"] = Image.FromFile(basePath + "SalesInvoiceArabic.png");
+
+            _icons["SalesReturn"] = Image.FromFile(basePath + "salesReturn.png");
+            _icons["SalesReturnARB"] = Image.FromFile(basePath + "SalesReturnArabic.png");
+
+            _icons["POSPayment"] = Image.FromFile(basePath + "POS PAYMENT.png");
+            _icons["POSPaymentARB"] = Image.FromFile(basePath + "POSPaymentArabic.png");
+
+            _icons["POSReceipt"] = Image.FromFile(basePath + "POSRECIEPT.png");
+            _icons["POSReceiptARB"] = Image.FromFile(basePath + "POSReceiptArabic.png");
+
+            _icons["SessionClose"] = Image.FromFile(basePath + "sessionClose.png");
+            _icons["SessionCloseARB"] = Image.FromFile(basePath + "SessionCloseArabic.png");
+
+            _icons["POSClose"] = Image.FromFile(basePath + "posClose.png");
+            _icons["POSCloseARB"] = Image.FromFile(basePath + "POSCloseArabic.png");
         }
+        private Image GetPanelIcon(string key)
+        {
+            return PublicVariables._ModuleLanguage == "ARB"
+                ? _icons[key + "ARB"]
+                : _icons[key];
+        }
+        private void EnableDoubleBuffering()
+        {
+            typeof(Panel).InvokeMember("DoubleBuffered",
+                System.Reflection.BindingFlags.SetProperty |
+                System.Reflection.BindingFlags.Instance |
+                System.Reflection.BindingFlags.NonPublic,
+                null, panelCounterMaster, new object[] { true });
+
+            typeof(Panel).InvokeMember("DoubleBuffered",
+                System.Reflection.BindingFlags.SetProperty |
+                System.Reflection.BindingFlags.Instance |
+                System.Reflection.BindingFlags.NonPublic,
+                null, panelSalesInvoice, new object[] { true });
+
+            typeof(Panel).InvokeMember("DoubleBuffered",
+           System.Reflection.BindingFlags.SetProperty |
+           System.Reflection.BindingFlags.Instance |
+           System.Reflection.BindingFlags.NonPublic,
+           null, panelSalesReturn, new object[] { true });
+
+            typeof(Panel).InvokeMember("DoubleBuffered",
+       System.Reflection.BindingFlags.SetProperty |
+       System.Reflection.BindingFlags.Instance |
+       System.Reflection.BindingFlags.NonPublic,
+       null, panelPOSReceipt, new object[] { true });
+
+            typeof(Panel).InvokeMember("DoubleBuffered",
+        System.Reflection.BindingFlags.SetProperty |
+        System.Reflection.BindingFlags.Instance |
+        System.Reflection.BindingFlags.NonPublic,
+        null, panelPOSClose, new object[] { true });
+
+            typeof(Panel).InvokeMember("DoubleBuffered",
+           System.Reflection.BindingFlags.SetProperty |
+           System.Reflection.BindingFlags.Instance |
+           System.Reflection.BindingFlags.NonPublic,
+           null, panelSessionClose, new object[] { true });
+           
+            typeof(Panel).InvokeMember("DoubleBuffered",
+System.Reflection.BindingFlags.SetProperty |
+System.Reflection.BindingFlags.Instance |
+System.Reflection.BindingFlags.NonPublic,
+null, panelPOSPayment, new object[] { true });
+
+        }
+        public void AppyiconBasedOnLanaguage()
+        {
+            panelCounterMaster.BackgroundImage = GetPanelIcon("CounterMaster");
+            panelSalesInvoice.BackgroundImage = GetPanelIcon("SalesInvoice");
+            panelSalesReturn.BackgroundImage = GetPanelIcon("SalesReturn");
+            panelPOSPayment.BackgroundImage = GetPanelIcon("POSPayment");
+            panelPOSReceipt.BackgroundImage = GetPanelIcon("POSReceipt");
+            panelSessionClose.BackgroundImage = GetPanelIcon("SessionClose");
+            panelPOSClose.BackgroundImage = GetPanelIcon("POSClose");
+        }
+
         private void panel1_Click(object sender, EventArgs e)
         {
             if (PublicVariables._userGroup != "Admin")
