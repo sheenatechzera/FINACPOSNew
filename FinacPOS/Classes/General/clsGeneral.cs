@@ -16,10 +16,11 @@ namespace FinacPOS
 
         public void formSettings(Control objCFrom)
         {
-        //if (PublicVariables._ModuleLanguage == "ARB")
-        //{
+            //uncommented on 26/Oct/2025 Varis
+            if (PublicVariables._ModuleLanguage == "ARB")
+            {
                 SetAllControlsInForm(objCFrom);
-            //}
+            }
             //else
             //{
 

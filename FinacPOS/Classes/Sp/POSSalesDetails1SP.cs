@@ -292,7 +292,7 @@ namespace FinacPOS
                 sprmparam.Value = infoPOSSalesDetails1.ProductCode;
                 sprmparam = sccmd.Parameters.Add("@barcode", SqlDbType.VarChar);
                 sprmparam.Value = infoPOSSalesDetails1.Barcode;
-                sprmparam = sccmd.Parameters.Add("@productName", SqlDbType.VarChar);
+                sprmparam = sccmd.Parameters.Add("@productName", SqlDbType.NVarChar);
                 sprmparam.Value = infoPOSSalesDetails1.ProductName;
                 sprmparam = sccmd.Parameters.Add("@unitId", SqlDbType.VarChar);
                 sprmparam.Value = infoPOSSalesDetails1.UnitId;

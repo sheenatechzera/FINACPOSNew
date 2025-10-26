@@ -114,7 +114,7 @@ namespace FinacPOS
             timer1.Start();
             lblSessionNO.Text = strSessionNo;
             lblSessionDate.Text = strSessionDate;
-            lblTokenNo.Text = POSTokenNoMax();
+            //lblTokenNo.Text = POSTokenNoMax(); blocked on 26/Oct/2025 Varis - already added in clear function and called in load
             lblCounter.Text = PublicVariables._counterName;
             lblUser.Text = PublicVariables._EmpName;
             rbTakeway.Checked = true;
@@ -152,7 +152,7 @@ namespace FinacPOS
 
             productFill(); //Added on 10/Mar/2025 Varis
             showproductInload();
-            ListTableInLoad();
+            //ListTableInLoad();
             if (InfoPosSetting.AlwaysEnableHoldBillView == true)
             {
                 ChkHoldBilView.Visible = true;
@@ -431,7 +431,7 @@ namespace FinacPOS
                 AddProductGroupButton(row);
             }
             //  Load all products
-            LoadProducts(dtblProductWithImage);
+            //LoadProducts(dtblProductWithImage); //blocked on 26/oct/2025 varis
             //if (dtbl.Rows.Count > 0)       // added  by nishana on 23-08-2025
             //{
 
