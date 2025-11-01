@@ -115,7 +115,15 @@ namespace FinacPOS
             report.Parameters["CustomerPhone"].Value = dtblOtherDetails.Rows[0]["CustomerPhone"].ToString();
             report.Parameters["CustomerVatNo"].Value = dtblOtherDetails.Rows[0]["CustomerVATNo"].ToString();
             //Added on 29/Jul/2025
-            report.Parameters["TokenNo"].Value = dtblOtherDetails.Rows[0]["TokenNo"].ToString();
+            try
+            {
+                report.Parameters["TokenNo"].Value = dtblOtherDetails.Rows[0]["TokenNo"].ToString();
+            }
+            catch
+            {
+                report.Parameters["TokenNo"].Value = "";
+            }
+
             //addede on 28/08/2025
 
             report.Parameters["SalesMode"].Value = dtblOtherDetails.Rows[0]["SalesMode"].ToString();
@@ -1589,7 +1597,14 @@ namespace FinacPOS
             report.Parameters["BillTime"].Value = dtblOtherDetails.Rows[0]["BillTime"];
             report.Parameters["InvoiceNo"].Value = dtblOtherDetails.Rows[0]["InvoiceNo"];
             report.Parameters["QtyTotal"].Value = dtblOtherDetails.Rows[0]["QtyTotal"];
-            report.Parameters["TokenNo"].Value = dtblOtherDetails.Rows[0]["TokenNo"].ToString();
+            try
+            {
+                report.Parameters["TokenNo"].Value = dtblOtherDetails.Rows[0]["TokenNo"].ToString();
+            }
+            catch
+            {
+                report.Parameters["TokenNo"].Value = "";
+            }
             report.Parameters["SalesMode"].Value = dtblOtherDetails.Rows[0]["SalesMode"].ToString();
             DataSet ds = new DataSet();
 
@@ -1705,7 +1720,15 @@ namespace FinacPOS
             report.Parameters["BillTime"].Value = dtblOtherDetails.Rows[0]["BillTime"];
             report.Parameters["InvoiceNo"].Value= dtblOtherDetails.Rows[0]["InvoiceNo"];
             report.Parameters["QtyTotal"].Value = dtblOtherDetails.Rows[0]["QtyTotal"];
-            report.Parameters["TokenNo"].Value = dtblOtherDetails.Rows[0]["TokenNo"].ToString();
+            try
+            {
+                report.Parameters["TokenNo"].Value = dtblOtherDetails.Rows[0]["TokenNo"].ToString();
+            }
+            catch
+            {
+                report.Parameters["TokenNo"].Value = "";
+
+            }
             report.Parameters["SalesMode"].Value = dtblOtherDetails.Rows[0]["SalesMode"].ToString();
             DataSet ds = new DataSet();
 
@@ -1771,6 +1794,272 @@ namespace FinacPOS
                 printTools.Print();
             }
         }
+        public void PrintDeletedGridItemDetails(DataTable dtblCompanyDetails, DataTable dtblDeletedGridItemDetails, String strReportname, String strReportDate)
+        {
+            report.LoadLayout(Application.StartupPath + "\\Report_files\\rptPOSDeletedGridItemDetails_A4.repx");
+
+            //Company Details
+            report.Parameters["address"].Value = dtblCompanyDetails.Rows[0]["address"].ToString();
+            report.Parameters["branchName"].Value = dtblCompanyDetails.Rows[0]["branchName"].ToString();
+            report.Parameters["cstNo"].Value = dtblCompanyDetails.Rows[0]["cstNo"].ToString();
+            report.Parameters["email"].Value = dtblCompanyDetails.Rows[0]["email"].ToString();
+            report.Parameters["fax"].Value = dtblCompanyDetails.Rows[0]["fax"].ToString();
+            report.Parameters["logo"].Value = dtblCompanyDetails.Rows[0]["logo"].ToString();
+            report.Parameters["mobile"].Value = dtblCompanyDetails.Rows[0]["mobile"].ToString();
+            report.Parameters["panNo"].Value = dtblCompanyDetails.Rows[0]["panNo"].ToString();
+            report.Parameters["phoneNo"].Value = dtblCompanyDetails.Rows[0]["phoneNo"].ToString();
+            report.Parameters["pinNo"].Value = dtblCompanyDetails.Rows[0]["pinNo"].ToString();
+            report.Parameters["tinNo"].Value = dtblCompanyDetails.Rows[0]["tinNo"].ToString();
+            report.Parameters["web"].Value = dtblCompanyDetails.Rows[0]["web"].ToString();
+            report.Parameters["companyheader_logo"].Value = dtblCompanyDetails.Rows[0]["companyheader_logo"].ToString();
+
+            report.Parameters["CRNumber"].Value = dtblCompanyDetails.Rows[0]["CRNumber"].ToString();
+            report.Parameters["StreetName"].Value = dtblCompanyDetails.Rows[0]["StreetName"].ToString();
+            report.Parameters["BiuldingNo"].Value = dtblCompanyDetails.Rows[0]["BiuldingNo"].ToString();
+            report.Parameters["AdditionalNumber"].Value = dtblCompanyDetails.Rows[0]["AdditionalNumber"].ToString();
+            report.Parameters["CityName"].Value = dtblCompanyDetails.Rows[0]["CityName"].ToString();
+            report.Parameters["District"].Value = dtblCompanyDetails.Rows[0]["District"].ToString();
+            report.Parameters["Country"].Value = dtblCompanyDetails.Rows[0]["Country"].ToString();
+            report.Parameters["PostalCode"].Value = dtblCompanyDetails.Rows[0]["PostalCode"].ToString();
+            report.Parameters["branchNameArabic"].Value = dtblCompanyDetails.Rows[0]["branchNameArabic"].ToString();
+            report.Parameters["AddressArabic"].Value = dtblCompanyDetails.Rows[0]["AddressArabic"].ToString();
+            report.Parameters["StreetNameARB"].Value = dtblCompanyDetails.Rows[0]["StreetNameARB"].ToString();
+            report.Parameters["BiuldingNoARB"].Value = dtblCompanyDetails.Rows[0]["BiuldingNoARB"].ToString();
+            report.Parameters["AdditionalNumberARB"].Value = dtblCompanyDetails.Rows[0]["AdditionalNumberARB"].ToString();
+            report.Parameters["CityNameARB"].Value = dtblCompanyDetails.Rows[0]["CityNameARB"].ToString();
+            report.Parameters["DistrictARB"].Value = dtblCompanyDetails.Rows[0]["DistrictARB"].ToString();
+            report.Parameters["CountryARB"].Value = dtblCompanyDetails.Rows[0]["CountryARB"].ToString();
+            report.Parameters["PostalCodeARB"].Value = dtblCompanyDetails.Rows[0]["PostalCodeARB"].ToString();
+
+
+            //report.Parameters["extra1"].Value = dtblCompanyDetails.Rows[0]["extra1"].ToString();
+            //report.Parameters["extra2"].Value = dtblCompanyDetails.Rows[0]["extra2"].ToString();
+
+            //report.Parameters["companyheader_logo"].Value = dtblCompanyDetails.Rows[0]["companyheader_logo"].ToString();
+            //report.Parameters["companyfooter_logo"].Value = dtblCompanyDetails.Rows[0]["companyfooter_logo"].ToString();
+
+            report.Parameters["ReportName"].Value = strReportname;
+            report.Parameters["ReportDate"].Value = strReportDate;
+
+            DataSet ds = new DataSet();
+            ds.Tables.Add(dtblDeletedGridItemDetails);
+            report.DataSource = ds;
+
+            report.RequestParameters = false;
+            report.CreateDocument();
+
+            using (ReportPrintTool printTool = new ReportPrintTool(report))
+            {
+                printTool.AutoShowParametersPanel = false;
+                printTool.PrinterSettings.Copies = 1;
+                printTool.ShowPreviewDialog();
+            }
+
+
+        }
+        public void PrintCancelledSalesBillDetails(DataTable dtblCompanyDetails, DataTable dtblCancelledSalesBillDetails, String strReportname, String strReportDate)
+        {
+            report.LoadLayout(Application.StartupPath + "\\Report_files\\rptCancelledSalesBillDetails.repx");
+            //Company Details
+            report.Parameters["address"].Value = dtblCompanyDetails.Rows[0]["address"].ToString();
+            report.Parameters["branchName"].Value = dtblCompanyDetails.Rows[0]["branchName"].ToString();
+            report.Parameters["cstNo"].Value = dtblCompanyDetails.Rows[0]["cstNo"].ToString();
+            report.Parameters["email"].Value = dtblCompanyDetails.Rows[0]["email"].ToString();
+            report.Parameters["fax"].Value = dtblCompanyDetails.Rows[0]["fax"].ToString();
+            report.Parameters["logo"].Value = dtblCompanyDetails.Rows[0]["logo"].ToString();
+            report.Parameters["mobile"].Value = dtblCompanyDetails.Rows[0]["mobile"].ToString();
+            report.Parameters["panNo"].Value = dtblCompanyDetails.Rows[0]["panNo"].ToString();
+            report.Parameters["phoneNo"].Value = dtblCompanyDetails.Rows[0]["phoneNo"].ToString();
+            report.Parameters["pinNo"].Value = dtblCompanyDetails.Rows[0]["pinNo"].ToString();
+            report.Parameters["tinNo"].Value = dtblCompanyDetails.Rows[0]["tinNo"].ToString();
+            report.Parameters["web"].Value = dtblCompanyDetails.Rows[0]["web"].ToString();
+            report.Parameters["companyheader_logo"].Value = dtblCompanyDetails.Rows[0]["companyheader_logo"].ToString();
+
+            report.Parameters["CRNumber"].Value = dtblCompanyDetails.Rows[0]["CRNumber"].ToString();
+            report.Parameters["StreetName"].Value = dtblCompanyDetails.Rows[0]["StreetName"].ToString();
+            report.Parameters["BiuldingNo"].Value = dtblCompanyDetails.Rows[0]["BiuldingNo"].ToString();
+            report.Parameters["AdditionalNumber"].Value = dtblCompanyDetails.Rows[0]["AdditionalNumber"].ToString();
+            report.Parameters["CityName"].Value = dtblCompanyDetails.Rows[0]["CityName"].ToString();
+            report.Parameters["District"].Value = dtblCompanyDetails.Rows[0]["District"].ToString();
+            report.Parameters["Country"].Value = dtblCompanyDetails.Rows[0]["Country"].ToString();
+            report.Parameters["PostalCode"].Value = dtblCompanyDetails.Rows[0]["PostalCode"].ToString();
+            report.Parameters["branchNameArabic"].Value = dtblCompanyDetails.Rows[0]["branchNameArabic"].ToString();
+            report.Parameters["AddressArabic"].Value = dtblCompanyDetails.Rows[0]["AddressArabic"].ToString();
+            report.Parameters["StreetNameARB"].Value = dtblCompanyDetails.Rows[0]["StreetNameARB"].ToString();
+            report.Parameters["BiuldingNoARB"].Value = dtblCompanyDetails.Rows[0]["BiuldingNoARB"].ToString();
+            report.Parameters["AdditionalNumberARB"].Value = dtblCompanyDetails.Rows[0]["AdditionalNumberARB"].ToString();
+            report.Parameters["CityNameARB"].Value = dtblCompanyDetails.Rows[0]["CityNameARB"].ToString();
+            report.Parameters["DistrictARB"].Value = dtblCompanyDetails.Rows[0]["DistrictARB"].ToString();
+            report.Parameters["CountryARB"].Value = dtblCompanyDetails.Rows[0]["CountryARB"].ToString();
+            report.Parameters["PostalCodeARB"].Value = dtblCompanyDetails.Rows[0]["PostalCodeARB"].ToString();
+
+
+            //report.Parameters["extra1"].Value = dtblCompanyDetails.Rows[0]["extra1"].ToString();
+            //report.Parameters["extra2"].Value = dtblCompanyDetails.Rows[0]["extra2"].ToString();
+
+            // report.Parameters["companyheader_logo"].Value = dtblCompanyDetails.Rows[0]["companyheader_logo"].ToString();
+            //  report.Parameters["companyfooter_logo"].Value = dtblCompanyDetails.Rows[0]["companyfooter_logo"].ToString();
+            report.Parameters["ReportName"].Value = strReportname;
+            report.Parameters["reportdate"].Value = strReportDate;
+
+            DataSet ds = new DataSet();
+            ds.Tables.Add(dtblCancelledSalesBillDetails);
+            report.DataSource = ds;
+
+            report.RequestParameters = false;
+            report.CreateDocument();
+
+            using (ReportPrintTool printTool = new ReportPrintTool(report))
+            {
+                printTool.AutoShowParametersPanel = false;
+                printTool.PrinterSettings.Copies = 1;
+                printTool.ShowPreviewDialog();
+            }
+
+
+        }
+         public void POSHoldBillSummaryPrinting(DataTable Dtbl, DataTable dtblCompanyDetails, string strReportName, string strDatePeriod)
+        {
+            report.LoadLayout(Application.StartupPath + "\\Report_files\\rptPOSHoldBillSummaryPrinting.repx");
+
+            //Company Details
+            report.Parameters["address"].Value = dtblCompanyDetails.Rows[0]["address"].ToString();
+            report.Parameters["branchName"].Value = dtblCompanyDetails.Rows[0]["branchName"].ToString();
+            report.Parameters["cstNo"].Value = dtblCompanyDetails.Rows[0]["cstNo"].ToString();
+            report.Parameters["email"].Value = dtblCompanyDetails.Rows[0]["email"].ToString();
+            report.Parameters["fax"].Value = dtblCompanyDetails.Rows[0]["fax"].ToString();
+            report.Parameters["logo"].Value = dtblCompanyDetails.Rows[0]["logo"].ToString();
+            report.Parameters["mobile"].Value = dtblCompanyDetails.Rows[0]["mobile"].ToString();
+            report.Parameters["panNo"].Value = dtblCompanyDetails.Rows[0]["panNo"].ToString();
+            report.Parameters["phoneNo"].Value = dtblCompanyDetails.Rows[0]["phoneNo"].ToString();
+            report.Parameters["pinNo"].Value = dtblCompanyDetails.Rows[0]["pinNo"].ToString();
+            report.Parameters["tinNo"].Value = dtblCompanyDetails.Rows[0]["tinNo"].ToString();
+            report.Parameters["web"].Value = dtblCompanyDetails.Rows[0]["web"].ToString();
+            report.Parameters["companyheader_logo"].Value = dtblCompanyDetails.Rows[0]["logo"].ToString();
+
+            report.Parameters["CRNumber"].Value = dtblCompanyDetails.Rows[0]["CRNumber"].ToString();
+            report.Parameters["StreetName"].Value = dtblCompanyDetails.Rows[0]["StreetName"].ToString();
+            report.Parameters["BiuldingNo"].Value = dtblCompanyDetails.Rows[0]["BiuldingNo"].ToString();
+            report.Parameters["AdditionalNumber"].Value = dtblCompanyDetails.Rows[0]["AdditionalNumber"].ToString();
+            report.Parameters["CityName"].Value = dtblCompanyDetails.Rows[0]["CityName"].ToString();
+            report.Parameters["District"].Value = dtblCompanyDetails.Rows[0]["District"].ToString();
+            report.Parameters["Country"].Value = dtblCompanyDetails.Rows[0]["Country"].ToString();
+            report.Parameters["PostalCode"].Value = dtblCompanyDetails.Rows[0]["PostalCode"].ToString();
+            report.Parameters["branchNameArabic"].Value = dtblCompanyDetails.Rows[0]["branchNameArabic"].ToString();
+            report.Parameters["AddressArabic"].Value = dtblCompanyDetails.Rows[0]["AddressArabic"].ToString();
+            report.Parameters["StreetNameARB"].Value = dtblCompanyDetails.Rows[0]["StreetNameARB"].ToString();
+            report.Parameters["BiuldingNoARB"].Value = dtblCompanyDetails.Rows[0]["BiuldingNoARB"].ToString();
+            report.Parameters["AdditionalNumberARB"].Value = dtblCompanyDetails.Rows[0]["AdditionalNumberARB"].ToString();
+            report.Parameters["CityNameARB"].Value = dtblCompanyDetails.Rows[0]["CityNameARB"].ToString();
+            report.Parameters["DistrictARB"].Value = dtblCompanyDetails.Rows[0]["DistrictARB"].ToString();
+            report.Parameters["CountryARB"].Value = dtblCompanyDetails.Rows[0]["CountryARB"].ToString();
+            report.Parameters["PostalCodeARB"].Value = dtblCompanyDetails.Rows[0]["PostalCodeARB"].ToString();
+
+
+            //report.Parameters["extra1"].Value = dtblCompanyDetails.Rows[0]["extra1"].ToString();
+            //report.Parameters["extra2"].Value = dtblCompanyDetails.Rows[0]["extra2"].ToString();
+
+            //report.Parameters["companyheader_logo"].Value = dtblCompanyDetails.Rows[0]["companyheader_logo"].ToString();
+            //report.Parameters["companyfooter_logo"].Value = dtblCompanyDetails.Rows[0]["companyfooter_logo"].ToString();
+
+            report.Parameters["ReportName"].Value = strReportName;
+            report.Parameters["ReportDate"].Value = strDatePeriod;
+
+            DataSet ds = new DataSet();
+            ds.Tables.Add(Dtbl);
+            report.DataSource = ds;
+            report.RequestParameters = false;
+            report.CreateDocument();
+
+            using (ReportPrintTool printTool = new ReportPrintTool(report))
+            {
+                printTool.AutoShowParametersPanel = false;
+                printTool.PrinterSettings.Copies = 1;
+                printTool.ShowPreviewDialog();
+            }
+
+
+        }
+        public void PrintPOSTenderTypeWiseSalesReport(DataTable dtblCompanyDetails, DataTable dtblCashierwiseBillSummery, string reportName, string FromToDate, string PrintType)
+        {
+            report.LoadLayout(Application.StartupPath + "\\Report_files\\rptPOSTenderTypeWiseSalesReport.repx");
+
+
+            //Company Details
+            #region Company Details
+
+            report.Parameters["branchName"].Value = dtblCompanyDetails.Rows[0]["branchName"].ToString();
+            report.Parameters["address"].Value = dtblCompanyDetails.Rows[0]["address"].ToString();
+            report.Parameters["phoneNo"].Value = dtblCompanyDetails.Rows[0]["phoneNo"].ToString();
+            report.Parameters["fax"].Value = dtblCompanyDetails.Rows[0]["fax"].ToString();
+            report.Parameters["mobile"].Value = dtblCompanyDetails.Rows[0]["mobile"].ToString();
+            report.Parameters["email"].Value = dtblCompanyDetails.Rows[0]["email"].ToString();
+            report.Parameters["web"].Value = dtblCompanyDetails.Rows[0]["web"].ToString();
+            report.Parameters["tinNo"].Value = dtblCompanyDetails.Rows[0]["tinNo"].ToString();
+            report.Parameters["cstNo"].Value = dtblCompanyDetails.Rows[0]["cstNo"].ToString();
+            report.Parameters["panNo"].Value = dtblCompanyDetails.Rows[0]["panNo"].ToString();
+            report.Parameters["logo"].Value = dtblCompanyDetails.Rows[0]["logo"].ToString();
+            report.Parameters["extra1"].Value = dtblCompanyDetails.Rows[0]["extra1"].ToString();
+            report.Parameters["extra2"].Value = dtblCompanyDetails.Rows[0]["extra2"].ToString();
+            report.Parameters["pinNo"].Value = dtblCompanyDetails.Rows[0]["pinNo"].ToString();
+            report.Parameters["companyheader_logo"].Value = dtblCompanyDetails.Rows[0]["companyheader_logo"].ToString();
+            report.Parameters["companyfooter_logo"].Value = dtblCompanyDetails.Rows[0]["companyfooter_logo"].ToString();
+            //report.Parameters["company_logo"].Value = dtblCompanyDetails.Rows[0]["company_logo"].ToString();
+
+            #endregion
+
+            ////otherdetails parameters
+
+            #region OtherDetails
+
+            report.Parameters["reportName"].Value = reportName;
+
+            report.Parameters["fromToDate"].Value = FromToDate;
+
+            #endregion
+
+            DataSet ds = new DataSet();
+            ds.Tables.Add(dtblCashierwiseBillSummery);
+            report.DataSource = ds;
+            report.DataMember = "dtblCashierwiseBillSummery";
+            // report.ShowPreview();
+            report.RequestParameters = false;
+            report.CreateDocument();
+
+            if (PrintType == "Export to PDF")
+            {
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Filter = "(*.pdf)|*.pdf";
+                sfd.FileName = "POS TenderType Wise Sales Report.pdf";
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    if (report != null)
+                    {
+                        try
+                        {
+                            report.ExportToPdf(sfd.FileName);
+                            MessageBox.Show("TenderType Wise Report saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("An error occurred while saving the report: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            }
+            else
+            {
+
+                using (ReportPrintTool printTool = new ReportPrintTool(report))
+                {
+                    printTool.AutoShowParametersPanel = false;
+                    printTool.PrinterSettings.Copies = 1;
+                    printTool.ShowPreviewDialog();
+                }
+
+            }
+        }
+
     }
 }
 

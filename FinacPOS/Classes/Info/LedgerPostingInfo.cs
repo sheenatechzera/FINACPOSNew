@@ -24,7 +24,9 @@ namespace FinacPOS
         private string _extra2;
         private string _invoiceNo;
         private string _postingType;
-        private string _narration;
+        private string _narration; 
+        private string _costCentreId;
+
 
         public string LedgerPostingId
         {
@@ -113,6 +115,11 @@ namespace FinacPOS
         {
             get { return _narration; }
             set { _narration = value; }
+        }
+        public string costCentreId
+        {
+            get { return _costCentreId; }
+            set { _costCentreId = value; }
         }
     }
 }

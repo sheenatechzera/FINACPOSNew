@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.chkDirectSave = new System.Windows.Forms.CheckBox();
+            this.cmbPricingAlertStatus = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.chkIsHoldBillNeeded = new System.Windows.Forms.CheckBox();
             this.txtStartingTokenNo = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -79,14 +82,15 @@
             this.chkDiscountAuth = new System.Windows.Forms.CheckBox();
             this.chkBillClearAuth = new System.Windows.Forms.CheckBox();
             this.lblPOSSettingsId = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.cmbPricingAlertStatus = new System.Windows.Forms.ComboBox();
+            this.chkShowTokenNo = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.grpPrint.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.chkShowTokenNo);
+            this.panel1.Controls.Add(this.chkDirectSave);
             this.panel1.Controls.Add(this.cmbPricingAlertStatus);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.chkIsHoldBillNeeded);
@@ -128,6 +132,38 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(807, 441);
             this.panel1.TabIndex = 0;
+            // 
+            // chkDirectSave
+            // 
+            this.chkDirectSave.AutoSize = true;
+            this.chkDirectSave.Location = new System.Drawing.Point(611, 258);
+            this.chkDirectSave.Name = "chkDirectSave";
+            this.chkDirectSave.Size = new System.Drawing.Size(139, 18);
+            this.chkDirectSave.TabIndex = 37;
+            this.chkDirectSave.Text = "Direct Sales Save ";
+            this.chkDirectSave.UseVisualStyleBackColor = true;
+            // 
+            // cmbPricingAlertStatus
+            // 
+            this.cmbPricingAlertStatus.FormattingEnabled = true;
+            this.cmbPricingAlertStatus.Items.AddRange(new object[] {
+            "Warn",
+            "Block",
+            "Ignore"});
+            this.cmbPricingAlertStatus.Location = new System.Drawing.Point(654, 203);
+            this.cmbPricingAlertStatus.Name = "cmbPricingAlertStatus";
+            this.cmbPricingAlertStatus.Size = new System.Drawing.Size(75, 22);
+            this.cmbPricingAlertStatus.TabIndex = 35;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Cursor = System.Windows.Forms.Cursors.AppStarting;
+            this.label3.Location = new System.Drawing.Point(474, 203);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(126, 14);
+            this.label3.TabIndex = 34;
+            this.label3.Text = "Pricing Alert Status";
             // 
             // chkIsHoldBillNeeded
             // 
@@ -650,27 +686,15 @@
             this.lblPOSSettingsId.TabIndex = 33;
             this.lblPOSSettingsId.Text = "0";
             // 
-            // label3
+            // chkShowTokenNo
             // 
-            this.label3.AutoSize = true;
-            this.label3.Cursor = System.Windows.Forms.Cursors.AppStarting;
-            this.label3.Location = new System.Drawing.Point(474, 203);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(126, 14);
-            this.label3.TabIndex = 34;
-            this.label3.Text = "Pricing Alert Status";
-            // 
-            // cmbPricingAlertStatus
-            // 
-            this.cmbPricingAlertStatus.FormattingEnabled = true;
-            this.cmbPricingAlertStatus.Items.AddRange(new object[] {
-            "Warn",
-            "Block",
-            "Ignore"});
-            this.cmbPricingAlertStatus.Location = new System.Drawing.Point(654, 203);
-            this.cmbPricingAlertStatus.Name = "cmbPricingAlertStatus";
-            this.cmbPricingAlertStatus.Size = new System.Drawing.Size(75, 22);
-            this.cmbPricingAlertStatus.TabIndex = 35;
+            this.chkShowTokenNo.AutoSize = true;
+            this.chkShowTokenNo.Location = new System.Drawing.Point(611, 231);
+            this.chkShowTokenNo.Name = "chkShowTokenNo";
+            this.chkShowTokenNo.Size = new System.Drawing.Size(119, 18);
+            this.chkShowTokenNo.TabIndex = 38;
+            this.chkShowTokenNo.Text = "Show TokenNo";
+            this.chkShowTokenNo.UseVisualStyleBackColor = true;
             // 
             // frmPOSSettings
             // 
@@ -746,5 +770,7 @@
         private System.Windows.Forms.CheckBox chkIsHoldBillNeeded;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cmbPricingAlertStatus;
+        private System.Windows.Forms.CheckBox chkDirectSave;
+        private System.Windows.Forms.CheckBox chkShowTokenNo;
     }
 }

@@ -76,6 +76,8 @@ namespace FinacPOS
             infoPOS.StartingTokenNo = txtStartingTokenNo.Text;
             infoPOS.IsHoldBillPrint = chkIsHoldBillNeeded.Checked;
             infoPOS.PricingAlertStatus = cmbPricingAlertStatus.Text;
+            infoPOS.DirectSalesSave = chkDirectSave.Checked;
+            infoPOS.ShowTokenNo = chkShowTokenNo.Checked;
             spPOSSettings.POSSettingsEdit(infoPOS);
             MessageBox.Show("Settings saved successfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -132,6 +134,8 @@ namespace FinacPOS
                 txtStartingTokenNo.Text = infoPOS.StartingTokenNo;
                 chkIsHoldBillNeeded.Checked = infoPOS.IsHoldBillPrint;
                 cmbPricingAlertStatus.Text = infoPOS.PricingAlertStatus;
+                chkDirectSave.Checked = infoPOS.DirectSalesSave;
+                chkShowTokenNo.Checked = infoPOS.ShowTokenNo;
             }
         }
       

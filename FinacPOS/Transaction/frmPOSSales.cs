@@ -888,13 +888,42 @@ namespace FinacPOS
         }
         public void barcodeFocus()
         {
+            //    try
+            //    {
+            //        txtBarcode.Clear();
+            //        txtBarcode.Focus();
+
+            //        if (dgvProduct.RowCount > 1)
+            //        {
+            //            dgvProduct.CurrentCell = dgvProduct.Rows[dgvCurRow - 1].Cells["Barcode"];
+
+            //        }
+
+
+
+            //        strFocusedControl = "txtBarcode";
+            //        blGridFocus = false;
+            //        blTextBoxFocus = true;
+            //        txtTouchTextBox = txtBarcode;
+            //        txtQty.Clear();
+            //    }
+            //    catch (Exception ex)
+            //    {
+
+            //    }
             try
             {
                 txtBarcode.Clear();
                 txtBarcode.Focus();
 
-                if (dgvProduct.RowCount > 1)
+                int lastDataRowIndex = GetLastDataRowIndex();
+
+                if (lastDataRowIndex >= 0)
                 {
+                    // Make sure dgvCurRow is valid (1-based)
+                    if (dgvCurRow <= 0 || dgvCurRow > lastDataRowIndex + 1)
+                        dgvCurRow = lastDataRowIndex + 1; // point to last data row (1-based)
+
                     dgvProduct.CurrentCell = dgvProduct.Rows[dgvCurRow - 1].Cells["Barcode"];
                 }
 
@@ -906,7 +935,7 @@ namespace FinacPOS
             }
             catch (Exception ex)
             {
-
+               
             }
         }
         //public void POSSalesPostingAccount()
@@ -1432,6 +1461,7 @@ namespace FinacPOS
             dtblOtherDetails.Columns.Add("CustomerPhone");
             dtblOtherDetails.Columns.Add("CustomerVatNo");
             dtblOtherDetails.Columns.Add("TokenNo");
+            
             dtblOtherDetails.Columns.Add("SalesMode");
             dtblOtherDetails.Columns.Add("CustContact");
             if (isDuplicatePrint == false)
@@ -1552,7 +1582,14 @@ namespace FinacPOS
                     dRowDetails["CustomerAddress"] = txtAdress.Text;
                     dRowDetails["CustomerPhone"] = txtphone.Text;
                     dRowDetails["CustomerVatNo"] = txtVatNo.Text;
-                    dRowDetails["TokenNo"] = TokenNo;
+                    if (InfoPOSSettings.ShowTokenNo)
+                    {
+                        dRowDetails["TokenNo"] = TokenNo;
+                    }
+                    else
+                    {
+                        dRowDetails["TokenNo"] = DBNull.Value; 
+                    }
                     dRowDetails["isCredit"] = false;
                     dRowDetails["prevBalance"] = "";
                     dRowDetails["BillAmount"] = "";
@@ -1647,10 +1684,6 @@ namespace FinacPOS
                 //    lineGap = lineGap + 20;
                 //}
 
-
-
-
-
                 dtblOtherDetails.Rows.Add(dRowDetails);
             }
             else
@@ -1742,7 +1775,16 @@ namespace FinacPOS
                     dRowDetails["CustomerAddress"] = dtbl.Rows[0]["CustomerAddress"].ToString();
                     dRowDetails["CustomerPhone"] = dtbl.Rows[0]["CustomerPhone"].ToString();
                     dRowDetails["CustomerVatNo"] = dtbl.Rows[0]["CustomerVATNo"].ToString();
-                    dRowDetails["TokenNo"] = dtbl.Rows[0]["TokenNo"].ToString();
+                    try {
+                        dRowDetails["TokenNo"] = dtbl.Rows[0]["TokenNo"].ToString();
+                    }
+                    catch
+                    {
+                        dRowDetails["TokenNo"] = "0";
+                    }
+
+                  
+
                     DataTable dtblBalance = salesmaster.GetCustomerCurrentBalance(dtbl.Rows[0]["customerCode"].ToString(), PublicVariables._branchId);
                     if (dtblBalance.Rows.Count > 0)
                     {
@@ -2292,7 +2334,11 @@ namespace FinacPOS
                         //-------------------------------------------------------------------------------------
                     }
                     SPGeneral.POSBillUpdate(PublicVariables._counterId, PublicVariables._currentUserId, "Sales");
-                    SPPOSToken.POSTokenNoUpdate(Convert.ToDateTime(strSessionDate), TokenNo);
+                    if (InfoPOSSettings.ShowTokenNo)
+                    {
+                        SPPOSToken.POSTokenNoUpdate(Convert.ToDateTime(strSessionDate), TokenNo);
+                    }
+            
                     ClearFunction();
                 }
             }
@@ -2514,12 +2560,20 @@ namespace FinacPOS
             InfoPOSSalesMaster.CreditNoteNo = strCreditNoteNo;
             InfoPOSSalesMaster.CreditNoteAmount = decCreditNoteAmt;
             InfoPOSSalesMaster.UserId = PublicVariables._currentUserId;
-            InfoPOSSalesMaster.SalesMode = "Take Way";
+            InfoPOSSalesMaster.SalesMode = "Takeaway";
             InfoPOSSalesMaster.CustomerAddress = txtAdress.Text.ToString();
             InfoPOSSalesMaster.CustomerPhone = txtphone.Text.ToString();
             InfoPOSSalesMaster.CustomerVATNo = txtVatNo.Text.ToString();
-            TokenNo = POSTokenNoMax();
-            InfoPOSSalesMaster.TokenNo = TokenNo;
+            if (InfoPOSSettings.ShowTokenNo)
+            {
+                TokenNo = POSTokenNoMax();
+                InfoPOSSalesMaster.TokenNo = TokenNo;
+            }
+            else
+            {
+                InfoPOSSalesMaster.TokenNo = null; 
+            }
+
             InfoPOSSalesMaster.SalesManId = string.IsNullOrEmpty(lblSalesMan.Text) ? null : lblSalesMan.Text;
             InfoPOSSalesMaster. CustContact  = " ";
             strMasterId = POSSalesMasterSP.POSSalesMasterAdd(InfoPOSSalesMaster);
@@ -2629,12 +2683,20 @@ namespace FinacPOS
             InfoPOSSalesMaster.CreditNoteNo = "";
             InfoPOSSalesMaster.CreditNoteAmount = 0;
             InfoPOSSalesMaster.UserId = PublicVariables._currentUserId;
-            InfoPOSSalesMaster.SalesMode = "Take Way";
+            InfoPOSSalesMaster.SalesMode = "Takeaway";
             InfoPOSSalesMaster.CustomerAddress = txtAdress.Text.ToString();
             InfoPOSSalesMaster.CustomerPhone = txtphone.Text.ToString();
             InfoPOSSalesMaster.CustomerVATNo = txtVatNo.Text.ToString();
+            //if (InfoPOSSettings.ShowTokenNo)
+            //{
+            //    InfoPOSSalesMaster.TokenNo = POSTokenNoMax();
+            //}
+            //else
+            //{
+            //    InfoPOSSalesMaster.TokenNo = null;  
+            //}
 
-            InfoPOSSalesMaster.TokenNo = POSTokenNoMax();
+       
             strMasterId = POSSalesMasterSP.POSDeletedSalesMasterHistoryAdd(InfoPOSSalesMaster);
 
             if (strMasterId != "")
@@ -2768,11 +2830,18 @@ namespace FinacPOS
             InfoPOSSalesMaster.CreditNoteNo = "";
             InfoPOSSalesMaster.CreditNoteAmount = 0m;
             InfoPOSSalesMaster.UserId = PublicVariables._currentUserId;
-            InfoPOSSalesMaster.TokenNo = POSTokenNoMax();
-            InfoPOSSalesMaster.CustomerAddress = txtAdress.Text;
+            if (InfoPOSSettings.ShowTokenNo)
+            {
+                InfoPOSSalesMaster.TokenNo = POSTokenNoMax();
+            }
+            else
+            {
+                InfoPOSSalesMaster.TokenNo = null;
+            }
+           InfoPOSSalesMaster.CustomerAddress = txtAdress.Text;
             InfoPOSSalesMaster.CustomerPhone = txtphone.Text;
             InfoPOSSalesMaster.CustomerVATNo = txtVatNo.Text;
-            InfoPOSSalesMaster.SalesMode = "Take Way";
+            InfoPOSSalesMaster.SalesMode = "Takeaway";
             InfoPOSSalesMaster.SalesManId = lblSalesMan.Text;
             InfoPOSSalesMaster.CustContact = " ";
 
@@ -3154,14 +3223,14 @@ namespace FinacPOS
             }
             else
             {
-                if (PublicVariables._ModuleLanguage == "ENG")
-                {
-                    MessageBox.Show("Record not found in this Bill No", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-                else if (PublicVariables._ModuleLanguage == "ARB")
-                {
-                    MessageBox.Show("لم يتم العثور على سجل في هذا الرقم", "تحذير", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
+                //if (PublicVariables._ModuleLanguage == "ENG")
+                //{
+                //    MessageBox.Show("Record not found in this Bill No", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //}
+                //else if (PublicVariables._ModuleLanguage == "ARB")
+                //{
+                //    MessageBox.Show("لم يتم العثور على سجل في هذا الرقم", "تحذير", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //}
                 barcodeFocus();
             }
         }
@@ -4490,12 +4559,24 @@ namespace FinacPOS
         }
         private void DeleteRow(int rowIndex)
         {
-            if (rowIndex >= 0 && rowIndex < dgvProduct.Rows.Count)
+            //if (rowIndex >= 0 && rowIndex < dgvProduct.Rows.Count)
+            //{
+            //   dgvProduct.Rows.RemoveAt(rowIndex);
+            //    UpdateSerialNumbers();
+            //}
+        
+            int lastDataRowIndex = GetLastDataRowIndex();
+            if (rowIndex >= 0 && rowIndex <= lastDataRowIndex && rowIndex < dgvProduct.Rows.Count)
             {
                 dgvProduct.Rows.RemoveAt(rowIndex);
                 UpdateSerialNumbers();
             }
+            else
+            {
+                // Optionally log that rowIndex was invalid
+            }
         }
+        
 
 
         private void btnOne_Click(object sender, EventArgs e)
@@ -4674,56 +4755,154 @@ namespace FinacPOS
                 }
             }
         }
+        private int GetLastDataRowIndex()
+        {
+            // If AllowUserToAddRows is true, the last row is the 'new row' — subtract 1
+            int lastIndex = dgvProduct.Rows.Count - 1;
+            if (dgvProduct.AllowUserToAddRows && lastIndex >= 0)
+                lastIndex--; // last real data row
+            return lastIndex;
+        }
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            //if (lblBarcodeScanningType.Text == "Delete Product")
+            //{
+            //    lblBarcodeScanningType.Text = "";
+            //    lblBarcodeScanningType.Visible = false;
+            //}
+
+            //else
+            //{
+            //    lblBarcodeScanningType.Text = "Delete Product";
+            //    lblBarcodeScanningType.Visible = true;
+            //}
+            //barcodeFocus();
+
+            //if (InfoPOSSettings.DeleteMode == "Delete By Button Click")
+            //{
+
+            //    if (dgvProduct.RowCount > 1)
+            //    {
+            //        if (!dgvProduct.CurrentRow.IsNewRow)
+            //        {
+
+            //            //int selectedRowIndex = dgvProduct.CurrentRow.Index;
+            //            int selectedRowIndex = strDeleteCurrentRowIndex;
+            //            SaveGridDeletedItem(selectedRowIndex);
+            //            DeleteRow(selectedRowIndex);
+
+            //            if (dgvCurRow > 1)
+            //            {
+            //                dgvCurRow = dgvProduct.Rows.Count - 1;
+            //            }
+            //            else
+            //            {
+            //                dgvCurRow = 0;
+            //                dgvSlno = 1;
+            //            }
+
+            //            CalculateBillDiscforIndivProduct();
+            //            CalculateBillTotal();
+            //        }
+            //        barcodeFocus();
+            //    }
+
+            //    else
+            //    {
+            //        barcodeFocus();
+            //    }
+            //}
             if (lblBarcodeScanningType.Text == "Delete Product")
             {
                 lblBarcodeScanningType.Text = "";
                 lblBarcodeScanningType.Visible = false;
             }
-
             else
             {
                 lblBarcodeScanningType.Text = "Delete Product";
                 lblBarcodeScanningType.Visible = true;
             }
-            barcodeFocus();
 
-            if (InfoPOSSettings.DeleteMode == "Delete By Button Click")
+            if (InfoPOSSettings.DeleteMode != "Delete By Button Click")
             {
+                barcodeFocus();
+                return;
+            }
 
-                if (dgvProduct.RowCount > 1)
+            // Determine index to delete: prefer current cell, otherwise last data row
+            int selectedRowIndex = -1;
+            if (dgvProduct.CurrentCell != null)
+            {
+                selectedRowIndex = dgvProduct.CurrentCell.RowIndex;
+            }
+            else
+            {
+                selectedRowIndex = GetLastDataRowIndex();
+            }
+
+            // If data-row index points to the special 'new row', adjust
+            int lastDataRowIndex = GetLastDataRowIndex();
+            if (selectedRowIndex > lastDataRowIndex)
+                selectedRowIndex = lastDataRowIndex;
+
+            if (selectedRowIndex < 0)
+            {
+                // nothing to delete
+                barcodeFocus();
+                return;
+            }
+
+            try
+            {
+                // Before calling SaveGridDeletedItem, fetch the values you will pass to the DB
+                var barcodeCell = dgvProduct.Rows[selectedRowIndex].Cells["Barcode"]?.Value;
+                string barcodeValue = barcodeCell?.ToString();
+
+                // Validate parameters that your SP expects — do not call SP if required values missing
+                if (string.IsNullOrEmpty(barcodeValue))
                 {
-                    if (!dgvProduct.CurrentRow.IsNewRow)
-                    {
-
-                        //int selectedRowIndex = dgvProduct.CurrentRow.Index;
-                        int selectedRowIndex = strDeleteCurrentRowIndex;
-                        SaveGridDeletedItem(selectedRowIndex);
-                        DeleteRow(selectedRowIndex);
-
-                        if (dgvCurRow > 1)
-                        {
-                            dgvCurRow = dgvProduct.Rows.Count - 1;
-                        }
-                        else
-                        {
-                            dgvCurRow = 0;
-                            dgvSlno = 1;
-                        }
-
-                        CalculateBillDiscforIndivProduct();
-                        CalculateBillTotal();
-                    }
+                   
+                    MessageBox.Show("Cannot delete: product barcode is empty for the selected row.");
                     barcodeFocus();
+                    return;
                 }
 
+                // Save deleted item (pass explicit values or allow SaveGridDeletedItem to accept params)
+                SaveGridDeletedItem(selectedRowIndex); // ensure SaveGridDeletedItem validates its inputs
+
+                DeleteRow(selectedRowIndex);
+
+                // Re-calc current pointer: move to previous row if exists, else 0
+                lastDataRowIndex = GetLastDataRowIndex();
+                if (lastDataRowIndex >= 0)
+                {
+                    dgvCurRow = Math.Min(selectedRowIndex, lastDataRowIndex) + 1; // your code uses 1-based dgvCurRow
+                    dgvProduct.CurrentCell = dgvProduct.Rows[dgvCurRow - 1].Cells["Barcode"];
+                }
                 else
                 {
-                    barcodeFocus();
+                    dgvCurRow = 0;
+                    dgvSlno = 1;
                 }
+
+                CalculateBillDiscforIndivProduct();
+                CalculateBillTotal();
+            }
+            catch (Exception ex)
+            {
+                // show real error (helps identify missing SP param)
+                MessageBox.Show("Error deleting row: " + ex.Message);
+            }
+            finally
+            {
+                barcodeFocus();
             }
         }
+       
+
+
+
+
 
 
         private void ResetSerialNumbers()

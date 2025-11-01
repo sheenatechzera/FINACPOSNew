@@ -6,6 +6,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Globalization;
+using System.Text.RegularExpressions;
+using static System.Resources.ResXFileRef;
 
 namespace FinacPOS
 {
@@ -185,120 +188,241 @@ namespace FinacPOS
 
         public void DoWhenQuitingForm()
         {
-            if (frmPOSSales != null)
-            {
-                decimal dcCreditCard = 0;
-                decimal dcUPI = 0;
-                decimal dcCredit = 0;
-                decimal dcCash = 0;
-                decimal dcCreditNote = 0;
+            //if (frmPOSSales != null)
+            //{
+            //    decimal dcCreditCard = 0;
+            //    decimal dcUPI = 0;
+            //    decimal dcCredit = 0;
+            //    decimal dcCash = 0;
+            //    decimal dcCreditNote = 0;
 
-                decimal dcTotTenderedAmt = 0;
-                decimal dcTotalAmount = 0;
-                decimal dcBalance = 0;
+            //    decimal dcTotTenderedAmt = 0;
+            //    decimal dcTotalAmount = 0;
+            //    decimal dcBalance = 0;
+            //    string strTenderType = "";
+
+            //    try { dcTotalAmount = decimal.Parse(txtTotalAmount.Text.ToString()); }
+            //    catch { }
+            //    try { dcTotTenderedAmt = decimal.Parse(txtTenderedAmount.Text.ToString()); }
+            //    catch { }
+            //    try { dcBalance = decimal.Parse(txtBalance.Text.ToString()); }
+            //    catch { }
+
+
+            //    try { dcCreditCard = decimal.Parse(txtCreditCard.Text.ToString()); }
+            //    catch { }
+            //    try { dcUPI = decimal.Parse(txtUPI.Text.ToString()); }
+            //    catch { }
+            //    try { dcCredit = decimal.Parse(txtCredit.Text.ToString());
+            //    if (dcCredit != 0)
+            //        strTenderType = "Credit Bill";
+            //    else
+            //        strTenderType = "";
+            //    }
+            //    catch { }
+            //    try { dcCash = decimal.Parse(txtCash.Text.ToString()); }
+            //    catch { }
+            //    try { dcCreditNote = decimal.Parse(txtCreditNoteAmount.Text.ToString()); }
+            //    catch { }
+
+            //    frmPOSSales.Enabled = true;
+            //    frmPOSSales.DowhenReturningFromPOSPaymentForm(formCancel, txtCardNo.Text.Trim(), dcCreditCard, dcUPI, dcCredit, dcCash, txtCreditNoteNo.Text.Trim(), dcCreditNote, dcTotTenderedAmt, dcBalance, strTenderType);
+            //}
+            //if (frmPOSSales2 != null)
+            //{
+            //    decimal dcCreditCard = 0;
+            //    decimal dcUPI = 0;
+            //    decimal dcCredit = 0;
+            //    decimal dcCash = 0;
+            //    decimal dcCreditNote = 0;
+
+            //    decimal dcTotTenderedAmt = 0;
+            //    decimal dcTotalAmount = 0;
+            //    decimal dcBalance = 0;
+            //    string strTenderType = "";
+
+            //    try { dcTotalAmount = decimal.Parse(txtTotalAmount.Text.ToString()); }
+            //    catch { }
+            //    try { dcTotTenderedAmt = decimal.Parse(txtTenderedAmount.Text.ToString()); }
+            //    catch { }
+            //    try { dcBalance = decimal.Parse(txtBalance.Text.ToString()); }
+            //    catch { }
+
+
+            //    try { dcCreditCard = decimal.Parse(txtCreditCard.Text.ToString()); }
+            //    catch { }
+            //    try { dcUPI = decimal.Parse(txtUPI.Text.ToString()); }
+            //    catch { }
+            //    try
+            //    {
+            //        dcCredit = decimal.Parse(txtCredit.Text.ToString());
+            //        if (dcCredit != 0)
+            //            strTenderType = "Credit Bill";
+            //        else
+            //            strTenderType = "";
+            //    }
+            //    catch { }
+            //    try { dcCash = decimal.Parse(txtCash.Text.ToString()); }
+            //    catch { }
+            //    try { dcCreditNote = decimal.Parse(txtCreditNoteAmount.Text.ToString()); }
+            //    catch { }
+
+            //    frmPOSSales2.Enabled = true;
+            //    frmPOSSales2.DowhenReturningFromPOSPaymentForm(formCancel, txtCardNo.Text.Trim(), dcCreditCard, dcUPI, dcCredit, dcCash, txtCreditNoteNo.Text.Trim(), dcCreditNote, dcTotTenderedAmt, dcBalance, strTenderType);
+            //}
+            if (frmPOSSales != null || frmPOSSales2 != null)
+            {
+                decimal dcCreditCard = 0, dcUPI = 0, dcCredit = 0, dcCash = 0, dcCreditNote = 0;
+                decimal dcTotTenderedAmt = 0, dcTotalAmount = 0, dcBalance = 0;
                 string strTenderType = "";
 
-                try { dcTotalAmount = decimal.Parse(txtTotalAmount.Text.ToString()); }
+                try { dcTotalAmount = decimal.Parse(NormalizeDigits(txtTotalAmount.Text)); }
                 catch { }
-                try { dcTotTenderedAmt = decimal.Parse(txtTenderedAmount.Text.ToString()); }
+                try { dcTotTenderedAmt = decimal.Parse(NormalizeDigits(txtTenderedAmount.Text)); } 
                 catch { }
-                try { dcBalance = decimal.Parse(txtBalance.Text.ToString()); }
+                try { dcBalance = decimal.Parse(NormalizeDigits(txtBalance.Text)); }
                 catch { }
 
+                try { dcCreditCard = decimal.Parse(NormalizeDigits(txtCreditCard.Text)); }
+                catch { }
+                try { dcUPI = decimal.Parse(NormalizeDigits(txtUPI.Text)); } 
+                catch { }
+                try { dcCredit = decimal.Parse(NormalizeDigits(txtCredit.Text)); }
+                catch { }
+                try { dcCash = decimal.Parse(NormalizeDigits(txtCash.Text)); }
+                catch { }
+                try { dcCreditNote = decimal.Parse(NormalizeDigits(txtCreditNoteAmount.Text)); }
+                catch { }
 
-                try { dcCreditCard = decimal.Parse(txtCreditCard.Text.ToString()); }
-                catch { }
-                try { dcUPI = decimal.Parse(txtUPI.Text.ToString()); }
-                catch { }
-                try { dcCredit = decimal.Parse(txtCredit.Text.ToString());
                 if (dcCredit != 0)
                     strTenderType = "Credit Bill";
                 else
-                    strTenderType = "";
-                }
-                catch { }
-                try { dcCash = decimal.Parse(txtCash.Text.ToString()); }
-                catch { }
-                try { dcCreditNote = decimal.Parse(txtCreditNoteAmount.Text.ToString()); }
-                catch { }
+                  strTenderType = "";
 
-                frmPOSSales.Enabled = true;
-                frmPOSSales.DowhenReturningFromPOSPaymentForm(formCancel, txtCardNo.Text.Trim(), dcCreditCard, dcUPI, dcCredit, dcCash, txtCreditNoteNo.Text.Trim(), dcCreditNote, dcTotTenderedAmt, dcBalance, strTenderType);
-            }
-            if (frmPOSSales2 != null)
-            {
-                decimal dcCreditCard = 0;
-                decimal dcUPI = 0;
-                decimal dcCredit = 0;
-                decimal dcCash = 0;
-                decimal dcCreditNote = 0;
-
-                decimal dcTotTenderedAmt = 0;
-                decimal dcTotalAmount = 0;
-                decimal dcBalance = 0;
-                string strTenderType = "";
-
-                try { dcTotalAmount = decimal.Parse(txtTotalAmount.Text.ToString()); }
-                catch { }
-                try { dcTotTenderedAmt = decimal.Parse(txtTenderedAmount.Text.ToString()); }
-                catch { }
-                try { dcBalance = decimal.Parse(txtBalance.Text.ToString()); }
-                catch { }
-
-
-                try { dcCreditCard = decimal.Parse(txtCreditCard.Text.ToString()); }
-                catch { }
-                try { dcUPI = decimal.Parse(txtUPI.Text.ToString()); }
-                catch { }
-                try
+                // frmPOSSales 
+                if (frmPOSSales != null)
                 {
-                    dcCredit = decimal.Parse(txtCredit.Text.ToString());
-                    if (dcCredit != 0)
-                        strTenderType = "Credit Bill";
-                    else
-                        strTenderType = "";
+                    frmPOSSales.Enabled = true;
+                    frmPOSSales.DowhenReturningFromPOSPaymentForm( formCancel,txtCardNo.Text.Trim(), dcCreditCard, dcUPI, dcCredit, dcCash, txtCreditNoteNo.Text.Trim(), dcCreditNote, dcTotTenderedAmt, dcBalance, strTenderType);
                 }
-                catch { }
-                try { dcCash = decimal.Parse(txtCash.Text.ToString()); }
-                catch { }
-                try { dcCreditNote = decimal.Parse(txtCreditNoteAmount.Text.ToString()); }
-                catch { }
 
-                frmPOSSales2.Enabled = true;
-                frmPOSSales2.DowhenReturningFromPOSPaymentForm(formCancel, txtCardNo.Text.Trim(), dcCreditCard, dcUPI, dcCredit, dcCash, txtCreditNoteNo.Text.Trim(), dcCreditNote, dcTotTenderedAmt, dcBalance, strTenderType);
+                // frmPOSSales2
+                if (frmPOSSales2 != null)
+                {
+                    frmPOSSales2.Enabled = true;
+                    frmPOSSales2.DowhenReturningFromPOSPaymentForm(formCancel,txtCardNo.Text.Trim(),dcCreditCard, dcUPI, dcCredit, dcCash,txtCreditNoteNo.Text.Trim(), dcCreditNote, dcTotTenderedAmt, dcBalance, strTenderType);
+                }
             }
+
+        }
+
+
+        //private void CalculatePaidTotal()
+        //{
+        //    decimal dcCreditCard = 0;
+        //    decimal dcUPI = 0;
+        //    decimal dcCredit = 0;
+        //    decimal dcCash = 0;
+        //    decimal dcCreditNote = 0;
+
+        //    decimal dcTotTenderedAmt = 0;
+        //    decimal dcTotalAmount = 0;
+        //    decimal dcBalance = 0;
+
+        //    try { dcTotalAmount = decimal.Parse(txtTotalAmount.Text.ToString()); }
+        //    catch { }
+
+        //    try { dcCreditCard = decimal.Parse(txtCreditCard.Text.ToString()); }
+        //    catch { }
+        //    try { dcUPI = decimal.Parse(txtUPI.Text.ToString()); }
+        //    catch { }
+        //    try { dcCredit = decimal.Parse(txtCredit.Text.ToString()); }
+        //    catch { }
+        //    try { dcCash = decimal.Parse(txtCash.Text.ToString()); }
+        //    catch { }
+        //    try { dcCreditNote = decimal.Parse(txtCreditNoteAmount.Text.ToString()); }
+        //    catch { }
+
+        //    dcTotTenderedAmt = (dcCreditCard + dcUPI + dcCredit + dcCash);
+
+        //    txtTenderedAmount.Text = Math.Round(dcTotTenderedAmt, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+        //    dcBalance = (dcTotalAmount - dcTotTenderedAmt);
+        //    if (dcBalance >= 0)
+        //    {
+        //        dcBalance = -dcBalance;
+        //    }
+        //    else
+        //    {
+        //        dcBalance = System.Math.Abs(dcBalance);
+        //    }
+        //    txtBalance.Text = Math.Round(dcBalance, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+        //}
+
+
+
+        // Convert Arabic numerals → English numerals
+        private string NormalizeDigits(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+                return "0";
+
+            return input
+
+                .Replace('١', '1')
+                .Replace('٢', '2')
+                .Replace('٣', '3')
+                .Replace('٤', '4')
+                .Replace('٥', '5')
+                .Replace('٦', '6')
+                .Replace('٧', '7')
+                .Replace('٨', '8')
+                .Replace('٩', '9');
+            
+        }
+
+        // Convert English numerals → Arabic numerals
+        private string ToArabicDigits(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+                return "٠";
+
+            return input
+
+                .Replace('1', '١')
+                .Replace('2', '٢')
+                .Replace('3', '٣')
+                .Replace('4', '٤')
+                .Replace('5', '٥')
+                .Replace('6', '٦')
+                .Replace('7', '٧')
+                .Replace('8', '٨')
+                .Replace('9', '٩');
+               
         }
 
         private void CalculatePaidTotal()
         {
+            CultureInfo ci = CultureInfo.InvariantCulture;
+
             decimal dcCreditCard = 0;
             decimal dcUPI = 0;
             decimal dcCredit = 0;
             decimal dcCash = 0;
             decimal dcCreditNote = 0;
-
             decimal dcTotTenderedAmt = 0;
             decimal dcTotalAmount = 0;
             decimal dcBalance = 0;
 
-            try { dcTotalAmount = decimal.Parse(txtTotalAmount.Text.ToString()); }
-            catch { }
+            // Parse numeric fields after normalization
+            decimal.TryParse(NormalizeDigits(txtTotalAmount.Text), NumberStyles.Any, ci, out dcTotalAmount);
+            decimal.TryParse(NormalizeDigits(txtCreditCard.Text), NumberStyles.Any, ci, out dcCreditCard);
+            decimal.TryParse(NormalizeDigits(txtUPI.Text), NumberStyles.Any, ci, out dcUPI);
+            decimal.TryParse(NormalizeDigits(txtCredit.Text), NumberStyles.Any, ci, out dcCredit);
+            decimal.TryParse(NormalizeDigits(txtCash.Text), NumberStyles.Any, ci, out dcCash);
+            decimal.TryParse(NormalizeDigits(txtCreditNoteAmount.Text), NumberStyles.Any, ci, out dcCreditNote);
 
-            try { dcCreditCard = decimal.Parse(txtCreditCard.Text.ToString()); }
-            catch { }
-            try { dcUPI = decimal.Parse(txtUPI.Text.ToString()); }
-            catch { }
-            try { dcCredit = decimal.Parse(txtCredit.Text.ToString()); }
-            catch { }
-            try { dcCash = decimal.Parse(txtCash.Text.ToString()); }
-            catch { }
-            try { dcCreditNote = decimal.Parse(txtCreditNoteAmount.Text.ToString()); }
-            catch { }
-
-            dcTotTenderedAmt = (dcCreditCard + dcUPI + dcCredit + dcCash);
-
-            txtTenderedAmount.Text = Math.Round(dcTotTenderedAmt, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
-            dcBalance = (dcTotalAmount - dcTotTenderedAmt);
+            dcTotTenderedAmt = dcCreditCard + dcUPI + dcCredit + dcCash;
+            dcBalance = dcTotalAmount - dcTotTenderedAmt;
             if (dcBalance >= 0)
             {
                 dcBalance = -dcBalance;
@@ -307,9 +431,35 @@ namespace FinacPOS
             {
                 dcBalance = System.Math.Abs(dcBalance);
             }
-            txtBalance.Text = Math.Round(dcBalance, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart);
+            string tendered = Math.Round(dcTotTenderedAmt, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart, ci);
+            string balance = Math.Round(dcBalance, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart, ci);
 
+           
+            if (PublicVariables._ModuleLanguage == "ARB")
+            {
+                txtTotalAmount.Text = ToArabicDigits(dcTotalAmount.ToString(FinanceSettingsInfo._roundDecimalPart, ci));
+                txtCreditCard.Text = ToArabicDigits(dcCreditCard.ToString(FinanceSettingsInfo._roundDecimalPart, ci));
+                txtUPI.Text = ToArabicDigits(dcUPI.ToString(FinanceSettingsInfo._roundDecimalPart, ci));
+                txtCredit.Text = ToArabicDigits(dcCredit.ToString(FinanceSettingsInfo._roundDecimalPart, ci));
+                txtCash.Text = ToArabicDigits(dcCash.ToString(FinanceSettingsInfo._roundDecimalPart, ci));
+                txtCreditNoteAmount.Text = ToArabicDigits(dcCreditNote.ToString(FinanceSettingsInfo._roundDecimalPart, ci));
+                txtTenderedAmount.Text = ToArabicDigits(tendered);
+                txtBalance.Text = ToArabicDigits(balance);
+            }
+            else
+            {
+                txtTotalAmount.Text = dcTotalAmount.ToString(FinanceSettingsInfo._roundDecimalPart, ci);
+                txtCreditCard.Text = dcCreditCard.ToString(FinanceSettingsInfo._roundDecimalPart, ci);
+                txtUPI.Text = dcUPI.ToString(FinanceSettingsInfo._roundDecimalPart, ci);
+                txtCredit.Text = dcCredit.ToString(FinanceSettingsInfo._roundDecimalPart, ci);
+                txtCash.Text = dcCash.ToString(FinanceSettingsInfo._roundDecimalPart, ci);
+                txtCreditNoteAmount.Text = dcCreditNote.ToString(FinanceSettingsInfo._roundDecimalPart, ci);
+                txtTenderedAmount.Text = tendered;
+                txtBalance.Text = balance;
+            }
         }
+
+
         private decimal CalculateBalanceTenderedAmt()
         {
             decimal dcCreditCard = 0;
@@ -343,21 +493,94 @@ namespace FinacPOS
 
             return dcBalance;
         }
+        // private void CNAdjestCalculate()
+        //  {
+        //txtCreditNoteAmount.Text = POSSalesMasterSP.GetCreditNoteAmount(txtCreditNoteNo.Text.Trim());
+
+        //decimal dcCreditNote = 0;
+        //try { dcCreditNote = decimal.Parse(txtCreditNoteAmount.Text.ToString()); }
+        //catch { }
+
+        //if (dcCreditNote != 0)
+        //{
+        //    decimal dcTotalAmount = 0;
+        //    try { dcTotalAmount = decimal.Parse(txtTotalAmount.Text.ToString()); }
+        //    catch { }
+
+        //    txtTotalAmount.Text = (dcTotalAmount - dcCreditNote).ToString(FinanceSettingsInfo._roundDecimalPart);
+
+        //    if (strFromPaymentMethod == "Cash")
+        //    {
+        //        txtCash.Text = txtTotalAmount.Text.ToString();
+        //        txtCash.Focus();
+        //        txtCash.SelectAll();
+        //        txtTouchTextBox = txtCash;
+        //        txtKeyBoardText.Clear();
+        //    }
+        //    else if (strFromPaymentMethod == "CreditCard")
+        //    {
+        //        txtCreditCard.Text = txtTotalAmount.Text.ToString();
+        //        txtCreditCard.Focus();
+        //        txtCreditCard.SelectAll();
+        //        txtTouchTextBox = txtCreditCard;
+        //        txtKeyBoardText.Clear();
+        //    }
+        //    else if (strFromPaymentMethod == "UPI")
+        //    {
+        //        txtUPI.Text = txtTotalAmount.Text.ToString();
+        //        txtUPI.Focus();
+        //        txtUPI.SelectAll();
+        //        txtTouchTextBox = txtUPI;
+        //        txtKeyBoardText.Clear();
+        //    }
+        //    else if (strFromPaymentMethod == "Credit")
+        //    {
+        //        txtCredit.Text = txtTotalAmount.Text.ToString();
+        //        txtCredit.Focus();
+        //        txtCredit.SelectAll();
+        //        txtTouchTextBox = txtCredit;
+        //        txtKeyBoardText.Clear();
+        //    }
+
+        //    CalculatePaidTotal();
+        //}
+        //else
+        //{
+        //    if (PublicVariables._ModuleLanguage == "ENG")
+        //    {
+        //        MessageBox.Show("Credit Note already used", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //    }
+        //    else if (PublicVariables._ModuleLanguage == "ARB")
+        //    {
+        //        MessageBox.Show("تم استخدام إشعار الدائن بالفعل", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //    }
+
+        //    txtCreditNoteNo.Clear(); 
+        //}
         private void CNAdjestCalculate()
         {
             txtCreditNoteAmount.Text = POSSalesMasterSP.GetCreditNoteAmount(txtCreditNoteNo.Text.Trim());
 
             decimal dcCreditNote = 0;
-            try { dcCreditNote = decimal.Parse(txtCreditNoteAmount.Text.ToString()); }
+            try { dcCreditNote = decimal.Parse(NormalizeDigits(txtCreditNoteAmount.Text)); }
             catch { }
 
             if (dcCreditNote != 0)
             {
                 decimal dcTotalAmount = 0;
-                try { dcTotalAmount = decimal.Parse(txtTotalAmount.Text.ToString()); }
+                try { dcTotalAmount = decimal.Parse(NormalizeDigits(txtTotalAmount.Text)); } 
                 catch { }
 
-                txtTotalAmount.Text = (dcTotalAmount - dcCreditNote).ToString(FinanceSettingsInfo._roundDecimalPart);
+              
+                dcTotalAmount = dcTotalAmount - dcCreditNote;
+
+                string newTotal = Math.Round(dcTotalAmount, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart, CultureInfo.InvariantCulture);
+
+                if (PublicVariables._ModuleLanguage == "ARB")
+                    txtTotalAmount.Text = ToArabicDigits(newTotal);
+                else
+                    txtTotalAmount.Text = newTotal;
+
 
                 if (strFromPaymentMethod == "Cash")
                 {
@@ -397,17 +620,12 @@ namespace FinacPOS
             else
             {
                 if (PublicVariables._ModuleLanguage == "ENG")
-                {
                     MessageBox.Show("Credit Note already used", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else if (PublicVariables._ModuleLanguage == "ARB")
-                {
+                else
                     MessageBox.Show("تم استخدام إشعار الدائن بالفعل", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
 
-                txtCreditNoteNo.Clear(); 
+                txtCreditNoteNo.Clear();
             }
-  
         }
         private void frmPOSPayment_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -634,8 +852,147 @@ namespace FinacPOS
             CalculatePaidTotal(); 
         }
 
-        private void btnEnter_Click(object sender, EventArgs e)
+      //  private void btnEnter_Click(object sender, EventArgs e)
+       // {
+            //if (txtTouchTextBox.Name == "txtCardNo")
+            //{
+            //    strFocusedControl = "txtCreditCard";
+            //    txtTouchTextBox = txtCreditCard;
+            //    txtCreditCard.Focus();
+            //    txtCreditCard.SelectAll();
+            //}
+            //else if (txtTouchTextBox.Name == "txtCreditCard")
+            //{
+            //    decimal dcCreditCard = 0;
+            //    decimal dcTotalAmount = 0;
+            //    decimal dcUPI = 0;
+
+            //    try { dcUPI = decimal.Parse(txtUPI.Text.ToString()); }
+            //    catch { }
+            //    try { dcCreditCard = decimal.Parse(txtCreditCard.Text.ToString()); }
+            //    catch { }
+            //    try { dcTotalAmount = decimal.Parse(txtTotalAmount.Text.ToString()); }
+            //    catch { }
+
+            //    txtCreditCard.Text = dcCreditCard.ToString(FinanceSettingsInfo._roundDecimalPart);
+
+            //    if (dcCreditCard != 0)
+            //    {
+            //        if ((dcCreditCard + dcUPI) > dcTotalAmount)
+            //        {
+            //            if (PublicVariables._ModuleLanguage == "ENG")
+            //            {
+            //                MessageBox.Show("Cannot exceed Total Amount", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //            }
+            //            else if (PublicVariables._ModuleLanguage == "ARB")
+            //            {
+            //                MessageBox.Show("لا يمكن تجاوز المبلغ الإجمالي", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //            }
+
+
+            //            //txtCreditCard.Text = (dcTotalAmount - (dcUPI)).ToString(SettingsInfo._roundDecimalPart);
+            //            //try { dcCreditCard = decimal.Parse(txtCreditCard.Text.ToString()); }
+            //            //catch { }
+            //            txtCreditCard.Focus();
+            //            txtCreditCard.SelectAll();
+
+            //            //txtCreditCard.Clear();
+            //            txtKeyBoardText.Clear();
+            //            txtCash.Text = (0m).ToString(FinanceSettingsInfo._roundDecimalPart);
+
+
+            //            return;
+            //        }
+            //        txtCash.Text = (dcTotalAmount - (dcCreditCard + dcUPI)).ToString(FinanceSettingsInfo._roundDecimalPart) ;
+            //        CalculatePaidTotal();
+            //        //btnCash_Click(e, e);
+            //    }
+            //    txtCash.Focus();
+            //    txtCash.SelectAll();
+            //}
+            //else if (txtTouchTextBox.Name == "txtUPI")
+            //{
+            //    decimal dcCreditCard = 0;
+            //    decimal dcTotalAmount = 0;
+            //    decimal dcUPI = 0;
+
+
+            //    try { dcUPI = decimal.Parse(txtUPI.Text.ToString()); }
+            //    catch { }
+            //    try { dcCreditCard = decimal.Parse(txtCreditCard.Text.ToString()); }
+            //    catch { }
+            //    try { dcTotalAmount = decimal.Parse(txtTotalAmount.Text.ToString()); }
+            //    catch { }
+
+            //    txtUPI.Text = dcUPI.ToString(FinanceSettingsInfo._roundDecimalPart);
+
+            //    if (dcUPI != 0)
+            //    {
+            //        if ((dcCreditCard + dcUPI) > dcTotalAmount)
+            //        {
+            //            if (PublicVariables._ModuleLanguage == "ENG")
+            //            {
+            //                MessageBox.Show("Cannot exceed Total Amount", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //            }
+            //            else if (PublicVariables._ModuleLanguage == "ARB")
+            //            {
+            //                MessageBox.Show("لا يمكن تجاوز المبلغ الإجمالي", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //            }
+
+
+            //            //txtUPI.Text = (dcTotalAmount - (dcCreditCard)).ToString(SettingsInfo._roundDecimalPart);
+            //            //try { dcUPI = decimal.Parse(txtUPI.Text.ToString()); }
+            //            //catch { }
+            //            txtUPI.Focus();
+            //            txtUPI.SelectAll();
+            //            //txtUPI.Clear();
+            //            txtKeyBoardText.Clear();
+            //            txtCash.Text = (0m).ToString(FinanceSettingsInfo._roundDecimalPart);
+            //            return;
+            //        }
+            //        txtCash.Text = (dcTotalAmount - (dcCreditCard + dcUPI)).ToString(FinanceSettingsInfo._roundDecimalPart);
+            //        CalculatePaidTotal();
+            //        //btnCash_Click(e, e);
+            //    }
+            //    txtCash.Focus();
+            //    txtCash.SelectAll();
+            //}
+            //else if (txtTouchTextBox.Name == "txtCash")
+            //{
+            //    decimal dcCreditCard = 0;
+            //    decimal dcTotalAmount = 0;
+            //    decimal dcUPI = 0;
+            //    decimal dcCash = 0;
+
+            //    try { dcCash = decimal.Parse(txtCash.Text.ToString()); }
+            //    catch { }
+            //    try { dcUPI = decimal.Parse(txtUPI.Text.ToString()); }
+            //    catch { }
+            //    try { dcCreditCard = decimal.Parse(txtCreditCard.Text.ToString()); }
+            //    catch { }
+            //    try { dcTotalAmount = decimal.Parse(txtTotalAmount.Text.ToString()); }
+            //    catch { }
+
+            //    //if (dcCash != 0)
+            //    //{
+            //    //txtCash.Text = (dcTotalAmount - (dcCreditCard + dcUPI)).ToString(SettingsInfo._roundDecimalPart);
+            //    CalculatePaidTotal();
+            //    //}
+
+            //    btnSave.Focus();
+            //}
+            //else if (txtTouchTextBox.Name == "txtCreditNoteNo")
+            //{
+            //    if (txtCreditNoteNo.Text.Trim() != "")
+            //    {
+            //        CNAdjestCalculate();
+            //    }
+            //}
+            //txtKeyBoardText.Clear();
+      private void btnEnter_Click(object sender, EventArgs e)
         {
+            CultureInfo ci = CultureInfo.InvariantCulture;
+
             if (txtTouchTextBox.Name == "txtCardNo")
             {
                 strFocusedControl = "txtCreditCard";
@@ -645,136 +1002,111 @@ namespace FinacPOS
             }
             else if (txtTouchTextBox.Name == "txtCreditCard")
             {
-                decimal dcCreditCard = 0;
-                decimal dcTotalAmount = 0;
-                decimal dcUPI = 0;
+                decimal dcCreditCard = 0, dcTotalAmount = 0, dcUPI = 0;
 
-                try { dcUPI = decimal.Parse(txtUPI.Text.ToString()); }
-                catch { }
-                try { dcCreditCard = decimal.Parse(txtCreditCard.Text.ToString()); }
-                catch { }
-                try { dcTotalAmount = decimal.Parse(txtTotalAmount.Text.ToString()); }
-                catch { }
+                decimal.TryParse(NormalizeDigits(txtUPI.Text), NumberStyles.Any, ci, out dcUPI);
+                decimal.TryParse(NormalizeDigits(txtCreditCard.Text), NumberStyles.Any, ci, out dcCreditCard);
+                decimal.TryParse(NormalizeDigits(txtTotalAmount.Text), NumberStyles.Any, ci, out dcTotalAmount);
 
-                txtCreditCard.Text = dcCreditCard.ToString(FinanceSettingsInfo._roundDecimalPart);
+                txtCreditCard.Text = dcCreditCard.ToString(FinanceSettingsInfo._roundDecimalPart, ci);
 
                 if (dcCreditCard != 0)
                 {
                     if ((dcCreditCard + dcUPI) > dcTotalAmount)
                     {
                         if (PublicVariables._ModuleLanguage == "ENG")
-                        {
                             MessageBox.Show("Cannot exceed Total Amount", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
                         else if (PublicVariables._ModuleLanguage == "ARB")
-                        {
                             MessageBox.Show("لا يمكن تجاوز المبلغ الإجمالي", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
 
-
-                        //txtCreditCard.Text = (dcTotalAmount - (dcUPI)).ToString(SettingsInfo._roundDecimalPart);
-                        //try { dcCreditCard = decimal.Parse(txtCreditCard.Text.ToString()); }
-                        //catch { }
                         txtCreditCard.Focus();
                         txtCreditCard.SelectAll();
-
-                        //txtCreditCard.Clear();
                         txtKeyBoardText.Clear();
-                        txtCash.Text = (0m).ToString(FinanceSettingsInfo._roundDecimalPart);
-
-
+                        txtCash.Text = (0m).ToString(FinanceSettingsInfo._roundDecimalPart, ci);
                         return;
                     }
-                    txtCash.Text = (dcTotalAmount - (dcCreditCard + dcUPI)).ToString(FinanceSettingsInfo._roundDecimalPart) ;
+
+                    //txtCash.Text = (dcTotalAmount - (dcCreditCard + dcUPI))
+                    //    .ToString(FinanceSettingsInfo._roundDecimalPart, ci);
+
+
+                    //  Insert Arabic/English
+                    decimal remainingCash = dcTotalAmount - (dcCreditCard + dcUPI);
+                    string newCash = Math.Round(remainingCash, FinanceSettingsInfo._roundDecimal).ToString(FinanceSettingsInfo._roundDecimalPart, CultureInfo.InvariantCulture);
+                    if (PublicVariables._ModuleLanguage == "ARB")
+                        txtCash.Text = ToArabicDigits(newCash);
+                    else
+                        txtCash.Text = newCash;
                     CalculatePaidTotal();
-                    //btnCash_Click(e, e);
                 }
+
                 txtCash.Focus();
                 txtCash.SelectAll();
             }
             else if (txtTouchTextBox.Name == "txtUPI")
             {
-                decimal dcCreditCard = 0;
-                decimal dcTotalAmount = 0;
-                decimal dcUPI = 0;
+                decimal dcCreditCard = 0, dcTotalAmount = 0, dcUPI = 0;
 
-             
-                try { dcUPI = decimal.Parse(txtUPI.Text.ToString()); }
-                catch { }
-                try { dcCreditCard = decimal.Parse(txtCreditCard.Text.ToString()); }
-                catch { }
-                try { dcTotalAmount = decimal.Parse(txtTotalAmount.Text.ToString()); }
-                catch { }
+                decimal.TryParse(NormalizeDigits(txtUPI.Text), NumberStyles.Any, ci, out dcUPI);
+                decimal.TryParse(NormalizeDigits(txtCreditCard.Text), NumberStyles.Any, ci, out dcCreditCard);
+                decimal.TryParse(NormalizeDigits(txtTotalAmount.Text), NumberStyles.Any, ci, out dcTotalAmount);
 
-                txtUPI.Text = dcUPI.ToString(FinanceSettingsInfo._roundDecimalPart);
+                txtUPI.Text = dcUPI.ToString(FinanceSettingsInfo._roundDecimalPart, ci);
 
                 if (dcUPI != 0)
                 {
                     if ((dcCreditCard + dcUPI) > dcTotalAmount)
                     {
                         if (PublicVariables._ModuleLanguage == "ENG")
-                        {
                             MessageBox.Show("Cannot exceed Total Amount", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
                         else if (PublicVariables._ModuleLanguage == "ARB")
-                        {
                             MessageBox.Show("لا يمكن تجاوز المبلغ الإجمالي", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
 
-
-                        //txtUPI.Text = (dcTotalAmount - (dcCreditCard)).ToString(SettingsInfo._roundDecimalPart);
-                        //try { dcUPI = decimal.Parse(txtUPI.Text.ToString()); }
-                        //catch { }
                         txtUPI.Focus();
                         txtUPI.SelectAll();
-                        //txtUPI.Clear();
                         txtKeyBoardText.Clear();
-                        txtCash.Text = (0m).ToString(FinanceSettingsInfo._roundDecimalPart);
+                        txtCash.Text = (0m).ToString(FinanceSettingsInfo._roundDecimalPart, ci);
                         return;
                     }
-                    txtCash.Text = (dcTotalAmount - (dcCreditCard + dcUPI)).ToString(FinanceSettingsInfo._roundDecimalPart);
+
+                    //txtCash.Text = (dcTotalAmount - (dcCreditCard + dcUPI))
+                    //    .ToString(FinanceSettingsInfo._roundDecimalPart, ci);
+
+                    //  Insert Arabic/English-aware update here
+                    decimal remainingCash = dcTotalAmount - (dcCreditCard + dcUPI);
+                    string newCash = Math.Round(remainingCash, FinanceSettingsInfo._roundDecimal)
+                        .ToString(FinanceSettingsInfo._roundDecimalPart, CultureInfo.InvariantCulture);
+                    if (PublicVariables._ModuleLanguage == "ARB")
+                        txtCash.Text = ToArabicDigits(newCash);
+                    else
+                        txtCash.Text = newCash;
                     CalculatePaidTotal();
-                    //btnCash_Click(e, e);
                 }
+
                 txtCash.Focus();
                 txtCash.SelectAll();
             }
             else if (txtTouchTextBox.Name == "txtCash")
             {
-                decimal dcCreditCard = 0;
-                decimal dcTotalAmount = 0;
-                decimal dcUPI = 0;
-                decimal dcCash = 0;
+                decimal dcCreditCard = 0, dcTotalAmount = 0, dcUPI = 0, dcCash = 0;
 
-                try { dcCash = decimal.Parse(txtCash.Text.ToString()); }
-                catch { }
-                try { dcUPI = decimal.Parse(txtUPI.Text.ToString()); }
-                catch { }
-                try { dcCreditCard = decimal.Parse(txtCreditCard.Text.ToString()); }
-                catch { }
-                try { dcTotalAmount = decimal.Parse(txtTotalAmount.Text.ToString()); }
-                catch { }
+                decimal.TryParse(NormalizeDigits(txtCash.Text), NumberStyles.Any, ci, out dcCash);
+                decimal.TryParse(NormalizeDigits(txtUPI.Text), NumberStyles.Any, ci, out dcUPI);
+                decimal.TryParse(NormalizeDigits(txtCreditCard.Text), NumberStyles.Any, ci, out dcCreditCard);
+                decimal.TryParse(NormalizeDigits(txtTotalAmount.Text), NumberStyles.Any, ci, out dcTotalAmount);
 
-                //if (dcCash != 0)
-                //{
-                //txtCash.Text = (dcTotalAmount - (dcCreditCard + dcUPI)).ToString(SettingsInfo._roundDecimalPart);
                 CalculatePaidTotal();
-                //}
-
                 btnSave.Focus();
             }
             else if (txtTouchTextBox.Name == "txtCreditNoteNo")
             {
                 if (txtCreditNoteNo.Text.Trim() != "")
-                {
                     CNAdjestCalculate();
-                }
             }
+
             txtKeyBoardText.Clear();
 
 
-            
-            
 
         }
         public void caluclate()
@@ -872,10 +1204,12 @@ namespace FinacPOS
             {
                 txtCredit.Text = total.ToString("F2");
             }
-            
+
 
 
         }
+      
+       
         private void btnSave_Click(object sender, EventArgs e)
         {
             decimal dcTotalAmount = 0;
@@ -1012,6 +1346,11 @@ namespace FinacPOS
         {
             clsGeneral objGeneral = new clsGeneral();
             objGeneral.formSettings(this);
+        }
+        private void UpdateToArabicIfNeeded(TextBox txt)
+        {
+            if (PublicVariables._ModuleLanguage == "ARB")
+                txt.Text = ToArabicDigits(txt.Text);
         }
     }
 }

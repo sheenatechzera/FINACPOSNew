@@ -1,11 +1,14 @@
 ﻿using DevExpress.CodeParser;
+using FinacAcount;
 using FinacPOS.Masters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Windows.Forms;
 
@@ -21,6 +24,9 @@ namespace FinacPOS
         public static bool isEstimateDB = false; // to indicate whether actual company or estimate company
         public static string strEstimateCompanyPath = "E:\\Varis Finac"; // to store path name of estimate company
         private string strcmbLastFontValue;
+        public static string DBLocation = "Local";// for cloud db login
+                                                  // public static string DBLocation = "Cloud";// for cloud db login
+        public static string clientName = "productImage"; // to save name of client for showing their updations.
         #endregion
 
         public MDIFinacPOS()
@@ -148,7 +154,7 @@ namespace FinacPOS
             ////DataRow[] dr;
             ////if (dtblCompanises.Rows.Count > 0)
             ////{
-              
+
             ////    if (dtblCompanises.Rows.Count == 1)
             ////    {
             ////        // Only one company exist
@@ -200,7 +206,7 @@ namespace FinacPOS
             ////            frmobj.WindowState = FormWindowState.Normal;
             ////            frmobj.MdiParent = MDIObj;
             ////            frmobj.Show();
-                      
+
             ////        }
             ////    }
             ////    else
@@ -214,7 +220,26 @@ namespace FinacPOS
 
             ////    }
             ////}
+            ///
+            string strServer = ".\\sqlExpress";
+            string strDBName = "DBFINACACCOUNT";
 
+            // Read from sys.txt if available
+            string sysPath = Path.Combine(Application.StartupPath, "sys.txt");
+            if (File.Exists(sysPath))
+            {
+                string[] values = File.ReadAllText(sysPath).Split(',');
+                strServer = values[0].Trim();
+                strDBName = values[1].Trim();
+                // Determine cloud/local by checking if the server is an IP address
+                IPAddress ipAddress;
+                if (IPAddress.TryParse(strServer, out ipAddress))
+                {
+                    DBLocation = "Cloud"; // It's a cloud server (IP)
+                }
+                else
+                    DBLocation="Local"; // It's a local server (not an IP)
+            }
             // get default branch
             BranchSP SpBranch = new BranchSP();
             DataTable dtblBranch = new DataTable();
@@ -261,9 +286,9 @@ namespace FinacPOS
             //}
             //else
             //{
-                //create menu from database
-                CreateMenus();
-             
+            //create menu from database
+            CreateMenus();
+
 
             //POS Settings
             POSSettingsInfo InfoPOSSettings = new POSSettingsInfo();
@@ -1293,11 +1318,381 @@ namespace FinacPOS
 
                     }
                 }
-              
+                else if (NameFrm == "Product Creation")
+                {
+                    frmProductCreation frmProductCreation = new frmProductCreation();
+                    frmProductCreation _isOpen = Application.OpenForms["frmProductCreation"] as frmProductCreation;
+                    if (_isOpen == null)
+                    {
+                        frmProductCreation.WindowState = FormWindowState.Normal;
+                        frmProductCreation.MdiParent = MDIObj;
+                        frmProductCreation.Show();
+                    }
+                    else
+                    {
+                        _isOpen.MdiParent = MDIObj;
+                        if (_isOpen.WindowState == FormWindowState.Minimized)
+                        {
+                            _isOpen.WindowState = FormWindowState.Normal;
+                        }
+                        if (_isOpen.Enabled)
+                        {
+                            _isOpen.Activate();
+                            _isOpen.BringToFront();
+                        }
+
+                    }
+                }
+                else if (NameFrm == "Customer Creation")
+                {
+                    frmCustomer frmCustomer = new frmCustomer();
+                    frmCustomer _isOpen = Application.OpenForms["frmCustomer"] as frmCustomer;
+                    if (_isOpen == null)
+                    {
+                        frmCustomer.WindowState = FormWindowState.Normal;
+                        frmCustomer.MdiParent = MDIObj;
+                        frmCustomer.Show();
+                    }
+                    else
+                    {
+                        _isOpen.MdiParent = MDIObj;
+                        if (_isOpen.WindowState == FormWindowState.Minimized)
+                        {
+                            _isOpen.WindowState = FormWindowState.Normal;
+                        }
+                        if (_isOpen.Enabled)
+                        {
+                            _isOpen.Activate();
+                            _isOpen.BringToFront();
+                        }
+
+                    }
+                }
+                else if (NameFrm == "Settings" )
+                {
+                    frmInventorySettings frmObj = new frmInventorySettings();
+                    frmInventorySettings _isOpen = Application.OpenForms["frmInventorySettings"] as frmInventorySettings;
+                    if (_isOpen == null)
+                    {
+                        frmObj.WindowState = FormWindowState.Normal;
+                        frmObj.MdiParent = MDIObj;
+                        frmObj.Show();
+                    }
+                    else
+                    {
+                        _isOpen.MdiParent = MDIObj;
+                        if (_isOpen.WindowState == FormWindowState.Minimized)
+                        {
+                            _isOpen.WindowState = FormWindowState.Normal;
+                        }
+                        if (_isOpen.Enabled)
+                        {
+                            _isOpen.Activate();
+                            _isOpen.BringToFront();
+                        }
+
+                    }
+                }
+                else if (NameFrm == "Bill Wise Sales Report")
+                {
+                    rptPOSBillWiseSalesReport rptPOSBillWiseSalesReport = new rptPOSBillWiseSalesReport();
+                    rptPOSBillWiseSalesReport _isOpen = Application.OpenForms["rptPOSBillWiseSalesReport"] as rptPOSBillWiseSalesReport;
+                    if (_isOpen == null)
+                    {
+                        rptPOSBillWiseSalesReport.WindowState = FormWindowState.Normal;
+                        rptPOSBillWiseSalesReport.MdiParent = MDIObj;
+                        rptPOSBillWiseSalesReport.Show();
+                    }
+                    else
+                    {
+                        _isOpen.MdiParent = MDIObj;
+                        if (_isOpen.WindowState == FormWindowState.Minimized)
+                        {
+                            _isOpen.WindowState = FormWindowState.Normal;
+                        }
+                        if (_isOpen.Enabled)
+                        {
+                            _isOpen.Activate();
+                            _isOpen.BringToFront();
+                        }
+
+                    }
+                }
+                else if (NameFrm == "Category wise Sales")
+                {
+                    rptPOSProductReport rptPOSProductReport = new rptPOSProductReport();
+                    rptPOSProductReport _isOpen = Application.OpenForms["rptPOSProductReport"] as rptPOSProductReport;
+                    if (_isOpen == null)
+                    {
+                        rptPOSProductReport.WindowState = FormWindowState.Normal;
+                        rptPOSProductReport.MdiParent = MDIObj;
+                        rptPOSProductReport.Show();
+                    }
+                    else
+                    {
+                        _isOpen.MdiParent = MDIObj;
+                        if (_isOpen.WindowState == FormWindowState.Minimized)
+                        {
+                            _isOpen.WindowState = FormWindowState.Normal;
+                        }
+                        if (_isOpen.Enabled)
+                        {
+                            _isOpen.Activate();
+                            _isOpen.BringToFront();
+                        }
+
+                    }
+                }
+                else if (NameFrm == "Hourly Base Sales report")
+                {
+                    rptPOSHourlyBaseSalesReport rptPOSHourlyBaseSalesReport = new rptPOSHourlyBaseSalesReport();
+                    rptPOSHourlyBaseSalesReport _isOpen = Application.OpenForms["rptPOSHourlyBaseSalesReport"] as rptPOSHourlyBaseSalesReport;
+                    if (_isOpen == null)
+                    {
+                        rptPOSHourlyBaseSalesReport.WindowState = FormWindowState.Normal;
+                        rptPOSHourlyBaseSalesReport.MdiParent = MDIObj;
+                        rptPOSHourlyBaseSalesReport.Show();
+                    }
+                    else
+                    {
+                        _isOpen.MdiParent = MDIObj;
+                        if (_isOpen.WindowState == FormWindowState.Minimized)
+                        {
+                            _isOpen.WindowState = FormWindowState.Normal;
+                        }
+                        if (_isOpen.Enabled)
+                        {
+                            _isOpen.Activate();
+                            _isOpen.BringToFront();
+                        }
+
+                    }
+                }
+                else if (NameFrm == "Exchange Product Report")
+                {
+                    rptPOSExchangedItem rptPOSExchangedItem = new rptPOSExchangedItem();
+                    rptPOSExchangedItem _isOpen = Application.OpenForms["rptPOSExchangedItem"] as rptPOSExchangedItem;
+                    if (_isOpen == null)
+                    {
+                        rptPOSExchangedItem.WindowState = FormWindowState.Normal;
+                        rptPOSExchangedItem.MdiParent = MDIObj;
+                        rptPOSExchangedItem.Show();
+                    }
+                    else
+                    {
+                        _isOpen.MdiParent = MDIObj;
+                        if (_isOpen.WindowState == FormWindowState.Minimized)
+                        {
+                            _isOpen.WindowState = FormWindowState.Normal;
+                        }
+                        if (_isOpen.Enabled)
+                        {
+                            _isOpen.Activate();
+                            _isOpen.BringToFront();
+                        }
+
+                    }
+                }
+               
+                else if (NameFrm == "Product Sales Summery" )
+                {
+                    rptPOSProductSalesSummery frmObj = new rptPOSProductSalesSummery();
+                    rptPOSProductSalesSummery _isOpen = Application.OpenForms["rptPOSProductSalesSummery"] as rptPOSProductSalesSummery;
+                    if (_isOpen == null)
+                    {
+                        frmObj.WindowState = FormWindowState.Normal;
+                        frmObj.MdiParent = MDIObj;
+                        frmObj.Show();
+                    }
+                    else
+                    {
+                        _isOpen.MdiParent = MDIObj;
+                        if (_isOpen.WindowState == FormWindowState.Minimized)
+                        {
+                            _isOpen.WindowState = FormWindowState.Normal;
+                        }
+                        if (_isOpen.Enabled)
+                        {
+                            _isOpen.Activate();
+                            _isOpen.BringToFront();
+                        }
+                    }
+                }
+                
+               
+                else if (NameFrm == "Hold Bill Report" )
+                {
+                    rptPOSHoldBillReport frmObj = new rptPOSHoldBillReport();
+                    rptPOSHoldBillReport _isOpen = Application.OpenForms["rptPOSHoldBillReport"] as rptPOSHoldBillReport;
+                    if (_isOpen == null)
+                    {
+                        frmObj.WindowState = FormWindowState.Normal;
+                        frmObj.MdiParent = MDIObj;
+                        frmObj.Show();
+                    }
+                    else
+                    {
+                        _isOpen.MdiParent = MDIObj;
+                        if (_isOpen.WindowState == FormWindowState.Minimized)
+                        {
+                            _isOpen.WindowState = FormWindowState.Normal;
+                        }
+                        if (_isOpen.Enabled)
+                        {
+                            _isOpen.Activate();
+                            _isOpen.BringToFront();
+                        }
+                    }
+                }
+                else if (NameFrm == "Cancelled Bill History" )
+                {
+
+                    rptPOSCanceledBillHistory frmObj = new rptPOSCanceledBillHistory();
+                    rptPOSCanceledBillHistory _isOpen = Application.OpenForms["rptPOSCanceledBillHistory"] as rptPOSCanceledBillHistory;
+
+                    if (_isOpen == null)
+                    {
+                        frmObj.WindowState = FormWindowState.Normal;
+                        frmObj.MdiParent = MDIObj;
+                        frmObj.CancelledReport = true;
+                        frmObj.Show();
+                    }
+                    else
+                    {
+                        _isOpen.MdiParent = MDIObj;
+                        _isOpen.CancelledReport = true;
+                        if (_isOpen.WindowState == FormWindowState.Minimized)
+                        {
+                            _isOpen.WindowState = FormWindowState.Normal;
+                        }
+                        if (_isOpen.Enabled)
+                        {
+                            _isOpen.Activate();
+                            _isOpen.BringToFront();
+                        }
+                    }
+                }
+                else if (NameFrm == "Deleted Product History" )
+                {
+
+                    rptPOSCanceledBillHistory frmObj = new rptPOSCanceledBillHistory();
+                    rptPOSCanceledBillHistory _isOpen = Application.OpenForms["rptPOSCanceledBillHistory"] as rptPOSCanceledBillHistory;
+
+                    if (_isOpen == null)
+                    {
+                        frmObj.WindowState = FormWindowState.Normal;
+                        frmObj.MdiParent = MDIObj;
+                        frmObj.deletedReport = true;
+                        frmObj.Show();
+                    }
+                    else
+                    {
+                        _isOpen.MdiParent = MDIObj;
+                        _isOpen.deletedReport = true;
+                        if (_isOpen.WindowState == FormWindowState.Minimized)
+                        {
+                            _isOpen.WindowState = FormWindowState.Normal;
+                        }
+                        if (_isOpen.Enabled)
+                        {
+                            _isOpen.Activate();
+                            _isOpen.BringToFront();
+                        }
+                    }
+                }
+                else if (NameFrm == "POS Offer Rate Report")
+                {
+                    rptPOSOfferReport frmObj = new rptPOSOfferReport();
+                    rptPOSOfferReport _isOpen = Application.OpenForms["rptPOSOfferReport"] as rptPOSOfferReport;
+                    if (_isOpen == null)
+                    {
+                        frmObj.WindowState = FormWindowState.Normal;
+                        frmObj.MdiParent = MDIObj;
+                        frmObj.Show();
+                    }
+                    else
+                    {
+                        _isOpen.MdiParent = MDIObj;
+                        if (_isOpen.WindowState == FormWindowState.Minimized)
+                        {
+                            _isOpen.WindowState = FormWindowState.Normal;
+                        }
+                        if (_isOpen.Enabled)
+                        {
+                            _isOpen.Activate();
+                            _isOpen.BringToFront();
+                        }
+                    }
+                }
+                else if (NameFrm == "Tender Type Wise Sales Report")
+                {
+                    rptTenderTypeWiseSalesReport frmObj = new rptTenderTypeWiseSalesReport();
+                    rptTenderTypeWiseSalesReport _isOpen = Application.OpenForms["rptTenderTypeWiseSalesReport"] as rptTenderTypeWiseSalesReport;
+                    if (_isOpen == null)
+                    {
+                        frmObj.WindowState = FormWindowState.Normal;
+                        frmObj.MdiParent = MDIObj;
+                        frmObj.Show();
+                    }
+                    else
+                    {
+                        _isOpen.MdiParent = MDIObj;
+                        if (_isOpen.WindowState == FormWindowState.Minimized)
+                        {
+                            _isOpen.WindowState = FormWindowState.Normal;
+                        }
+                        if (_isOpen.Enabled)
+                        {
+                            _isOpen.Activate();
+                            _isOpen.BringToFront();
+                        }
+                    }
+                }
+                else if (NameFrm == "Daily Sales Summery")
+                {
+                    rptPOSDailySales frmObj = new rptPOSDailySales();
+                    rptPOSDailySales _isOpen = Application.OpenForms["rptPOSDailySales"] as rptPOSDailySales;
+                    if (_isOpen == null)
+                    {
+                        frmObj.WindowState = FormWindowState.Normal;
+                        frmObj.MdiParent = MDIObj;
+                        frmObj.Show();
+                    }
+                    else
+                    {
+                        _isOpen.MdiParent = MDIObj;
+                        if (_isOpen.WindowState == FormWindowState.Minimized)
+                        {
+                            _isOpen.WindowState = FormWindowState.Normal;
+                        }
+                        if (_isOpen.Enabled)
+                        {
+                            _isOpen.Activate();
+                            _isOpen.BringToFront();
+                        }
+                    }
+                }
+
             }
             catch { }
         }
+         FinanceSettingsInfo infofinance = new FinanceSettingsInfo();
+        public void CheckInventorySettings()
+        {
 
-        
+            InventorySettingsInfo InfoSettings = new InventorySettingsInfo();
+            SalesSettingsInfo infoSales = new SalesSettingsInfo();
+            PurchaseSettingsInfo infoPurchase = new PurchaseSettingsInfo();
+            VanSaleSettingsInfo infoVanSale = new VanSaleSettingsInfo();
+            infofinance = new FinanceSettingsInfo();
+            InventorySettingsSP SpSEttings = new InventorySettingsSP();
+
+            InfoSettings = SpSEttings.InventorySettingsViewAll();
+            infoSales = SpSEttings.SalesSettingsViewAll();
+            infoPurchase = SpSEttings.PurchaseSettingsViewAll();
+            infoVanSale = SpSEttings.VanSaleSettingsViewAll(PublicVariables._branchId);
+            infofinance = SpSEttings.FinanceSettingsViewAll(PublicVariables._branchId);
+        }
+
     }
 }

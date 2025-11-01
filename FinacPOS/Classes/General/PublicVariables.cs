@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -27,6 +28,13 @@ namespace FinacPOS
         public static DateTime _toDate;
         public static string _SalesScreenType = ""; //Added on 01/Apr/2025
         public static bool IsFormUserLoginOpen = false;
+        public static string _yearId;
+        public static string _formName;
+        public static bool _closed;
 
+        public static ArrayList _arrayPrivilage = new ArrayList();
+        public static DateTime _currentDate; 
+        public static string _companyDatabaseName;
+        public static string _mainMenuItem;
     }
 }

@@ -63,6 +63,12 @@ namespace FinacPOS
         private string _bankSwiftCode;
         private string _bankBranchName;
         private string _AddressArabic;
+        private string _ledgerType;
+        private string _routeId;
+        private string _Userdef1;
+        private string _Userdef2;
+        private string _Userdef3;
+        private string _Userdef4;
 
         public string LedgerId
         {
@@ -318,5 +324,36 @@ namespace FinacPOS
             get { return _AddressArabic; }
             set { _AddressArabic = value; }
         }
+        public string LedgerType
+        {
+            get { return _ledgerType; }
+            set { _ledgerType = value; }
+        }
+        public string routeId
+        {
+            get { return _routeId; }
+            set { _routeId = value; }
+        }
+        public string Userdef1
+        {
+            get { return _Userdef1; }
+            set { _Userdef1 = value; }
+        }
+        public string Userdef2
+        {
+            get { return _Userdef2; }
+            set { _Userdef2 = value; }
+        }
+        public string Userdef3
+        {
+            get { return _Userdef3; }
+            set { _Userdef3 = value; }
+        }
+        public string Userdef4
+        {
+            get { return _Userdef4; }
+            set { _Userdef4 = value; }
+        }
+
     }
 }

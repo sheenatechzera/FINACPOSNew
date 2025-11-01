@@ -46,6 +46,8 @@ namespace FinacPOS
         public static string _StartingTokenNo;
         public static bool _IsHoldBillPrint;
         public static string _PricingAlertStatus;
+        public static bool _DirectSalesSave;
+        public static bool _ShowTokenNo;
         public string POSSettingsId
         {
             get { return _POSSettingsId; }
@@ -243,6 +245,16 @@ namespace FinacPOS
         {
             get { return _PricingAlertStatus; }
             set { _PricingAlertStatus = value; }
+        }
+        public bool DirectSalesSave
+        {
+            get { return _DirectSalesSave; }
+            set { _DirectSalesSave = value; }
+        }
+        public bool ShowTokenNo
+        {
+            get { return _ShowTokenNo; }
+            set { _ShowTokenNo = value; }
         }
     }
 }

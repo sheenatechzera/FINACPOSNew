@@ -106,6 +106,10 @@ namespace FinacPOS
                 sprmparam.Value = counterinfo.IsHoldBillPrint;
                 sprmparam = sccmd.Parameters.Add("@PricingAlertStatus", SqlDbType.VarChar);
                 sprmparam.Value = counterinfo.PricingAlertStatus;
+                sprmparam = sccmd.Parameters.Add("@DirectSalesSave", SqlDbType.Bit);
+                sprmparam.Value = counterinfo.DirectSalesSave;
+                sprmparam = sccmd.Parameters.Add("@ShowTokenNo", SqlDbType.Bit);
+                sprmparam.Value = counterinfo.ShowTokenNo;
                 id = sccmd.ExecuteScalar().ToString();
 
             }
@@ -173,7 +177,9 @@ namespace FinacPOS
                 settingsinfo.DeleteMode = (sdrreader["DeleteMode"].ToString());
                 settingsinfo.StartingTokenNo = (sdrreader["StartingTokenNo"].ToString());
                 settingsinfo.IsHoldBillPrint = bool.Parse(sdrreader["ShowHoldBillPrint"].ToString());
-             settingsinfo.PricingAlertStatus = (sdrreader["PricingAlertStatus"].ToString());
+                settingsinfo.PricingAlertStatus = (sdrreader["PricingAlertStatus"].ToString());
+                settingsinfo.DirectSalesSave = bool.Parse(sdrreader["DirectSalesSave"].ToString());
+                settingsinfo.ShowTokenNo = bool.Parse(sdrreader["ShowTokenNo"].ToString());
             }
             sdrreader.Close();
 

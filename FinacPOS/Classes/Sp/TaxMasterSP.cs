@@ -418,5 +418,47 @@ class TaxMasterSP:DBConnection
         }
         return dcRate ;
     }
-}
+        public TaxMasterInfo TaxMasterView(string taxId)
+        {
+            TaxMasterInfo taxmasterinfo = new TaxMasterInfo();
+            try
+            {
+                if (sqlcon.State == ConnectionState.Closed)
+                {
+                    sqlcon.Open();
+                }
+                SqlCommand sccmd = new SqlCommand("TaxMasterView", sqlcon);
+                sccmd.CommandType = CommandType.StoredProcedure;
+                SqlParameter sprmparam = new SqlParameter();
+                sprmparam = sccmd.Parameters.Add("@taxId", SqlDbType.VarChar);
+                sprmparam.Value = taxId;
+                sprmparam = sccmd.Parameters.Add("@branchId", SqlDbType.VarChar);
+                sprmparam.Value = PublicVariables._branchId;
+                SqlDataReader sdrreader = sccmd.ExecuteReader();
+                while (sdrreader.Read())
+                {
+                    taxmasterinfo.TaxId = sdrreader[0].ToString();
+                    taxmasterinfo.TaxName = sdrreader[1].ToString();
+                    taxmasterinfo.Rate = decimal.Parse(sdrreader[2].ToString());
+                    taxmasterinfo.CalculatingMode = sdrreader[3].ToString();
+                    taxmasterinfo.Active = bool.Parse(sdrreader[4].ToString());
+                    taxmasterinfo.Narration = sdrreader[5].ToString();
+                    taxmasterinfo.BranchId = sdrreader[6].ToString();
+                    taxmasterinfo.ExtraDate = DateTime.Parse(sdrreader[7].ToString());
+                    taxmasterinfo.Extra1 = sdrreader[8].ToString();
+                    taxmasterinfo.Extra2 = sdrreader[9].ToString();
+                }
+                sdrreader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            finally
+            {
+                sqlcon.Close();
+            }
+            return taxmasterinfo;
+        }
+    }
 }

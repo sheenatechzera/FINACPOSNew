@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DevExpress.XtraEditors.Filtering.Templates;
 
 namespace FinacPOS
 {
@@ -21,13 +22,26 @@ namespace FinacPOS
         public static string _FormType;
         public static bool _VatIncluded;
         public static bool _VatandCessIncluded;
-        public  string _branchId;
+        public string _branchId;
         public string _extra1;
-        public static  bool _AccountsPosting;
+        public static bool _AccountsPosting;
         public static string _ZatcaType;
+        public static bool _showCompanyHeader;
+        public static bool _showCompanyFooter;
+        public static byte[] _companyHeader;
+        public static byte[] _companyFooter;
         public static int _roundDecimal;
         public static string _roundDecimalPart;
         public static bool _EnablePOS;
+        public static string _Userdef1;
+        public static string _Userdef2;
+        public static string _Userdef3;
+        public static string _Userdef4;
+        public static string _DateFormat;
+        public static string _paymentMode;
+        public static bool _showReminder;
+        public static bool _validateVatNumber;
+
 
         public int FinanceSettingsId
         {
@@ -114,6 +128,26 @@ namespace FinacPOS
             get { return _ZatcaType; }
             set { _ZatcaType = value; }
         }
+        public bool ShowCompanyHeader
+        {
+            get { return _showCompanyHeader; }
+            set { _showCompanyHeader = value; }
+        }
+        public bool ShowCompanyFooter
+        {
+            get { return _showCompanyFooter; }
+            set { _showCompanyFooter = value; }
+        }
+        public byte[] CompanyHeader
+        {
+            get { return _companyHeader; }
+            set { _companyHeader = value; }
+        }
+        public byte[] CompanyFooter
+        {
+            get { return _companyFooter; }
+            set { _companyFooter = value; }
+        }
         public int RoundDecimal
         {
             get { return _roundDecimal; }
@@ -128,6 +162,46 @@ namespace FinacPOS
         {
             get { return _EnablePOS; }
             set { _EnablePOS = value; }
+        }
+        public string Userdef1
+        {
+            get { return _Userdef1; }
+            set { _Userdef1 = value; }
+        }
+        public string Userdef2
+        {
+            get { return _Userdef2; }
+            set { _Userdef2 = value; }
+        }
+        public string Userdef3
+        {
+            get { return _Userdef3; }
+            set { _Userdef3 = value; }
+        }
+        public string Userdef4
+        {
+            get { return _Userdef4; }
+            set { _Userdef4 = value; }
+        }
+        public string DateFormat
+        {
+            get { return _DateFormat; }
+            set { _DateFormat = value; }
+        }
+        public bool ShowReminder
+        {
+            get { return _showReminder; }
+            set { _showReminder = value; }
+        }
+        public string PaymentMode
+        {
+            get { return _paymentMode; }
+            set { _paymentMode = value; }
+        }
+        public bool ValidateVatNumber
+        {
+            get { return _validateVatNumber; }
+            set { _validateVatNumber = value; }
         }
     }
 }

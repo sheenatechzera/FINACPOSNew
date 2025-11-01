@@ -42,6 +42,60 @@ namespace FinacPOS
             }
             return dtbl;
         }
+        public void FinancialYearchangeStatus(bool status)
+        {
+            try
+            {
+                if (sqlcon.State == ConnectionState.Closed)
+                {
+                    sqlcon.Open();
+                }
+                SqlCommand sccmd = new SqlCommand("FinancialYearchangeStatus", sqlcon);
+                sccmd.CommandType = CommandType.StoredProcedure;
+                SqlParameter sprmparam = new SqlParameter();
+                sprmparam = sccmd.Parameters.Add("@yearId", SqlDbType.VarChar);
+                sprmparam.Value = PublicVariables._yearId;
+                sprmparam = sccmd.Parameters.Add("@status", SqlDbType.Bit);
+                sprmparam.Value = status;
+                if (status == false)
+                    PublicVariables._closed = false;
+                sccmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            finally
+            {
+                sqlcon.Close();
+            }
+
+        }
+        public DataTable FinancialYearGetFirst()
+        {
+            DataTable dtbl = new DataTable();
+            try
+            {
+                if (sqlcon.State == ConnectionState.Closed)
+                {
+                    sqlcon.Open();
+                }
+
+                SqlDataAdapter sdaadapter = new SqlDataAdapter("FinancialYearGetFirst", sqlcon);
+                sdaadapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+                sdaadapter.Fill(dtbl);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            finally
+            {
+                sqlcon.Close();
+            }
+            return dtbl;
+        }
     }
     
 }

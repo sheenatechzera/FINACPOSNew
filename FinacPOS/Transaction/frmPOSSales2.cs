@@ -862,8 +862,18 @@ namespace FinacPOS
         {
             lblBillNo.Text = POSBillNumberMax();
             POSSalesMasterInfo InfoPOSSalesMaster = new POSSalesMasterInfo();
-            lblTokenNo.Text = POSTokenNoMax();
-            btnCash.Enabled = true;
+            if (InfoPOSSettings.ShowTokenNo)
+            {
+                lblTokenNo.Text = POSTokenNoMax();
+                lblTokenNo.Visible = true;
+                lblToken.Visible = true;
+            }
+            else
+            {
+                lblTokenNo.Visible = false;
+                lblToken.Visible = false;
+            }
+                btnCash.Enabled = true;
             btnCreditCard.Enabled = true;
             btnUPI.Enabled = true;
             lblTotalQty.Text = "0";
@@ -1618,7 +1628,14 @@ namespace FinacPOS
                     dRowDetails["CustomerAddress"] = "";
                     dRowDetails["CustomerPhone"] = "";
                     dRowDetails["CustomerVatNo"] = "";
-                    dRowDetails["TokenNo"] = TokenNo;
+                    if (InfoPOSSettings.ShowTokenNo)
+                    {
+                        dRowDetails["TokenNo"] = TokenNo;
+                    }
+                    else
+                    {
+                        dRowDetails["TokenNo"] = DBNull.Value;
+                    }
                     dRowDetails["isCredit"] = false;
                     dRowDetails["prevBalance"] = "";
                     dRowDetails["BillAmount"] = "";
@@ -1789,7 +1806,14 @@ namespace FinacPOS
                     dRowDetails["CustomerAddress"] = "";
                     dRowDetails["CustomerPhone"] = "";
                     dRowDetails["CustomerVatNo"] = "";
-                    dRowDetails["TokenNo"] = dtbl.Rows[0]["TokenNo"].ToString();
+                    try
+                    {
+                        dRowDetails["TokenNo"] = dtbl.Rows[0]["TokenNo"].ToString();
+                    }
+                    catch
+                    {
+                        dRowDetails["TokenNo"] = "0";
+                    }
                     if (dtbl.Rows[0]["customerCode"].ToString() != "")
                     {
                         dRowDetails["isCredit"] = true;
@@ -2356,7 +2380,11 @@ namespace FinacPOS
                         //-------------------------------------------------------------------------------------
                     }
                     SPGeneral.POSBillUpdate(PublicVariables._counterId, PublicVariables._currentUserId, "Sales");
-                    SPPOSToken.POSTokenNoUpdate(Convert.ToDateTime(strSessionDate), TokenNo);
+                    if (InfoPOSSettings.ShowTokenNo)
+                    {
+                        SPPOSToken.POSTokenNoUpdate(Convert.ToDateTime(strSessionDate), TokenNo);
+                    }
+
                     ClearFunction();
                 }
             }
@@ -2602,8 +2630,16 @@ namespace FinacPOS
             InfoPOSSalesMaster.CustomerAddress = "";
             InfoPOSSalesMaster.CustomerPhone = "";
             InfoPOSSalesMaster.CustomerVATNo = "";
-            TokenNo = POSTokenNoMax();
-            InfoPOSSalesMaster.TokenNo = TokenNo;
+            if (InfoPOSSettings.ShowTokenNo)
+            {
+                TokenNo = POSTokenNoMax();
+                InfoPOSSalesMaster.TokenNo = TokenNo;
+            }
+            else
+            {
+                InfoPOSSalesMaster.TokenNo = null;
+            }
+
             InfoPOSSalesMaster.SalesManId = string.IsNullOrEmpty(lblSalesMan.Text) ? null : lblSalesMan.Text;
             InfoPOSSalesMaster.CustContact = txtCustContact.Text;
             strMasterId = POSSalesMasterSP.POSSalesMasterAdd(InfoPOSSalesMaster);
@@ -2714,11 +2750,18 @@ namespace FinacPOS
             InfoPOSSalesMaster.CreditNoteNo = "";
             InfoPOSSalesMaster.CreditNoteAmount = 0;
             InfoPOSSalesMaster.UserId = PublicVariables._currentUserId;
-            InfoPOSSalesMaster.SalesMode = "Take Way";
+            InfoPOSSalesMaster.SalesMode = "";
             InfoPOSSalesMaster.CustomerAddress = "";
             InfoPOSSalesMaster.CustomerPhone = "";
             InfoPOSSalesMaster.CustomerVATNo = "";
-            InfoPOSSalesMaster.TokenNo = POSTokenNoMax();
+            //if (InfoPOSSettings.ShowTokenNo)
+            //{
+            //    InfoPOSSalesMaster.TokenNo = POSTokenNoMax();
+            //}
+            //else
+            //{
+            //    InfoPOSSalesMaster.TokenNo = null;  
+            //}
 
             strMasterId = POSSalesMasterSP.POSDeletedSalesMasterHistoryAdd(InfoPOSSalesMaster);
 
@@ -2853,10 +2896,18 @@ namespace FinacPOS
             InfoPOSSalesMaster.CreditNoteAmount = 0m;
             InfoPOSSalesMaster.TokenNo = POSTokenNoMax();
             InfoPOSSalesMaster.UserId = PublicVariables._currentUserId;
+            if (InfoPOSSettings.ShowTokenNo)
+            {
+                InfoPOSSalesMaster.TokenNo = POSTokenNoMax();
+            }
+            else
+            {
+                InfoPOSSalesMaster.TokenNo = null;
+            }
             InfoPOSSalesMaster.CustomerAddress =  " ";
             InfoPOSSalesMaster.CustomerPhone =  " ";
             InfoPOSSalesMaster.CustomerVATNo = " ";
-             InfoPOSSalesMaster.SalesMode = " ";
+             InfoPOSSalesMaster.SalesMode = "";
             InfoPOSSalesMaster.SalesManId = lblSalesMan.Text;
             InfoPOSSalesMaster.CustContact = txtCustContact.Text;
 
@@ -4036,11 +4087,11 @@ namespace FinacPOS
             ClearFunction();
 
         }
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            lblBillDate.Text = DateTime.Today.ToString("dd-MMM-yyyy");
-            lblBillTime.Text = DateTime.Now.ToLongTimeString();
-        }
+        //private void timer1_Tick(object sender, EventArgs e)
+        //{
+        //    lblBillDate.Text = DateTime.Today.ToString("dd-MMM-yyyy");
+        //    lblBillTime.Text = DateTime.Now.ToLongTimeString();
+        //}
 
         private void btnNewSale_Click(object sender, EventArgs e)
         {
@@ -5414,21 +5465,10 @@ namespace FinacPOS
             }
         }
 
-        private void timerSessionDate_Tick(object sender, EventArgs e)
-        {
-            if (DateTime.Compare(Convert.ToDateTime(DateTime.Today), Convert.ToDateTime(strSessionDate)) > 0)
-            {
-                if (lblSessionDate.ForeColor == Color.Red)
-                {
-                    lblSessionDate.ForeColor = Color.White;
-                }
-                else
-                {
-                    lblSessionDate.ForeColor = Color.Red;
-                }
-                
-            }
-        }
+        //private void timerSessionDate_Tick(object sender, EventArgs e)
+        //{
+        //  
+        //}
 
         private void btnFindProduct_Click(object sender, EventArgs e)
         {
@@ -6226,6 +6266,29 @@ namespace FinacPOS
                 txtCustContact.Text = ""; 
                 txtCustContact.Focus();   
             }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            lblBillDate.Text = DateTime.Today.ToString("dd-MMM-yyyy");
+            lblBillTime.Text = DateTime.Now.ToLongTimeString();
+        }
+
+        private void timerSessionDate_Tick(object sender, EventArgs e)
+        {
+            if (DateTime.Compare(Convert.ToDateTime(DateTime.Today), Convert.ToDateTime(strSessionDate)) > 0)
+            {
+                if (lblSessionDate.ForeColor == Color.Red)
+                {
+                    lblSessionDate.ForeColor = Color.White;
+                }
+                else
+                {
+                    lblSessionDate.ForeColor = Color.Red;
+                }
+
+            }
+
         }
     }
 }

@@ -56,17 +56,17 @@ namespace FinacPOS
         #region Functions
         #region ForOtherForms
         DataTable dtblPoruducts;
-        //public void DoWhenComingFromOtherForms(string prdName, int rowIndex, DataTable dtbl)
-        //{
-        //    inRowIndex = rowIndex;
-        //    strStartText = prdName;
-        //    dtblPoruducts = dtbl;
-        //    if (dtbl != null && dtbl.Rows.Count > 0)
-        //        if (dtblPoruducts.Rows[0]["productCode"].ToString() == "")
-        //            dtblPoruducts.Rows.RemoveAt(0);
-        //    base.ShowInTaskbar = false;
-        //    base.ShowDialog();
-        //}
+        public void DoWhenComingFromOtherForms(string prdName, int rowIndex, DataTable dtbl)
+        {
+            inRowIndex = rowIndex;
+            strStartText = prdName;
+            dtblPoruducts = dtbl;
+            if (dtbl != null && dtbl.Rows.Count > 0)
+                if (dtblPoruducts.Rows[0]["productCode"].ToString() == "")
+                    dtblPoruducts.Rows.RemoveAt(0);
+            base.ShowInTaskbar = false;
+            base.ShowDialog();
+        }
         public void FillSearchCombo()
         {
             try
@@ -370,6 +370,17 @@ namespace FinacPOS
             strcontrolname = controlname;
             DoWhenComingFromOtherForms();
         }
+
+        bool isFromPOSReport = false;
+        rptPOSProductSalesSummery objrptPOS;
+        public void CallFromPOSProductSalesReport(rptPOSProductSalesSummery frm, string prdName, DataTable dtbl)
+        {
+            // Function to call from damage stock , for selecting products
+            isFromPOSReport = true;
+            objrptPOS = frm;
+            DoWhenComingFromOtherForms(prdName, 0, dtbl);
+        }
+
         #endregion
         /******************************************************************************************************************
          *                                      EVENTS

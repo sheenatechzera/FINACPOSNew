@@ -2007,5 +2007,416 @@ namespace FinacPOS
             }
             return dtbl;
         }
+        public ProductInfo ProductViewByBranch(string productCode, string branchId)
+        {
+            ProductInfo productinfo = new ProductInfo();
+            try
+            {
+                if (sqlcon.State == ConnectionState.Closed)
+                {
+                    sqlcon.Open();
+                }
+                SqlCommand sccmd = new SqlCommand("ProductViewByBranch", sqlcon);
+                sccmd.CommandType = CommandType.StoredProcedure;
+                SqlParameter sprmparam = new SqlParameter();
+                sprmparam = sccmd.Parameters.Add("@productCode", SqlDbType.VarChar);
+                sprmparam.Value = productCode;
+                sprmparam = sccmd.Parameters.Add("@branchId", SqlDbType.VarChar);
+                sprmparam.Value = branchId;
+                SqlDataReader sdrreader = sccmd.ExecuteReader();
+                while (sdrreader.Read())
+                {
+                    productinfo.ProductCode = sdrreader[0].ToString();
+                    productinfo.ProductName = sdrreader[1].ToString();
+                    productinfo.GroupId = sdrreader[2].ToString();
+                    productinfo.BrandId = sdrreader[3].ToString();
+                    productinfo.UnitId = sdrreader[4].ToString();
+                    productinfo.AllowBatch = bool.Parse(sdrreader[5].ToString());
+                    productinfo.MultipleUnit = bool.Parse(sdrreader[6].ToString());
+                    productinfo.BranchId = sdrreader[7].ToString();
+                    productinfo.ExtraDate = DateTime.Parse(sdrreader[8].ToString());
+                    productinfo.Extra1 = sdrreader[9].ToString();
+                    productinfo.Extra2 = sdrreader[10].ToString();
+                    productinfo.PartNo = sdrreader[11].ToString();
+                    productinfo.ConversionFactor = decimal.Parse(sdrreader["conversionRate"].ToString());
+                    productinfo.Category = sdrreader["category"].ToString();
+                    productinfo.PartNo = sdrreader["partNo"].ToString();
+                }
+                sdrreader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            finally
+            {
+                sqlcon.Close();
+            }
+            return productinfo;
+        }
+        public DataTable ProductViewAllWithOutBOM()
+        {
+            DataTable dtbl = new DataTable();
+            try
+            {
+                if (sqlcon.State == ConnectionState.Closed)
+                {
+                    sqlcon.Open();
+                }
+                SqlDataAdapter sdaadapter = new SqlDataAdapter("ProductViewAllWithOutBOM", sqlcon);
+                sdaadapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+                SqlParameter sprmparam = new SqlParameter();
+                sprmparam = sdaadapter.SelectCommand.Parameters.Add("@branchId", SqlDbType.VarChar);
+                sprmparam.Value = PublicVariables._branchId;
+                sdaadapter.Fill(dtbl);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            finally
+            {
+                sqlcon.Close();
+            }
+            return dtbl;
+        }
+        public bool ProductDelete(string ProductCode, bool isDelete)
+        {
+            bool isDeleted = false;
+            try
+            {
+                if (sqlcon.State == ConnectionState.Closed)
+                {
+                    sqlcon.Open();
+                }
+                SqlCommand sccmd = new SqlCommand("ProductDelete", sqlcon);
+                sccmd.CommandType = CommandType.StoredProcedure;
+                SqlParameter sprmparam = new SqlParameter();
+                sprmparam = sccmd.Parameters.Add("@productCode", SqlDbType.VarChar);
+                sprmparam.Value = ProductCode;
+                sprmparam = sccmd.Parameters.Add("@branchId", SqlDbType.VarChar);
+                sprmparam.Value = PublicVariables._branchId;
+                sprmparam = sccmd.Parameters.Add("@isDo", SqlDbType.VarChar);
+                sprmparam.Value = isDelete;
+                isDeleted = bool.Parse(sccmd.ExecuteScalar().ToString()); ;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            finally
+            {
+                sqlcon.Close();
+            }
+            return isDeleted;
+        }
+        public DataTable ProductAdd(ProductInfo productinfo)
+        {
+            DataTable dtblResult = new DataTable();
+            try
+            {
+                if (sqlcon.State == ConnectionState.Closed)
+                {
+                    sqlcon.Open();
+                }
+                SqlDataAdapter sccmd = new SqlDataAdapter("ProductAdd", sqlcon);
+                sccmd.SelectCommand.CommandType = CommandType.StoredProcedure;
+                SqlParameter sprmparam = new SqlParameter();
+                sprmparam = sccmd.SelectCommand.Parameters.Add("@productCode", SqlDbType.VarChar);
+                sprmparam.Value = productinfo.ProductCode;
+                sprmparam = sccmd.SelectCommand.Parameters.Add("@productName", SqlDbType.NVarChar);
+                sprmparam.Value = productinfo.ProductName;
+                sprmparam = sccmd.SelectCommand.Parameters.Add("@groupId", SqlDbType.VarChar);
+                sprmparam.Value = productinfo.GroupId;
+                sprmparam = sccmd.SelectCommand.Parameters.Add("@brandId", SqlDbType.VarChar);
+                sprmparam.Value = productinfo.BrandId;
+                sprmparam = sccmd.SelectCommand.Parameters.Add("@unitId", SqlDbType.VarChar);
+                sprmparam.Value = productinfo.UnitId;
+
+                sprmparam = sccmd.SelectCommand.Parameters.Add("@allowBatch", SqlDbType.Bit);
+                sprmparam.Value = productinfo.AllowBatch;
+
+                sprmparam = sccmd.SelectCommand.Parameters.Add("@multipleUnit", SqlDbType.Bit);
+                sprmparam.Value = productinfo.MultipleUnit;
+
+                sprmparam = sccmd.SelectCommand.Parameters.Add("@branchId", SqlDbType.VarChar);
+                sprmparam.Value = PublicVariables._branchId;
+                sprmparam = sccmd.SelectCommand.Parameters.Add("@extra1", SqlDbType.NVarChar);
+                sprmparam.Value = productinfo.Extra1;
+                sprmparam = sccmd.SelectCommand.Parameters.Add("@extra2", SqlDbType.NVarChar);
+                sprmparam.Value = productinfo.Extra2;
+                sprmparam = sccmd.SelectCommand.Parameters.Add("@partNo", SqlDbType.NVarChar);
+                sprmparam.Value = productinfo.PartNo;
+                if (productinfo.ProductImage == null)
+                    productinfo.ProductImage = "";
+                sprmparam = sccmd.SelectCommand.Parameters.Add("@productImage", SqlDbType.VarChar);
+                sprmparam.Value = productinfo.ProductImage;
+                sprmparam = sccmd.SelectCommand.Parameters.Add("@automatic", SqlDbType.Bit);
+                sprmparam.Value = SettingsInfo._automaticProductCodeGeneration;
+
+                sccmd.Fill(dtblResult);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            finally
+            {
+                sqlcon.Close();
+            }
+            return dtblResult;
+        }
+        public void ProductEdit(ProductInfo productinfo)
+        {
+            try
+            {
+                if (sqlcon.State == ConnectionState.Closed)
+                {
+                    sqlcon.Open();
+                }
+                SqlCommand sccmd = new SqlCommand("ProductEdit", sqlcon);
+                sccmd.CommandType = CommandType.StoredProcedure;
+                SqlParameter sprmparam = new SqlParameter();
+                sprmparam = sccmd.Parameters.Add("@productCode", SqlDbType.VarChar);
+                sprmparam.Value = productinfo.ProductCode;
+                sprmparam = sccmd.Parameters.Add("@productName", SqlDbType.NVarChar);
+                sprmparam.Value = productinfo.ProductName;
+                sprmparam = sccmd.Parameters.Add("@groupId", SqlDbType.VarChar);
+                sprmparam.Value = productinfo.GroupId;
+                sprmparam = sccmd.Parameters.Add("@brandId", SqlDbType.VarChar);
+                sprmparam.Value = productinfo.BrandId;
+                sprmparam = sccmd.Parameters.Add("@unitId", SqlDbType.VarChar);
+                sprmparam.Value = productinfo.UnitId;
+
+                sprmparam = sccmd.Parameters.Add("@allowBatch", SqlDbType.Bit);
+                sprmparam.Value = productinfo.AllowBatch;
+
+
+                sprmparam = sccmd.Parameters.Add("@branchId", SqlDbType.VarChar);
+                sprmparam.Value = PublicVariables._branchId;
+
+                sprmparam = sccmd.Parameters.Add("@multipleUnit", SqlDbType.Bit);
+                sprmparam.Value = productinfo.MultipleUnit;
+
+                sprmparam = sccmd.Parameters.Add("@extra1", SqlDbType.NVarChar);
+                sprmparam.Value = productinfo.Extra1;
+                sprmparam = sccmd.Parameters.Add("@extra2", SqlDbType.NVarChar);
+                sprmparam.Value = productinfo.Extra2;
+                sprmparam = sccmd.Parameters.Add("@partNo", SqlDbType.NVarChar);
+                sprmparam.Value = productinfo.PartNo;
+                sprmparam = sccmd.Parameters.Add("@productImage", SqlDbType.VarChar);
+                sprmparam.Value = productinfo.ProductImage;
+
+                sccmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            finally
+            {
+                sqlcon.Close();
+            }
+
+        }
+        public DataTable ProductViewAllActiveForSearchLookupByGroupId(string branchId, string godownId, bool isBOM, bool isPackage, string starttext, string rackId, string voucherType, string groupId)
+        {
+            DataTable dtbl = new DataTable();
+            try
+            {
+                if (sqlcon.State == ConnectionState.Closed)
+                {
+                    sqlcon.Open();
+                }
+
+                SqlDataAdapter sqldataadapter = new SqlDataAdapter("ProductViewAllActiveForSearchLookupbyGroupId", sqlcon);
+                sqldataadapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+                SqlParameter sprmparam = new SqlParameter();
+                sprmparam = sqldataadapter.SelectCommand.Parameters.Add("@branchId", SqlDbType.VarChar);
+                sprmparam.Value = branchId;
+                sprmparam = sqldataadapter.SelectCommand.Parameters.Add("@godownId", SqlDbType.VarChar);
+                sprmparam.Value = godownId;
+                sprmparam = sqldataadapter.SelectCommand.Parameters.Add("@isBOM", SqlDbType.Bit);
+                sprmparam.Value = isBOM;
+                sprmparam = sqldataadapter.SelectCommand.Parameters.Add("@isPackage", SqlDbType.Bit);
+                sprmparam.Value = isPackage;
+                sprmparam = sqldataadapter.SelectCommand.Parameters.Add("@startText", SqlDbType.VarChar);
+                sprmparam.Value = starttext;
+                sprmparam = sqldataadapter.SelectCommand.Parameters.Add("@rackId", SqlDbType.VarChar);
+                sprmparam.Value = rackId;
+                sprmparam = sqldataadapter.SelectCommand.Parameters.Add("@voucherType", SqlDbType.VarChar);
+                sprmparam.Value = voucherType;
+                sprmparam = sqldataadapter.SelectCommand.Parameters.Add("@groupId", SqlDbType.VarChar);
+                sprmparam.Value = groupId;
+                sqldataadapter.Fill(dtbl);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("PSP2:" + ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            finally
+            {
+                sqlcon.Close();
+            }
+            return dtbl;
+        }
+        public DataTable ProductViewAllActiveForSearchLookup(string branchId, string godownId, bool isBOM, bool isPackage, string starttext, string rackId, string voucherType)
+        {
+            DataTable dtbl = new DataTable();
+            try
+            {
+                if (sqlcon.State == ConnectionState.Closed)
+                {
+                    sqlcon.Open();
+                }
+
+                SqlDataAdapter sqldataadapter = new SqlDataAdapter("ProductViewAllActiveForSearchLookup", sqlcon);
+                sqldataadapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+                SqlParameter sprmparam = new SqlParameter();
+                sprmparam = sqldataadapter.SelectCommand.Parameters.Add("@branchId", SqlDbType.VarChar);
+                sprmparam.Value = branchId;
+                sprmparam = sqldataadapter.SelectCommand.Parameters.Add("@godownId", SqlDbType.VarChar);
+                sprmparam.Value = godownId;
+                sprmparam = sqldataadapter.SelectCommand.Parameters.Add("@isBOM", SqlDbType.Bit);
+                sprmparam.Value = isBOM;
+                sprmparam = sqldataadapter.SelectCommand.Parameters.Add("@isPackage", SqlDbType.Bit);
+                sprmparam.Value = isPackage;
+                sprmparam = sqldataadapter.SelectCommand.Parameters.Add("@startText", SqlDbType.VarChar);
+                sprmparam.Value = starttext;
+                sprmparam = sqldataadapter.SelectCommand.Parameters.Add("@rackId", SqlDbType.VarChar);
+                sprmparam.Value = rackId;
+                sprmparam = sqldataadapter.SelectCommand.Parameters.Add("@voucherType", SqlDbType.VarChar);
+                sprmparam.Value = voucherType;
+                sqldataadapter.Fill(dtbl);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("PSP2:" + ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            finally
+            {
+                sqlcon.Close();
+            }
+            return dtbl;
+        }
+        public DataTable ProductViewAllActiveForSearch(string branchId, string godownId, bool isBOM, bool isPackage, string starttext, string rackId, string voucherType)
+        {
+            DataTable dtbl = new DataTable();
+            try
+            {
+                if (sqlcon.State == ConnectionState.Closed)
+                {
+                    sqlcon.Open();
+                }
+
+                SqlDataAdapter sqldataadapter = new SqlDataAdapter("ProductViewAllActiveForSearch", sqlcon);
+                sqldataadapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+                SqlParameter sprmparam = new SqlParameter();
+                sprmparam = sqldataadapter.SelectCommand.Parameters.Add("@branchId", SqlDbType.VarChar);
+                sprmparam.Value = branchId;
+                sprmparam = sqldataadapter.SelectCommand.Parameters.Add("@godownId", SqlDbType.VarChar);
+                sprmparam.Value = godownId;
+                sprmparam = sqldataadapter.SelectCommand.Parameters.Add("@isBOM", SqlDbType.Bit);
+                sprmparam.Value = isBOM;
+                sprmparam = sqldataadapter.SelectCommand.Parameters.Add("@isPackage", SqlDbType.Bit);
+                sprmparam.Value = isPackage;
+                sprmparam = sqldataadapter.SelectCommand.Parameters.Add("@startText", SqlDbType.VarChar);
+                sprmparam.Value = starttext;
+                sprmparam = sqldataadapter.SelectCommand.Parameters.Add("@rackId", SqlDbType.VarChar);
+                sprmparam.Value = rackId;
+                sprmparam = sqldataadapter.SelectCommand.Parameters.Add("@voucherType", SqlDbType.VarChar);
+                sprmparam.Value = voucherType;
+                sqldataadapter.Fill(dtbl);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("PSP2:" + ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            finally
+            {
+                sqlcon.Close();
+            }
+            return dtbl;
+        }
+        public ProductInfo ProductView(string productCode)
+        {
+            ProductInfo productinfo = new ProductInfo();
+            try
+            {
+                if (sqlcon.State == ConnectionState.Closed)
+                {
+                    sqlcon.Open();
+                }
+                SqlCommand sccmd = new SqlCommand("ProductView", sqlcon);
+                sccmd.CommandType = CommandType.StoredProcedure;
+                SqlParameter sprmparam = new SqlParameter();
+                sprmparam = sccmd.Parameters.Add("@productCode", SqlDbType.VarChar);
+                sprmparam.Value = productCode;
+                SqlDataReader sdrreader = sccmd.ExecuteReader();
+                while (sdrreader.Read())
+                {
+                    productinfo.ProductCode = sdrreader[0].ToString();
+                    productinfo.ProductName = sdrreader[1].ToString();
+                    productinfo.GroupId = sdrreader[2].ToString();
+                    productinfo.BrandId = sdrreader[3].ToString();
+                    productinfo.UnitId = sdrreader[4].ToString();
+                    productinfo.AllowBatch = bool.Parse(sdrreader[5].ToString());
+                    productinfo.MultipleUnit = bool.Parse(sdrreader[6].ToString());
+                    productinfo.BranchId = sdrreader[7].ToString();
+                    try
+                    {
+                        productinfo.ExtraDate = DateTime.Parse(sdrreader[8].ToString());
+                    }
+                    catch { }
+                    productinfo.Extra1 = sdrreader[9].ToString();
+                    productinfo.Extra2 = sdrreader[10].ToString();
+                    productinfo.PartNo = sdrreader[11].ToString();
+                    productinfo.ProductImage = sdrreader["productImage"].ToString();
+                }
+                sdrreader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            finally
+            {
+                sqlcon.Close();
+            }
+            return productinfo;
+        }
+        public DataTable GetProductGodownWiseStock(string productCode)
+        {
+            DataTable dtbl = new DataTable();
+            try
+            {
+                if (sqlcon.State == ConnectionState.Closed)
+                {
+                    sqlcon.Open();
+                }
+
+                SqlDataAdapter sqldataadapter = new SqlDataAdapter("GetProductGodownWiseStock", sqlcon);
+                sqldataadapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+                SqlParameter sprmparam = new SqlParameter();
+                sprmparam = sqldataadapter.SelectCommand.Parameters.Add("@branchId", SqlDbType.VarChar);
+                sprmparam.Value = PublicVariables._branchId;
+                sprmparam = sqldataadapter.SelectCommand.Parameters.Add("@productCode", SqlDbType.VarChar);
+                sprmparam.Value = productCode;
+                sqldataadapter.Fill(dtbl);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("PSP2:" + ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            finally
+            {
+                sqlcon.Close();
+            }
+            return dtbl;
+        }
     }
 }
